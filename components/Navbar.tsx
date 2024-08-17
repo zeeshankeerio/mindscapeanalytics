@@ -28,12 +28,14 @@ const Navbar = () => {
         <MaxWidthWrapper>
           <nav className="border-primary bg-background flex items-center justify-between rounded-full border-2 px-4 py-2 sm:px-6">
             <div className="text-primary flex items-center gap-2 text-3xl font-bold sm:justify-between">
-              <Image
-                src="/logo.png"
-                alt="mindscape analytics logo"
-                width={50}
-                height={50}
-              />
+              <Link href="/">
+                <Image
+                  src="/logo.png"
+                  alt="mindscape analytics logo"
+                  width={50}
+                  height={50}
+                />
+              </Link>
               <Typewriter
                 options={{
                   strings: ["Mindscape"],

@@ -14,13 +14,13 @@ const founders = [
   {
     id: 2,
     name: "Muhammad Atif",
-    designation: "Fullstack Developer",
+    designation: "COO",
     image: "/images/M.Atif.png",
   },
   {
     id: 3,
     name: "Farhan Murad",
-    designation: "Designer",
+    designation: "CDO",
     image: "/images/Farhan.png",
   },
 ]

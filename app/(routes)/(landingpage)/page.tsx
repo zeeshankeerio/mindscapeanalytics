@@ -75,7 +75,7 @@ const ourTeam = [
   {
     Image: "M.Atif.png",
     Name: "Muhammad Atif",
-    Designation: "FullStack Developer",
+    Designation: "CO-Founder & COO Mindscape Analytics",
     Description:
       "I am Muhammad Atif, a self-taught full-stack developer having 3 years of exprerience. I have worked on multiple projects and have a good understanding of the latest technologies.",
     portfolio: "https://mak-dev.vercel.app/",
@@ -83,7 +83,7 @@ const ourTeam = [
   {
     Image: "Farhan.png",
     Name: "Farhan Murad",
-    Designation: "UI/UX designer & Framer developer",
+    Designation: "CDO Mindscape Analytics",
     Description:
       "I'm a UI/UX designer and Framer developer. My passion for design, technology, and innovation helps me create visually appealing interfaces that provide exceptional user experiences.",
     portfolio: "http://farhanmurad.framer.website/",
@@ -122,7 +122,7 @@ export default function Home() {
     <>
       <MaxWidthWrapper>
         <div className="relative">
-          <div className="mx-auto flex flex-col items-center space-y-12 px-4 py-20 text-center md:px-0 md:text-start">
+          <div className="mx-auto flex flex-col items-center space-y-12 px-4 py-12 text-center md:px-0 md:text-start">
             <div className="flex flex-col space-y-4 md:flex-row">
               <h1 className="text-primary bg-clip-text text-5xl font-extrabold sm:text-6xl md:bg-gradient-to-r md:text-7xl md:leading-[107px]">
                 More Than Just <br className="hidden md:block" /> A Creative
@@ -152,7 +152,7 @@ export default function Home() {
               </div>
             </div>
             <div className="bg-primary h-96 w-full rounded-3xl shadow-inner">
-              <div className="flex size-full flex-col items-end px-8 py-4 md:flex-row">
+              <div className="flex size-full flex-col items-center justify-center px-8 py-4 md:flex-row md:items-end">
                 <div className="absolute flex w-full items-center justify-center">
                   <WorldGlobe />
                 </div>
@@ -171,7 +171,7 @@ export default function Home() {
 
       <MaxWidthWrapper>
         <div className="relative">
-          <div className="mx-auto flex flex-col items-center space-y-24 px-4 py-20 text-center md:px-0 md:text-start">
+          <div className="mx-auto flex flex-col items-center space-y-16 px-4 py-10 text-center md:px-0 md:text-start">
             <h3 className="text-4xl font-bold sm:text-5xl md:text-6xl">
               Technologies We are using
             </h3>

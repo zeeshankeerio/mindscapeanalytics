@@ -59,12 +59,10 @@ const faqs = [
     answer: (
       <>
         <p>
-          <strong>Phone:</strong>{" "}
-          <a href="tel:+923077367967">+92 307 7367967</a>
-        </p>
-        <p>
           <strong>Email:</strong>{" "}
-          <a href="mailto:imzeeshan.ai@gmail.com">imzeeshan.ai@gmail.com</a>
+          <a href="mailto:admin@mindscapeanaytics.com">
+            admin@mindscapeanaytics.com
+          </a>
         </p>
         <p>
           Feel free to get in touch with us to discuss your project needs and

@@ -81,7 +81,7 @@ const Footer = () => {
         </div>
         <div>
           <p>
-            All Rights Reserved{" "}
+            All Rights Reserved<sup>&#174;</sup>
             <span className="font-medium">Mindscape Analytics</span>
           </p>
         </div>
