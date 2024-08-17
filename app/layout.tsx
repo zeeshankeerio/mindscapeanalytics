@@ -102,10 +102,8 @@ export default function RootLayout({
             fontSans.className
           )}
         >
-          <main className="relative flex min-h-screen flex-col space-y-2">
-            <Navbar />
-            <div className="flex-1 grow">{children}</div>
-            <Footer />
+          <main className="relative flex min-h-screen flex-col">
+           {children}
           </main>
         </body>
       </ThemeProvider>

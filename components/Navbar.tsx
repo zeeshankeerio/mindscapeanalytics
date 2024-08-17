@@ -13,6 +13,7 @@ const menuItems = [
   { label: "Home", href: "/" },
   { label: "Projects", href: "/projects" },
   { label: "Services", href: "/services" },
+  // { label: "Blogs", href: "/blogs" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ]
@@ -46,7 +47,7 @@ const Navbar = () => {
             <div className="hidden md:block">
               <ul className="flex items-center space-x-4">
                 {menuItems.map((item, index) => (
-                  <li key={index}>
+                  <li key={index + 1}>
                     <Link
                       href={item.href}
                       className={`${

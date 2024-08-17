@@ -14,8 +14,8 @@ const page = () => {
           </h1>
         </div>
       </MaxWidthWrapper>
-      {Services.map((service) => (
-        <>
+      {Services.map((service, index) => (
+        <div key={index}>
           <div className="flex flex-col gap-4 md:flex-row md:gap-20">
             <div className="bg-primary text-primary-foreground flex w-fit items-center gap-4 rounded-r-full px-6 py-8 md:justify-center md:gap-x-4 md:px-9 md:py-0">
               <h2 className="text-lg font-semibold sm:text-xl md:text-2xl">
@@ -77,9 +77,9 @@ const page = () => {
                     <Image
                       src={service.image.image}
                       alt={service.image.alt}
-                      className="h-auto w-full rounded-3xl object-fill object-center md:h-[1080px] md:w-96"
-                      width={384}
-                      height={1080}
+                      className="h-auto w-full rounded-3xl object-cover object-center md:h-[1070px] md:w-[376px]"
+                      width={376}
+                      height={1070}
                       loading="lazy"
                     />
                   </div>
@@ -87,7 +87,7 @@ const page = () => {
               </div>
             </div>
           </MaxWidthWrapper>
-        </>
+        </div>
       ))}
     </div>
   )

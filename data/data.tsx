@@ -40,6 +40,103 @@ type Service = ServiceItem[]
 
 export const Services: Service = [
   {
+    title: "Generative AI",
+    description:
+      "At Mindscape Analytics, we recognize the transformative power of generative AI in shaping the future of business. Our generative AI services unlock new possibilities, enabling businesses to create innovative content, automate complex tasks, and stay ahead in a rapidly evolving landscape. With our expertise, you can harness the full potential of AI to drive creativity, efficiency, and growth.",
+    h2: "Unlock the Power of Data with Our Generative AI Services",
+    logo: (
+      <AreaChartIcon size={32} className="size-8 rounded-full border p-1" />
+    ),
+    logos: [
+      {
+        image: "/svg/zapier.svg",
+        alt: "Zapier",
+      },
+      {
+        image: "/svg/huggingface.svg",
+        alt: "Hugging Face",
+      },
+      {
+        image: "/svg/openai.svg",
+        alt: "Open AI",
+      },
+      {
+        image: "/svg/python-original.svg",
+        alt: "Python",
+      },
+      {
+        image: "/svg/logos_azure.svg",
+        alt: "Domo",
+      },
+    ],
+    image: {
+      image: "/images/services/genai_banner.png",
+      alt: "Business Intelligence",
+    },
+    features: [
+      {
+        no: 1,
+        title: "Content Generation",
+        description:
+          "Automate content creation across multiple mediums - blogs, social media, and marketing materials, to boost your brand visibility.",
+      },
+      {
+        no: 2,
+        title: "Custom GPTs",
+        description:
+          "Empower your business with our custom GPT solutions, delivering intelligent, AI-driven interactions tailored to your unique needs.",
+      },
+      {
+        no: 3,
+        title: "Image Generation",
+        description:
+          "Generate high-quality images for creative projects using models like GANs and VAEs to reduce efforts while maintaining uniqueness.",
+      },
+      {
+        no: 4,
+        title: "Text Analytics (LLMs)",
+        description:
+          "Extract valuable insights from textual data using Large Language Models (LLMs) such as ChatGPT for improved decision-making.",
+      },
+      {
+        no: 5,
+        title: "Custom Generative AI Models",
+        description:
+          "Develop tailored AI models to meet your specific business needs, ensuring a personalized approach to AI-driven solutions.",
+      },
+      {
+        no: 6,
+        title: "Model Training",
+        description:
+          "Fine-tune AI models with advanced training techniques, enabling better performance and results for your organization.",
+      },
+      {
+        no: 7,
+        title: "Customer Support Automation",
+        description:
+          "Streamline customer support processes with AI-powered chatbots, ensuring faster response times & higher customer satisfaction.",
+      },
+      {
+        no: 8,
+        title: "ChatGPT Integration",
+        description:
+          "Integrate the powerful ChatGPT plugin into your existing systems for seamless AI-driven assistance & improved customer experiences.",
+      },
+      {
+        no: 9,
+        title: "Voice and Video Generation",
+        description:
+          "Produce high-quality, synthetic voice and video content, ideal for personalized customer communications and experiences.",
+      },
+      {
+        no: 10,
+        title: "On-demand Analytics",
+        description:
+          "Access real-time insights using AI to get immediate answers to business queries and make data-driven decisions.",
+      },
+    ],
+  },
+  {
     title: "Business Intelligence",
     description:
       "At Mindscape Analytics, we understand the importance of leveraging data to drive informed decision-making and achieve business success. Our business intelligence services offer a wide range of benefits that can help businesses of all sizes thrive in today’s competitive landscape.",
@@ -70,7 +167,7 @@ export const Services: Service = [
       },
     ],
     image: {
-      image: "/images/services/Bussiness_Intelligence.png",
+      image: "/images/services/business_banner.png",
       alt: "Business Intelligence",
     },
     features: [
@@ -141,7 +238,7 @@ export const Services: Service = [
       },
     ],
     image: {
-      image: "/images/services/Web.jpg",
+      image: "/images/services/webdev_banner.png",
       alt: "Modern Web Development",
     },
     features: [
@@ -231,7 +328,7 @@ export const Services: Service = [
       },
     ],
     image: {
-      image: "/images/services/Web.jpg",
+      image: "/images/services/datascience_banner.png",
       alt: "Modern Web Development",
     },
     features: [
@@ -320,7 +417,7 @@ export const Services: Service = [
       },
     ],
     image: {
-      image: "/images/services/Bussiness_Intelligence.png",
+      image: "/images/services/bigdata_banner.png",
       alt: "Modern Web Development",
     },
     features: [
@@ -415,8 +512,8 @@ export const Services: Service = [
       },
     ],
     image: {
-      image: "/images/services/Bussiness_Intelligence.png",
-      alt: "Modern Web Development",
+      image: "/images/services/analytic_banner.png",
+      alt: "Bussiness Intelligence",
     },
     features: [
       {
@@ -512,8 +609,8 @@ export const Services: Service = [
       },
     ],
     image: {
-      image: "/images/services/Bussiness_Intelligence.png",
-      alt: "Modern Web Development",
+      image: "/images/services/design_banner.png",
+      alt: "Graphic Design",
     },
     features: [
       {
@@ -607,8 +704,8 @@ export const Services: Service = [
       },
     ],
     image: {
-      image: "/images/services/Bussiness_Intelligence.png",
-      alt: "Modern Web Development",
+      image: "/images/services/it_banner.png",
+      alt: "Information Technology",
     },
     features: [
       {
