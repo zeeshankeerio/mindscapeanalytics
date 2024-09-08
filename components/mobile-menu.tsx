@@ -1,44 +1,85 @@
-import React from "react"
+"use client"
+
+import React, { useState } from "react"
 import Link from "next/link"
-import { MenuIcon } from "lucide-react"
+import { motion } from "framer-motion"
 
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTrigger,
-} from "@/components/ui/sheet"
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
-const MobileMenu = ({
-  menuItems,
-}: {
-  menuItems: { label: string; href: string }[]
-}) => {
+interface MenuItem {
+  label: string
+  href: string
+}
+
+interface MobileMenuProps {
+  menuItems: MenuItem[]
+}
+
+const MobileMenu: React.FC<MobileMenuProps> = ({ menuItems }) => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  const toggleMenu = () => setIsOpen((prev) => !prev)
+
   return (
-    <Sheet>
-      <SheetTrigger className="flex items-center justify-center">
-        <MenuIcon size={32} className="text-primary cursor-pointer" />
-      </SheetTrigger>
-      <SheetContent className="flex size-full flex-col items-stretch rounded-lg p-6 shadow-xl">
-        <SheetHeader>
-          <nav className="mt-8">
-            <ul className="flex flex-col items-center space-y-12">
-              {menuItems.map((item, index) => (
-                <li key={index} className="flex w-full flex-col items-start">
-                  <Link
-                    href={item.href}
-                    className="text-primary text-5xl font-bold"
-                  >
-                    {item.label}
-                  </Link>
-                  <div className="bg-primary mt-4 h-1 w-full" />
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </SheetHeader>
-      </SheetContent>
-    </Sheet>
+    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+      <DropdownMenuTrigger asChild>
+        <button
+          aria-expanded={isOpen}
+          aria-label={isOpen ? "Close menu" : "Open menu"}
+          onClick={toggleMenu}
+          className={
+            "text-primary flex aspect-square h-fit select-none flex-col items-center justify-center rounded-full"
+          }
+        >
+          <motion.div
+            style={{
+              width: "20px",
+              borderTop: "2px solid",
+              transformOrigin: "center",
+            }}
+            initial={{ translateY: "-3px" }}
+            animate={
+              isOpen
+                ? { rotate: "45deg", translateY: "1px" }
+                : { translateY: "-3px", rotate: "0deg" }
+            }
+            transition={{ bounce: 0, duration: 0.1 }}
+          />
+          <motion.div
+            transition={{ bounce: 0, duration: 0.1 }}
+            style={{
+              width: "20px",
+              borderTop: "2px solid",
+              transformOrigin: "center",
+            }}
+            initial={{ translateY: "3px" }}
+            animate={
+              isOpen
+                ? { rotate: "-45deg", translateY: "-1px" }
+                : { translateY: "3px", rotate: "0deg", scaleX: 1 }
+            }
+          />
+        </button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent className="mt-2 w-40 rounded-lg  p-2 shadow-lg">
+        {menuItems.map((item, index) => (
+          <DropdownMenuItem key={index} asChild>
+            <Link
+              href={item.href}
+              className="text-primary block w-full rounded-md p-2"
+            >
+              {item.label}
+            </Link>
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 

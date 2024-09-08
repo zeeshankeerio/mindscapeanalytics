@@ -2,11 +2,12 @@ import "@/styles/globals.css"
 
 import { Metadata, Viewport } from "next"
 import { Inter as FontSans } from "next/font/google"
+import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 import { siteConfig } from "@/config/site"
 import { cn } from "@/lib/utils"
-import Footer from "@/components/Footer"
-import Navbar from "@/components/Navbar"
+import { Toaster } from "@/components/ui/toaster"
 import { ThemeProvider } from "@/components/theme-provider"
 
 const fontSans = FontSans({
@@ -40,7 +41,7 @@ export const metadata: Metadata = {
   authors: [
     {
       name: "Mindscape Analytics",
-      url: "https://mindscapeanalytics.com",
+      url: "https://www.mindscapeanalytics.com",
     },
   ],
   creator: "Mindscape Analytics",
@@ -103,8 +104,11 @@ export default function RootLayout({
           )}
         >
           <main className="relative flex min-h-screen flex-col">
-           {children}
+            {children}
           </main>
+          <Toaster />
+          <Analytics />
+          <SpeedInsights />
         </body>
       </ThemeProvider>
     </html>

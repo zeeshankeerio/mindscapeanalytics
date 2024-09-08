@@ -7,6 +7,7 @@ import { LinkPreview } from "@/components/ui/link-preview"
 import { BentoGridLayout } from "@/components/BentoGridLayout"
 import FoundersCircleProfile from "@/components/Founders_Circle_Profile"
 import { WorldGlobe } from "@/components/Globe"
+import { Marquee } from "@/components/Marquee"
 import MaxWidthWrapper from "@/components/MaxWidthWrapper"
 
 const logos = [
@@ -176,7 +177,7 @@ export default function Home() {
               Technologies We are using
             </h3>
             <div className="w-full">
-              <div className="grid w-full grid-cols-4 items-center justify-center gap-12 md:grid-cols-8">
+              <Marquee>
                 {logos.map((logo, index) => (
                   <Image
                     key={index}
@@ -187,7 +188,7 @@ export default function Home() {
                     className="object-contain object-center"
                   />
                 ))}
-              </div>
+              </Marquee>
             </div>
           </div>
         </div>

@@ -1,13 +1,6 @@
 import React from "react"
 import Link from "next/link"
-import {
-  InstagramIcon,
-  Mail,
-  MapPinIcon,
-  Twitter,
-  Youtube,
-  YoutubeIcon,
-} from "lucide-react"
+import { Mail, MapPinIcon } from "lucide-react"
 
 import MaxWidthWrapper from "./MaxWidthWrapper"
 
@@ -15,6 +8,8 @@ const menuItems = [
   { label: "Home", href: "/" },
   { label: "Projects", href: "/projects" },
   { label: "Services", href: "/services" },
+  { label: "Insights", href: "/blogs" },
+  { label: "Careers", href: "/careers" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ]
@@ -81,8 +76,8 @@ const Footer = () => {
         </div>
         <div>
           <p>
-            All Rights Reserved<sup>&#174;</sup>
-            <span className="font-medium">Mindscape Analytics</span>
+            All Rights<sup>&#174;</sup> Reserved
+            <span className="font-medium"> Mindscape Analytics</span>
           </p>
         </div>
       </div>

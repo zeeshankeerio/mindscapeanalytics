@@ -1,5 +1,6 @@
 "use client"
 
+import emailjs, { EmailJSResponseStatus } from "@emailjs/browser"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
@@ -14,35 +15,49 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useToast } from "@/components/ui/use-toast"
 import { formSchema } from "@/components/constants"
 
 import { Textarea } from "./ui/textarea"
 
 export function ContactForm() {
+  const { toast } = useToast()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      Name: "",
-      Email: "",
-      Message: "",
+      name: "",
+      email: "",
+      message: "",
     },
   })
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const apiEndpoint = "/api/contact"
-
-    fetch(apiEndpoint, {
-      method: "POST",
-      body: JSON.stringify(values),
-    })
-      .then((res) => res.json())
-      .then((response) => {
-        alert(response.message)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const response: EmailJSResponseStatus = await emailjs.send(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID as string,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID as string,
+        {
+          name: values.name,
+          email: values.email,
+          message: values.message,
+        },
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_ID as string
+      )
+      if (response.status === 200) {
+        toast({
+          title: "Email sent successfully",
+          description: "We will get back to you soon.",
+        })
+        form.reset()
+      }
+    } catch (error) {
+      toast({
+        title: "Unsuccessful",
+        description: "Failed to send email.",
       })
-      .catch((err) => {
-        alert(err)
-      })
+      console.log(error)
+    }
   }
 
   return (
@@ -51,7 +66,7 @@ export function ContactForm() {
         <div className="flex flex-col gap-y-4 sm:flex-row md:gap-x-12">
           <FormField
             control={form.control}
-            name="Name"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormControl className="bg-accent h-[65px] w-[385px] rounded-sm px-6 py-5">
@@ -63,7 +78,7 @@ export function ContactForm() {
           />
           <FormField
             control={form.control}
-            name="Email"
+            name="email"
             render={({ field }) => (
               <FormItem>
                 <FormControl className="bg-accent h-[65px] w-[385px] rounded-sm px-6 py-5">
@@ -77,7 +92,7 @@ export function ContactForm() {
         <div className="size-full">
           <FormField
             control={form.control}
-            name="Message"
+            name="message"
             render={({ field }) => (
               <FormItem>
                 <FormControl className="bg-accent h-[325px] w-full rounded-sm px-6 py-5">

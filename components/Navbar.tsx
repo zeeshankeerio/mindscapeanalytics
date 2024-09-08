@@ -13,7 +13,8 @@ const menuItems = [
   { label: "Home", href: "/" },
   { label: "Projects", href: "/projects" },
   { label: "Services", href: "/services" },
-  // { label: "Blogs", href: "/blogs" },
+  { label: "Insights", href: "/blogs" },
+  { label: "Careers", href: "/careers" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ]
@@ -24,10 +25,10 @@ const Navbar = () => {
 
   return (
     <div className=" h-16">
-      <header className="relative px-4 md:px-0">
+      <header className="relative">
         <MaxWidthWrapper>
-          <nav className="border-primary bg-background flex items-center justify-between rounded-full border-2 px-4 py-2 sm:px-6">
-            <div className="text-primary flex items-center gap-2 text-3xl font-bold sm:justify-between">
+          <nav className="flex items-center justify-between py-2">
+            <div className="text-primary flex items-center gap-2 text-2xl font-bold sm:justify-between md:text-3xl">
               <Link href="/">
                 <Image
                   src="/logo.png"

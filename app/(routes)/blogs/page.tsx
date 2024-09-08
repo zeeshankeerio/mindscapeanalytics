@@ -1,48 +1,31 @@
-import Link from "next/link"
-import { client } from "@/sanity/lib/client"
-import groq from "groq"
+import { Suspense } from "react"
 
+import Loading from "@/components/Loading"
 import MaxWidthWrapper from "@/components/MaxWidthWrapper"
 
-// Define the type for a post
-type Post = {
-  _id: string
-  title: string
-  slug: string | { current: string }
-  publishedAt: string
-}
+import BlogsPage from "./components/BlogsPage"
 
-type IndexProps = {
-  posts: Post[]
-}
-
-export default async function IndexPage() {
-  // Fetch posts directly in the component
-  const posts: Post[] = await client.fetch(groq`
-    *[_type == "post" && publishedAt < now()] | order(publishedAt desc)
-  `)
-
+export default function IndexPage() {
   return (
     <MaxWidthWrapper className="min-h-screen">
-      <div className="">
-        <h1>Welcome to the blog!</h1>
-        {posts.length > 0 && (
-          <ul>
-            {posts.map(
-              ({ _id, title = "", slug = "", publishedAt = "" }) =>
-                (slug as { current: string }).current && (
-                  <li key={_id}>
-                    <Link
-                      href={`/blogs/${(slug as { current: string }).current}`}
-                    >
-                      {title}
-                    </Link>{" "}
-                    ({new Date(publishedAt).toDateString()})
-                  </li>
-                )
-            )}
-          </ul>
-        )}
+      <div className="relative">
+        <div className="mx-auto flex flex-col space-y-20 px-4 py-12 md:px-0 md:text-start">
+          <section>
+            <div className="space-y-6">
+              <h1 className="text-muted-foreground text-md font-medium uppercase">
+                OUR THOUGHTS ON DIGITAL, DATA & AI
+              </h1>
+              <h2 className="text-primary font-mono text-2xl font-bold">
+                Imagine. Innovate. Execute.
+              </h2>
+            </div>
+          </section>
+          <section>
+            <Suspense fallback={<Loading />}>
+              <BlogsPage />
+            </Suspense>
+          </section>
+        </div>
       </div>
     </MaxWidthWrapper>
   )
