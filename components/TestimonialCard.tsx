@@ -17,9 +17,7 @@ export function TestimonialCard({
   image,
 }: TestimonialCardProps) {
   return (
-    <div
-      className="relative flex h-[400px] w-full flex-col overflow-hidden rounded-xl p-6 shadow-lg"
-    >
+    <div className="relative flex h-[400px] w-full flex-col overflow-hidden rounded-xl p-6 shadow-lg">
       <div className="bg-primary/10 absolute right-0 top-0 size-20 rounded-bl-full" />
       <Quote className="text-primary/20 absolute right-4 top-4 size-8" />
       <div className="mb-4 flex items-center">
@@ -37,9 +35,7 @@ export function TestimonialCard({
           </p>
         </div>
       </div>
-      <div
-        className="relative z-10 mt-4 grow overflow-y-auto italic"
-      >
+      <div className="relative z-10 mt-4 grow overflow-y-auto italic">
         <p className="text-sm leading-relaxed">{testimonial}</p>
       </div>
     </div>
