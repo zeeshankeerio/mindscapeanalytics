@@ -54,6 +54,13 @@ export const postsCountQuery = (categorySlug: string) => groq`
       : ""
   }])
 `
+export const projectsCountQuery = (categorySlug: string) => groq`
+  count(*[_type == "project" && publishedAt < now() ${
+    categorySlug && categorySlug !== "all"
+      ? `&& '${categorySlug}' in categories[]->slug.current`
+      : ""
+  }])
+`
 
 export const postPage = groq`*[_type == "post" && slug.current == $slug][0]{
   title,
@@ -64,6 +71,39 @@ export const postPage = groq`*[_type == "post" && slug.current == $slug][0]{
   publishedAt,
   body
 }`
+
+export const projectPage = groq`*[_type == "project" && slug.current == $slug][0]{
+   _id,
+    name,
+    body,
+    categories[]->{
+      _id,
+      title
+    },
+    imageGallery[] {
+      asset->{
+        _id,
+        url
+      },
+    },
+    publishedAt,
+}`
+
+export const latestProjectsQuery = `
+  *[_type == "project"] | order(_createdAt desc) [0...3] {
+    _id,
+    name,
+    "slug": slug.current,
+    small_description,
+    categories[]->{title},
+    _createdAt,
+    imageGallery[]{
+      asset->{
+        url
+      }
+    }
+  }
+`
 
 export const featuredQuery = groq`
 *[_type == "featured_post"]{
@@ -115,3 +155,48 @@ export const workplacePolicyQuery = groq`
     body
   }
 `
+export const projectsQuery = (
+  categorySlug: string,
+  page: number,
+  projectsPerPage: number
+) => {
+  const offset = (page - 1) * projectsPerPage
+  return groq`
+    *[_type == "project" && publishedAt < now() ${
+      categorySlug && categorySlug !== "all"
+        ? `&& '${categorySlug}' in categories[]->slug.current`
+        : ""
+    }] | order(publishedAt desc)[${
+      offset > 0 ? offset : 0
+    }...${offset + projectsPerPage}]{
+      _id,
+    name,
+    slug,
+    small_description,
+    body[] {
+      _type,
+      style,
+      children[] {
+        _type,
+        text
+      },
+      markDefs
+    },
+    categories[]->{
+      _id,
+      title
+    },
+    imageGallery[] {
+      _type,
+      asset->{
+        _id,
+        url
+      },
+      _key
+    },
+    publishedAt,
+    _createdAt,
+    _updatedAt
+    }
+  `
+}

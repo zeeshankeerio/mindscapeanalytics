@@ -1,122 +1,18 @@
 import Image from "next/image"
 import Link from "next/link"
-import { ArrowUpRight } from "lucide-react"
+import { features, logos, projects, testimonials } from "@/data/constants"
+import { ArrowRight, ArrowUpRight } from "lucide-react"
 
-import { buttonVariants } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import { LinkPreview } from "@/components/ui/link-preview"
 import { BentoGridLayout } from "@/components/BentoGridLayout"
 import FoundersCircleProfile from "@/components/Founders_Circle_Profile"
 import { WorldGlobe } from "@/components/Globe"
+import LatestProjects from "@/components/latest-projects"
 import { Marquee } from "@/components/Marquee"
 import MaxWidthWrapper from "@/components/MaxWidthWrapper"
-
-const logos = [
-  {
-    src: "/svg/devicon_googlecloud.svg",
-    alt: "Google Cloud",
-  },
-  {
-    src: "/svg/devicon_python.svg",
-    alt: "Python",
-  },
-  {
-    src: "/svg/sanity-plain.svg",
-    alt: "Python",
-  },
-  {
-    src: "/svg/nextjs-original.svg",
-    alt: "NextJS",
-  },
-  {
-    src: "/svg/sentry-original.svg",
-    alt: "NextJS",
-  },
-  {
-    src: "/svg/devicon_figma.svg",
-    alt: "Figma",
-  },
-  {
-    src: "/svg/logos_aws.svg",
-    alt: "AWS",
-  },
-  {
-    src: "/svg/logos_azure.svg",
-    alt: "Azure",
-  },
-]
-
-const recentProjects = [
-  {
-    Name: "Portfolio Web",
-    tag: "Designed & Developed",
-    link: "https://farhanmurad.framer.website",
-  },
-  {
-    Name: "KAI Tools",
-    tag: "Designed & Developed",
-    link: "https://www.kaitools.tech",
-  },
-  {
-    Name: "Kstock Analyzer",
-    tag: "Designed & Developed",
-    link: "https://www.kstockanalyzer.com",
-  },
-]
-
-const ourTeam = [
-  {
-    Image: "zeeshan.jpeg",
-    Name: "Zeeshan Keerio",
-    Designation: "Founder & CEO Mindscape Analytics",
-    Description:
-      "I am Zeesham, a Data Scientist having years of exprerience. I have worked on multiple projects and have a good understanding of the latest technologies.",
-
-    portfolio: "https://www.linkedin.com/in/zeeshan-keerio/",
-  },
-  {
-    Image: "M.Atif.png",
-    Name: "Muhammad Atif",
-    Designation: "CO-Founder & COO Mindscape Analytics",
-    Description:
-      "I am Muhammad Atif, a self-taught full-stack developer having 3 years of exprerience. I have worked on multiple projects and have a good understanding of the latest technologies.",
-    portfolio: "https://mak-dev.vercel.app/",
-  },
-  {
-    Image: "Farhan.png",
-    Name: "Farhan Murad",
-    Designation: "CDO Mindscape Analytics",
-    Description:
-      "I'm a UI/UX designer and Framer developer. My passion for design, technology, and innovation helps me create visually appealing interfaces that provide exceptional user experiences.",
-    portfolio: "http://farhanmurad.framer.website/",
-  },
-]
-
-const features = [
-  {
-    no: 1,
-    title: "Expertise",
-    description:
-      "Our team comprises seasoned professionals with years of experience in their respective fields, ensuring the highest quality of service and training.",
-  },
-  {
-    no: 2,
-    title: "Innovation",
-    description:
-      "We stay at the forefront of industry trends and technologies, continuously innovating to deliver solutions that drive results and exceed expectations.",
-  },
-  {
-    no: 3,
-    title: "Customization",
-    description:
-      "We understand that every client is unique, which is why we offer personalized solutions and training programs tailored to your specific goals and requirements.",
-  },
-  {
-    no: 4,
-    title: "Support",
-    description:
-      "From initial consultation to ongoing support, we are committed to providing exceptional customer service and guidance every step of the way",
-  },
-]
+import { ProjectCard } from "@/components/project-card"
+import { TestimonialCard } from "@/components/TestimonialCard"
 
 export default function Home() {
   return (
@@ -271,98 +167,15 @@ export default function Home() {
       </MaxWidthWrapper>
 
       <MaxWidthWrapper>
-        <div className="flex flex-col items-center justify-between gap-x-12 px-4 py-12 md:flex-row md:px-0">
-          <div className="flex size-full flex-col text-center">
+        <div className="relative">
+          <div className="flex flex-col items-center justify-between gap-x-12 px-4 py-12 md:px-0">
             <div className="space-y-24">
-              <h3 className="text-4xl font-bold sm:text-5xl md:text-6xl">
-                Recent Work
-              </h3>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <Image
-                  src="/projects/project one.png"
-                  alt="recent projects"
-                  width={500}
-                  height={500}
-                  className="size-full rounded-3xl object-cover object-center"
-                />
-                <Image
-                  src="/projects/KStock_Analyzer.png"
-                  alt="recent projects"
-                  width={500}
-                  height={500}
-                  className="size-full rounded-3xl object-cover object-center"
-                />
-                <Image
-                  src="/projects/Crypto_folio_App.png"
-                  alt="recent projects"
-                  width={500}
-                  height={500}
-                  className="size-full rounded-3xl object-cover object-center"
-                />
-                <Image
-                  src="/projects/Crypto_Tracker.png"
-                  alt="recent projects"
-                  width={500}
-                  height={500}
-                  className="size-full rounded-3xl object-cover object-center"
-                />
+              <div className="flex size-full flex-col text-center">
+                <h3 className="text-4xl font-bold sm:text-5xl md:text-6xl">
+                  Our Projects
+                </h3>
               </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex size-full flex-col justify-start px-4 py-12 md:px-0">
-          <div className="space-y-3">
-            <h4 className="text-primary font-mono text-lg">Recent Work</h4>
-            <div className="bg-primary h-px w-full" />
-          </div>
-          <div className="">
-            {recentProjects.map((project: any, index: any) => (
-              <div key={index}>
-                <div className="text-primary flex items-center justify-between font-mono">
-                  <LinkPreview url={project.link} target="_blank">
-                    <h4 className="hover:text-primary/70 my-10 text-3xl">
-                      {project.Name}
-                    </h4>
-                  </LinkPreview>
-                  <p>{project.tag}</p>
-                </div>
-                <div className="bg-primary h-px w-full" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </MaxWidthWrapper>
-
-      <MaxWidthWrapper>
-        <div className="flex flex-col justify-between gap-x-12 px-4 py-12 md:flex-row md:px-0">
-          <div className="flex size-full flex-col space-y-24 text-center">
-            <div className="">
-              <h3 className="text-4xl font-bold sm:text-5xl md:text-6xl">
-                Our Team
-              </h3>
-            </div>
-            <div className="grid grid-cols-1 items-center justify-center gap-8 md:grid-cols-3">
-              {ourTeam.map((member, index) => (
-                <div
-                  key={index}
-                  className="w-md flex flex-col items-center justify-center space-y-2"
-                >
-                  <Image
-                    src={`/images/${member.Image}`}
-                    alt={`${member.Name}, ${member.Designation}`}
-                    className="border-primary size-[200px] rounded-full border-2 object-cover object-center"
-                    width={200}
-                    height={200}
-                  />
-                  <Link href={member.portfolio} target="_blank">
-                    <h4 className="text-lg font-bold">{member.Name}</h4>
-                    <p className="text-mono text-primary font-medium">
-                      {member.Designation}
-                    </p>
-                  </Link>
-                  <p className="text-muted-foreground">{member.Description}</p>
-                </div>
-              ))}
+              <LatestProjects />
             </div>
           </div>
         </div>
@@ -406,6 +219,23 @@ export default function Home() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </MaxWidthWrapper>
+
+      <MaxWidthWrapper>
+        <div className="flex flex-col gap-12 px-4 py-12 sm:flex-row md:px-0">
+          <div className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+            <h2 className="mb-12 text-center text-4xl font-extrabold">
+              What Our Clients Say
+            </h2>
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+              {testimonials.map((testimonial, index) => (
+                <div key={index}>
+                  <TestimonialCard {...testimonial} />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </MaxWidthWrapper>

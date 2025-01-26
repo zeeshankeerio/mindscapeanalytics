@@ -6,6 +6,7 @@ import { workplace_policy } from "./careers/workplace-policy"
 import { categoryType } from "./categoryType"
 import { featuredType } from "./featuredTypes"
 import { postType } from "./postType"
+import { projectType } from "./projects/projects"
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -15,5 +16,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     authorType,
     featuredType,
     workplace_policy,
+    projectType,
   ],
 }

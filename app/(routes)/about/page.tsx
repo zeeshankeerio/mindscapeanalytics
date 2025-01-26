@@ -7,6 +7,34 @@ import { buttonVariants } from "@/components/ui/button"
 import FAQs from "@/components/FAQs"
 import MaxWidthWrapper from "@/components/MaxWidthWrapper"
 
+const ourTeam = [
+  {
+    Image: "zeeshan.jpeg",
+    Name: "Zeeshan Keerio",
+    Designation: "Founder & CEO Mindscape Analytics",
+    Description:
+      "I am Zeesham, a Data Scientist having years of exprerience. I have worked on multiple projects and have a good understanding of the latest technologies.",
+
+    portfolio: "https://www.linkedin.com/in/zeeshan-keerio/",
+  },
+  {
+    Image: "M.Atif.png",
+    Name: "Muhammad Atif",
+    Designation: "CO-Founder & COO Mindscape Analytics",
+    Description:
+      "I am Muhammad Atif, a self-taught full-stack developer having 3 years of exprerience. I have worked on multiple projects and have a good understanding of the latest technologies.",
+    portfolio: "https://mak-dev.vercel.app/",
+  },
+  {
+    Image: "Farhan.png",
+    Name: "Farhan Murad",
+    Designation: "CDO Mindscape Analytics",
+    Description:
+      "I'm a UI/UX designer and Framer developer. My passion for design, technology, and innovation helps me create visually appealing interfaces that provide exceptional user experiences.",
+    portfolio: "http://farhanmurad.framer.website/",
+  },
+]
+
 const page = () => {
   return (
     <>
@@ -148,6 +176,41 @@ const page = () => {
                   </li>
                 </ul>
               </div>
+            </div>
+          </div>
+        </div>
+      </MaxWidthWrapper>
+
+      <MaxWidthWrapper>
+        <div className="flex flex-col justify-between gap-x-12 px-4 py-12 md:flex-row md:px-0">
+          <div className="flex size-full flex-col space-y-24 text-center">
+            <div className="">
+              <h3 className="text-4xl font-bold sm:text-5xl md:text-6xl">
+                Our Team
+              </h3>
+            </div>
+            <div className="grid grid-cols-1 items-center justify-center gap-8 md:grid-cols-3">
+              {ourTeam.map((member, index) => (
+                <div
+                  key={index}
+                  className="w-md flex flex-col items-center justify-center space-y-2"
+                >
+                  <Image
+                    src={`/images/${member.Image}`}
+                    alt={`${member.Name}, ${member.Designation}`}
+                    className="border-primary size-[200px] rounded-full border-2 object-cover object-center"
+                    width={200}
+                    height={200}
+                  />
+                  <Link href={member.portfolio} target="_blank">
+                    <h4 className="text-lg font-bold">{member.Name}</h4>
+                    <p className="text-mono text-primary font-medium">
+                      {member.Designation}
+                    </p>
+                  </Link>
+                  <p className="text-muted-foreground">{member.Description}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
