@@ -3,16 +3,14 @@ import { Quote } from "lucide-react"
 
 interface TestimonialCardProps {
   name: string
-  role: string
-  company: string
+  country: string
   testimonial: string
   image: string
 }
 
 export function TestimonialCard({
   name,
-  role,
-  company,
+  country,
   testimonial,
   image,
 }: TestimonialCardProps) {
@@ -30,9 +28,7 @@ export function TestimonialCard({
         />
         <div>
           <h3 className="text-lg font-semibold">{name}</h3>
-          <p className="text-sm">
-            {role} at {company}
-          </p>
+          <p className="text-sm">{country}</p>
         </div>
       </div>
       <div className="relative z-10 mt-4 grow overflow-y-auto italic">

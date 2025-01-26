@@ -112,7 +112,7 @@ const Navbar = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="shadow-lg md:hidden"
+              className="bg-background shadow-lg md:hidden"
             >
               <MaxWidthWrapper>
                 <ul className="space-y-2 py-4">

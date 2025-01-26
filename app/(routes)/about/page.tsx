@@ -83,7 +83,7 @@ const page = () => {
               What We Offer
             </h1>
             <div className="flex flex-col items-center justify-between pt-12 md:flex-row">
-              <div className="flex flex-col gap-y-12">
+              <div className="flex w-full flex-col gap-y-12">
                 <div className="w-1/2 text-justify ">
                   <h2 className="text-2xl font-bold sm:text-3xl md:text-4xl">
                     Comprehensive Solutions:

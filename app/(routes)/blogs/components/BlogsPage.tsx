@@ -92,7 +92,7 @@ const BlogsPage = () => {
     <div className="mx-auto flex flex-col space-y-20 px-4 py-12 md:px-0 md:text-start">
       {featuredPost.length > 0 && <FeaturedBlog featured_post={featuredPost} />}
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col items-center justify-between gap-y-4 md:flex-row md:gap-y-0">
         <Filter
           categories={["All", ...categories.map((category) => category.title)]}
           onFilterChange={handleCategoryChange}

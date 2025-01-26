@@ -4,9 +4,7 @@ import Loading from "@/components/Loading"
 
 import Projects from "./components/ProjectsComponent"
 
-type Props = {}
-
-const ProjectsPage = (props: Props) => {
+const ProjectsPage = () => {
   return (
     <>
       <Suspense fallback={<Loading />}>

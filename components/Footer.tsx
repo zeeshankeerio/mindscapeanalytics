@@ -61,7 +61,7 @@ const Footer = () => {
       <hr />
       <div className="mt-11 flex size-full flex-col items-center justify-between gap-y-8 px-4 sm:flex-row sm:gap-y-0 md:px-0">
         <div>
-          <ul className="flex gap-6 md:gap-9">
+          <ul className="grid grid-cols-4 gap-4 md:flex md:gap-6">
             {menuItems.map((item, index) => (
               <li key={index}>
                 <Link

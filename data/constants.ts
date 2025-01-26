@@ -83,28 +83,25 @@ export const features = [
 
 export const testimonials = [
   {
-    name: "John Doe",
-    role: "CEO",
-    company: "TechCorp",
+    name: "Benchlouba",
+    country: "Germany",
     testimonial:
-      "This product has revolutionized our workflow. The efficiency gains are remarkable, and our team couldn't be happier with the results. Highly recommended for any forward-thinking company! The intuitive interface and powerful features have made a significant impact on our daily operations.",
-    image: "/placeholder.svg?height=64&width=64",
+      "The work was done when i needed it done. Communication was super clear, no misunderstandings or any other problems and the final delivery works as it should. We had a Zoom Meeting to set things up too,it really took its time and was not included in our original deal and everything worked out. I will work with him again for sure, would recommend.",
+    image: "/images/testimonials/1.png",
   },
   {
-    name: "Jane Smith",
-    role: "Lead Designer",
-    company: "CreativeCo",
+    name: "Dakshsuthar",
+    country: "India",
     testimonial:
-      "The user interface is not only intuitive but also beautifully designed. It's rare to find a tool that balances functionality and aesthetics so well. Our design team's productivity has increased tenfold! The customization options allow us to tailor the experience to our specific needs.",
-    image: "/placeholder.svg?height=64&width=64",
+      "Zeeshan has done a professional job with accuracy. He maintains communication and relationships with his clients from time to time. I had a deep-learning project based on stock forecasting, which he completed within the time without any disappointment. He is the preferred choice for these projects. Just Go For It!",
+    image: "/images/testimonials/2.png",
   },
   {
-    name: "Alex Johnson",
-    role: "Marketing Director",
-    company: "GrowthInc",
+    name: "Sidra Sameer",
+    country: "USA",
     testimonial:
-      "Since implementing this solution, our marketing campaigns have seen unprecedented success. The analytics and insights provided have been game-changing for our strategy. A must-have for any serious marketing team. We've been able to make data-driven decisions that have significantly improved our ROI.",
-    image: "/placeholder.svg?height=64&width=64",
+      "Zeeshan helped me extremely well and really demonstrated his expertise in data science. I would highly recommend to anyone",
+    image: "/images/testimonials/profile.png",
   },
 ]
 
