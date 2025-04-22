@@ -1,0 +1,106 @@
+/* Shadow glow effects for UI elements */
+
+/* Small glow effect */
+.shadow-glow-sm {
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+/* Medium glow effect */
+.shadow-glow-md {
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.15);
+}
+
+/* Large glow effect */
+.shadow-glow-lg {
+  box-shadow: 0 0 35px rgba(255, 255, 255, 0.2);
+}
+
+/* Glow effects for different colors */
+.shadow-red-500\/10 {
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.1);
+}
+
+.shadow-red-500\/20 {
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.2);
+}
+
+.shadow-red-500\/30 {
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.3);
+}
+
+.shadow-red-500\/40 {
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.4);
+}
+
+.shadow-blue-500\/10 {
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
+}
+
+.shadow-blue-500\/20 {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+.shadow-blue-500\/30 {
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.3);
+}
+
+.shadow-blue-500\/40 {
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+}
+
+.shadow-green-500\/10 {
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.1);
+}
+
+.shadow-green-500\/20 {
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+}
+
+.shadow-green-500\/30 {
+  box-shadow: 0 0 25px rgba(34, 197, 94, 0.3);
+}
+
+.shadow-green-500\/40 {
+  box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+}
+
+.shadow-yellow-500\/10 {
+  box-shadow: 0 0 15px rgba(234, 179, 8, 0.1);
+}
+
+.shadow-yellow-500\/20 {
+  box-shadow: 0 0 20px rgba(234, 179, 8, 0.2);
+}
+
+.shadow-yellow-500\/30 {
+  box-shadow: 0 0 25px rgba(234, 179, 8, 0.3);
+}
+
+.shadow-yellow-500\/40 {
+  box-shadow: 0 0 30px rgba(234, 179, 8, 0.4);
+}
+
+/* Animated glow effects */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(239, 68, 68, 0.4);
+  }
+}
+
+.animate-glow-red {
+  animation: pulse-glow 3s infinite;
+}
+
+/* 3D card effect with perspective */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-gpu {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+} 

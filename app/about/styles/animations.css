@@ -1,0 +1,262 @@
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 0, 0, 0.4);
+  }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 4s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 3s ease-in-out infinite;
+}
+
+/* Hover effects */
+.hover-lift {
+  transition: transform 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+}
+
+/* Gradient text animation */
+.gradient-text {
+  background: linear-gradient(45deg, #fff, #fff, #ff0000, #fff);
+  background-size: 300% 300%;
+  animation: gradient 8s ease infinite;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(255, 0, 0, 0.2);
+}
+
+/* Image hover effects */
+.image-hover {
+  transition: all 0.3s ease;
+}
+
+.image-hover:hover {
+  transform: scale(1.02);
+  filter: brightness(1.1);
+}
+
+/* Button hover effects */
+.button-hover {
+  transition: all 0.3s ease;
+}
+
+.button-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+}
+
+/* Timeline dot animation */
+.timeline-dot {
+  transition: all 0.3s ease;
+}
+
+.timeline-dot:hover {
+  transform: scale(1.5);
+  box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+}
+
+/* Section transitions */
+.section-transition {
+  transition: all 0.5s ease;
+}
+
+.section-transition:hover {
+  transform: translateY(-5px);
+}
+
+/* Additional enhancement for founder image */
+@keyframes subtle-glow {
+  0% {
+    box-shadow: 0 0 15px rgba(220, 38, 38, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(220, 38, 38, 0.3);
+  }
+  100% {
+    box-shadow: 0 0 15px rgba(220, 38, 38, 0.2);
+  }
+}
+
+.founder-image-container {
+  position: relative;
+  animation: subtle-glow 4s ease-in-out infinite;
+}
+
+.founder-image {
+  filter: contrast(1.1) saturate(1.1);
+  transition: all 0.3s ease;
+}
+
+.founder-image:hover {
+  transform: scale(1.02);
+}
+
+/* Professional enhancements for founder image */
+@keyframes subtle-glow {
+  0% {
+    box-shadow: 0 0 20px rgba(220, 38, 38, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 35px rgba(220, 38, 38, 0.35);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(220, 38, 38, 0.2);
+  }
+}
+
+/* Elegant border animation */
+@keyframes border-pulse {
+  0% {
+    border-color: rgba(220, 38, 38, 0.3);
+  }
+  50% {
+    border-color: rgba(220, 38, 38, 0.7);
+  }
+  100% {
+    border-color: rgba(220, 38, 38, 0.3);
+  }
+}
+
+.founder-image-container {
+  position: relative;
+  animation: subtle-glow 4s ease-in-out infinite;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid rgba(220, 38, 38, 0.3);
+  box-shadow: 0 0 25px rgba(220, 38, 38, 0.2);
+  transition: all 0.5s ease;
+}
+
+.founder-image-container:hover {
+  animation: border-pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 35px rgba(220, 38, 38, 0.4);
+}
+
+.founder-image {
+  filter: contrast(1.12) saturate(1.15) brightness(1.05);
+  transition: all 0.5s ease;
+}
+
+.founder-image:hover {
+  transform: scale(1.03);
+  filter: contrast(1.15) saturate(1.2) brightness(1.08);
+}
+
+/* Professional overlay effect */
+.founder-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 40%, rgba(220, 38, 38, 0.1) 80%, rgba(0,0,0,0) 100%);
+  opacity: 0.8;
+  transition: opacity 0.5s ease;
+}
+
+.founder-image-container:hover .founder-image-overlay {
+  opacity: 0.6;
+}
+
+/* Advanced founder image styling */
+.team-grid .founder-card {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid rgba(220, 38, 38, 0.3);
+  box-shadow: 0 0 30px rgba(220, 38, 38, 0.25);
+  transition: all 0.5s ease;
+}
+
+.team-grid .founder-card:hover {
+  border-color: rgba(220, 38, 38, 0.7);
+  box-shadow: 0 0 40px rgba(220, 38, 38, 0.4);
+}
+
+.team-grid .founder-card::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(transparent, rgba(220, 38, 38, 0.1), transparent 30%);
+  animation: rotate 4s linear infinite;
+  z-index: 0;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.team-grid .founder-card img {
+  filter: contrast(1.15) saturate(1.2);
+  transition: all 0.5s ease;
+}
+
+.team-grid .founder-card:hover img {
+  transform: scale(1.05);
+}
+
+.team-grid .founder-card .founder-name {
+  color: rgba(220, 38, 38, 0.9);
+  text-shadow: 0 0 10px rgba(220, 38, 38, 0.3);
+}
+
+.team-grid .founder-card .social-icons a:hover {
+  color: rgba(220, 38, 38, 0.9);
+} 
