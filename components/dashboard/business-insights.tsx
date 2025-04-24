@@ -9,6 +9,7 @@ import {
   AlertTriangle, 
   Brain, 
   Star, 
+  BarChart, 
   BarChart4, 
   LineChart,
   PieChart,

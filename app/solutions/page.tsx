@@ -2,9 +2,10 @@
 
 import { useState, useRef } from "react"
 import { motion, useInView } from "framer-motion"
-import { Brain, MessageSquare, Search, ArrowRight } from "lucide-react"
+import { Brain, MessageSquare, Search, ArrowRight, Building } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { StandardBackground, SectionBackground } from "@/components/shared/background"
 
 const container = {
   hidden: { opacity: 0 },
@@ -55,19 +56,28 @@ export default function SolutionsPage() {
       title: "Blockchain Solutions",
       description: "Comprehensive blockchain platform with DeFi, NFT, and cross-chain capabilities.",
       href: "/solutions/blockchain"
+    },
+    {
+      icon: <Building className="h-10 w-10 text-red-500" />,
+      title: "Real Estate Solutions",
+      description: "Advanced AI-powered analytics and management tools for the real estate industry.",
+      href: "/solutions/real-estate"
     }
   ]
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-900 to-black">
-      <section className="container mx-auto px-4 py-24">
+    <main className="min-h-screen bg-black text-white relative overflow-x-hidden">
+      {/* Apply standard background */}
+      <StandardBackground />
+
+      <section className="container mx-auto px-4 py-24 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 gradient-text">
             AI Solutions for Every Need
           </h1>
           <p className="text-xl text-white/70 max-w-3xl mx-auto">
@@ -85,7 +95,7 @@ export default function SolutionsPage() {
           {solutions.map((solution, index) => (
             <motion.div key={solution.title} variants={item}>
               <Link href={solution.href}>
-                <div className="group relative bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:border-red-500/50 transition-all duration-300">
+                <div className="group relative bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:border-red-500/50 transition-all duration-300 shadow-[0_0_20px_rgba(255,0,0,0.1)] hover:shadow-[0_0_30px_rgba(255,0,0,0.2)]">
                   <div className="flex items-start gap-4">
                     <div className="p-3 rounded-lg bg-red-500/10 group-hover:bg-red-500/20 transition-colors">
                       {solution.icon}

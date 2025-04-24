@@ -51,6 +51,19 @@ import {
   Server,
   AlertCircle,
   TrendingUp,
+  Lock,
+  Banknote,
+  Store,
+  HeartPulse,
+  GraduationCap,
+  X,
+  ArrowUpRight,
+  Download,
+  Phone,
+  Smile,
+  ClipboardList,
+  TestTube,
+  Star
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -67,6 +80,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Select, SelectTrigger, SelectValue, SelectItem, SelectContent } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Blockchain } from "lucide-react";
 
 // Types
 interface Industry {
@@ -90,6 +104,13 @@ interface Industry {
   edgeSolutions?: EdgeSolution[];
   securityFeatures?: SecurityFeature[];
   complianceStandards?: ComplianceStandard[];
+  customIntegrationOptions?: CustomIntegrationOption[];
+  industryTrends?: IndustryTrend[];
+  successMetrics?: SuccessMetric[];
+  implementationTimeline?: ImplementationPhase[];
+  supportTiers?: SupportTier[];
+  ecosystemPartners?: EcosystemPartner[];
+  comparisonMatrix?: ComparisonMatrix;
 }
 
 interface CaseStudy {
@@ -106,6 +127,7 @@ interface Feature {
   description: string;
   icon: any;
   benefits: string[];
+  standards?: string[]; // Add optional standards property
 }
 
 interface Testimonial {
@@ -241,23 +263,113 @@ interface ComplianceStandard {
   industrySpecific: boolean;
 }
 
+// Add new interfaces for enhanced features
+interface CustomIntegrationOption {
+  name: string;
+  description: string;
+  icon: any;
+  complexity: 'low' | 'medium' | 'high';
+  timeframe: string;
+  requirements: string[];
+}
+
+interface IndustryTrend {
+  title: string;
+  description: string;
+  icon: any;
+  impactLevel: 'low' | 'medium' | 'high';
+  timeHorizon: string;
+  relatedSolutions: string[];
+}
+
+interface SuccessMetric {
+  name: string;
+  description: string;
+  icon: any;
+  benchmarks: {
+    industry: number;
+    ourSolution: number;
+    unit: string;
+  };
+  improvementPercentage: number;
+}
+
+interface ImplementationPhase {
+  name: string;
+  description: string;
+  icon: any;
+  duration: string;
+  keyMilestones: string[];
+  deliverables: string[];
+}
+
+interface SupportTier {
+  name: string;
+  description: string;
+  icon: any;
+  features: string[];
+  responseTime: string;
+  availability: string;
+  pricing?: {
+    monthly: number;
+    annual: number;
+    currency: string;
+  };
+}
+
+interface EcosystemPartner {
+  name: string;
+  logo: string;
+  description: string;
+  partnerType: 'technology' | 'service' | 'consulting';
+  integrations: string[];
+  caseStudies?: string[];
+}
+
+interface ComparisonMatrix {
+  competitors: string[];
+  features: {
+    name: string;
+    category: string;
+    ourRating: number;
+    competitorRatings: {
+      [competitor: string]: number;
+    };
+  }[];
+}
+
 // Data
 const industries: Industry[] = [
   {
     icon: Building2,
     name: "Financial Services",
-    description: "Transform financial operations with AI-powered analytics and automation",
+    description: "Transform financial operations with AI-powered analytics and automation for enhanced security, compliance, and customer experience",
     solutions: [
       "Risk Assessment & Fraud Detection",
       "Algorithmic Trading",
       "Customer Service Automation",
       "Credit Scoring",
       "Market Analysis",
+      "Regulatory Compliance Automation",
+      "Digital Banking Transformation",
+      "Wealth Management Solutions",
+      "Payment Processing Optimization",
+      "Anti-Money Laundering Systems",
+      "Smart Contract Implementation",
+      "Financial Data Integration",
+      "Personalized Financial Advising",
+      "Transaction Monitoring",
+      "Investment Analysis Platforms"
     ],
     metrics: {
       efficiency: "40% reduction in operational costs",
       accuracy: "99.9% fraud detection rate",
       time: "60% faster loan processing",
+      compliance: "100% regulatory adherence",
+      customerSatisfaction: "92% customer satisfaction score",
+      costReduction: "35% reduction in infrastructure costs",
+      scalability: "400% improved transaction throughput",
+      security: "Zero data breaches since implementation"
     },
     videoUrl: "https://example.com/financial-services-demo.mp4",
     caseStudies: [
@@ -285,28 +397,254 @@ const industries: Industry[] = [
         ],
         imageUrl: "/images/case-studies/fintech-solutions.jpg",
       },
+      {
+        company: "Investment Partners Ltd",
+        industry: "Financial Services",
+        challenge: "Outdated trading systems with poor performance",
+        solution: "Deployed cloud-native algorithmic trading platform",
+        results: [
+          "200% increase in transaction throughput",
+          "45% reduction in latency",
+          "28% improvement in trade execution quality",
+          "$5.2M additional annual revenue"
+        ],
+        imageUrl: "/images/case-studies/investment-partners.jpg",
+      },
+      {
+        company: "Digital Banking Inc",
+        industry: "Financial Services",
+        challenge: "Legacy infrastructure unable to support digital transformation",
+        solution: "Implemented microservices-based banking platform",
+        results: [
+          "80% faster time-to-market for new features",
+          "65% reduction in infrastructure costs",
+          "99.99% platform availability",
+          "3.5M new digital customers onboarded"
+        ],
+        imageUrl: "/images/case-studies/digital-banking.jpg",
+      }
     ],
     features: [
       {
         title: "Real-time Fraud Detection",
-        description: "Advanced AI algorithms that detect fraudulent transactions in real-time",
+        description: "Advanced AI algorithms that detect fraudulent transactions in real-time with unprecedented accuracy",
         icon: Shield,
         benefits: [
           "Instant notification of suspicious activities",
           "Reduced false positives through machine learning",
           "Adaptive learning from new fraud patterns",
+          "Multi-layered detection approach",
+          "Behavioral biometrics integration",
+          "Transaction anomaly detection",
+          "Continuous model retraining"
         ],
+        standards: ["NIST 800-63B", "FIDO2 compliance", "WebAuthn support"],
       },
       {
         title: "Predictive Analytics",
-        description: "Forecast market trends and customer behavior with high accuracy",
+        description: "Forecast market trends and customer behavior with high accuracy using AI-powered analytics",
         icon: BarChart,
         benefits: [
           "Data-driven investment decisions",
           "Personalized financial recommendations",
           "Risk assessment and mitigation strategies",
+          "Market sentiment analysis",
+          "Early market trend identification",
+          "Macroeconomic factor correlation",
+          "Portfolio optimization algorithms"
         ],
+        standards: ["ISO 27001", "SOC 2 Type II", "PCI DSS"],
       },
+      {
+        title: "Intelligent Customer Engagement",
+        description: "Omnichannel customer experience platform with AI-powered personalization",
+        icon: Users,
+        benefits: [
+          "360-degree customer profiling",
+          "Next-best-action recommendations",
+          "Personalized financial product offerings",
+          "Journey analytics and optimization",
+          "Real-time engagement scoring",
+          "Context-aware communication",
+          "Predictive customer service"
+        ],
+        standards: ["GDPR", "SOX", "Basel III", "MiFID II"],
+      },
+      {
+        title: "Compliance Automation",
+        description: "Automated regulatory compliance monitoring and reporting system",
+        icon: FileText,
+        benefits: [
+          "Real-time regulatory tracking",
+          "Automated compliance reporting",
+          "Policy implementation verification",
+          "Audit trail documentation",
+          "Regulatory change management",
+          "Cross-border compliance support",
+          "ML-powered document analysis"
+        ],
+        standards: ["ISO 27001", "SOC 2 Type II", "PCI DSS"],
+      },
+      {
+        title: "Secure Digital Banking",
+        description: "End-to-end encrypted banking platform with multi-factor authentication",
+        icon: Lock,
+        benefits: [
+          "Biometric authentication integration",
+          "Zero-knowledge proof verification",
+          "Quantum-resistant encryption",
+          "Secure API ecosystem",
+          "Continuous security monitoring",
+          "Behavioral fraud detection",
+          "Secure payment processing"
+        ],
+        standards: ["AES-256 encryption", "TLS 1.3 protocol", "FIPS 140-2 compliance", "Quantum-resistant algorithms"],
+      },
+      {
+        title: "Blockchain-based Solutions",
+        description: "Distributed ledger technology for transparent and immutable financial transactions",
+        icon: Database,
+        benefits: [
+          "Smart contract automation",
+          "Cross-border payment optimization",
+          "Settlement time reduction",
+          "Immutable audit trails",
+          "Tokenized asset management",
+          "KYC/AML process streamlining",
+          "Trade finance automation"
+        ],
+        standards: ["ISO 27001", "SOC 2", "PCI DSS"],
+      },
+      {
+        title: "Advanced Encryption",
+        description: "Enterprise-grade encryption for data at rest and in transit",
+        icon: Lock,
+        standards: [
+          "AES-256 encryption",
+          "TLS 1.3 protocol",
+          "FIPS 140-2 compliance",
+          "Quantum-resistant algorithms"
+        ],
+        certifications: [
+          "ISO 27001",
+          "SOC 2 Type II",
+          "PCI DSS"
+        ],
+        features: [
+          "End-to-end encryption",
+          "Key management system",
+          "Secure key rotation",
+          "Multi-regional key vaults",
+          "Hardware security module integration"
+        ]
+      },
+      {
+        title: "Multi-factor Authentication",
+        description: "Layered security approach requiring multiple verification methods",
+        icon: ShieldCheck,
+        standards: [
+          "NIST 800-63B",
+          "FIDO2 compliance",
+          "WebAuthn support"
+        ],
+        certifications: [
+          "ISO 27001",
+          "SOC 2 Type II"
+        ],
+        features: [
+          "Biometric authentication",
+          "Hardware token support",
+          "Passwordless options",
+          "Contextual authentication",
+          "Risk-based authentication triggers"
+        ]
+      },
+      {
+        title: "Fraud Monitoring System",
+        description: "AI-powered real-time fraud detection and prevention",
+        icon: AlertCircle,
+        standards: [
+          "Machine learning best practices",
+          "Real-time monitoring standards",
+          "Behavioral analytics frameworks"
+        ],
+        certifications: [
+          "ISO 27001",
+          "PCI DSS",
+          "SOC 2 Type II"
+        ],
+        features: [
+          "Behavioral biometrics",
+          "Transaction monitoring",
+          "Device fingerprinting",
+          "Geo-location verification",
+          "Anomaly detection"
+        ]
+      },
+      {
+        title: "Secure API Gateway",
+        description: "Controlled access to banking APIs with comprehensive security",
+        icon: Server,
+        standards: [
+          "OAuth 2.0",
+          "OpenID Connect",
+          "OWASP API Security Top 10"
+        ],
+        certifications: [
+          "ISO 27001",
+          "PCI DSS",
+          "SOC 2 Type II"
+        ],
+        features: [
+          "API rate limiting",
+          "Request validation",
+          "Threat protection",
+          "Token-based authentication",
+          "API usage monitoring"
+        ]
+      },
+      {
+        title: "Secure DevOps Pipeline",
+        description: "Security integrated throughout the development lifecycle",
+        icon: Code,
+        standards: [
+          "DevSecOps best practices",
+          "CI/CD security integration",
+          "SAST/DAST implementation"
+        ],
+        certifications: [
+          "ISO 27001",
+          "SOC 2 Type II"
+        ],
+        features: [
+          "Automated security testing",
+          "Vulnerability scanning",
+          "Secure code analysis",
+          "Infrastructure-as-code security",
+          "Container security"
+        ]
+      },
+      {
+        title: "Identity and Access Management",
+        description: "Comprehensive identity management with principle of least privilege",
+        icon: Users,
+        standards: [
+          "RBAC implementation",
+          "Zero Trust architecture",
+          "Just-in-time access"
+        ],
+        certifications: [
+          "ISO 27001",
+          "SOC 2 Type II"
+        ],
+        features: [
+          "Role-based access control",
+          "Privileged access management",
+          "Session monitoring",
+          "Centralized identity management",
+          "Directory service integration"
+        ]
+      }
     ],
     testimonials: [
       {
@@ -481,47 +819,147 @@ const industries: Industry[] = [
     ],
     aiSolutions: [
       {
-        title: "AI-Powered Risk Analytics",
-        description: "Advanced machine learning models for real-time risk assessment and fraud detection",
-        icon: Brain,
+        title: "Intelligent Fraud Detection",
+        description: "Advanced neural networks and machine learning for detecting sophisticated fraud patterns",
+        icon: Shield,
         capabilities: [
-          "Real-time transaction monitoring",
-          "Behavioral pattern analysis",
-          "Automated risk scoring",
-          "Regulatory compliance automation"
+          "Multi-layer fraud detection",
+          "Behavioral biometrics",
+          "Anomaly detection",
+          "Transaction pattern analysis",
+          "Real-time threat scoring"
         ],
         useCases: [
-          "Fraud detection",
-          "Credit risk assessment",
-          "Market risk analysis",
-          "Compliance monitoring"
+          "Credit card fraud prevention",
+          "Account takeover protection",
+          "New account fraud detection",
+          "Payment fraud mitigation",
+          "Identity theft prevention"
         ],
         performance: {
-          accuracy: 99.9,
-          latency: 50,
-          scalability: 1000
+          accuracy: 99.8,
+          latency: 15, // milliseconds
+          scalability: 95
         }
       },
       {
-        title: "Intelligent Trading Platform",
-        description: "Next-generation algorithmic trading with AI-driven market analysis",
-        icon: BarChart,
+        title: "Natural Language Processing for Finance",
+        description: "Sophisticated language models for analyzing financial documents and communications",
+        icon: MessageSquare,
         capabilities: [
-          "Market sentiment analysis",
-          "Automated trading strategies",
-          "Portfolio optimization",
-          "Risk management automation"
+          "Sentiment analysis",
+          "Document classification",
+          "Entity extraction",
+          "Intent recognition",
+          "Summarization"
         ],
         useCases: [
-          "Algorithmic trading",
-          "Portfolio management",
-          "Market analysis",
-          "Risk assessment"
+          "Financial news analysis",
+          "Earnings call transcription",
+          "Regulatory document processing",
+          "Customer support automation",
+          "Contract analysis"
         ],
         performance: {
-          accuracy: 98.5,
-          latency: 10,
-          scalability: 5000
+          accuracy: 96.5,
+          latency: 80, // milliseconds
+          scalability: 90
+        }
+      },
+      {
+        title: "Predictive Financial Analytics",
+        description: "Time-series forecasting and predictive modeling for financial markets",
+        icon: LineChart,
+        capabilities: [
+          "Market trend forecasting",
+          "Risk modeling",
+          "Portfolio optimization",
+          "Cash flow prediction",
+          "Economic indicator analysis"
+        ],
+        useCases: [
+          "Investment strategy optimization",
+          "Risk management",
+          "Liquidity management",
+          "Asset allocation",
+          "Market entry/exit timing"
+        ],
+        performance: {
+          accuracy: 89.2,
+          latency: 50, // milliseconds
+          scalability: 98
+        }
+      },
+      {
+        title: "Personalized Banking AI",
+        description: "Customer behavior modeling and recommendation engines for personalized banking",
+        icon: Users,
+        capabilities: [
+          "Customer segmentation",
+          "Product recommendation",
+          "Churn prediction",
+          "Lifetime value forecasting",
+          "Next-best-action prediction"
+        ],
+        useCases: [
+          "Personalized product offerings",
+          "Customer retention campaigns",
+          "Cross-selling optimization",
+          "Customer journey enhancement",
+          "Financial advisory automation"
+        ],
+        performance: {
+          accuracy: 92.6,
+          latency: 35, // milliseconds
+          scalability: 97
+        }
+      },
+      {
+        title: "Automated Credit Scoring",
+        description: "Machine learning models for accurate and fair credit risk assessment",
+        icon: BarChart,
+        capabilities: [
+          "Alternative data analysis",
+          "Explainable AI credit decisions",
+          "Real-time scoring",
+          "Behavioral factor analysis",
+          "Multi-factor risk assessment"
+        ],
+        useCases: [
+          "Personal loan underwriting",
+          "Small business lending",
+          "Credit limit management",
+          "Mortgage approval",
+          "Buy now, pay later services"
+        ],
+        performance: {
+          accuracy: 94.8,
+          latency: 45, // milliseconds
+          scalability: 99
+        }
+      },
+      {
+        title: "Compliance AI",
+        description: "Regulatory compliance monitoring and risk detection through AI",
+        icon: FileText,
+        capabilities: [
+          "Regulatory change detection",
+          "Compliance gap analysis",
+          "Suspicious activity recognition",
+          "Automatic reporting",
+          "Policy implementation verification"
+        ],
+        useCases: [
+          "Anti-money laundering",
+          "Know Your Customer (KYC)",
+          "Transaction monitoring",
+          "Regulatory reporting",
+          "Sanctions screening"
+        ],
+        performance: {
+          accuracy: 97.9,
+          latency: 60, // milliseconds
+          scalability: 92
         }
       }
     ],
@@ -571,8 +1009,462 @@ const industries: Industry[] = [
         ],
         certifications: ["ISO 27001", "SOC 2", "PCI DSS"],
         industrySpecific: true
+      },
+      {
+        name: "PCI DSS",
+        description: "Payment Card Industry Data Security Standard compliance for handling cardholder data",
+        icon: Shield,
+        requirements: [
+          "Secure network architecture",
+          "Data protection measures",
+          "Vulnerability management",
+          "Access control implementation",
+          "Regular security testing"
+        ],
+        certifications: [
+          "PCI DSS 4.0 certification",
+          "Quarterly network scans",
+          "Annual penetration testing"
+        ],
+        industrySpecific: false
+      },
+      {
+        name: "SOX",
+        description: "Sarbanes-Oxley Act compliance for financial reporting and corporate governance",
+        icon: FileText,
+        requirements: [
+          "Internal controls framework",
+          "Audit trail implementation",
+          "Financial reporting controls",
+          "Access and authorization controls",
+          "Change management process"
+        ],
+        certifications: [
+          "Annual SOX audit",
+          "Internal control certification",
+          "Independent auditor assessment"
+        ],
+        industrySpecific: true
+      },
+      {
+        name: "GDPR",
+        description: "General Data Protection Regulation compliance for personal data protection",
+        icon: Lock,
+        requirements: [
+          "Data subject rights implementation",
+          "Consent management",
+          "Data protection impact assessments",
+          "Data breach notification process",
+          "Data protection by design"
+        ],
+        certifications: [
+          "Data Protection Officer appointment",
+          "Privacy impact assessments",
+          "Regular compliance audits"
+        ],
+        industrySpecific: false
+      },
+      {
+        name: "Basel III",
+        description: "International regulatory framework for bank capital adequacy and stress testing",
+        icon: Building2,
+        requirements: [
+          "Capital requirements assessment",
+          "Liquidity coverage ratio",
+          "Net stable funding ratio",
+          "Stress testing framework",
+          "Risk data aggregation"
+        ],
+        certifications: [
+          "Regulatory reporting compliance",
+          "Stress test certification",
+          "Capital adequacy assessment"
+        ],
+        industrySpecific: true
+      },
+      {
+        name: "GLBA",
+        description: "Gramm-Leach-Bliley Act compliance for customer data protection in financial institutions",
+        icon: ShieldCheck,
+        requirements: [
+          "Privacy notice distribution",
+          "Opt-out mechanisms",
+          "Information security program",
+          "Third-party oversight",
+          "Regular risk assessments"
+        ],
+        certifications: [
+          "Annual GLBA certification",
+          "Information security program audit",
+          "Privacy policy verification"
+        ],
+        industrySpecific: true
+      },
+      {
+        name: "AML/CFT",
+        description: "Anti-Money Laundering and Counter-Financing of Terrorism regulatory compliance",
+        icon: AlertCircle,
+        requirements: [
+          "Customer due diligence",
+          "Transaction monitoring",
+          "Suspicious activity reporting",
+          "Sanctions screening",
+          "Record keeping requirements"
+        ],
+        certifications: [
+          "AML program certification",
+          "Independent AML audit",
+          "Staff training certification"
+        ],
+        industrySpecific: true
       }
-    ]
+    ],
+    customIntegrationOptions: [
+      {
+        name: "API Gateway Integration",
+        description: "Integrate with our API gateway for enhanced security and performance",
+        icon: Network,
+        complexity: "medium",
+        timeframe: "1 month",
+        requirements: ["Basic knowledge of REST APIs", "Access to our API documentation"]
+      },
+      {
+        name: "Real-time Reporting",
+        description: "Implement real-time reporting dashboard for better insights",
+        icon: LineChart,
+        complexity: "high",
+        timeframe: "3 months",
+        requirements: ["Advanced SQL skills", "Experience with data visualization tools"]
+      }
+    ],
+    industryTrends: [
+      {
+        title: "Digital Transformation",
+        description: "Accelerating digital adoption across all industries",
+        icon: ArrowUpRight,
+        impactLevel: "high",
+        timeHorizon: "2-3 years",
+        relatedSolutions: ["Cloud Migration", "Process Automation"]
+      },
+      {
+        title: "AI Integration",
+        description: "Increasing adoption of AI-powered solutions",
+        icon: Brain,
+        impactLevel: "high",
+        timeHorizon: "1-2 years",
+        relatedSolutions: ["Predictive Analytics", "Intelligent Automation"]
+      },
+      {
+        title: "Blockchain in Finance",
+        description: "Exploring the use of blockchain technology in financial services",
+        icon: Blockchain,
+        impactLevel: "medium",
+        timeHorizon: "5 years",
+        relatedSolutions: ["Smart Contract Implementation", "Digital Banking Transformation"]
+      }
+    ],
+    successMetrics: [
+      {
+        name: "Transaction Throughput",
+        description: "Measure of how many transactions our platform can handle",
+        icon: LineChart,
+        benchmarks: {
+          industry: 100000,
+          ourSolution: 200000,
+          unit: "transactions per second"
+        },
+        improvementPercentage: 100
+      },
+      {
+        name: "Customer Satisfaction",
+        description: "Overall satisfaction score of our platform",
+        icon: Smile,
+        benchmarks: {
+          industry: 80,
+          ourSolution: 92,
+          unit: "%"
+        },
+        improvementPercentage: 15
+      }
+    ],
+    implementationTimeline: [
+      {
+        name: "Planning & Analysis",
+        description: "Initial assessment and requirements gathering",
+        icon: ClipboardList,
+        duration: "2-4 weeks",
+        keyMilestones: [
+          "Requirements gathering",
+          "Solution architecture design",
+          "Resource planning"
+        ],
+        deliverables: [
+          "Project scope document",
+          "Technical architecture",
+          "Implementation plan"
+        ]
+      },
+      {
+        name: "Development",
+        description: "Core development and integration",
+        icon: Code,
+        duration: "8-12 weeks",
+        keyMilestones: [
+          "Core functionality development",
+          "Integration with existing systems",
+          "Security implementation"
+        ],
+        deliverables: [
+          "Working prototype",
+          "Integration documentation",
+          "Security audit report"
+        ]
+      },
+      {
+        name: "Testing & Validation",
+        description: "Comprehensive testing and validation",
+        icon: TestTube,
+        duration: "4-6 weeks",
+        keyMilestones: [
+          "Functional testing",
+          "Performance testing",
+          "Security testing"
+        ],
+        deliverables: [
+          "Test reports",
+          "Performance metrics",
+          "Security compliance report"
+        ]
+      },
+      {
+        name: "Deployment & Support",
+        description: "User training, final deployment, and go-live support",
+        icon: Rocket,
+        duration: "4-6 weeks",
+        keyMilestones: [
+          "Training program completion",
+          "Production deployment",
+          "Initial support period"
+        ],
+        deliverables: [
+          "User documentation",
+          "Training materials",
+          "Support plan"
+        ]
+      }
+    ],
+    successMetrics: [
+      {
+        name: "Fraud Detection Rate",
+        description: "Percentage of fraudulent transactions successfully detected",
+        icon: Shield,
+        benchmarks: {
+          industry: 91,
+          ourSolution: 99.8,
+          unit: "%"
+        },
+        improvementPercentage: 9.7
+      },
+      {
+        name: "Transaction Processing Time",
+        description: "Average time to process a financial transaction",
+        icon: Clock,
+        benchmarks: {
+          industry: 1200,
+          ourSolution: 85,
+          unit: "ms"
+        },
+        improvementPercentage: 92.9
+      },
+      {
+        name: "System Availability",
+        description: "Platform uptime percentage for critical financial services",
+        icon: Activity,
+        benchmarks: {
+          industry: 99.9,
+          ourSolution: 99.999,
+          unit: "%"
+        },
+        improvementPercentage: 0.099
+      },
+      {
+        name: "Customer Onboarding Time",
+        description: "Time required to complete new customer onboarding",
+        icon: Users,
+        benchmarks: {
+          industry: 48,
+          ourSolution: 8,
+          unit: "hours"
+        },
+        improvementPercentage: 83.3
+      },
+      {
+        name: "Regulatory Compliance Score",
+        description: "Compliance assessment score based on industry standards",
+        icon: CheckCircle2,
+        benchmarks: {
+          industry: 85,
+          ourSolution: 98,
+          unit: "%"
+        },
+        improvementPercentage: 15.3
+      },
+      {
+        name: "Cost per Transaction",
+        description: "Average processing cost per financial transaction",
+        icon: TrendingUp,
+        benchmarks: {
+          industry: 0.22,
+          ourSolution: 0.05,
+          unit: "$"
+        },
+        improvementPercentage: 77.3
+      }
+    ],
+    ecosystemPartners: [
+      {
+        name: "Cisco Systems",
+        logo: "/images/partners/cisco.png",
+        description: "Network security and infrastructure solutions partner",
+        partnerType: "technology",
+        integrations: [
+          "Secure network infrastructure",
+          "Zero Trust architecture",
+          "Advanced firewall protection"
+        ]
+      },
+      {
+        name: "IBM",
+        logo: "/images/partners/ibm.png",
+        description: "AI and hybrid cloud solutions partner",
+        partnerType: "technology",
+        integrations: [
+          "Watson AI integration",
+          "Hybrid cloud deployment",
+          "Advanced analytics solutions"
+        ],
+        caseStudies: [
+          "Major European Bank Digital Transformation",
+          "US Financial Services AI Implementation"
+        ]
+      },
+      {
+        name: "Accenture",
+        logo: "/images/partners/accenture.png",
+        description: "Implementation and strategy consulting partner",
+        partnerType: "consulting",
+        integrations: [
+          "Digital transformation consulting",
+          "Change management",
+          "Process optimization"
+        ],
+        caseStudies: [
+          "Global Bank Core Modernization",
+          "Regional Bank Customer Experience Transformation"
+        ]
+      },
+      {
+        name: "Stripe",
+        logo: "/images/partners/stripe.png",
+        description: "Payment processing integration partner",
+        partnerType: "technology",
+        integrations: [
+          "Real-time payment processing",
+          "Fraud prevention",
+          "Global payment methods"
+        ]
+      },
+      {
+        name: "Salesforce",
+        logo: "/images/partners/salesforce.png",
+        description: "CRM and customer engagement partner",
+        partnerType: "technology",
+        integrations: [
+          "360-degree customer view",
+          "Marketing automation",
+          "Financial services cloud"
+        ],
+        caseStudies: [
+          "Wealth Management CRM Implementation"
+        ]
+      },
+      {
+        name: "Deloitte",
+        logo: "/images/partners/deloitte.png",
+        description: "Regulatory and compliance consulting partner",
+        partnerType: "consulting",
+        integrations: [
+          "Regulatory compliance assessment",
+          "Risk management framework",
+          "Audit and assurance services"
+        ]
+      }
+    ],
+    comparisonMatrix: {
+      competitors: ["Traditional Banking Platforms", "FinTech Startups", "Legacy Core Systems"],
+      features: [
+        {
+          name: "Scalability",
+          category: "Performance",
+          ourRating: 9.8,
+          competitorRatings: {
+            "Traditional Banking Platforms": 5.2,
+            "FinTech Startups": 7.6,
+            "Legacy Core Systems": 3.1
+          }
+        },
+        {
+          name: "Security",
+          category: "Compliance",
+          ourRating: 9.9,
+          competitorRatings: {
+            "Traditional Banking Platforms": 8.5,
+            "FinTech Startups": 7.2,
+            "Legacy Core Systems": 6.8
+          }
+        },
+        {
+          name: "Innovation Speed",
+          category: "Agility",
+          ourRating: 9.5,
+          competitorRatings: {
+            "Traditional Banking Platforms": 4.3,
+            "FinTech Startups": 9.2,
+            "Legacy Core Systems": 2.5
+          }
+        },
+        {
+          name: "Cost Efficiency",
+          category: "Economics",
+          ourRating: 8.9,
+          competitorRatings: {
+            "Traditional Banking Platforms": 4.8,
+            "FinTech Startups": 8.5,
+            "Legacy Core Systems": 3.2
+          }
+        },
+        {
+          name: "Compliance Automation",
+          category: "Compliance",
+          ourRating: 9.6,
+          competitorRatings: {
+            "Traditional Banking Platforms": 7.2,
+            "FinTech Startups": 6.5,
+            "Legacy Core Systems": 5.8
+          }
+        },
+        {
+          name: "Customer Experience",
+          category: "UX",
+          ourRating: 9.4,
+          competitorRatings: {
+            "Traditional Banking Platforms": 6.3,
+            "FinTech Startups": 9.1,
+            "Legacy Core Systems": 4.2
+          }
+        }
+      ]
+    }
   },
   {
     icon: Stethoscope,
@@ -627,6 +1519,7 @@ const industries: Industry[] = [
           "Reduced diagnostic errors",
           "Support for rare disease identification",
         ],
+        standards: ["ISO 27001", "SOC 2 Type II", "PCI DSS"],
       },
       {
         title: "Patient Flow Optimization",
@@ -637,6 +1530,7 @@ const industries: Industry[] = [
           "Optimized staff allocation",
           "Improved patient experience",
         ],
+        standards: ["GDPR", "SOX", "Basel III", "MiFID II"],
       },
     ],
     testimonials: [
@@ -759,6 +1653,7 @@ const industries: Industry[] = [
           "Optimized maintenance schedules",
           "Extended equipment lifespan",
         ],
+        standards: ["ISO 27001", "SOC 2 Type II", "PCI DSS"],
       },
     ],
     testimonials: [
@@ -812,6 +1707,7 @@ const industries: Industry[] = [
           "Optimized supply chain",
           "Improved cash flow",
         ],
+        standards: ["GDPR", "SOX", "Basel III", "MiFID II"],
       },
     ],
     testimonials: [
@@ -865,6 +1761,7 @@ const industries: Industry[] = [
           "Faster deliveries",
           "Improved customer satisfaction",
         ],
+        standards: ["GDPR", "SOX", "Basel III", "MiFID II"],
       },
     ],
     testimonials: [
@@ -1392,6 +2289,53 @@ export default function IndustrySolutionsPage() {
     });
   };
 
+  // Add type checking for comparison matrix
+  const renderComparisonMatrix = () => {
+    if (!activeIndustry?.comparisonMatrix) return null;
+    
+    return (
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr>
+              <th className="py-4 px-6 text-left">Feature</th>
+              <th className="py-4 px-6 text-center">Our Solution</th>
+              {activeIndustry.comparisonMatrix.competitors.map((competitor, index) => (
+                <th key={index} className="py-4 px-6 text-center">{competitor}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {activeIndustry.comparisonMatrix.features.map((feature, index) => (
+              <tr key={index} className="border-t border-gray-800">
+                <td className="py-4 px-6 text-sm">
+                  <div className="font-medium">{feature.name}</div>
+                  <div className="text-xs text-muted-foreground">{feature.category}</div>
+                </td>
+                <td className="py-4 px-6 text-center">
+                  <div className="inline-flex items-center justify-center">
+                    {Array.from({ length: feature.ourRating }).map((_, i) => (
+                      <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                    ))}
+                  </div>
+                </td>
+                {activeIndustry.comparisonMatrix.competitors.map((competitor, i) => (
+                  <td key={i} className="py-4 px-6 text-center">
+                    <div className="inline-flex items-center justify-center">
+                      {Array.from({ length: feature.competitorRatings[competitor] }).map((_, j) => (
+                        <Star key={j} className="w-4 h-4 text-gray-400 fill-current" />
+                      ))}
+                    </div>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-black text-white w-full">
       {/* Modern Hero with Animated Elements */}
@@ -1574,6 +2518,117 @@ export default function IndustrySolutionsPage() {
               </motion.div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Industry Solution Comparison Section */}
+      <section className="py-16 bg-gradient-to-b from-black to-slate-950">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center mb-12">
+            <Badge variant="outline" className="mb-3 border-blue-500/50 text-blue-400 px-3">
+              <LineChart className="h-3.5 w-3.5 mr-1.5" />
+              Solution Comparison
+            </Badge>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Find Your Ideal {activeIndustry.name} Solution</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Compare our enterprise-grade solutions designed specifically for {activeIndustry.name.toLowerCase()} organizations.
+            </p>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[800px] border-collapse">
+              <thead>
+                <tr className="border-b border-white/10">
+                  <th className="text-left py-4 px-6 text-muted-foreground font-medium">Solution</th>
+                  <th className="text-center py-4 px-6 text-muted-foreground font-medium">Ideal For</th>
+                  <th className="text-center py-4 px-6 text-muted-foreground font-medium">Key Features</th>
+                  <th className="text-center py-4 px-6 text-muted-foreground font-medium">Implementation</th>
+                  <th className="text-center py-4 px-6 text-muted-foreground font-medium">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {activeIndustry.solutions.slice(0, 5).map((solution, index) => (
+                  <tr key={index} className={`border-b border-white/5 ${index % 2 === 0 ? 'bg-white/[0.02]' : ''}`}>
+                    <td className="py-4 px-6">
+                      <div className="flex items-start gap-3">
+                        <div className="rounded-full p-2 bg-gradient-to-br from-blue-600/20 to-indigo-600/20 text-blue-400 shrink-0">
+                          {/* Using a different icon for each solution based on index */}
+                          {index === 0 ? <Shield className="h-5 w-5" /> : 
+                           index === 1 ? <BarChart className="h-5 w-5" /> :
+                           index === 2 ? <Users className="h-5 w-5" /> :
+                           index === 3 ? <FileText className="h-5 w-5" /> :
+                           <Database className="h-5 w-5" />}
+                        </div>
+                        <div>
+                          <div className="font-medium">{solution}</div>
+                          <div className="text-xs text-muted-foreground mt-1">
+                            {index === 0 ? "Enterprise-grade protection" : 
+                             index === 1 ? "Data-driven insights" :
+                             index === 2 ? "Customer-focused solutions" :
+                             index === 3 ? "Regulatory compliance" :
+                             "Cutting-edge technology"}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-4 px-6 text-center">
+                      <span className="inline-block px-3 py-1 rounded-full text-xs bg-gradient-to-r from-blue-900/30 to-indigo-900/30 border border-blue-500/20">
+                        {index === 0 ? "Large Enterprises" : 
+                         index === 1 ? "Financial Analysts" :
+                         index === 2 ? "Customer Service" :
+                         index === 3 ? "Compliance Teams" :
+                         "Tech Innovators"}
+                      </span>
+                    </td>
+                    <td className="py-4 px-6">
+                      <div className="flex flex-wrap gap-1 justify-center">
+                        {[1, 2, 3].map((_, i) => (
+                          <span key={i} className="inline-block px-2 py-0.5 rounded-full text-xs bg-black/40 border border-white/10">
+                            {index === 0 ? 
+                              i === 0 ? "Fraud Detection" : i === 1 ? "Real-time Alerts" : "Secure API" :
+                             index === 1 ? 
+                              i === 0 ? "Predictive Models" : i === 1 ? "Risk Assessment" : "Trend Analysis" :
+                             index === 2 ?
+                              i === 0 ? "Omnichannel" : i === 1 ? "Personalization" : "AI Chatbots" : 
+                             index === 3 ?
+                              i === 0 ? "Audit Trails" : i === 1 ? "Reporting" : "Compliance Checks" :
+                              i === 0 ? "Smart Contracts" : i === 1 ? "Blockchain" : "API Ecosystem"}
+                          </span>
+                        ))}
+                      </div>
+                    </td>
+                    <td className="py-4 px-6 text-center">
+                      <div className="flex items-center justify-center gap-2">
+                        <Clock className="h-4 w-4 text-blue-400" />
+                        <span className="text-sm">
+                          {index === 0 ? "4-6 weeks" : 
+                           index === 1 ? "2-4 weeks" :
+                           index === 2 ? "3-5 weeks" :
+                           index === 3 ? "4-8 weeks" :
+                           "6-10 weeks"}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="py-4 px-6">
+                      <div className="flex justify-center">
+                        <Button variant="outline" size="sm" className="border-blue-500/30 text-blue-400 hover:bg-blue-950/50">
+                          Learn More
+                        </Button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {activeIndustry.solutions.length > 5 && (
+            <div className="mt-6 text-center">
+              <Button variant="outline" className="border-blue-500/30 text-blue-400 hover:bg-blue-950/50">
+                View All {activeIndustry.solutions.length} Solutions
+              </Button>
+            </div>
+          )}
         </div>
       </section>
 
@@ -2238,6 +3293,235 @@ export async function processTransaction(event, context) {
         </div>
       </section>
 
+      {/* New Comprehensive Industry Solutions Section */}
+      <section className="py-16 bg-gradient-to-b from-black via-slate-950 to-black">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center mb-12">
+            <Badge variant="outline" className="mb-3 border-indigo-500/50 text-indigo-400 px-3">
+              <Sparkles className="h-3.5 w-3.5 mr-1.5" />
+              Comprehensive Solutions
+            </Badge>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Complete {activeIndustry.name} Ecosystem</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Our end-to-end solutions address every aspect of your {activeIndustry.name.toLowerCase()} technology needs with proven results.
+            </p>
+          </div>
+
+          {/* Industry Solution Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+            {activeIndustry.solutions.map((solution, index) => (
+              <div 
+                key={index}
+                className="p-5 rounded-xl border border-white/10 bg-gradient-to-br from-slate-900 to-black/60 hover:from-blue-950/20 hover:to-indigo-950/20 hover:border-blue-500/30 transition-all duration-300"
+              >
+                <div className="rounded-full w-10 h-10 bg-gradient-to-br from-blue-600/20 to-indigo-600/20 flex items-center justify-center mb-4">
+                  <Check className="h-5 w-5 text-blue-400" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{solution}</h3>
+                <p className="text-sm text-muted-foreground">
+                  {index % 3 === 0 ? 
+                    `Transform your ${activeIndustry.name.toLowerCase()} operations with our advanced ${solution.toLowerCase()} solution.` :
+                    index % 3 === 1 ?
+                    `Industry-leading ${solution.toLowerCase()} capabilities designed for modern ${activeIndustry.name.toLowerCase()} needs.` :
+                    `Optimize your ${solution.toLowerCase()} processes with our proven enterprise-grade technology.`
+                  }
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Key Success Metrics */}
+          {activeIndustry.successMetrics && (
+            <div className="mb-16">
+              <h3 className="text-2xl font-bold mb-8 text-center">Proven Success Metrics</h3>
+              
+              <div className="bg-gradient-to-br from-slate-900/70 to-black/70 border border-white/10 rounded-xl p-6 mb-8">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                  <div className="text-center md:text-left">
+                    <div className="text-sm text-blue-400 mb-2">Industry Average vs. Our Solution</div>
+                    <h4 className="text-2xl font-bold">Performance Improvement</h4>
+                    <p className="text-sm text-muted-foreground mt-1 max-w-md">
+                      Our {activeIndustry.name.toLowerCase()} solutions consistently outperform industry averages across all key metrics
+                    </p>
+                  </div>
+                  
+                  <div className="flex gap-4 md:gap-8">
+                    <div className="text-center">
+                      <div className="text-4xl font-bold text-blue-400">
+                        {activeIndustry.successMetrics.reduce((acc, metric) => acc + metric.improvementPercentage, 0) / activeIndustry.successMetrics.length > 50 ? '2-5x' : '1.5-3x'}
+                      </div>
+                      <div className="text-sm text-muted-foreground">Performance Gain</div>
+                    </div>
+                    
+                    <div className="text-center">
+                      <div className="text-4xl font-bold text-green-400">
+                        {activeIndustry.successMetrics.length}+
+                      </div>
+                      <div className="text-sm text-muted-foreground">Key Metrics</div>
+                    </div>
+                    
+                    <div className="text-center">
+                      <div className="text-4xl font-bold text-indigo-400">
+                        100%
+                      </div>
+                      <div className="text-sm text-muted-foreground">Satisfied Clients</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {activeIndustry.successMetrics.map((metric, index) => (
+                  <div 
+                    key={index}
+                    className="p-6 rounded-xl border border-white/10 bg-black/40 relative overflow-hidden group hover:bg-gradient-to-br hover:from-slate-900/40 hover:to-blue-950/10 transition-all duration-300 hover:border-blue-500/30"
+                  >
+                    <div className="absolute w-full h-1 -top-0 left-0 bg-gradient-to-r from-blue-500 to-indigo-500 opacity-70"></div>
+                    <div className="flex items-start gap-4">
+                      <div className="rounded-lg p-3 bg-blue-900/20 text-blue-400">
+                        <metric.icon className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-bold mb-1">{metric.name}</h4>
+                        <p className="text-sm text-muted-foreground mb-4">{metric.description}</p>
+                        
+                        <div className="flex justify-between items-center mb-2">
+                          <span className="text-sm">Industry Average</span>
+                          <span className="text-sm font-medium">{metric.benchmarks.industry}{metric.benchmarks.unit}</span>
+                        </div>
+                        <div className="flex justify-between items-center mb-3">
+                          <span className="text-sm">Our Solution</span>
+                          <span className="text-sm font-medium text-green-400">{metric.benchmarks.ourSolution}{metric.benchmarks.unit}</span>
+                        </div>
+                        
+                        <div className="h-2 w-full bg-gray-900 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-gradient-to-r from-blue-500 to-green-500 rounded-full"
+                            style={{ width: `${(metric.benchmarks.ourSolution / (metric.benchmarks.industry * 1.5)) * 100}%` }}
+                          ></div>
+                        </div>
+                        
+                        <div className="mt-3 text-sm text-green-400 font-medium flex items-center justify-between">
+                          <span>{metric.improvementPercentage}% Improvement</span>
+                          <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Interactive tooltip that appears on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-900/80 to-indigo-900/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none p-6">
+                      <div className="text-center">
+                        <div className="text-3xl font-bold mb-2">{metric.improvementPercentage}%</div>
+                        <div className="text-sm mb-4">Performance Improvement</div>
+                        <div className="text-xs text-blue-200">Click to see detailed analysis</div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="mt-8 text-center">
+                <Button variant="outline" className="border-blue-500/40 bg-blue-500/10 hover:bg-blue-500/20">
+                  <BarChart className="h-4 w-4 mr-2" />
+                  Request Performance Benchmark
+                </Button>
+              </div>
+            </div>
+          )}
+          
+          {/* Implementation Timeline */}
+          {activeIndustry.implementationTimeline && (
+            <div className="mb-16">
+              <h3 className="text-2xl font-bold mb-8 text-center">Implementation Roadmap</h3>
+              <div className="relative">
+                <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-indigo-500 to-purple-500 transform -translate-x-1/2 hidden md:block"></div>
+                
+                <div className="space-y-12">
+                  {activeIndustry.implementationTimeline.map((phase, index) => (
+                    <div key={index} className={`relative ${index % 2 === 0 ? 'md:pr-1/2' : 'md:pl-1/2 md:ml-auto'} md:w-1/2`}>
+                      <div className="hidden md:block absolute top-6 w-4 h-4 rounded-full bg-white border-4 border-blue-500 z-10 transform -translate-y-1/2 ${index % 2 === 0 ? 'right-0 translate-x-1/2' : 'left-0 -translate-x-1/2'}"></div>
+                      
+                      <div className="rounded-xl overflow-hidden border border-white/10 bg-gradient-to-br from-black to-slate-900 hover:from-blue-950/10 hover:to-indigo-950/10 transition-all duration-300 p-6">
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className="rounded-lg p-2.5 bg-indigo-900/30 text-indigo-400">
+                            <phase.icon className="w-5 h-5" />
+                          </div>
+                          <div>
+                            <h4 className="text-lg font-bold">{phase.name}</h4>
+                            <div className="text-sm text-blue-400">{phase.duration}</div>
+                          </div>
+                        </div>
+                        
+                        <p className="text-sm text-muted-foreground mb-4">{phase.description}</p>
+                        
+                        <div className="space-y-4">
+                          <div>
+                            <div className="text-sm font-medium mb-2">Key Milestones</div>
+                            <div className="grid grid-cols-1 gap-1.5">
+                              {phase.keyMilestones.map((milestone, i) => (
+                                <div key={i} className="flex items-start gap-2">
+                                  <div className="rounded-full p-1 bg-blue-900/20 text-blue-400 mt-0.5 shrink-0">
+                                    <Check className="h-3 w-3" />
+                                  </div>
+                                  <span className="text-sm text-gray-300">{milestone}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <div className="text-sm font-medium mb-2">Deliverables</div>
+                            <div className="grid grid-cols-1 gap-1.5">
+                              {phase.deliverables.map((deliverable, i) => (
+                                <div key={i} className="flex items-start gap-2">
+                                  <div className="rounded-full p-1 bg-indigo-900/20 text-indigo-400 mt-0.5 shrink-0">
+                                    <CheckCircle2 className="h-3 w-3" />
+                                  </div>
+                                  <span className="text-sm text-gray-300">{deliverable}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+          
+          {/* Ecosystem Partners */}
+          {activeIndustry.ecosystemPartners && (
+            <div>
+              <h3 className="text-2xl font-bold mb-8 text-center">Technology Ecosystem Partners</h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mb-8">
+                {activeIndustry.ecosystemPartners.map((partner, index) => (
+                  <div 
+                    key={index}
+                    className="flex flex-col items-center p-5 rounded-xl border border-white/10 bg-black/40 hover:border-blue-500/30 transition-all duration-300"
+                  >
+                    <div className="w-16 h-16 mb-4 rounded-full bg-white/5 flex items-center justify-center">
+                      {/* Replace with actual partner logos */}
+                      <span className="text-lg font-bold text-blue-400">{partner.name.substring(0, 2)}</span>
+                    </div>
+                    <h4 className="text-sm font-medium mb-1 text-center">{partner.name}</h4>
+                    <p className="text-xs text-muted-foreground text-center">{partner.partnerType}</p>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="flex justify-center">
+                <Button variant="outline" className="border-blue-500/40 bg-blue-500/10 hover:bg-blue-500/20">
+                  <Users className="mr-2 h-4 w-4" />
+                  View All Partners
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
       {/* Solution Packages Section - Enhanced with more robust features */}
       <section className="py-12 bg-gradient-to-b from-black to-slate-950">
         <div className="container mx-auto px-4">
@@ -2879,7 +4163,832 @@ export async function processTransaction(event, context) {
         </div>
       </section>
 
-      {/* Rest of content - original sections follow */}
+      {/* Comprehensive Compliance & Security Section */}
+      <section className="py-16 bg-gradient-to-br from-slate-950 via-blue-950/10 to-slate-950">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center mb-12">
+            <Badge variant="outline" className="mb-3 border-green-500/50 text-green-400 px-3">
+              <ShieldCheck className="h-3.5 w-3.5 mr-1.5" />
+              Enterprise-Grade Protection
+            </Badge>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Security & Compliance</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Our solutions meet the strictest {activeIndustry.name.toLowerCase()} regulatory requirements while providing comprehensive security.
+            </p>
+          </div>
+
+          {/* Compliance Standards */}
+          {activeIndustry.complianceStandards && (
+            <div className="mb-16">
+              <h3 className="text-2xl font-bold mb-8 text-center">Regulatory Compliance</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {activeIndustry.complianceStandards.map((standard, index) => (
+                  <div 
+                    key={index}
+                    className="p-6 rounded-xl border border-white/10 bg-black/40 hover:bg-black/50 transition-all duration-300 relative overflow-hidden group"
+                  >
+                    {standard.industrySpecific && (
+                      <div className="absolute top-0 right-0 bg-green-500/90 text-xs font-medium text-white px-2 py-1 rounded-bl-md">
+                        Industry-Specific
+                      </div>
+                    )}
+                    
+                    <div className="flex items-start gap-4">
+                      <div className="rounded-lg p-3 bg-green-900/20 text-green-400 shrink-0">
+                        <standard.icon className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-bold mb-1">{standard.name}</h4>
+                        <p className="text-sm text-muted-foreground mb-4">{standard.description}</p>
+                        
+                        <div className="space-y-3">
+                          <div>
+                            <div className="text-sm font-medium mb-2">Key Requirements</div>
+                            <div className="space-y-1.5">
+                              {standard.requirements.slice(0, 3).map((req, i) => (
+                                <div key={i} className="flex items-start gap-2">
+                                  <div className="rounded-full p-1 bg-green-900/20 text-green-400 mt-0.5 shrink-0">
+                                    <Check className="h-3 w-3" />
+                                  </div>
+                                  <span className="text-sm text-gray-300">{req}</span>
+                                </div>
+                              ))}
+                              {standard.requirements.length > 3 && (
+                                <div className="text-xs text-blue-400 pl-6 hover:underline cursor-pointer">
+                                  +{standard.requirements.length - 3} more requirements
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <div className="text-sm font-medium mb-2">Certifications</div>
+                            <div className="flex flex-wrap gap-2">
+                              {standard.certifications.map((cert, i) => (
+                                <div key={i} className="text-xs bg-white/10 text-gray-300 rounded-full px-2.5 py-1">
+                                  {cert}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Security Features */}
+          {activeIndustry.securityFeatures && (
+            <div>
+              <h3 className="text-2xl font-bold mb-8 text-center">Enterprise Security</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="md:col-span-1 space-y-6">
+                  <div className="rounded-xl border border-white/10 bg-gradient-to-br from-slate-900 to-black p-6 relative overflow-hidden">
+                    <div className="absolute -right-8 -top-8 w-24 h-24 rounded-full bg-green-500/20 blur-xl"></div>
+                    <div className="absolute -left-8 -bottom-8 w-24 h-24 rounded-full bg-blue-500/20 blur-xl"></div>
+                    
+                    <h4 className="text-xl font-bold mb-6 flex items-center">
+                      <ShieldCheck className="h-5 w-5 mr-2 text-green-400" />
+                      Security By Design
+                    </h4>
+
+                    <div className="space-y-4 relative z-10">
+                      <p className="text-sm text-muted-foreground">
+                        Our platform implements security at every layer, from infrastructure to application level, providing defense-in-depth protection for your most sensitive financial data.
+                      </p>
+                      
+                      <div className="pt-4">
+                        <div className="text-sm font-medium mb-3">Security Posture Score</div>
+                        <div className="flex items-center gap-2">
+                          <div className="flex-1 h-2.5 bg-gray-900 rounded-full overflow-hidden">
+                            <div className="h-full bg-gradient-to-r from-green-500 to-green-400 rounded-full" style={{width: "95%"}}></div>
+                          </div>
+                          <div className="text-sm font-bold text-green-400">95/100</div>
+                        </div>
+                      </div>
+                      
+                      <Button variant="default" className="w-full bg-green-600 hover:bg-green-700 mt-4">
+                        <FileText className="h-4 w-4 mr-2" />
+                        Security Whitepaper
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="rounded-xl border border-white/10 bg-black/40 p-6">
+                    <h4 className="text-lg font-bold mb-4">Continuous Monitoring</h4>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm">Threat Detection</div>
+                        <div className="flex items-center">
+                          <Activity className="h-4 w-4 text-green-400 mr-1.5" />
+                          <span className="text-sm">Active</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm">Vulnerability Scanning</div>
+                        <div className="flex items-center">
+                          <Activity className="h-4 w-4 text-green-400 mr-1.5" />
+                          <span className="text-sm">Active</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm">Compliance Auditing</div>
+                        <div className="flex items-center">
+                          <Activity className="h-4 w-4 text-green-400 mr-1.5" />
+                          <span className="text-sm">Active</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm">Access Control</div>
+                        <div className="flex items-center">
+                          <Activity className="h-4 w-4 text-green-400 mr-1.5" />
+                          <span className="text-sm">Active</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <div className="text-sm">Data Loss Prevention</div>
+                        <div className="flex items-center">
+                          <Activity className="h-4 w-4 text-green-400 mr-1.5" />
+                          <span className="text-sm">Active</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="md:col-span-2">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    {activeIndustry.securityFeatures.map((feature, index) => (
+                      <div 
+                        key={index}
+                        className="rounded-xl border border-white/10 bg-black/40 p-5 hover:bg-black/60 hover:border-blue-500/30 transition-all duration-300"
+                      >
+                        <div className="flex items-start gap-3">
+                          <div className="rounded-lg p-2.5 bg-blue-900/20 text-blue-400 shrink-0">
+                            <feature.icon className="w-5 h-5" />
+                          </div>
+                          <div>
+                            <h5 className="text-base font-bold mb-1">{feature.title}</h5>
+                            <p className="text-xs text-muted-foreground mb-3">{feature.description}</p>
+                            
+                            <div className="space-y-2">
+                              <div>
+                                <div className="text-xs font-medium mb-1 text-blue-400">Features</div>
+                                <div className="flex flex-wrap gap-1.5">
+                                  {feature.features.slice(0, 3).map((item, i) => (
+                                    <div key={i} className="text-xs bg-white/5 text-gray-300 rounded-full px-2 py-0.5">
+                                      {item}
+                                    </div>
+                                  ))}
+                                  {feature.features.length > 3 && (
+                                    <div className="text-xs text-blue-400 cursor-pointer hover:underline">
+                                      +{feature.features.length - 3} more
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                              
+                              <div>
+                                <div className="text-xs font-medium mb-1 text-green-400">Standards</div>
+                                <div className="flex flex-wrap gap-1.5">
+                                  {feature.standards?.slice(0, 2).map((item, i) => (
+                                    <div key={i} className="text-xs bg-green-900/10 text-green-400 rounded-full px-2 py-0.5">
+                                      {item}
+                                    </div>
+                                  ))}
+                                  {feature.standards?.length > 2 && (
+                                    <div className="text-xs text-green-400 cursor-pointer hover:underline">
+                                      +{feature.standards.length - 2} more
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          <div className="mt-12 text-center">
+            <Button variant="default" className="bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700">
+              Request Security Assessment
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* ROI Calculator Section */}
+      <section className="py-16 bg-gradient-to-b from-slate-950 via-blue-950/10 to-slate-950">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center mb-12">
+            <Badge variant="outline" className="mb-3 border-green-500/50 text-green-400 px-3">
+              <Rocket className="h-3.5 w-3.5 mr-1.5" />
+              ROI Calculator
+            </Badge>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Calculate Your Return on Investment</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Estimate the financial benefits of our platform for your specific {activeIndustry.name.toLowerCase()} needs.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="rounded-xl border border-white/10 bg-black/30 overflow-hidden h-full flex flex-col">
+              <div className="p-6 space-y-6 flex-1">
+                <div className="flex items-start gap-4">
+                  <div className="p-2.5 rounded-lg bg-gradient-to-br from-blue-500/20 to-purple-500/20 border border-blue-500/30 shrink-0">
+                    <Brain className="h-6 w-6 text-blue-400" />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold">Predictive Analytics Engine</h4>
+                    <p className="text-sm text-muted-foreground">AI-powered forecasting and trend analysis customized for {activeIndustry.name}</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="text-sm font-medium">Key Benefits</div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="flex items-start gap-2 text-sm">
+                      <div className="p-1 rounded-full bg-green-500/20 text-green-400 mt-0.5 shrink-0">
+                        <Check className="h-3 w-3" />
+                      </div>
+                      <span>98.5% prediction accuracy</span>
+                    </div>
+                    <div className="flex items-start gap-2 text-sm">
+                      <div className="p-1 rounded-full bg-green-500/20 text-green-400 mt-0.5 shrink-0">
+                        <Check className="h-3 w-3" />
+                      </div>
+                      <span>Early trend detection</span>
+                    </div>
+                    <div className="flex items-start gap-2 text-sm">
+                      <div className="p-1 rounded-full bg-green-500/20 text-green-400 mt-0.5 shrink-0">
+                        <Check className="h-3 w-3" />
+                      </div>
+                      <span>Anomaly identification</span>
+                    </div>
+                    <div className="flex items-start gap-2 text-sm">
+                      <div className="p-1 rounded-full bg-green-500/20 text-green-400 mt-0.5 shrink-0">
+                        <Check className="h-3 w-3" />
+                      </div>
+                      <span>Custom model training</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="bg-blue-950/30 border border-blue-500/20 rounded-lg p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm font-medium text-blue-400">Interactive Demo</div>
+                    <Badge variant="outline" className="text-xs border-blue-500/30 text-blue-400">
+                      Live Preview
+                    </Badge>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between text-xs">
+                        <span>Data Processing</span>
+                        <span>78%</span>
+                      </div>
+                      <Progress value={78} className="h-1.5" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between text-xs">
+                        <span>Model Training</span>
+                        <span>92%</span>
+                      </div>
+                      <Progress value={92} className="h-1.5" />
+                    </div>
+                  </div>
+                  <Button size="sm" variant="outline" className="w-full border-blue-500/30 text-blue-400 hover:bg-blue-950/50">
+                    <Play className="h-3.5 w-3.5 mr-1.5" />
+                    Run Demo
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-white/10 bg-black/30 overflow-hidden h-full flex flex-col">
+              <div className="p-6 space-y-6 flex-1">
+                <div className="flex items-start gap-4">
+                  <div className="p-2.5 rounded-lg bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/30 shrink-0">
+                    <Shield className="h-6 w-6 text-indigo-400" />
+                  </div>
+                  <div>
+                    <h4 className="text-xl font-bold">Security & Compliance Framework</h4>
+                    <p className="text-sm text-muted-foreground">Industry-specific security solutions for {activeIndustry.name}</p>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  <div className="text-sm font-medium">Key Benefits</div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="flex items-start gap-2 text-sm">
+                      <div className="p-1 rounded-full bg-green-500/20 text-green-400 mt-0.5 shrink-0">
+                        <Check className="h-3 w-3" />
+                      </div>
+                      <span>Quantum-resistant encryption</span>
+                    </div>
+                    <div className="flex items-start gap-2 text-sm">
+                      <div className="p-1 rounded-full bg-green-500/20 text-green-400 mt-0.5 shrink-0">
+                        <Check className="h-3 w-3" />
+                      </div>
+                      <span>Automated compliance</span>
+                    </div>
+                    <div className="flex items-start gap-2 text-sm">
+                      <div className="p-1 rounded-full bg-green-500/20 text-green-400 mt-0.5 shrink-0">
+                        <Check className="h-3 w-3" />
+                      </div>
+                      <span>Threat intelligence</span>
+                    </div>
+                    <div className="flex items-start gap-2 text-sm">
+                      <div className="p-1 rounded-full bg-green-500/20 text-green-400 mt-0.5 shrink-0">
+                        <Check className="h-3 w-3" />
+                      </div>
+                      <span>Identity-based access</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="bg-indigo-950/30 border border-indigo-500/20 rounded-lg p-4 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm font-medium text-indigo-400">Compliance Status</div>
+                    <Badge variant="outline" className="text-xs border-indigo-500/30 text-indigo-400">
+                      Live Status
+                    </Badge>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="flex items-center gap-2 bg-black/30 rounded p-2.5">
+                      <div className="p-1 rounded-full bg-green-500/20 text-green-400">
+                        <Check className="h-3.5 w-3.5" />
+                      </div>
+                      <span className="text-xs font-medium">GDPR</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-black/30 rounded p-2.5">
+                      <div className="p-1 rounded-full bg-green-500/20 text-green-400">
+                        <Check className="h-3.5 w-3.5" />
+                      </div>
+                      <span className="text-xs font-medium">ISO 27001</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-black/30 rounded p-2.5">
+                      <div className="p-1 rounded-full bg-green-500/20 text-green-400">
+                        <Check className="h-3.5 w-3.5" />
+                      </div>
+                      <span className="text-xs font-medium">HIPAA</span>
+                    </div>
+                    <div className="flex items-center gap-2 bg-black/30 rounded p-2.5">
+                      <div className="p-1 rounded-full bg-green-500/20 text-green-400">
+                        <Check className="h-3.5 w-3.5" />
+                      </div>
+                      <span className="text-xs font-medium">SOC 2</span>
+                    </div>
+                  </div>
+                  
+                  <Button size="sm" variant="outline" className="w-full border-indigo-500/30 text-indigo-400 hover:bg-indigo-950/50">
+                    <ShieldCheck className="h-3.5 w-3.5 mr-1.5" />
+                    Security Assessment
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Competitive Advantage Matrix */}
+      {activeIndustry.comparisonMatrix && (
+        <section className="py-16 bg-gradient-to-b from-slate-950 to-black">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto text-center mb-12">
+              <Badge variant="outline" className="mb-3 border-purple-500/50 text-purple-400 px-3">
+                <TrendingUp className="h-3.5 w-3.5 mr-1.5" />
+                Competitive Advantage
+              </Badge>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">Industry Comparison</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                See how our solutions stack up against traditional approaches and competitors in the {activeIndustry.name.toLowerCase()} space.
+              </p>
+            </div>
+            
+            <div className="overflow-x-auto mb-10">
+              <table className="w-full min-w-[768px] border-collapse">
+                <thead>
+                  <tr className="border-b border-white/10">
+                    <th className="text-left py-4 px-6 text-muted-foreground font-medium text-sm">Features</th>
+                    <th className="text-center py-4 px-6 font-medium text-sm text-blue-400">Our Solution</th>
+                    {activeIndustry.comparisonMatrix.competitors.map((competitor, index) => (
+                      <th key={index} className="text-center py-4 px-6 text-muted-foreground font-medium text-sm">{competitor}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {activeIndustry.comparisonMatrix.features.map((feature, index) => (
+                    <tr key={index} className={`border-b border-white/10 ${index % 2 === 0 ? 'bg-white/[0.02]' : ''}`}>
+                      <td className="py-4 px-6 text-sm">
+                        <div className="font-medium">{feature.name}</div>
+                        <div className="text-xs text-muted-foreground">{feature.category}</div>
+                      </td>
+                      <td className="py-4 px-6 text-center">
+                        <div className="inline-flex items-center justify-center">
+                          {Array.from({ length: feature.ourRating }).map((_, i) => (
+                            <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                          ))}
+                        </div>
+                      </td>
+                      {activeIndustry.comparisonMatrix.competitors.map((competitor, i) => (
+                        <td key={i} className="py-4 px-6 text-center">
+                          <div className="inline-flex items-center justify-center">
+                            {Array.from({ length: feature.competitorRatings[competitor] }).map((_, j) => (
+                              <Star key={j} className="w-4 h-4 text-gray-400 fill-current" />
+                            ))}
+                          </div>
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            
+            <div className="text-center">
+              <Button variant="outline" className="border-purple-500/40 bg-purple-500/10 hover:bg-purple-500/20">
+                <FileText className="mr-2 h-4 w-4" />
+                Download Full Comparison Report
+              </Button>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* AI Solutions Showcase */}
+      {activeIndustry.aiSolutions && (
+        <section className="py-16 bg-gradient-to-br from-black via-indigo-950/10 to-black">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto text-center mb-12">
+              <Badge variant="outline" className="mb-3 border-indigo-500/50 text-indigo-400 px-3">
+                <Brain className="h-3.5 w-3.5 mr-1.5" />
+                AI-Powered Solutions
+              </Badge>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">Advanced AI Capabilities</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                Leverage cutting-edge artificial intelligence to transform your {activeIndustry.name.toLowerCase()} operations.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="rounded-xl border border-white/10 bg-gradient-to-br from-indigo-950/20 to-black/60 p-6 relative overflow-hidden">
+                <div className="absolute -right-10 -top-10 w-40 h-40 rounded-full bg-indigo-500/10 blur-xl"></div>
+                <div className="absolute -left-10 -bottom-10 w-40 h-40 rounded-full bg-blue-500/10 blur-xl"></div>
+                
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-2xl font-bold">AI Solution Performance</h3>
+                    <Badge variant="outline" className="border-blue-500/50 text-blue-400">Enterprise-Grade</Badge>
+                  </div>
+                  
+                  <div className="space-y-6">
+                    {activeIndustry.aiSolutions.slice(0, 3).map((solution, index) => (
+                      <div key={index} className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <solution.icon className="h-4.5 w-4.5 text-indigo-400" />
+                            <div className="text-sm font-medium">{solution.title}</div>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <div className="text-xs font-medium bg-green-900/20 text-green-400 px-2 py-0.5 rounded-full">
+                              {solution.performance.accuracy}% Accuracy
+                            </div>
+                            <div className="text-xs font-medium bg-blue-900/20 text-blue-400 px-2 py-0.5 rounded-full">
+                              {solution.performance.latency}ms
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="h-1.5 w-full bg-black/40 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"
+                            style={{ width: `${solution.performance.scalability}%` }}
+                          ></div>
+                        </div>
+                        
+                        <div className="flex justify-between text-xs text-muted-foreground">
+                          <div>Scalability</div>
+                          <div>{solution.performance.scalability}%</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <Button variant="default" className="mt-6 w-full bg-indigo-600 hover:bg-indigo-700">
+                    <Play className="h-4 w-4 mr-2" />
+                    Schedule AI Demo
+                  </Button>
+                </div>
+              </div>
+              
+              <div className="space-y-6">
+                {activeIndustry.aiSolutions.map((solution, index) => (
+                  <Accordion key={index} type="single" collapsible>
+                    <AccordionItem value={`item-${index}`} className="border border-white/10 rounded-xl overflow-hidden bg-black/40">
+                      <AccordionTrigger className="px-6 py-4 hover:bg-white/5">
+                        <div className="flex items-center gap-3 text-left">
+                          <div className="rounded-lg p-2.5 bg-indigo-900/20 text-indigo-400 shrink-0">
+                            <solution.icon className="w-5 h-5" />
+                          </div>
+                          <div>
+                            <div className="font-bold">{solution.title}</div>
+                            <div className="text-xs text-muted-foreground">{solution.description}</div>
+                          </div>
+                        </div>
+                      </AccordionTrigger>
+                      <AccordionContent className="px-6 pb-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                          <div>
+                            <div className="text-sm font-medium mb-2 text-indigo-400">Key Capabilities</div>
+                            <div className="space-y-1.5">
+                              {solution.capabilities.map((capability, i) => (
+                                <div key={i} className="flex items-start gap-2">
+                                  <div className="rounded-full p-1 bg-indigo-900/20 text-indigo-400 mt-0.5 shrink-0">
+                                    <Check className="h-3 w-3" />
+                                  </div>
+                                  <span className="text-sm text-gray-300">{capability}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <div className="text-sm font-medium mb-2 text-blue-400">Use Cases</div>
+                            <div className="space-y-1.5">
+                              {solution.useCases.map((useCase, i) => (
+                                <div key={i} className="flex items-start gap-2">
+                                  <div className="rounded-full p-1 bg-blue-900/20 text-blue-400 mt-0.5 shrink-0">
+                                    <CheckCircle2 className="h-3 w-3" />
+                                  </div>
+                                  <span className="text-sm text-gray-300">{useCase}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="mt-4 pt-4 border-t border-white/10">
+                          <div className="text-sm font-medium mb-2">Performance Metrics</div>
+                          <div className="grid grid-cols-3 gap-3">
+                            <div className="p-3 rounded-lg bg-black/40 border border-white/10">
+                              <div className="text-xs text-muted-foreground mb-1">Accuracy</div>
+                              <div className="text-lg font-bold text-green-400">{solution.performance.accuracy}%</div>
+                            </div>
+                            <div className="p-3 rounded-lg bg-black/40 border border-white/10">
+                              <div className="text-xs text-muted-foreground mb-1">Latency</div>
+                              <div className="text-lg font-bold text-blue-400">{solution.performance.latency}ms</div>
+                            </div>
+                            <div className="p-3 rounded-lg bg-black/40 border border-white/10">
+                              <div className="text-xs text-muted-foreground mb-1">Scalability</div>
+                              <div className="text-lg font-bold text-indigo-400">{solution.performance.scalability}/100</div>
+                            </div>
+                          </div>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+      
+      {/* Case Study Modal - this stays unchanged */}
+      <Dialog open={showCaseStudyModal} onOpenChange={setShowCaseStudyModal}>
+        <DialogContent className="max-w-3xl bg-black border border-white/10">
+          {activeCaseStudy && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-bold">{activeCaseStudy.company} Case Study</DialogTitle>
+                <DialogDescription>{activeCaseStudy.industry}</DialogDescription>
+              </DialogHeader>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <div className="bg-gradient-to-br from-blue-900/40 to-indigo-900/40 rounded-lg overflow-hidden mb-4">
+                    <div className="aspect-video bg-cover bg-center" style={{ backgroundImage: `url(${activeCaseStudy.imageUrl || '/images/case-studies/placeholder.jpg'})` }}></div>
+                  </div>
+                  <div className="space-y-4">
+                    <div>
+                      <h4 className="text-lg font-bold text-blue-400">Challenge</h4>
+                      <p className="text-sm text-muted-foreground">{activeCaseStudy.challenge}</p>
+                    </div>
+                    <div>
+                      <h4 className="text-lg font-bold text-indigo-400">Solution</h4>
+                      <p className="text-sm text-muted-foreground">{activeCaseStudy.solution}</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div>
+                  <h4 className="text-lg font-bold mb-4">Key Results</h4>
+                  <div className="space-y-4">
+                    {activeCaseStudy.results.map((result, index) => (
+                      <div key={index} className="flex items-start gap-3">
+                        <div className="rounded-full p-2 bg-green-900/20 text-green-400 shrink-0">
+                          <TrendingUp className="h-5 w-5" />
+                        </div>
+                        <div>
+                          <div className="font-medium">{result}</div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="mt-8">
+                    <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600">
+                      Download Full Case Study
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+      
+      {/* Comprehensive CTA Section */}
+      <section className="py-20 bg-gradient-to-br from-blue-950 via-indigo-950/50 to-slate-950 relative overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-10 z-0"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl"></div>
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-7xl mx-auto">
+            <div className="text-center mb-12">
+              <Badge variant="outline" className="mb-3 border-blue-500/50 text-blue-400 px-3">
+                <Rocket className="h-3.5 w-3.5 mr-1.5" />
+                Start Your Transformation
+              </Badge>
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-200 to-indigo-200">
+                Transform Your {activeIndustry.name} Operations
+              </h2>
+              <p className="text-xl text-blue-100/80 max-w-3xl mx-auto mb-8">
+                Join leading organizations that have revolutionized their business with our enterprise solutions.
+              </p>
+              
+              <div className="flex flex-wrap justify-center gap-4 mb-12">
+                <Button className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-md px-8 py-6 font-medium text-lg">
+                  Schedule a Demo
+                </Button>
+                <Button variant="outline" className="border-blue-500/40 bg-blue-500/10 hover:bg-blue-500/20 text-white rounded-md px-8 py-6 font-medium text-lg">
+                  Download Solution Brief
+                </Button>
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+              <div className="rounded-xl border border-white/10 bg-black/30 p-6 text-center flex flex-col items-center">
+                <div className="rounded-full w-16 h-16 bg-gradient-to-br from-blue-600/20 to-indigo-600/20 flex items-center justify-center mb-4">
+                  <Shield className="h-8 w-8 text-blue-400" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">Enterprise Security</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Bank-grade security with compliance for {activeIndustry.name.toLowerCase()} regulations.
+                </p>
+                <Button variant="link" className="text-blue-400 mt-auto">
+                  Learn More <ArrowRight className="h-4 w-4 ml-1" />
+                </Button>
+              </div>
+              
+              <div className="rounded-xl border border-white/10 bg-black/30 p-6 text-center flex flex-col items-center">
+                <div className="rounded-full w-16 h-16 bg-gradient-to-br from-blue-600/20 to-indigo-600/20 flex items-center justify-center mb-4">
+                  <Brain className="h-8 w-8 text-blue-400" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">AI-Powered Insights</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Advanced analytics and machine learning tailored for {activeIndustry.name.toLowerCase()} data.
+                </p>
+                <Button variant="link" className="text-blue-400 mt-auto">
+                  Learn More <ArrowRight className="h-4 w-4 ml-1" />
+                </Button>
+              </div>
+              
+              <div className="rounded-xl border border-white/10 bg-black/30 p-6 text-center flex flex-col items-center">
+                <div className="rounded-full w-16 h-16 bg-gradient-to-br from-blue-600/20 to-indigo-600/20 flex items-center justify-center mb-4">
+                  <Zap className="h-8 w-8 text-blue-400" />
+                </div>
+                <h3 className="text-xl font-bold mb-2">Rapid Implementation</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Go live in weeks, not months, with our proven implementation methodology.
+                </p>
+                <Button variant="link" className="text-blue-400 mt-auto">
+                  Learn More <ArrowRight className="h-4 w-4 ml-1" />
+                </Button>
+              </div>
+            </div>
+            
+            <div className="bg-gradient-to-br from-blue-950/50 to-indigo-950/50 border border-white/10 rounded-xl p-8">
+              <div className="flex flex-col md:flex-row items-center gap-8">
+                <div className="md:w-1/2">
+                  <h3 className="text-2xl font-bold mb-4">Ready to get started?</h3>
+                  <p className="text-muted-foreground mb-6">
+                    Our team of {activeIndustry.name.toLowerCase()} experts is ready to help you transform your business.
+                  </p>
+                  
+                  <div className="space-y-3 mb-6">
+                    <div className="flex items-start gap-3">
+                      <div className="rounded-full p-1.5 bg-green-500/20 text-green-400 shrink-0 mt-0.5">
+                        <Check className="h-4 w-4" />
+                      </div>
+                      <div className="text-sm">Free consultation with industry experts</div>
+                    </div>
+                    
+                    <div className="flex items-start gap-3">
+                      <div className="rounded-full p-1.5 bg-green-500/20 text-green-400 shrink-0 mt-0.5">
+                        <Check className="h-4 w-4" />
+                      </div>
+                      <div className="text-sm">Tailored solution proposal within 48 hours</div>
+                    </div>
+                    
+                    <div className="flex items-start gap-3">
+                      <div className="rounded-full p-1.5 bg-green-500/20 text-green-400 shrink-0 mt-0.5">
+                        <Check className="h-4 w-4" />
+                      </div>
+                      <div className="text-sm">Dedicated implementation team</div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-3">
+                    <ShieldCheck className="h-5 w-5 text-blue-400" />
+                    <span className="text-sm text-blue-300">30-day satisfaction guarantee</span>
+                  </div>
+                </div>
+                
+                <div className="md:w-1/2 w-full bg-black/40 backdrop-blur-sm rounded-xl border border-white/10 p-6">
+                  <h4 className="text-xl font-bold mb-4">Contact Us</h4>
+                  <form className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="name" className="text-sm mb-1">Name</Label>
+                        <Input 
+                          id="name" 
+                          placeholder="Your name" 
+                          className="bg-white/5 border-white/10 focus:border-blue-500/50"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="email" className="text-sm mb-1">Email</Label>
+                        <Input 
+                          id="email" 
+                          type="email" 
+                          placeholder="you@company.com" 
+                          className="bg-white/5 border-white/10 focus:border-blue-500/50"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="company" className="text-sm mb-1">Company</Label>
+                      <Input 
+                        id="company" 
+                        placeholder="Your company" 
+                        className="bg-white/5 border-white/10 focus:border-blue-500/50"
+                      />
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="message" className="text-sm mb-1">Message</Label>
+                      <Textarea 
+                        id="message" 
+                        placeholder="Tell us about your project" 
+                        className="bg-white/5 border-white/10 focus:border-blue-500/50 min-h-[100px]"
+                      />
+                    </div>
+                    
+                    <Button className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700">
+                      Send Message
+                    </Button>
+                  </form>
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-16 text-center">
+              <div className="text-sm text-muted-foreground mb-4">TRUSTED BY INDUSTRY LEADERS</div>
+              <div className="flex flex-wrap justify-center gap-8 sm:gap-12">
+                {['Google', 'Microsoft', 'Amazon', 'IBM', 'Oracle', 'Salesforce'].map((company) => (
+                  <div key={company} className="text-lg font-medium text-white/70 hover:text-white transition-colors duration-300">
+                    {company}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 } 

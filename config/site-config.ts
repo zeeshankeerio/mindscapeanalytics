@@ -9,6 +9,7 @@ import {
   FileText,
   Home,
   LayoutDashboard,
+  LayoutGrid,
   MessageSquare,
   Settings,
   Users,
@@ -82,6 +83,11 @@ export const mainNav: MainNavItem[] = [
     title: "Home",
     href: "/",
     icon: Home,
+  },
+  {
+    title: "Services",
+    href: "/services",
+    icon: LayoutGrid,
   },
   {
     title: "AI Solutions",
@@ -164,6 +170,10 @@ export const footerNav: FooterNav = {
       title: "Products",
       items: [
         {
+          title: "Services",
+          href: "/services",
+        },
+        {
           title: "AI Analytics Platform",
           href: "/ai-solutions#analytics",
         },
@@ -216,6 +226,10 @@ export const footerNav: FooterNav = {
         {
           title: "About Us",
           href: "/about",
+        },
+        {
+          title: "Founder & CEO",
+          href: "/founder",
         },
         {
           title: "Careers",

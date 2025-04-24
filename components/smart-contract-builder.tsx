@@ -283,14 +283,14 @@ const SmartContractBuilder: React.FC = () => {
                     ) : (
                       <div className="space-y-2">
                         {selectedModules.map(moduleId => {
-                          const module = moduleBlocks.find(m => m.id === moduleId);
-                          if (!module) return null;
+                          const moduleData = moduleBlocks.find(m => m.id === moduleId);
+                          if (!moduleData) return null;
                           
                           return (
                             <div key={moduleId} className="flex items-center justify-between p-2 bg-black/50 rounded-lg border border-white/10">
                               <div className="flex items-center gap-2">
-                                {module.icon}
-                                <span>{module.name}</span>
+                                {moduleData.icon}
+                                <span>{moduleData.name}</span>
                               </div>
                               <Button 
                                 variant="ghost" 
@@ -340,7 +340,7 @@ const SmartContractBuilder: React.FC = () => {
                           <span> {`{`}</span>
                         </div>
                         <div>    <span className="text-green-400">// Constructor</span></div>
-                        <div>    <span className="text-purple-400">constructor</span>() <span className="text-blue-400">ERC20</span>(<span className="text-amber-400">"{contractName}"</span>, <span className="text-amber-400">"{tokenSymbol}"</span>) {`{`}</div>
+                        <div>    <span className="text-purple-400">constructor</span>() <span className="text-blue-400">ERC20</span>(<span className="text-amber-400">&quot;{contractName}&quot;</span>, <span className="text-amber-400">&quot;{tokenSymbol}&quot;</span>) {`{`}</div>
                         <div>        _mint(<span className="text-blue-400">msg.sender</span>, 1000000 * 10 ** 18);</div>
                         <div>    {`}`}</div>
                         <div></div>

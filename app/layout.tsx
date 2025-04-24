@@ -18,8 +18,7 @@ const inter = Inter({
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1, // Prevent zoom on mobile to improve UX
-  userScalable: false,
+  userScalable: true,
   themeColor: "#000000",
 }
 

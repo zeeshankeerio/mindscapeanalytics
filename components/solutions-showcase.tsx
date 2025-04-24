@@ -388,9 +388,8 @@ export default function SolutionsShowcase() {
                       "relative flex items-center gap-3 h-auto py-3 px-4 rounded-lg text-left transition-all duration-200 w-full",
                       activeTab === solution.id
                         ? `bg-gradient-to-r from-red-600/30 to-red-800/20 text-white border-l-2 border-red-500`
-                        : "hover:bg-black/30 text-white/70 hover:text-white"
+                        : "text-white/70 hover:bg-white/5"
                     )}
-                    aria-selected={activeTab === solution.id}
                   >
                     <div 
                       className={`flex items-center justify-center w-10 h-10 rounded-md p-1.5

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Github, Linkedin, Twitter, ChevronRight, Mail, MapPin, Phone, ArrowRight, Brain, AlertCircle } from "lucide-react"
 import { motion } from "framer-motion"
 
@@ -140,9 +141,11 @@ export default function Footer() {
                       
                       {/* Icon container */}
                       <div className="relative bg-black rounded-2xl p-3 transition-all duration-300 group-hover:scale-[0.98]">
-                      <img 
+                        <Image 
                           src="/images/brain.svg" 
                           alt="Mindscape Brain Logo"
+                          width={56}
+                          height={56}
                           className="h-14 w-14"
                           style={{
                             filter: 'drop-shadow(0 0 1px #8B0000)'

@@ -11,6 +11,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import PricingCalculator from "@/components/pricing-calculator"
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
+import { StandardBackground, SectionBackground } from "@/components/shared/background"
 
 export default function PricingPage() {
   const [heroRef, heroInView] = useInView({ triggerOnce: true, threshold: 0.1 })
@@ -37,7 +38,10 @@ export default function PricingPage() {
   }
 
   return (
-    <div className="relative">
+    <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
+      {/* Apply standard background */}
+      <StandardBackground />
+      
       <div className="container mx-auto px-4 py-24">
       {/* Hero Section */}
       <motion.section
@@ -47,10 +51,8 @@ export default function PricingPage() {
         transition={{ duration: 0.8 }}
         className="pt-32 pb-20 relative overflow-hidden"
       >
-        {/* Background elements */}
-        <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]"></div>
-        <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-red-500/10 blur-[100px]"></div>
-        <div className="absolute bottom-1/4 left-1/4 w-80 h-80 rounded-full bg-red-500/10 blur-[120px]"></div>
+          {/* Replace with SectionBackground */}
+          <SectionBackground />
 
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center mb-16">
@@ -59,7 +61,7 @@ export default function PricingPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-4xl md:text-6xl font-bold tracking-tight mb-6"
+                className="text-4xl md:text-6xl font-bold tracking-tight mb-6 gradient-text"
             >
               Transparent <span className="text-red-500">Pricing</span> Plans
             </motion.h1>
@@ -83,8 +85,9 @@ export default function PricingPage() {
         initial={{ opacity: 0 }}
         animate={plansInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.8 }}
-        className="py-10 bg-black relative overflow-hidden"
+          className="py-10 relative overflow-hidden"
       >
+          <SectionBackground />
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <Tabs defaultValue="standard" className="w-full">
             <div className="flex justify-center mb-12">
@@ -261,10 +264,9 @@ export default function PricingPage() {
         initial={{ opacity: 0 }}
         animate={featuresInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.8 }}
-        className="py-20 bg-gradient-to-b from-black to-black/90 relative overflow-hidden"
+          className="py-20 relative overflow-hidden"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,0,0,0.1),transparent_70%)]"></div>
-
+          <SectionBackground />
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center mb-16">
             <Badge className="mb-4 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm">FEATURES</Badge>
@@ -357,10 +359,9 @@ export default function PricingPage() {
         initial={{ opacity: 0 }}
         animate={faqInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.8 }}
-        className="py-20 bg-black relative overflow-hidden"
+          className="py-20 relative overflow-hidden"
       >
-        <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]"></div>
-
+          <SectionBackground />
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="max-w-4xl mx-auto text-center mb-16">
             <Badge className="mb-4 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm">FAQ</Badge>
@@ -434,10 +435,9 @@ export default function PricingPage() {
         initial={{ opacity: 0 }}
         animate={ctaInView ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.8 }}
-        className="py-20 bg-gradient-to-b from-black to-black/90 relative overflow-hidden"
+          className="py-20 relative overflow-hidden"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,0,0,0.15),transparent_70%)]"></div>
-
+          <SectionBackground />
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}

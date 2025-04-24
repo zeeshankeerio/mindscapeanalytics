@@ -28,7 +28,7 @@ import {
   Check
 } from "lucide-react"
 import Link from "next/link"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -255,115 +255,97 @@ export default function ProjectsShowcase() {
   const marqueeDuration = duplicatedCurrentProjects.length * 5 // 5 seconds per project
   const upcomingMarqueeDuration = duplicatedUpcomingProjects.length * 6 // 6 seconds per project - slightly slower
 
-  // Start/restart the current projects marquee animation
-  const startMarquee = () => {
-    setIsPaused(false)
-    marqueeControls.start({
-      x: [0, '-100%'],
-      transition: {
-        x: {
+  const startMarquee = useCallback(() => {
+    if (!isPaused) {
+      marqueeControls.start({
+        x: ["0%", "-100%"],
+        transition: {
+          duration: 20,
+          ease: "linear",
           repeat: Infinity,
-          repeatType: 'loop',
-          duration: marqueeDuration,
-          ease: 'linear',
-        }
-      }
-    })
-  }
+        },
+      })
+    }
+  }, [marqueeControls, isPaused])
 
-  // Start/restart the upcoming projects marquee animation
-  const startUpcomingMarquee = () => {
-    setIsUpcomingPaused(false)
-    upcomingMarqueeControls.start({
-      x: [0, '-100%'],
-      transition: {
-        x: {
+  const startUpcomingMarquee = useCallback(() => {
+    if (!isUpcomingPaused) {
+      upcomingMarqueeControls.start({
+        x: ["0%", "-100%"],
+        transition: {
+          duration: 20,
+          ease: "linear",
           repeat: Infinity,
-          repeatType: 'loop',
-          duration: upcomingMarqueeDuration,
-          ease: 'linear',
-        }
-      }
-    })
-  }
+        },
+      })
+    }
+  }, [upcomingMarqueeControls, isUpcomingPaused])
 
-  // Pause the current projects marquee animation
-  const pauseMarquee = () => {
+  const pauseMarquee = useCallback(() => {
     setIsPaused(true)
     marqueeControls.stop()
-  }
+  }, [marqueeControls])
 
-  // Pause the upcoming projects marquee animation
-  const pauseUpcomingMarquee = () => {
+  const pauseUpcomingMarquee = useCallback(() => {
     setIsUpcomingPaused(true)
     upcomingMarqueeControls.stop()
-  }
+  }, [upcomingMarqueeControls])
 
-  // Handle drag start event for current projects
-  const handleDragStart = () => {
-    pauseMarquee()
+  const handleDragStart = useCallback(() => {
     panStartX.current = dragX.get()
-  }
+    pauseMarquee()
+  }, [dragX, pauseMarquee])
 
-  // Handle drag start event for upcoming projects
-  const handleUpcomingDragStart = () => {
-    pauseUpcomingMarquee()
+  const handleUpcomingDragStart = useCallback(() => {
     upcomingPanStartX.current = upcomingDragX.get()
-  }
+    pauseUpcomingMarquee()
+  }, [upcomingDragX, pauseUpcomingMarquee])
 
-  // Handle drag end event for current projects
-  const handleDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    // If the drag velocity is high, give it a bit of momentum in that direction
-    const velocityFactor = 0.1
-    const momentumDistance = info.velocity.x * velocityFactor
+  const handleDragEnd = useCallback((event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    const velocity = info.velocity.x
+    const offset = info.offset.x
     
-    // Apply momentum to the current position
-    marqueeControls.start({
-      x: dragX.get() + momentumDistance,
-      transition: {
-        duration: 0.5,
-        type: "spring",
-        damping: 15
-      }
-    }).then(() => {
-      // Resume auto-scrolling after the momentum effect
-      startMarquee()
-    })
-  }
-
-  // Handle drag end event for upcoming projects
-  const handleUpcomingDragEnd = (event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    // If the drag velocity is high, give it a bit of momentum in that direction
-    const velocityFactor = 0.1
-    const momentumDistance = info.velocity.x * velocityFactor
+    if (Math.abs(velocity) > 500 || Math.abs(offset) > 100) {
+      const direction = velocity > 0 ? 1 : -1
+      const newX = panStartX.current + direction * 300
+      marqueeControls.start({ x: newX, transition: { duration: 0.5 } })
+    } else {
+      marqueeControls.start({ x: panStartX.current, transition: { duration: 0.5 } })
+    }
     
-    // Apply momentum to the current position
-    upcomingMarqueeControls.start({
-      x: upcomingDragX.get() + momentumDistance,
-      transition: {
-        duration: 0.5,
-        type: "spring",
-        damping: 15
-      }
-    }).then(() => {
-      // Resume auto-scrolling after the momentum effect
-      startUpcomingMarquee()
-    })
-  }
+    setIsPaused(false)
+    startMarquee()
+  }, [marqueeControls, startMarquee])
 
-  // Update the current projects marquee animation when projects change
-  useEffect(() => {
-    if (!isPaused) {
-      startMarquee()
+  const handleUpcomingDragEnd = useCallback((event: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
+    const velocity = info.velocity.x
+    const offset = info.offset.x
+    
+    if (Math.abs(velocity) > 500 || Math.abs(offset) > 100) {
+      const direction = velocity > 0 ? 1 : -1
+      const newX = upcomingPanStartX.current + direction * 300
+      upcomingMarqueeControls.start({ x: newX, transition: { duration: 0.5 } })
+    } else {
+      upcomingMarqueeControls.start({ x: upcomingPanStartX.current, transition: { duration: 0.5 } })
     }
-  }, [isPaused])
+    
+    setIsUpcomingPaused(false)
+    startUpcomingMarquee()
+  }, [upcomingMarqueeControls, startUpcomingMarquee])
 
-  // Update the upcoming projects marquee animation when projects change
   useEffect(() => {
-    if (!isUpcomingPaused) {
-      startUpcomingMarquee()
+    startMarquee()
+    return () => {
+      marqueeControls.stop()
     }
-  }, [isUpcomingPaused])
+  }, [startMarquee, marqueeControls])
+
+  useEffect(() => {
+    startUpcomingMarquee()
+    return () => {
+      upcomingMarqueeControls.stop()
+    }
+  }, [startUpcomingMarquee, upcomingMarqueeControls])
 
   // Card item animation variants
   const cardItemVariants = {

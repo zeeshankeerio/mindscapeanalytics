@@ -171,9 +171,10 @@ export default function ThreeScene() {
       window.removeEventListener('resize', handleResize)
       cancelAnimationFrame(frameId)
         
-      if (containerRef.current) {
-          containerRef.current.removeChild(renderer.domElement)
-        }
+      const container = containerRef.current
+      if (container && renderer.domElement && container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement)
+      }
 
       // Dispose materials and geometries to prevent memory leaks
       sphereGeometry.dispose()

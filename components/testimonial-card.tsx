@@ -1,5 +1,6 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Quote } from "lucide-react"
+import Image from 'next/image'
 
 interface TestimonialCardProps {
   quote: string
@@ -17,7 +18,13 @@ export default function TestimonialCard({ quote, author, position, image }: Test
       </CardContent>
       <CardFooter className="flex items-center space-x-4 pt-0">
         {image ? (
-          <img src={image || "/placeholder.svg"} alt={author} className="h-12 w-12 rounded-full object-cover" />
+          <Image 
+            src={image || "/placeholder.svg"} 
+            alt={author} 
+            width={48} 
+            height={48} 
+            className="rounded-full object-cover"
+          />
         ) : (
           <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
             <span className="text-primary font-medium text-lg">{author.charAt(0)}</span>

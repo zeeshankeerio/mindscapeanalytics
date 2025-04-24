@@ -72,29 +72,29 @@ export default function Home() {
   return (
     <main ref={containerRef} className="min-h-screen bg-black text-white relative overflow-x-hidden">
       {/* Global Background Elements */}
-      <div className={`${backgroundStyles.global} ${backgroundStyles.gradient}`}></div>
-      <div className={`${backgroundStyles.global} ${backgroundStyles.overlay}`}></div>
+      <div className={`${backgroundStyles.global} ${backgroundStyles.gradient}`} aria-hidden="true"></div>
+      <div className={`${backgroundStyles.global} ${backgroundStyles.overlay}`} aria-hidden="true"></div>
       
       {/* Animated Background Particles */}
-      <div className={backgroundStyles.particles}>
+      <div className={backgroundStyles.particles} aria-hidden="true">
         <div className={backgroundStyles.grid}></div>
         <div className={`${backgroundStyles.glow} top-1/4 right-1/4 w-64 h-64`}></div>
         <div className={`${backgroundStyles.glow} bottom-1/4 left-1/4 w-80 h-80 blur-[120px]`}></div>
       </div>
       
       {/* Hero Section - First Impression */}
-      <motion.section 
-        style={{ y, opacity }}
-        className="relative z-10 w-full overflow-hidden"
-      >
-        <div className="container mx-auto px-4 md:px-6">
+      <header className="relative z-10 w-full overflow-hidden">
+        <motion.div 
+          style={{ y, opacity }}
+          className="container mx-auto px-4 md:px-6"
+        >
           <HyperHero />
-        </div>
-      </motion.section>
+        </motion.div>
+      </header>
       
       {/* Features - Core Capabilities */}
       <section id="features" className="relative z-10 w-full py-12 overflow-hidden">
-        <div className={sectionBackgroundStyles.container}>
+        <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
         </div>
@@ -105,7 +105,7 @@ export default function Home() {
       
       {/* AI Capabilities - Advanced Features */}
       <section id="ai-capabilities" className="relative z-10 w-full py-12 overflow-hidden">
-        <div className={sectionBackgroundStyles.container}>
+        <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
         </div>
@@ -116,7 +116,7 @@ export default function Home() {
       
       {/* Projects Showcase - Our Innovations */}
       <section id="projects" className="relative z-10 w-full py-12 overflow-hidden">
-        <div className={sectionBackgroundStyles.container}>
+        <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
         </div>
@@ -127,7 +127,7 @@ export default function Home() {
       
       {/* Analytics Preview - Data Visualization */}
       <section id="analytics" className="relative z-10 w-full py-12 overflow-hidden">
-        <div className={sectionBackgroundStyles.container}>
+        <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
         </div>
@@ -138,7 +138,7 @@ export default function Home() {
       
       {/* Industry Solutions - Vertical Focus */}
       <section id="solutions" className="relative z-10 w-full py-12 overflow-hidden">
-        <div className={sectionBackgroundStyles.container}>
+        <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
         </div>
@@ -149,7 +149,7 @@ export default function Home() {
       
       {/* Tech Stack - Our Technology */}
       <section id="tech-stack" className="relative z-10 w-full py-12 overflow-hidden">
-        <div className={sectionBackgroundStyles.container}>
+        <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
         </div>
@@ -160,7 +160,7 @@ export default function Home() {
       
       {/* Testimonials - Social Proof */}
       <section id="testimonials" className="relative z-10 w-full py-12 overflow-hidden">
-        <div className={sectionBackgroundStyles.container}>
+        <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
         </div>
@@ -171,7 +171,7 @@ export default function Home() {
       
       {/* Partners - Integration Ecosystem */}
       <section id="partners" className="relative z-10 w-full py-12 overflow-hidden">
-        <div className={sectionBackgroundStyles.container}>
+        <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
         </div>
@@ -182,7 +182,7 @@ export default function Home() {
       
       {/* Team Section - Who We Are */}
       <section id="team" className="relative z-10 w-full py-12 overflow-hidden">
-        <div className={sectionBackgroundStyles.container}>
+        <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-red-900/20 rounded-full blur-[90px] opacity-30 animate-pulse-slow"></div>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-red-900/20 rounded-full blur-[90px] opacity-30 animate-pulse-slow"></div>
         </div>
@@ -193,7 +193,7 @@ export default function Home() {
       
       {/* Start Today - Call to Action */}
       <section id="start-today" className="relative z-10 w-full py-12 overflow-hidden">
-        <div className={sectionBackgroundStyles.container}>
+        <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
         </div>

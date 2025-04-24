@@ -28,6 +28,7 @@ const nextConfig = {
     webpackBuildWorker: false,
     parallelServerBuildTraces: false,
     parallelServerCompiles: false,
+    webVitalsAttribution: ['CLS', 'LCP', 'FCP', 'FID', 'TTFB', 'INP'],
   },
   transpilePackages: ['three'],
   webpack: (config) => {
@@ -41,6 +42,49 @@ const nextConfig = {
   productionBrowserSourceMaps: false,
   reactStrictMode: true,
   swcMinify: true,
+  i18n: {
+    locales: ['en'],
+    defaultLocale: 'en',
+  },
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+        ],
+      },
+      {
+        source: '/fonts/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+      {
+        source: '/images/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=86400, stale-while-revalidate=31536000',
+          },
+        ],
+      },
+    ];
+  },
 }
 
 // Only merge if userConfig exists (which it won't in this simplified version)

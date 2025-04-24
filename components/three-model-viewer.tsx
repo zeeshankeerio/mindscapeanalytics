@@ -475,8 +475,9 @@ export function ThreeModelViewer({
     return () => {
       cancelAnimationFrame(frameIdRef.current)
       
-      if (rendererRef.current && containerRef.current) {
-        containerRef.current.removeChild(rendererRef.current.domElement)
+      const container = containerRef.current
+      if (rendererRef.current && container && rendererRef.current.domElement && container.contains(rendererRef.current.domElement)) {
+        container.removeChild(rendererRef.current.domElement)
       }
       
       clearTimeout(timeout)

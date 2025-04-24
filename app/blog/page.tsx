@@ -26,6 +26,7 @@ import {
   SlidersHorizontal
 } from "lucide-react"
 import { motion } from "framer-motion"
+import { StandardBackground, SectionBackground } from "@/components/shared/background"
 
 const latestBlogPosts = [
   {
@@ -199,107 +200,94 @@ const blogCategories = [
 ];
 
 export default function BlogPage() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState("all");
+  const [activeCategory, setActiveCategory] = useState("all")
+  const [searchQuery, setSearchQuery] = useState("")
   
   const filteredPosts = latestBlogPosts.filter(post => {
+    const matchesCategory = activeCategory === "all" || post.category === activeCategory
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                         post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = activeCategory === "all" || post.category === activeCategory;
-    return matchesSearch && matchesCategory;
-  });
+                        post.excerpt.toLowerCase().includes(searchQuery.toLowerCase())
+    return matchesCategory && matchesSearch
+  })
 
   return (
-    <div className="min-h-screen flex flex-col bg-black text-white">
+    <div className="min-h-screen bg-black text-white relative overflow-x-hidden">
+      {/* Apply standard background */}
+      <StandardBackground />
+      
       <MainNavigation />
 
+      <main className="container mx-auto px-4 py-24 relative z-10">
       {/* Hero Section */}
-      <section className="pt-32 pb-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]"></div>
-        <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-red-500/10 blur-[100px]"></div>
-        <div className="absolute bottom-1/4 left-1/4 w-80 h-80 rounded-full bg-red-500/10 blur-[120px]"></div>
-
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center mb-16">
+        <section className="mb-16 relative">
+          <SectionBackground />
+          <div className="relative z-10">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
+              className="text-center max-w-4xl mx-auto"
             >
-              <Badge className="mb-4 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm">INSIGHTS HUB</Badge>
-            <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-                Explore the Future of <span className="text-red-500">AI & Blockchain</span>
+              <Badge className="mb-4 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm">INSIGHTS & RESEARCH</Badge>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 gradient-text">
+                Latest <span className="text-red-500">Insights</span> from Our Experts
             </h1>
             <p className="text-xl text-white/70 mb-8">
-                Discover cutting-edge research, industry insights, and practical applications in AI and blockchain technology.
+                Explore cutting-edge research, industry trends, and practical guides from our team of AI and blockchain experts.
             </p>
 
-            <div className="max-w-2xl mx-auto relative">
+              <div className="relative max-w-xl mx-auto flex mb-12">
                 <Input 
-                  placeholder="Search articles..." 
-                  className="bg-white/5 border-white/10 pl-10 py-6 text-base" 
+                  type="text"
+                  placeholder="Search blog posts..."
+                  className="pl-10 bg-black/40 border-white/10 focus:border-red-500/50 text-white"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-white/50" />
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-white/50" />
+                <Button className="ml-2 bg-red-600 hover:bg-red-700 text-white transition-all duration-300 hover:scale-105">
+                  Search
+                </Button>
             </div>
             </motion.div>
-          </div>
-        </div>
-      </section>
-      
-      {/* Blog Categories */}
-      <section className="py-6 bg-black/50 backdrop-blur-md sticky top-0 z-30 border-y border-white/10">
-        <div className="container mx-auto px-4 md:px-6">
-          <Tabs value={activeCategory} onValueChange={setActiveCategory} className="w-full">
-            <div className="flex items-center justify-between mb-4">
-              <TabsList className="bg-black/30 p-1 rounded-lg border border-white/10">
+            
+            <Tabs defaultValue="all" className="w-full max-w-4xl mx-auto">
+              <TabsList className="bg-black/40 backdrop-blur-md border border-white/10 p-1 w-full flex justify-between overflow-x-auto mb-8 [&::-webkit-scrollbar]:hidden">
                 {blogCategories.map(category => (
                   <TabsTrigger 
                     key={category.id} 
                     value={category.id}
-                    className="data-[state=active]:bg-red-500 data-[state=active]:text-white"
+                    onClick={() => setActiveCategory(category.id)}
+                    className="flex-1 data-[state=active]:bg-red-500/20 data-[state=active]:text-white"
                   >
                     {category.label}
                   </TabsTrigger>
                 ))}
               </TabsList>
-              
-              <div className="hidden md:flex items-center gap-2">
-                <Badge variant="outline" className="gap-1 text-white/70">
-                  <Filter className="h-3 w-3" />
+            </Tabs>
+          </div>
+        </section>
+        
+        {/* Featured Posts Grid */}
+        <section className="mb-20 relative">
+          <SectionBackground />
+          <div className="relative z-10">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold">Featured Articles</h2>
+              <div className="flex items-center space-x-2">
+                <Button variant="ghost" size="sm" className="text-white border border-white/10 hover:bg-white/5">
+                  <Filter className="h-4 w-4 mr-2" />
                   Filter
-                </Badge>
-                <Badge variant="outline" className="gap-1 text-white/70">
-                  <SlidersHorizontal className="h-3 w-3" />
+                </Button>
+                <Button variant="ghost" size="sm" className="text-white border border-white/10 hover:bg-white/5">
+                  <SlidersHorizontal className="h-4 w-4 mr-2" />
                   Sort
-                </Badge>
+                </Button>
               </div>
             </div>
             
-            {blogCategories.map(category => (
-              <TabsContent key={category.id} value={category.id} className="mt-0">
-                {/* Content is displayed from filtered array, not in each tab */}
-              </TabsContent>
-            ))}
-          </Tabs>
-        </div>
-      </section>
-
-      {/* Featured Posts */}
-      <section className="py-10 bg-black relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,0,0,0.1),transparent_70%)]"></div>
-        
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
           {filteredPosts.length > 0 ? (
             <>
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-2xl font-bold">
-                  {activeCategory === "all" ? "Latest Articles" : blogCategories.find(c => c.id === activeCategory)?.label}
-                </h2>
-                <Badge className="bg-white/10 text-white/70">{filteredPosts.length} articles</Badge>
-              </div>
-              
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
                 {filteredPosts.slice(0, 1).map((post) => (
                   <Card key={post.id} className="bg-black/40 backdrop-blur-md border border-white/10 overflow-hidden group hover:border-red-500/50 transition-colors duration-300 h-full">
@@ -358,6 +346,7 @@ export default function BlogPage() {
               </CardContent>
             </Card>
                 ))}
+                </div>
 
             <div className="grid grid-cols-1 gap-6">
                   {filteredPosts.slice(1, 3).map((post) => (
@@ -413,106 +402,39 @@ export default function BlogPage() {
                     </div>
                   </CardContent>
                 </Card>
-              ))}
-            </div>
-          </div>
-              
-              {/* More Articles Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-                {filteredPosts.slice(3).map((post) => (
-                  <motion.div
-                    key={post.id}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <Card className="bg-black/40 backdrop-blur-md border border-white/10 overflow-hidden group hover:border-red-500/50 transition-all duration-300 hover:scale-[1.02] h-full flex flex-col">
-                      <CardContent className="p-0 flex flex-col h-full">
-                        <div className="relative">
-                          <img
-                            src={post.image}
-                            alt={post.title}
-                            className="w-full aspect-video object-cover"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="absolute top-2 right-2 bg-black/20 text-white hover:bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                          >
-                            <ThumbsUp className="h-4 w-4" />
-                          </Button>
-                        </div>
-                        
-                        <div className="p-4 flex-grow flex flex-col">
-                          <div className="flex items-center justify-between mb-2">
-                            <Badge className="bg-white/10 text-white/70 hover:bg-white/20">{post.category.replace('-', ' ')}</Badge>
-                            <span className="text-xs text-white/60">{post.date}</span>
-                          </div>
-                          
-                          <h3 className="text-lg font-bold mb-2 line-clamp-2">{post.title}</h3>
-                          <p className="text-white/70 text-sm mb-4 line-clamp-3">{post.excerpt}</p>
-                          
-                          <div className="flex items-center justify-between mt-auto pt-4 border-t border-white/10">
-                            <div className="flex items-center gap-2">
-                              <div className="h-8 w-8 rounded-full overflow-hidden">
-                                <img
-                                  src={post.author.avatar}
-                                  alt={post.author.name}
-                                  className="h-full w-full object-cover"
-                                />
-                              </div>
-                              <span className="text-sm">{post.author.name}</span>
-                            </div>
-                            
-                            <Button
-                              variant="ghost"
-                              className="p-0 h-auto text-red-500 hover:text-red-400 hover:bg-transparent"
-                            >
-                              Read
-                              <ArrowRight className="ml-1 h-4 w-4" />
-                            </Button>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
                 ))}
               </div>
             </>
           ) : (
-            <div className="text-center py-16">
-              <h3 className="text-2xl font-bold mb-4">No articles found</h3>
-              <p className="text-white/70 mb-6">Try adjusting your search criteria or browse a different category.</p>
+              <div className="text-center py-12">
+                <p className="text-xl text-white/70">No articles found matching your search criteria.</p>
               <Button 
-                variant="outline" 
                 onClick={() => {
-                  setSearchQuery("");
-                  setActiveCategory("all");
+                    setSearchQuery("")
+                    setActiveCategory("all")
                 }}
+                  className="mt-4 bg-red-600 hover:bg-red-700"
               >
-                View all articles
+                  Reset Filters
               </Button>
             </div>
           )}
         </div>
       </section>
 
-      {/* Resource Hub */}
-      <section className="py-20 bg-gradient-to-b from-black to-gray-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,0,0,0.1),transparent_70%)]"></div>
-
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="text-center mb-16">
-            <Badge className="mb-4 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm">RESOURCE HUB</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Comprehensive Learning Resources</h2>
-            <p className="text-xl text-white/70">
-              Access a curated collection of educational materials and industry resources
+        {/* Resources Section */}
+        <section className="mb-20 relative">
+          <SectionBackground />
+          <div className="relative z-10">
+            <div className="text-center mb-12">
+              <Badge className="mb-4 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm">RESOURCES</Badge>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Knowledge Center</h2>
+              <p className="text-xl text-white/70 max-w-3xl mx-auto">
+                Explore our comprehensive library of resources to deepen your understanding of AI and blockchain technologies.
             </p>
             </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {resources.map((resource, index) => (
               <motion.div
                 key={resource.title}
@@ -543,11 +465,10 @@ export default function BlogPage() {
         </div>
       </section>
 
-      {/* Newsletter Section with Enhanced Design */}
-      <section className="py-20 bg-black relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,0,0,0.15),transparent_70%)]"></div>
-
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
+        {/* Newsletter Section */}
+        <section className="relative">
+          <SectionBackground />
+          <div className="relative z-10 bg-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-10 shadow-[0_0_50px_rgba(255,0,0,0.15)]">
           <div className="max-w-4xl mx-auto bg-gradient-to-br from-black/60 to-red-950/30 backdrop-blur-md border border-white/10 rounded-2xl p-8 md:p-12 shadow-[0_0_50px_rgba(255,0,0,0.2)]">
             <div className="grid md:grid-cols-2 gap-8 items-center">
               <div>
@@ -589,9 +510,11 @@ export default function BlogPage() {
           </div>
         </div>
       </section>
+      </main>
 
       <Footer />
         </div>
-  );
+  )
 }
+
 

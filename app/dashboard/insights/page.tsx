@@ -59,6 +59,9 @@ import {
   Gauge,
   Sliders,
   AlertTriangle,
+  BarChart4,
+  Activity,
+  Zap,
 } from "lucide-react"
 import { Toggle } from "@/components/ui/toggle"
 import { ScrollArea } from "@/components/ui/scroll-area"

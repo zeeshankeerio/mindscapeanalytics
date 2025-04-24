@@ -11,9 +11,27 @@ import { ArrowRight, Brain, Code, Database, LineChart, Users, Zap, Linkedin, Twi
 import { TeamMemberCard } from "./teamcard"
 import Head from "next/head"
 import Image from "next/image"
+import { StandardBackground, SectionBackground } from "@/components/shared/background"
+import Link from "next/link"
 
 // Add CSS for animations and effects
 import "./styles/animations.css"
+
+// Animation variants
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+}
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+}
 
 export default function AboutPage() {
   const [heroRef, heroInView] = useInView({ triggerOnce: true, threshold: 0.1 })
@@ -28,58 +46,99 @@ export default function AboutPage() {
 
   // Auto-scroll functionality (reverse direction)
   useEffect(() => {
-    if (!scrollContainerRef.current || !isAutoScrolling) return
+    if (!scrollContainerRef.current || !isAutoScrolling) return;
 
     const interval = setInterval(() => {
       if (scrollContainerRef.current) {
-        const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current
-        const maxScroll = scrollWidth - clientWidth
+        const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+        const maxScroll = scrollWidth - clientWidth;
         
-        if (scrollLeft <= 0) {
-          // Reset to end
+        // Smaller increment for smoother scrolling
+        const increment = 0.8;
+        
+        // Reset when reaching the end
+        if (scrollLeft >= maxScroll - 2) {
           scrollContainerRef.current.scrollTo({
-            left: maxScroll,
+            left: 0,
             behavior: 'smooth'
-          })
+          });
+          
+          // Also update indicator
+          document.querySelectorAll('.scroll-indicator').forEach((el, i) => {
+            if (i === 0) {
+              el.classList.add('active');
+              el.classList.add('bg-red-500/60');
+              el.classList.remove('bg-white/10');
+            } else {
+              el.classList.remove('active');
+              el.classList.remove('bg-red-500/60');
+              el.classList.add('bg-white/10');
+            }
+          });
         } else {
-          // Scroll left (reverse direction)
-          scrollContainerRef.current.scrollTo({
-            left: scrollLeft - 1,
-            behavior: 'smooth'
-          })
+          // Standard very smooth scrolling
+          scrollContainerRef.current.scrollLeft += increment;
         }
 
         // Update arrow visibility
-        setShowLeftArrow(scrollLeft > 0)
-        setShowRightArrow(scrollLeft < maxScroll)
+        setShowLeftArrow(scrollLeft > 0);
+        setShowRightArrow(scrollLeft < maxScroll);
       }
-    }, 50)
+    }, 20); // Very frequent updates for ultra-smooth scrolling
 
-    return () => clearInterval(interval)
-  }, [isAutoScrolling])
+    return () => clearInterval(interval);
+  }, [isAutoScrolling]);
 
+  // Update the scroll function for perfectly aligned scrolling with consistent cards
   const scroll = (direction: "left" | "right") => {
-    if (scrollContainerRef.current) {
-      setIsAutoScrolling(false)
-      const scrollAmount = 400
-      const currentScroll = scrollContainerRef.current.scrollLeft
-      const newScroll = direction === "left" 
-        ? currentScroll - scrollAmount 
-        : currentScroll + scrollAmount
-
-      scrollContainerRef.current.scrollTo({
-        left: newScroll,
-        behavior: "smooth"
-      })
-
-      setShowLeftArrow(newScroll > 0)
-      setShowRightArrow(
-        newScroll < (scrollContainerRef.current.scrollWidth - scrollContainerRef.current.clientWidth)
-      )
-
-      // Resume auto-scroll after manual scroll
-      setTimeout(() => setIsAutoScrolling(true), 5000)
-    }
+    if (!scrollContainerRef.current) return;
+    
+    setIsAutoScrolling(false)
+    
+    const { clientWidth, scrollLeft } = scrollContainerRef.current;
+    const cardWidth = 360; // Match the largest card width
+    const gap = 24; // gap-6 = 24px
+    
+    // Calculate how many cards are fully visible
+    const cardsPerView = Math.floor(clientWidth / (cardWidth + gap));
+    
+    // Scrolling by one card at a time for smoother experience
+    const scrollAmount = direction === "left" ? -cardWidth : cardWidth;
+    const newScrollPosition = scrollLeft + scrollAmount;
+    
+    scrollContainerRef.current.scrollTo({
+      left: newScrollPosition,
+      behavior: "smooth"
+    });
+    
+    // Update navigation states
+    setTimeout(() => {
+      if (!scrollContainerRef.current) return;
+      
+      const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+      setShowLeftArrow(scrollLeft > 10);
+      setShowRightArrow(scrollLeft < (scrollWidth - clientWidth - 10));
+      
+      // Update active indicator based on scroll position
+      const currentPage = Math.floor(scrollLeft / (clientWidth / 2));
+      const totalPages = Math.ceil(teamMembers.length / (clientWidth / 350));
+      const adjustedPage = Math.min(currentPage, totalPages - 1);
+      
+      document.querySelectorAll('.scroll-indicator').forEach((el, i) => {
+        if (i === adjustedPage) {
+          el.classList.add('active');
+          el.classList.add('bg-red-500/60');
+          el.classList.remove('bg-white/10');
+        } else {
+          el.classList.remove('active');
+          el.classList.remove('bg-red-500/60');
+          el.classList.add('bg-white/10');
+        }
+      });
+    }, 500);
+    
+    // Resume auto-scroll after delay
+    setTimeout(() => setIsAutoScrolling(true), 8000);
   }
 
   return (
@@ -94,364 +153,530 @@ export default function AboutPage() {
         <meta property="og:url" content="https://mindscape.ai/about" />
       </Head>
 
-      <main className="relative">
-      <div className="container mx-auto px-4 py-24">
-      {/* Hero Section */}
-      <motion.section 
-        ref={heroRef}
-        initial={{ opacity: 0, y: 20 }}
-        animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ duration: 0.8 }}
-        className="pt-32 pb-20 relative overflow-hidden section-transition"
-            aria-labelledby="hero-heading"
-      >
-        {/* Background elements */}
-            <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]" aria-hidden="true"></div>
-            <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-red-500/10 blur-[100px] animate-pulse-slow" aria-hidden="true"></div>
-            <div className="absolute bottom-1/4 left-1/4 w-80 h-80 rounded-full bg-red-500/10 blur-[120px] animate-pulse-slow" aria-hidden="true"></div>
+      <main className="relative min-h-screen bg-gradient-to-b from-black via-black/95 to-black text-white overflow-x-hidden">
+        {/* Dynamic background elements */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-red-600/5 blur-[120px] animate-pulse-slow" />
+          <div className="absolute bottom-1/3 right-1/3 w-[600px] h-[600px] rounded-full bg-purple-600/5 blur-[150px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
+          <div className="absolute top-2/3 left-1/3 w-[400px] h-[400px] rounded-full bg-blue-600/5 blur-[100px] animate-pulse-slow" style={{ animationDelay: '3s' }} />
+        </div>
 
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="max-w-4xl mx-auto text-center mb-16"
-          >
-            <Badge className="mb-4 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 button-hover">OUR STORY</Badge>
-                <h1 id="hero-heading" className="text-4xl md:text-6xl font-bold tracking-tight mb-6 gradient-text">
-              Pioneering the Future of <span className="text-red-500">AI</span>
-            </h1>
-            <p className="text-xl text-white/70 mb-8">
-              We're a team of AI researchers, engineers, and industry experts dedicated to making advanced artificial
-              intelligence accessible and impactful for businesses worldwide.
-            </p>
-          </motion.div>
+        <StandardBackground />
 
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="grid md:grid-cols-2 gap-12 items-center"
-          >
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold mb-4">Our Mission</h2>
-              <p className="text-white/70 mb-6">
-                At Mindscape Analytics, our mission is to democratize artificial intelligence by creating powerful,
-                accessible solutions that solve real business problems. We believe that AI should be a force for
-                positive transformation, helping organizations of all sizes make better decisions, optimize operations,
-                and deliver exceptional experiences.
+        <div className="container mx-auto px-4 py-24">
+        {/* Hero Section */}
+        <motion.section 
+          ref={heroRef}
+          variants={fadeIn}
+          initial="hidden"
+          animate={heroInView ? "visible" : "hidden"}
+          transition={{ duration: 0.8 }}
+          className="pt-32 pb-20 relative overflow-hidden section-transition"
+          aria-labelledby="hero-heading"
+        >
+          <SectionBackground />
+
+          <div className="container mx-auto px-4 md:px-6 relative z-10">
+            <motion.div 
+              variants={fadeIn}
+              initial="hidden"
+              animate={heroInView ? "visible" : "hidden"}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="max-w-4xl mx-auto text-center mb-16"
+            >
+              <Badge className="mb-4 bg-gradient-to-r from-white/10 to-white/5 text-white hover:from-white/20 hover:to-white/10 backdrop-blur-sm transition-all duration-300 hover:scale-105 button-hover">OUR STORY</Badge>
+              <h1 id="hero-heading" className="text-4xl md:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/80">
+                Pioneering the Future of <span className="text-red-500">AI</span>
+              </h1>
+              <p className="text-xl text-white/70 mb-8">
+                We're a team of AI researchers, engineers, and industry experts dedicated to making advanced artificial
+                intelligence accessible and impactful for businesses worldwide.
               </p>
-              <p className="text-white/70 mb-6">
-                Founded in 2018 by Zeeshan Keerio, an AI enthusiast and technical visionary, Mindscape Analytics has grown into a leader in
-                enterprise AI solutions, serving clients across finance, healthcare, retail, manufacturing, and more.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button className="bg-red-600 hover:bg-red-700 text-white transition-all duration-300 hover:scale-105 button-hover">
-                  Our Approach
-                      <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
-                </Button>
-                <Button variant="outline" className="border-white/10 hover:bg-white/5 transition-all duration-300 hover:scale-105 button-hover">
-                  Meet Our Team
-                </Button>
-              </div>
-            </div>
-            <div className="relative">
-                  <div className="absolute -inset-4 bg-red-500/20 rounded-full blur-3xl opacity-30 animate-pulse-slow" aria-hidden="true"></div>
-                  <Image
-                src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?q=80&w=2070&auto=format&fit=crop"
-                alt="Our Team"
-                    width={800}
-                    height={600}
-                className="w-full h-auto rounded-xl border border-white/10 relative z-10 shadow-[0_0_30px_rgba(255,0,0,0.15)] hover:shadow-[0_0_50px_rgba(255,0,0,0.25)] transition-all duration-300 image-hover"
-                    priority
-              />
-            </div>
-          </motion.div>
-        </div>
-      </motion.section>
+            </motion.div>
 
-      {/* Values Section */}
-      <motion.section 
-        ref={valuesRef}
-        initial={{ opacity: 0, y: 20 }}
-        animate={valuesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ duration: 0.8 }}
-        className="py-20 bg-gradient-to-b from-black to-black/90 relative overflow-hidden section-transition"
-            aria-labelledby="values-heading"
-      >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,0,0,0.1),transparent_70%)]" aria-hidden="true"></div>
-
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center mb-16">
-            <Badge className="mb-4 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm">OUR VALUES</Badge>
-                <h2 id="values-heading" className="text-3xl md:text-5xl font-bold tracking-tight mb-6">
-              Guided by <span className="text-red-500">Principles</span>
-            </h2>
-            <p className="text-xl text-white/70">
-              Our core values shape everything we do, from how we build our products to how we interact with our
-              clients.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Innovation",
-                description:
-                  "We constantly push the boundaries of what's possible with AI, investing heavily in R&D to develop cutting-edge solutions.",
-                    icon: <Brain className="h-10 w-10 text-red-500" aria-hidden="true" />,
-              },
-              {
-                title: "Integrity",
-                description:
-                  "We believe in ethical AI development and transparent business practices, ensuring our clients can trust both our technology and our team.",
-                    icon: <ShieldIcon className="h-10 w-10 text-red-500" aria-hidden="true" />,
-              },
-              {
-                title: "Impact",
-                description:
-                  "We measure our success by the tangible results we deliver for our clients, focusing on solutions that drive real business value.",
-                    icon: <TargetIcon className="h-10 w-10 text-red-500" aria-hidden="true" />,
-              },
-            ].map((value, index) => (
-              <Card
-                key={index}
-                className="bg-black/40 backdrop-blur-md border border-white/10 overflow-hidden group hover:border-red-500/50 transition-colors duration-300 card-hover"
-              >
-                <CardContent className="p-6 space-y-4">
-                  <div className="p-3 bg-red-500/10 rounded-lg w-fit group-hover:bg-red-500/20 transition-colors">
-                    {value.icon}
-                  </div>
-                  <h3 className="text-xl font-bold">{value.title}</h3>
-                  <p className="text-white/70">{value.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </motion.section>
-
-      {/* Team Section */}
-      <motion.section 
-        ref={teamRef}
-        initial={{ opacity: 0, y: 20 }}
-        animate={teamInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ duration: 0.8 }}
-        className="py-20 bg-black relative overflow-hidden section-transition"
-            aria-labelledby="team-heading"
-      >
-            <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]" aria-hidden="true"></div>
-
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={teamInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="max-w-4xl mx-auto text-center mb-16"
-          >
-            <Badge className="mb-4 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 button-hover">OUR TEAM</Badge>
-                <h2 id="team-heading" className="text-3xl md:text-5xl font-bold tracking-tight mb-6 gradient-text">
-              Meet Our <span className="text-red-500">Experts</span>
-            </h2>
-            <p className="text-xl text-white/70">
-              Our diverse team brings together expertise in AI research, software engineering, data science, and
-              industry-specific knowledge.
-            </p>
-          </motion.div>
-
-              {/* Team Members Slider */}
-              <div className="relative">
-                {/* Left Arrow */}
-                {showLeftArrow && (
-                  <button
-                    onClick={() => scroll("left")}
-                    className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 z-20 p-2 rounded-full bg-black/50 border border-white/10 hover:bg-black/70 transition-colors"
-                    aria-label="Scroll left"
-                  >
-                    <ChevronLeft className="h-6 w-6 text-white" />
-                  </button>
-                )}
-
-                {/* Team Members Grid */}
-                <div
-                  ref={scrollContainerRef}
-                  className="flex gap-6 overflow-x-auto pb-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-                  onScroll={(e) => {
-                    const target = e.target as HTMLDivElement
-                    setShowLeftArrow(target.scrollLeft > 0)
-                    setShowRightArrow(
-                      target.scrollLeft < (target.scrollWidth - target.clientWidth)
-                    )
-                  }}
-                >
-                  {teamMembers.map((member, index) => (
-              <motion.div 
-                      key={member.name}
-                initial={{ opacity: 0, y: 20 }}
-                animate={teamInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                      transition={{ duration: 0.8, delay: 0.6 + index * 0.1 }}
-                      className="flex-none w-80"
-              >
-                      <TeamMemberCard member={member} index={index} />
-              </motion.div>
-                  ))}
-                </div>
-
-                {/* Right Arrow */}
-                {showRightArrow && (
-                  <button
-                    onClick={() => scroll("right")}
-                    className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 p-2 rounded-full bg-black/50 border border-white/10 hover:bg-black/70 transition-colors"
-                    aria-label="Scroll right"
-              >
-                    <ChevronRight className="h-6 w-6 text-white" />
-                  </button>
-                )}
-              </div>
-        </div>
-      </motion.section>
-
-      {/* Timeline Section */}
-      <motion.section 
-        ref={missionRef}
-        initial={{ opacity: 0, y: 20 }}
-        animate={missionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ duration: 0.8 }}
-        className="py-20 bg-gradient-to-b from-black to-black/90 relative overflow-hidden section-transition"
-            aria-labelledby="timeline-heading"
-      >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,0,0,0.1),transparent_70%)]" aria-hidden="true"></div>
-
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="max-w-4xl mx-auto text-center mb-16">
-            <Badge className="mb-4 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm transition-all duration-300 hover:scale-105 button-hover">OUR JOURNEY</Badge>
-                <h2 id="timeline-heading" className="text-3xl md:text-5xl font-bold tracking-tight mb-6 gradient-text">
-              From Vision to <span className="text-red-500">Reality</span>
-            </h2>
-            <p className="text-xl text-white/70">Our journey from a small research team to a global AI leader.</p>
-          </div>
-
-          <div className="relative max-w-3xl mx-auto">
-            {/* Timeline line */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-px bg-white/10" aria-hidden="true"></div>
-
-            {/* Timeline items */}
-            {[
-              {
-                year: "2018",
-                title: "Founded",
-                description:
-                  "Mindscape Analytics was founded by Zeeshan Keerio with a vision to democratize AI for businesses and help organizations leverage artificial intelligence technologies.",
-              },
-              {
-                year: "2019",
-                title: "First Enterprise Client",
-                description:
-                  "Secured our first major enterprise client and delivered a custom AI solution that reduced operational costs by 35%.",
-              },
-              {
-                year: "2020",
-                title: "Series A Funding",
-                description:
-                  "Raised $12M in Series A funding to accelerate product development and expand our team of AI researchers and engineers.",
-              },
-              {
-                year: "2021",
-                title: "Platform Launch",
-                description:
-                  "Launched our flagship AI platform, enabling businesses to build, deploy, and manage custom AI solutions without deep technical expertise.",
-              },
-              {
-                year: "2022",
-                title: "Global Expansion",
-                description:
-                  "Opened offices in London, Singapore, and Tokyo to better serve our growing international client base.",
-              },
-              {
-                year: "2023",
-                title: "Series B Funding",
-                description:
-                  "Secured $45M in Series B funding to further enhance our platform capabilities and expand into new markets.",
-              },
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={missionInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className={`relative mb-12 ${index % 2 === 0 ? "md:text-right" : ""}`}
-              >
-                <div className={`md:flex items-center ${index % 2 === 0 ? "md:flex-row-reverse" : ""}`}>
-                  <div className="md:w-1/2 p-4">
-                    <div className="bg-black/40 backdrop-blur-md border border-white/10 rounded-xl p-6 shadow-[0_0_20px_rgba(255,0,0,0.1)] card-hover">
-                      <div className="text-red-500 font-bold text-xl mb-2">{item.year}</div>
-                      <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                      <p className="text-white/70">{item.description}</p>
-                    </div>
-                  </div>
-                  <div className="hidden md:block md:w-1/2 relative">
-                    <div className="absolute top-1/2 transform -translate-y-1/2 w-full flex items-center justify-center">
-                      <div className="h-4 w-4 rounded-full bg-red-500 z-10 timeline-dot"></div>
-                      <div
-                        className={`h-px w-16 ${index % 2 === 0 ? "bg-gradient-to-l" : "bg-gradient-to-r"} from-red-500 to-transparent`}
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-                {/* Mobile timeline dot */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:hidden">
-                  <div className="h-4 w-4 rounded-full bg-red-500 z-10 timeline-dot"></div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </motion.section>
-
-      {/* Join Us Section */}
-      <motion.section 
-        ref={ctaRef}
-        initial={{ opacity: 0, y: 20 }}
-        animate={ctaInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ duration: 0.8 }}
-        className="py-20 bg-black relative overflow-hidden section-transition"
-            aria-labelledby="join-heading"
-      >
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,0,0,0.15),transparent_70%)]" aria-hidden="true"></div>
-
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="max-w-4xl mx-auto bg-black/60 backdrop-blur-md border border-white/10 rounded-2xl p-8 md:p-12 shadow-[0_0_50px_rgba(255,0,0,0.2)] card-hover">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div>
-                    <h2 id="join-heading" className="text-3xl md:text-4xl font-bold mb-4 gradient-text">Join Our Team</h2>
+            <motion.div 
+              variants={staggerContainer}
+              initial="hidden"
+              animate={heroInView ? "visible" : "hidden"}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="grid md:grid-cols-2 gap-12 items-center"
+            >
+              <motion.div variants={fadeIn}>
+                <h2 className="text-2xl md:text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/90">Our Mission</h2>
                 <p className="text-white/70 mb-6">
-                  We're always looking for talented individuals who are passionate about AI and want to make a real
-                  impact. Explore our open positions and become part of our journey.
+                  At Mindscape Analytics, our mission is to democratize artificial intelligence by creating powerful,
+                  accessible solutions that solve real business problems. We believe that AI should be a force for
+                  positive transformation, helping organizations of all sizes make better decisions, optimize operations,
+                  and deliver exceptional experiences.
+                </p>
+                <p className="text-white/70 mb-6">
+                  Founded in 2018 by <Link href="/founder" className="text-red-400 hover:text-red-300 transition-colors">Zeeshan Keerio</Link>, an AI enthusiast and technical visionary, Mindscape Analytics has grown into a leader in
+                  enterprise AI solutions, serving clients across finance, healthcare, retail, manufacturing, and more.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button size="lg" className="bg-red-600 hover:bg-red-700 text-white transition-all duration-300 hover:scale-105 button-hover">
-                    View Open Positions
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Button className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white transition-all duration-300 shadow-lg shadow-red-900/20">
+                    Our Approach
+                        <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
                   </Button>
-                  <Button size="lg" variant="outline" className="border-white/10 hover:bg-white/5 transition-all duration-300 hover:scale-105 button-hover">
-                    Our Culture
+                  </motion.div>
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Button variant="outline" className="border-white/10 hover:bg-white/5 transition-all duration-300 backdrop-blur-sm shadow-lg">
+                    Meet Our Team
                   </Button>
+                  </motion.div>
                 </div>
-              </div>
-              <div className="relative">
-                    <div className="absolute -inset-4 bg-red-500/20 rounded-full blur-3xl opacity-50 animate-pulse-slow" aria-hidden="true"></div>
+              </motion.div>
+              <motion.div 
+                variants={fadeIn}
+                className="relative"
+              >
+                <motion.div 
+                  className="absolute -inset-4 bg-red-500/20 rounded-full blur-3xl opacity-30"
+                  animate={{ scale: [1, 1.05, 1], opacity: [0.3, 0.4, 0.3] }} 
+                  transition={{ duration: 8, repeat: Infinity, repeatType: "reverse" }}
+                  aria-hidden="true"
+                />
                     <Image
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop"
-                  alt="Team Collaboration"
+                  src="https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?q=80&w=2070&auto=format&fit=crop"
+                  alt="Our Team"
                       width={800}
                       height={600}
-                  className="w-full h-auto rounded-xl border border-white/10 relative z-10 image-hover"
+                  className="w-full h-auto rounded-xl border border-white/10 relative z-10 shadow-[0_0_30px_rgba(255,0,0,0.15)] hover:shadow-[0_0_50px_rgba(255,0,0,0.25)] transition-all duration-300 image-hover"
+                      priority
                 />
+              </motion.div>
+            </motion.div>
+          </div>
+        </motion.section>
+
+        {/* Values Section */}
+        <motion.section 
+          ref={valuesRef}
+          variants={fadeIn}
+          initial="hidden"
+          animate={valuesInView ? "visible" : "hidden"}
+          transition={{ duration: 0.8 }}
+          className="py-20 relative overflow-hidden section-transition"
+          aria-labelledby="values-heading"
+        >
+          <SectionBackground />
+
+          <div className="container mx-auto px-4 md:px-6 relative z-10">
+            <div className="max-w-4xl mx-auto text-center mb-16">
+              <Badge className="mb-4 bg-gradient-to-r from-white/10 to-white/5 text-white hover:from-white/20 hover:to-white/10 backdrop-blur-sm">OUR VALUES</Badge>
+              <h2 id="values-heading" className="text-3xl md:text-5xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/80">
+                Guided by <span className="text-red-500">Principles</span>
+              </h2>
+              <p className="text-xl text-white/70">
+                Our core values shape everything we do, from how we build our products to how we interact with our
+                clients.
+              </p>
+            </div>
+
+            <motion.div 
+              variants={staggerContainer}
+              initial="hidden"
+              animate={valuesInView ? "visible" : "hidden"}
+              className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            >
+              {[
+                {
+                  title: "Innovation",
+                  description:
+                    "We constantly push the boundaries of what's possible with AI, investing heavily in R&D to develop cutting-edge solutions.",
+                    icon: <Brain className="h-10 w-10 text-red-500" aria-hidden="true" />,
+                },
+                {
+                  title: "Integrity",
+                  description:
+                    "We believe in ethical AI development and transparent business practices, ensuring our clients can trust both our technology and our team.",
+                    icon: <ShieldIcon className="h-10 w-10 text-red-500" aria-hidden="true" />,
+                },
+                {
+                  title: "Impact",
+                  description:
+                    "We measure our success by the tangible results we deliver for our clients, focusing on solutions that drive real business value.",
+                    icon: <TargetIcon className="h-10 w-10 text-red-500" aria-hidden="true" />,
+                },
+              ].map((value, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeIn}
+                  whileHover={{ y: -5 }}
+                >
+                  <Card
+                    className="bg-gradient-to-br from-black/60 to-black/40 backdrop-blur-md border border-white/10 overflow-hidden group hover:border-red-500/50 transition-colors duration-300 hover:shadow-[0_0_25px_rgba(220,38,38,0.1)] card-hover"
+                >
+                  <CardContent className="p-6 space-y-4">
+                      <motion.div 
+                        className="p-3 bg-gradient-to-br from-red-500/10 to-red-600/5 rounded-lg w-fit group-hover:from-red-500/20 group-hover:to-red-600/10 transition-colors"
+                        whileHover={{ rotate: 5, scale: 1.05 }}
+                      >
+                      {value.icon}
+                      </motion.div>
+                    <h3 className="text-xl font-bold">{value.title}</h3>
+                    <p className="text-white/70">{value.description}</p>
+                  </CardContent>
+                </Card>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </motion.section>
+
+        {/* Team Section */}
+        <motion.section 
+          ref={teamRef}
+          variants={fadeIn}
+          initial="hidden"
+          animate={teamInView ? "visible" : "hidden"}
+          transition={{ duration: 0.8 }}
+          className="py-24 bg-black relative overflow-hidden section-transition"
+          aria-labelledby="team-heading"
+        >
+          {/* Modern grid background pattern */}
+          <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]" aria-hidden="true"></div>
+          
+          {/* Dynamic background elements */}
+          <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+            <div className="absolute top-1/4 left-1/3 w-[300px] h-[300px] rounded-full bg-red-600/5 blur-[100px] animate-pulse-slow" />
+            <div className="absolute bottom-1/3 right-1/3 w-[400px] h-[400px] rounded-full bg-purple-600/5 blur-[120px] animate-pulse-slow" style={{ animationDelay: '1.5s' }} />
+          </div>
+
+          <div className="container mx-auto px-4 md:px-6 relative z-10">
+            {/* Section heading with enhanced styling */}
+            <motion.div 
+              variants={fadeIn}
+              initial="hidden"
+              animate={teamInView ? "visible" : "hidden"}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="max-w-4xl mx-auto text-center mb-16"
+            >
+              <Badge className="mb-4 bg-gradient-to-r from-white/10 to-white/5 text-white hover:from-white/20 hover:to-white/10 backdrop-blur-sm transition-all duration-300 hover:scale-105 button-hover">OUR TEAM</Badge>
+              <h2 id="team-heading" className="text-3xl md:text-5xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/80">
+                Meet Our <span className="text-red-500">Experts</span>
+              </h2>
+              <p className="text-xl text-white/70 max-w-3xl mx-auto">
+                Our diverse team brings together expertise in AI research, software engineering, data science, and
+                industry-specific knowledge to deliver cutting-edge solutions.
+              </p>
+            </motion.div>
+
+            {/* Team Members Carousel - Updated with modern design */}
+            <div className="relative px-4 md:px-10 lg:px-20 max-w-[1400px] mx-auto carousel-container">
+              {/* Left Arrow - Better positioning */}
+              <motion.button
+                onClick={() => scroll("left")}
+                className={`absolute -left-3 sm:-left-5 top-1/2 -translate-y-1/2 z-40 p-3 rounded-full 
+                           bg-black/80 border border-white/10 hover:bg-black/90 hover:border-red-500/30
+                           transition-all duration-300 shadow-lg group carousel-controls 
+                           ${!showLeftArrow ? 'opacity-0 pointer-events-none' : 'opacity-100 arrow-appear-left'}`}
+                aria-label="Scroll left"
+                whileHover={{ scale: 1.1, x: -2 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.15 }}
+              >
+                <ChevronLeft className="h-5 w-5 text-white group-hover:text-red-400 transition-colors" />
+              </motion.button>
+
+              {/* Team Members Carousel Container with exact height */}
+              <div
+                ref={scrollContainerRef}
+                className="grid grid-flow-col auto-cols-[280px] sm:auto-cols-[320px] md:auto-cols-[340px] lg:auto-cols-[360px] 
+                         gap-6 overflow-x-auto pb-12 pt-4
+                         snap-x snap-mandatory
+                         scrollbar-thin scrollbar-track-white/5 scrollbar-thumb-red-500/20 hover:scrollbar-thumb-red-500/30
+                         mask-fade-edges"
+                style={{
+                  WebkitMaskImage: 'linear-gradient(to right, transparent, black 4%, black 96%, transparent)',
+                  maskImage: 'linear-gradient(to right, transparent, black 4%, black 96%, transparent)',
+                  height: '680px', // Increased height to match larger card images
+                  scrollBehavior: 'smooth',
+                  gridAutoFlow: 'column'
+                }}
+                onScroll={(e) => {
+                  const target = e.target as HTMLDivElement
+                  const scrollLeft = target.scrollLeft
+                  const maxScroll = target.scrollWidth - target.clientWidth
+                  
+                  setShowLeftArrow(scrollLeft > 10)
+                  setShowRightArrow(scrollLeft < maxScroll - 10)
+                  
+                  // Update active indicator
+                  if (scrollContainerRef.current) {
+                    const containerWidth = scrollContainerRef.current.clientWidth
+                    const currentPage = Math.floor(scrollLeft / (containerWidth / 2))
+                    const totalPages = Math.ceil(teamMembers.length / (containerWidth / 350))
+                    const adjustedPage = Math.min(currentPage, totalPages - 1)
+                    
+                    // Update active indicator class
+                    document.querySelectorAll('.scroll-indicator').forEach((el, i) => {
+                      if (i === adjustedPage) {
+                        el.classList.add('active')
+                      } else {
+                        el.classList.remove('active')
+                      }
+                    })
+                  }
+                  
+                  // Pause auto-scrolling while user is manually scrolling
+                  if (isAutoScrolling) setIsAutoScrolling(false)
+                  
+                  // Resume auto-scroll after 5 seconds of inactivity
+                  clearTimeout((window as any).scrollTimeout)
+                  ;(window as any).scrollTimeout = setTimeout(() => setIsAutoScrolling(true), 5000)
+                }}
+              >
+                {teamMembers.map((member, index) => (
+                  <motion.div 
+                    key={member.name}
+                    variants={fadeIn}
+                    initial="hidden"
+                    animate={teamInView ? "visible" : "hidden"}
+                    transition={{ duration: 0.8, delay: 0.3 + index * 0.08 }}
+                    className="snap-center"
+                    whileHover={{ y: -5, transition: { duration: 0.3 } }}
+                  >
+                    <TeamMemberCard member={member} index={index} />
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Right Arrow - Better positioning */}
+              <motion.button
+                onClick={() => scroll("right")}
+                className={`absolute -right-3 sm:-right-5 top-1/2 -translate-y-1/2 z-40 p-3 rounded-full 
+                           bg-black/80 border border-white/10 hover:bg-black/90 hover:border-red-500/30
+                           transition-all duration-300 shadow-lg group carousel-controls 
+                           ${!showRightArrow ? 'opacity-0 pointer-events-none' : 'opacity-100 arrow-appear-right'}`}
+                aria-label="Scroll right"
+                whileHover={{ scale: 1.1, x: 2 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.15 }}
+              >
+                <ChevronRight className="h-5 w-5 text-white group-hover:text-red-400 transition-colors" />
+              </motion.button>
+              
+              {/* Scroll indicators with active state */}
+              <div className="flex justify-center gap-3 mt-10 relative z-30">
+                {Array.from({ length: Math.ceil(teamMembers.length / 3) }).map((_, i) => (
+                  <motion.button
+                    key={i}
+                    className={`w-10 h-1.5 rounded-full transition-colors scroll-indicator 
+                              ${i === 0 ? 'active bg-red-500/60' : 'bg-white/10 hover:bg-white/20'}`}
+                    whileHover={{ scaleX: 1.2 }}
+                    onClick={() => {
+                      if (scrollContainerRef.current) {
+                        const containerWidth = scrollContainerRef.current.clientWidth
+                        const scrollPerPage = containerWidth * 0.9 // 90% of container width for better visual
+                        
+                        scrollContainerRef.current.scrollTo({
+                          left: i * scrollPerPage,
+                          behavior: 'smooth'
+                        })
+                        
+                        // Update active indicator
+                        document.querySelectorAll('.scroll-indicator').forEach((el, idx) => {
+                          if (idx === i) {
+                            el.classList.add('active')
+                            el.classList.add('bg-red-500/60')
+                            el.classList.remove('bg-white/10')
+                          } else {
+                            el.classList.remove('active')
+                            el.classList.remove('bg-red-500/60')
+                            el.classList.add('bg-white/10')
+                          }
+                        })
+                        
+                        setIsAutoScrolling(false)
+                        setTimeout(() => setIsAutoScrolling(true), 8000)
+                      }
+                    }}
+                    aria-label={`Scroll to page ${i + 1}`}
+                  />
+                ))}
+              </div>
+              
+              {/* Team carousel caption - More professional */}
+              <div className="text-center mt-8 text-white/50 text-sm max-w-xs mx-auto">
+                <p className="bg-black/20 py-2 px-4 rounded-full backdrop-blur-sm inline-flex items-center gap-2">
+                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-500/50 animate-pulse"></span>
+                  Swipe or use arrows to view more
+                </p>
               </div>
             </div>
           </div>
+        </motion.section>
+
+        {/* Timeline Section */}
+        <motion.section 
+          ref={missionRef}
+          variants={fadeIn}
+          initial="hidden"
+          animate={missionInView ? "visible" : "hidden"}
+          transition={{ duration: 0.8 }}
+          className="py-20 bg-gradient-to-b from-black to-black/90 relative overflow-hidden section-transition"
+              aria-labelledby="timeline-heading"
+        >
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,0,0,0.1),transparent_70%)]" aria-hidden="true"></div>
+
+          <div className="container mx-auto px-4 md:px-6 relative z-10">
+            <div className="max-w-4xl mx-auto text-center mb-16">
+              <Badge className="mb-4 bg-gradient-to-r from-white/10 to-white/5 text-white hover:from-white/20 hover:to-white/10 backdrop-blur-sm transition-all duration-300 hover:scale-105 button-hover">OUR JOURNEY</Badge>
+              <h2 id="timeline-heading" className="text-3xl md:text-5xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/80">
+                From Vision to <span className="text-red-500">Reality</span>
+              </h2>
+              <p className="text-xl text-white/70">Our journey from a small research team to a global AI leader.</p>
+            </div>
+
+            <div className="relative max-w-3xl mx-auto">
+              {/* Timeline line */}
+              <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-px bg-gradient-to-b from-red-500/20 via-white/10 to-red-500/20" aria-hidden="true"></div>
+
+              {/* Timeline items */}
+              {[
+                {
+                  year: "2018",
+                  title: "Founded",
+                  description:
+                    "Mindscape Analytics was founded by Zeeshan Keerio with a vision to democratize AI for businesses and help organizations leverage artificial intelligence technologies.",
+                },
+                {
+                  year: "2019",
+                  title: "First Enterprise Client",
+                  description:
+                    "Secured our first major enterprise client and delivered a custom AI solution that reduced operational costs by 35%.",
+                },
+                {
+                  year: "2020",
+                  title: "Series A Funding",
+                  description:
+                    "Raised $12M in Series A funding to accelerate product development and expand our team of AI researchers and engineers.",
+                },
+                {
+                  year: "2021",
+                  title: "Platform Launch",
+                  description:
+                    "Launched our flagship AI platform, enabling businesses to build, deploy, and manage custom AI solutions without deep technical expertise.",
+                },
+                {
+                  year: "2022",
+                  title: "Global Expansion",
+                  description:
+                    "Opened offices in London, Singapore, and Tokyo to better serve our growing international client base.",
+                },
+                {
+                  year: "2023",
+                  title: "Series B Funding",
+                  description:
+                    "Secured $45M in Series B funding to further enhance our platform capabilities and expand into new markets.",
+                },
+              ].map((item, index) => (
+                <motion.div
+                  key={index}
+                  variants={fadeIn}
+                  initial="hidden"
+                  animate={missionInView ? "visible" : "hidden"}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className={`relative mb-12 ${index % 2 === 0 ? "md:text-right" : ""}`}
+                >
+                  <div className={`md:flex items-center ${index % 2 === 0 ? "md:flex-row-reverse" : ""}`}>
+                    <div className="md:w-1/2 p-4">
+                      <motion.div 
+                        className="bg-gradient-to-br from-black/60 to-black/40 backdrop-blur-md border border-white/10 rounded-xl p-6 shadow-[0_0_20px_rgba(255,0,0,0.1)] hover:shadow-[0_0_30px_rgba(255,0,0,0.15)] hover:border-red-500/20 transition-all duration-300 card-hover"
+                        whileHover={{ y: -5 }}
+                      >
+                        <div className="text-red-500 font-bold text-xl mb-2">{item.year}</div>
+                        <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                        <p className="text-white/70">{item.description}</p>
+                      </motion.div>
+                    </div>
+                    <div className="hidden md:block md:w-1/2 relative">
+                      <div className="absolute top-1/2 transform -translate-y-1/2 w-full flex items-center justify-center">
+                        <motion.div 
+                          className="h-4 w-4 rounded-full bg-red-500 z-10 timeline-dot"
+                          whileHover={{ scale: 1.5 }}
+                        />
+                        <div
+                          className={`h-px w-16 ${index % 2 === 0 ? "bg-gradient-to-l" : "bg-gradient-to-r"} from-red-500 to-transparent`}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Mobile timeline dot */}
+                  <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:hidden">
+                    <div className="h-4 w-4 rounded-full bg-red-500 z-10 timeline-dot"></div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </motion.section>
+
+        {/* Join Us Section */}
+        <motion.section 
+          ref={ctaRef}
+          variants={fadeIn}
+          initial="hidden"
+          animate={ctaInView ? "visible" : "hidden"}
+          transition={{ duration: 0.8 }}
+          className="py-20 bg-black relative overflow-hidden section-transition"
+              aria-labelledby="join-heading"
+        >
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,0,0,0.15),transparent_70%)]" aria-hidden="true"></div>
+
+          <div className="container mx-auto px-4 md:px-6 relative z-10">
+            <motion.div 
+              className="max-w-4xl mx-auto bg-gradient-to-br from-black/60 to-black/40 backdrop-blur-md border border-white/10 rounded-2xl p-8 md:p-12 shadow-[0_0_50px_rgba(255,0,0,0.2)] hover:shadow-[0_0_60px_rgba(255,0,0,0.25)] transition-all duration-300 card-hover"
+              whileHover={{ y: -5 }}
+            >
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                  <h2 id="join-heading" className="text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/80">Join Our Team</h2>
+                  <p className="text-white/70 mb-6">
+                    We're always looking for talented individuals who are passionate about AI and want to make a real
+                    impact. Explore our open positions and become part of our journey.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                      <Button size="lg" className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white transition-all duration-300 shadow-lg shadow-red-900/20">
+                      View Open Positions
+                    </Button>
+                    </motion.div>
+                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                      <Button size="lg" variant="outline" className="border-white/10 hover:bg-white/5 transition-all duration-300 backdrop-blur-sm shadow-lg">
+                      Our Culture
+                    </Button>
+                    </motion.div>
+                  </div>
+                </div>
+                <div className="relative">
+                  <motion.div 
+                    className="absolute -inset-4 bg-red-500/20 rounded-full blur-3xl opacity-50"
+                    animate={{ scale: [1, 1.05, 1], opacity: [0.3, 0.4, 0.3] }} 
+                    transition={{ duration: 8, repeat: Infinity, repeatType: "reverse" }}
+                    aria-hidden="true"
+                  />
+                  <motion.div 
+                    className="relative overflow-hidden rounded-xl border border-white/10"
+                    whileHover={{ scale: 1.02 }}
+                  >
+                      <Image
+                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2070&auto=format&fit=crop"
+                    alt="Team Collaboration"
+                        width={800}
+                        height={600}
+                      className="w-full h-auto rounded-xl relative z-10 transition-transform duration-500 hover:scale-105"
+                  />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                  </motion.div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </motion.section>
         </div>
-      </motion.section>
-      </div>
       </main>
     </>
   )

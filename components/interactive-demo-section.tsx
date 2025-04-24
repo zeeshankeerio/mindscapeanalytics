@@ -252,6 +252,8 @@ const ComparisonView = memo(({
   );
 });
 
+ComparisonView.displayName = "ComparisonView";
+
 // New component for rendering tooltip with pulse animation
 const PulsingTooltip = ({ message, isVisible }: { message: string, isVisible: boolean }) => {
   if (!isVisible) return null;
@@ -524,10 +526,10 @@ function SimulationCard({
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div>
           <div className="flex justify-between mb-1">
-            <span className="text-sm text-white/70">Processing</span>
+            <span className="text-sm text-white/70">Processing Speed</span>
             <span className="text-sm font-medium">{data.processingSpeed.toFixed(1)} Tb/s</span>
           </div>
-          <Progress value={data.processingSpeed * 10} max={1000} className="h-2" />
+          <Progress value={data.processingSpeed} className="h-2" />
         </div>
         <div>
           <div className="flex justify-between mb-1">
@@ -541,7 +543,7 @@ function SimulationCard({
             <span className="text-sm text-white/70">Connections</span>
             <span className="text-sm font-medium">{data.connections}</span>
           </div>
-          <Progress value={data.connections} max={1000} className="h-2" />
+          <Progress value={data.connections / 10} className="h-2" />
         </div>
         <div>
           <div className="flex justify-between mb-1">

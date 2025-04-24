@@ -2,10 +2,11 @@
 User-agent: *
 Allow: /
 
-# Sitemap location
-Sitemap: https://mindscape-analytics.com/sitemap.xml
-
-# Disallow crawling of administrative areas
+# Disallow crawling of sensitive areas
 Disallow: /api/
 Disallow: /admin/
-Disallow: /dashboard/private/ 
+Disallow: /dashboard/private/
+Disallow: /auth/
+
+# Sitemap location
+Sitemap: https://mindscape-analytics.com/sitemap.xml 

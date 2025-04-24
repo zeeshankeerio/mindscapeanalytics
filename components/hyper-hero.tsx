@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback } from "react"
+import { useState, useEffect, useRef, useCallback, useMemo } from "react"
 import { motion, useAnimation, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import {
   ArrowRight,
@@ -67,6 +67,8 @@ import { useToast } from "@/hooks/use-toast"
 import MindscapeLogo from "@/components/mindscape-logo"
 import { Input } from "@/components/ui/input"
 import { TypeAnimation } from 'react-type-animation'
+import Link from "next/link"
+import Image from "next/image"
 
 // Dynamically import Three.js components to avoid SSR issues
 const ThreeScene = dynamic(() => import("@/components/three-scene"), {
@@ -502,7 +504,7 @@ function AITerminalCard({ delay = 0 }) {
   const [commandIndex, setCommandIndex] = useState(0)
   const [isTyping, setIsTyping] = useState(true)
 
-  const commands = [
+  const commands = useMemo(() => [
     { text: "$ mindscape init my-ai-project", delay: 1000 },
     { text: "Initializing new AI project...", delay: 1500, output: true },
     { text: "Setting up project structure...", delay: 1000, output: true },
@@ -519,7 +521,7 @@ function AITerminalCard({ delay = 0 }) {
     { text: "Deploying to production...", delay: 2000, output: true },
     { text: "Deployment complete! Your AI is now live at:", delay: 1000, output: true },
     { text: "https://my-ai-project.mindscape.ai", delay: 500, output: true },
-  ]
+  ], [])
 
   useEffect(() => {
     if (isInView) {
@@ -537,7 +539,7 @@ function AITerminalCard({ delay = 0 }) {
         return () => clearTimeout(timer)
       }
     }
-  }, [controls, isInView, commandIndex, commands.length])
+  }, [controls, isInView, commandIndex, commands.length, commands]);
 
   return (
     <motion.div
@@ -820,12 +822,13 @@ export default function HyperHero() {
                   
                   {/* Icon container */}
                   <div className="relative bg-black rounded-[20px] p-5">
-                    <img 
+                    <Image 
                       src="/images/brain.svg" 
                       alt="Mindscape Brain Logo"
                       className="h-14 w-14 animate-blink-pulse"
+                      width={56}
+                      height={56}
                       style={{
-                        //filter: 'invert(1) sepia(1) saturate(3000%) hue-rotate(0deg) brightness(0.3) contrast(1)',
                         animation: 'pulse 2s infinite'
                       }}
                     />
@@ -948,16 +951,18 @@ export default function HyperHero() {
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </span>
               </Button>
-              <Button
-                variant="outline"
-                className="group relative px-6 py-3 text-sm font-medium text-white/90 border border-white/20 hover:border-white/40 hover:bg-white/5 rounded-full backdrop-blur-sm w-full transition-all duration-300 overflow-hidden"
-              >
-                <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 transition-opacity duration-300"></div>
-                <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
-                <span className="relative z-10 flex items-center justify-center">Learn More
-                  <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </span>
-              </Button>
+              <Link href="/services" className="w-full">
+                <Button
+                  variant="outline"
+                  className="group relative px-6 py-3 text-sm font-medium text-white/90 border border-white/20 hover:border-white/40 hover:bg-white/5 rounded-full backdrop-blur-sm w-full transition-all duration-300 overflow-hidden"
+                >
+                  <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 transition-opacity duration-300"></div>
+                  <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
+                  <span className="relative z-10 flex items-center justify-center">Learn More
+                    <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -1042,17 +1047,19 @@ export default function HyperHero() {
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </span>
               </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="group relative px-6 py-4 text-base font-semibold text-white border border-white/30 hover:border-white/50 hover:bg-white/5 rounded-full backdrop-blur-sm transition-all duration-300 overflow-hidden w-full sm:w-auto"
-              >
-                <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 transition-opacity duration-300"></div>
-                <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
-                <span className="relative z-10 flex items-center justify-center">Learn More
-                  <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </span>
-              </Button>
+              <Link href="/services" className="w-full sm:w-auto">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="group relative px-6 py-4 text-base font-semibold text-white border border-white/30 hover:border-white/50 hover:bg-white/5 rounded-full backdrop-blur-sm transition-all duration-300 overflow-hidden w-full sm:w-auto"
+                >
+                  <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 transition-opacity duration-300"></div>
+                  <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
+                  <span className="relative z-10 flex items-center justify-center">Learn More
+                    <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </Button>
+              </Link>
             </motion.div>
 
             {/* Enhanced Features display */}
@@ -1129,12 +1136,13 @@ export default function HyperHero() {
                         
                         {/* Icon container */}
                         <div className="relative bg-black rounded-[20px] p-8 md:p-10 transition-transform duration-300 group-hover:scale-[0.98]">
-                          <img 
+                          <Image 
                             src="/images/brain.svg" 
                             alt="Mindscape Brain Logo"
                             className="h-14 w-14 md:h-24 md:w-24 transform transition-all duration-300 group-hover:scale-[0.98]"
+                            width={96}
+                            height={96}
                             style={{
-                              //filter: 'invert(1) sepia(1) saturate(3000%) hue-rotate(0deg) brightness(0.3) contrast(1)',
                               animation: 'pulse 2s infinite'
                             }}
                           />
@@ -1209,7 +1217,7 @@ const Activity = (props: React.SVGProps<SVGSVGElement>) => (
     <ActivityIcon {...props} />
   )
 
-const HeadphonesIcon = (props: React.SVGProps<SVGSVGElement>) => (
+const CustomHeadphonesIcon = (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"

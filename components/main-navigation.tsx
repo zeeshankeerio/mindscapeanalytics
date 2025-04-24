@@ -198,6 +198,12 @@ export default function MainNavigation() {
       description: "Scalable cloud AI infrastructure",
       icon: <Cloud className="h-5 w-5 text-green-500" />,
     },
+    {
+      title: "Real Estate Solutions",
+      href: "/solutions/real-estate",
+      description: "Advanced AI-powered analytics and management for real estate",
+      icon: <Home className="h-5 w-5 text-orange-500" />,
+    },
   ]
 
   const resources = [

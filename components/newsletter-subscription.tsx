@@ -1,12 +1,11 @@
 "use client"
 
-import React, { useState, useId } from "react"
+import React, { useState, useId, useEffect } from "react"
 import { motion } from "framer-motion"
-import { Send } from "lucide-react"
+import { Send, CheckCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
-import { isClient } from "@/lib/utils"
 
 // Define fixed positions for background elements to avoid hydration mismatch
 const BACKGROUND_ELEMENTS = [
@@ -36,7 +35,7 @@ export function NewsletterSubscription() {
   // Server-side rendering safeguards
   const [mounted, setMounted] = useState(false)
   
-  React.useEffect(() => {
+  useEffect(() => {
     setMounted(true)
   }, [])
   
@@ -141,15 +140,15 @@ export function NewsletterSubscription() {
             </motion.div>
             <h3 className="text-xl font-semibold text-white mb-2">Thanks for subscribing!</h3>
             <p className="text-white/70">
-              We've sent a confirmation to your email. Stay tuned for updates on our latest features and announcements.
+              We&apos;ve sent a confirmation to your email. Stay tuned for updates on our latest features and announcements.
             </p>
           </motion.div>
         ) : (
           <>
-            <div className="text-center mb-6">
-              <h3 className="text-xl font-semibold text-white mb-2">Stay in the loop</h3>
-              <p className="text-white/70">
-                Subscribe to our newsletter for updates on our latest features, announcements, and AI insights.
+            <div className="text-center max-w-2xl mx-auto">
+              <h2 className="text-xl md:text-2xl font-bold mb-2">Join Our Newsletter</h2>
+              <p className="text-white/70 mb-6">
+                Stay updated with the latest in AI technology. Don&apos;t worry, we won&apos;t spam your inbox.
               </p>
             </div>
             
@@ -197,10 +196,6 @@ export function NewsletterSubscription() {
                   </>
                 )}
               </Button>
-              
-              <p className="text-xs text-white/40 text-center pt-2">
-                We respect your privacy. Unsubscribe at any time.
-              </p>
             </form>
           </>
         )}

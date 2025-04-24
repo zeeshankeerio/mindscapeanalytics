@@ -1076,10 +1076,10 @@ export default function IndustryUseCases() {
                             className="mt-4 bg-gradient-to-r from-blue-900/20 to-purple-900/10 p-5 rounded-xl border border-blue-500/10 relative"
                           >
                             <div className="absolute -top-2.5 -left-2.5 text-blue-500 opacity-30 transform scale-150">
-                              "
+                              &quot;
                             </div>
                             <p className="text-sm italic text-white/80 mb-3">
-                              "{activeIndustry.caseStudy.testimonial.quote}"
+                              &quot;{activeIndustry.caseStudy.testimonial.quote}&quot;
                             </p>
                             <div className="flex items-center gap-3">
                               <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 font-semibold">

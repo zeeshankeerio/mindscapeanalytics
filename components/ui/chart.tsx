@@ -1,10 +1,21 @@
 import type * as React from "react"
 
+interface ChartConfig {
+  [key: string]: {
+    label: string;
+    color: string;
+  };
+}
+
 const Chart = ({ children, ...props }: React.ComponentProps<"div">) => {
   return <div {...props}>{children}</div>
 }
 
-const ChartContainer = ({ children, ...props }: React.ComponentProps<"div">) => {
+const ChartContainer = ({ 
+  children, 
+  config,
+  ...props 
+}: React.ComponentProps<"div"> & { config?: ChartConfig }) => {
   return <div {...props}>{children}</div>
 }
 

@@ -896,7 +896,9 @@ function AnalyticsDemo() {
                     <CartesianGrid strokeDasharray="3 3" stroke="#333" />
                     <XAxis dataKey="name" stroke="#666" fontSize={12} tickLine={false} axisLine={false} />
                     <YAxis stroke="#666" fontSize={12} tickLine={false} axisLine={false} />
-                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <ChartTooltip>
+                      <ChartTooltipContent />
+                    </ChartTooltip>
                     <Line
                       type="monotone"
                       dataKey="actual"

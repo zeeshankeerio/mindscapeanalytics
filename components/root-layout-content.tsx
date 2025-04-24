@@ -14,6 +14,10 @@ interface RootLayoutContentProps {
 export default function RootLayoutContent({ children, inter }: RootLayoutContentProps) {
   const pathname = usePathname()
   const isDashboard = pathname?.startsWith('/dashboard')
+  const isDocs = pathname?.startsWith('/docs')
+  
+  // Hide footer for pages with sidebar (dashboard, docs)
+  const showFooter = !isDashboard && !isDocs
 
   return (
     <body className={`${inter.className} antialiased`} suppressHydrationWarning>
@@ -28,7 +32,7 @@ export default function RootLayoutContent({ children, inter }: RootLayoutContent
           <div className="relative z-10">
             {children}
           </div>
-          {!isDashboard && <Footer />}
+          {showFooter && <Footer />}
         </div>
       </ThemeProvider>
     </body>
