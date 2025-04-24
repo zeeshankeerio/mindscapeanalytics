@@ -129,23 +129,24 @@ export default function Footer() {
                   {/* Brain icon container with animated glow effects */}
                   <div className="relative">
                     {/* Outer glow effect */}
-                    <div className="absolute -inset-1 bg-red-600/20 blur-lg rounded-2xl"></div>
+                    <div className="absolute -inset-1 bg-red-800/20 blur-lg rounded-2xl"></div>
                     
                     {/* Main container */}
                     <div className="relative z-10 group">
                       {/* Border glow container */}
                       <div className="absolute -inset-[1.5px] rounded-2xl">
-                        <div className="absolute inset-0 bg-red-600 rounded-2xl opacity-90"></div>
+                        <div className="absolute inset-0 bg-red-700 rounded-2xl opacity-90"></div>
                       </div>
                       
                       {/* Icon container */}
                       <div className="relative bg-black rounded-2xl p-3 transition-all duration-300 group-hover:scale-[0.98]">
-                        <Brain 
-                          className="h-10 w-10 text-red-700 transform transition-all duration-300 group-hover:text-red-600" 
+                      <img 
+                          src="/images/brain.svg" 
+                          alt="Mindscape Brain Logo"
+                          className="h-14 w-14"
                           style={{
-                            filter: 'drop-shadow(0 0 8px rgb(139 0 0 / 0.4))'
+                            filter: 'drop-shadow(0 0 1px #8B0000)'
                           }}
-                          aria-label="Mindscape brain logo"
                         />
                       </div>
                     </div>

@@ -584,6 +584,71 @@ function AITerminalCard({ delay = 0 }) {
   )
 }
 
+// EnhancedFeatureCard component for improved feature presentation
+function EnhancedFeatureCard({
+  icon,
+  title,
+  description,
+  color = "red",
+  index = 0,
+}: {
+  icon: React.ReactNode
+  title: string
+  description: string
+  color: "red" | "blue" | "green" | "purple"
+  index: number
+}) {
+  const colorMap = {
+    red: "from-red-600/20 to-red-900/10 border-red-800/30 group-hover:border-red-600/50 text-red-500",
+    blue: "from-blue-600/20 to-blue-900/10 border-blue-800/30 group-hover:border-blue-600/50 text-blue-500",
+    green: "from-green-600/20 to-green-900/10 border-green-800/30 group-hover:border-green-600/50 text-green-500",
+    purple: "from-purple-600/20 to-purple-900/10 border-purple-800/30 group-hover:border-purple-600/50 text-purple-500",
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ 
+        duration: 0.5, 
+        delay: 0.2 + (index * 0.1),
+        ease: [0.22, 1, 0.36, 1]
+      }}
+      className={`group relative p-5 rounded-xl backdrop-blur-md border border-white/10 hover:shadow-lg transition-all duration-300 overflow-hidden bg-gradient-to-br ${colorMap[color]}`}
+    >
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 bg-grid-white/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      
+      {/* Decorative corner accent */}
+      <div className="absolute top-0 right-0 h-10 w-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute top-0 right-0 h-px w-6 bg-gradient-to-l from-current to-transparent"></div>
+        <div className="absolute top-0 right-0 h-6 w-px bg-gradient-to-b from-current to-transparent"></div>
+      </div>
+      
+      <div className="space-y-4">
+        {/* Icon with glowing effect */}
+        <div className="relative flex">
+          <div className={`p-2.5 rounded-lg bg-black/30 backdrop-blur-sm text-current flex items-center justify-center relative z-10 group-hover:scale-110 transform transition-transform duration-300`}>
+            <div className="absolute inset-0 rounded-lg bg-current opacity-10 group-hover:opacity-20 transition-opacity"></div>
+            {icon}
+          </div>
+          <div className="absolute -inset-1 bg-current opacity-0 blur-xl group-hover:opacity-10 transition-opacity duration-300 rounded-full" />
+        </div>
+        
+        {/* Content */}
+        <div>
+          <h3 className="text-base font-semibold text-white mb-1 group-hover:text-current transition-colors duration-300">
+            {title}
+          </h3>
+          <p className="text-sm text-white/70 group-hover:text-white/90 transition-colors duration-300 leading-relaxed">
+            {description}
+          </p>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
 // Main Hero Component
 export default function HyperHero() {
   const [complexity, setComplexity] = useState(1)
@@ -755,10 +820,13 @@ export default function HyperHero() {
                   
                   {/* Icon container */}
                   <div className="relative bg-black rounded-[20px] p-5">
-                    <Brain 
-                      className="h-14 w-14 text-red-700 animate-blink-pulse" 
-            style={{
-                        filter: 'drop-shadow(0 0 12px rgb(139 0 0 / 0.5))'
+                    <img 
+                      src="/images/brain.svg" 
+                      alt="Mindscape Brain Logo"
+                      className="h-14 w-14 animate-blink-pulse"
+                      style={{
+                        //filter: 'invert(1) sepia(1) saturate(3000%) hue-rotate(0deg) brightness(0.3) contrast(1)',
+                        animation: 'pulse 2s infinite'
                       }}
                     />
                   </div>
@@ -795,14 +863,14 @@ export default function HyperHero() {
               
               {/* Title and description */}
               <div className="animate-fade-up">
-                <h1 className="text-3xl font-bold tracking-tight leading-tight mb-2">
-                  <span className="text-white drop-shadow-sm [text-shadow:0_1px_2px_rgba(255,255,255,0.15),0_-1px_1px_rgba(0,0,0,0.3)] backdrop-blur-[0.5px]">Transform Your Business with</span>
+                <h1 className="text-4xl font-bold tracking-tight leading-tight mb-2">
+                  <span className="text-white backdrop-blur-[0.5px] relative z-10">Transform Your Business with</span>
                   <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600 drop-shadow-sm [text-shadow:0_2px_4px_rgba(220,38,38,0.3)] relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/20 before:to-transparent before:opacity-40 before:blur-[0.5px] before:-z-10">
-                    Advanced AI
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/20 before:to-transparent before:opacity-40 before:blur-[0.5px] before:-z-10">
+                    Advanced AI Solutions
                   </span>
                 </h1>
-                <p className="text-base text-white/70 max-w-xs mx-auto">
+                <p className="text-base text-white/70 max-w-xs mx-auto mt-2">
                   Harness the power of AI to drive innovation and growth in your organization.
                 </p>
               </div>
@@ -819,12 +887,12 @@ export default function HyperHero() {
                 {features.map((feature, index) => (
                   <div
                     key={feature.title}
-                    className={`group relative p-3 rounded-xl bg-black/40 backdrop-blur-sm border border-white/10 animate-slide-up-${index + 1}`}
+                    className={`group relative p-3 rounded-xl bg-gradient-to-br from-black/40 to-black/20 backdrop-blur-sm border border-white/10 animate-slide-up-${index + 1} hover:border-${feature.color}-500/30 transition-all duration-300`}
                   >
                     {/* Corner accent */}
                     <div className="absolute top-0 right-0 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="absolute top-0 right-0 h-px w-4 bg-gradient-to-l from-red-600/80 to-transparent"></div>
-                      <div className="absolute top-0 right-0 h-4 w-px bg-gradient-to-b from-red-600/80 to-transparent"></div>
+                      <div className="absolute top-0 right-0 h-px w-4 bg-gradient-to-l from-current to-transparent"></div>
+                      <div className="absolute top-0 right-0 h-4 w-px bg-gradient-to-b from-current to-transparent"></div>
                     </div>
                     
                     <div className="space-y-1.5">
@@ -832,11 +900,11 @@ export default function HyperHero() {
                         <div className={`p-1.5 rounded-lg bg-${feature.color}-500/20 text-${feature.color}-500`}>
                           <div className="w-4 h-4">{feature.icon}</div>
                         </div>
-                        <h3 className="text-xs font-medium text-white">
+                        <h3 className="text-xs font-medium text-white group-hover:text-${feature.color}-400 transition-colors">
                           {feature.title}
                         </h3>
                       </div>
-                      <p className="text-[10px] leading-tight text-white/70">
+                      <p className="text-[10px] leading-tight text-white/70 group-hover:text-white/90 transition-colors">
                         {feature.description}
                       </p>
                     </div>
@@ -870,19 +938,25 @@ export default function HyperHero() {
               {/* CTA buttons */}
               <Button 
                 size="lg" 
-                className="group relative px-6 py-4 text-base font-semibold text-white rounded-full shadow-lg shadow-red-800/20 hover:shadow-red-800/40 transition-all duration-300 w-full mb-2"
+                className="group relative px-6 py-4 text-base font-semibold text-white rounded-full hover:brightness-110 transition-all duration-300 w-full mb-2 overflow-hidden"
                 onClick={handleGetStartedClick}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-red-800 via-red-700 to-[#8B0000] group-hover:from-[#8B0000] group-hover:via-red-700 group-hover:to-red-800 transition-all duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-red-700 via-red-600 to-red-700 group-hover:from-red-600 group-hover:via-red-500 group-hover:to-red-600 transition-all duration-500 rounded-full"></div>
                 <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
-                <span className="relative z-10">Get Started</span>
+                <span className="relative z-10 flex items-center justify-center">
+                  Get Started
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
               </Button>
               <Button
                 variant="outline"
-                className="group relative px-6 py-2 text-sm font-medium text-white/90 border border-white/20 hover:border-white/40 rounded-full backdrop-blur-sm w-full"
+                className="group relative px-6 py-3 text-sm font-medium text-white/90 border border-white/20 hover:border-white/40 hover:bg-white/5 rounded-full backdrop-blur-sm w-full transition-all duration-300 overflow-hidden"
               >
-                <span className="relative z-10">Learn More</span>
-                <ArrowRight className="ml-1 h-3 w-3 inline transition-transform group-hover:translate-x-1" />
+                <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 transition-opacity duration-300"></div>
+                <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
+                <span className="relative z-10 flex items-center justify-center">Learn More
+                  <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
               </Button>
             </div>
           </div>
@@ -932,22 +1006,22 @@ export default function HyperHero() {
 
             {/* Title Section */}
             <motion.div
-              className="text-center md:text-left space-y-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+              className="space-y-2 max-w-2xl"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
-              >
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight">
-                <span className="text-white drop-shadow-sm [text-shadow:0_1px_2px_rgba(255,255,255,0.15),0_-1px_1px_rgba(0,0,0,0.3)] backdrop-blur-[0.5px]">Transform Your Business with</span>
+            >
+              <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
+                <span className="text-white relative z-10">Transform Your Business with</span>
                 <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600 drop-shadow-sm [text-shadow:0_2px_4px_rgba(220,38,38,0.3)] relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/20 before:to-transparent before:opacity-40 before:blur-[0.5px] before:-z-10">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600 relative">
                   Advanced AI Solutions
                 </span>
               </h1>
-              <p className="text-lg md:text-xl text-white/70 max-w-2xl mx-auto md:mx-0">
-                Harness the power of artificial intelligence to drive innovation and growth in your organization.
+              <p className="text-lg text-white/80 mt-4 max-w-xl">
+                Harness the power of artificial intelligence to drive innovation, efficiency, and growth across your entire organization.
               </p>
-              </motion.div>
+            </motion.div>
 
             {/* CTA Buttons */}
             <motion.div
@@ -958,64 +1032,48 @@ export default function HyperHero() {
             >
               <Button 
                 size="lg" 
-                className="group relative px-6 py-4 text-base font-semibold text-white rounded-full shadow-lg shadow-red-800/20 hover:shadow-red-800/40 transition-all duration-300 overflow-hidden w-full sm:w-auto"
+                className="group relative px-6 py-4 text-base font-semibold text-white rounded-full hover:brightness-110 transition-all duration-300 overflow-hidden w-full sm:w-auto"
                 onClick={handleGetStartedClick}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-red-800 via-red-700 to-[#8B0000] group-hover:from-[#8B0000] group-hover:via-red-700 group-hover:to-red-800 transition-all duration-500"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-red-700 via-red-600 to-red-700 group-hover:from-red-600 group-hover:via-red-500 group-hover:to-red-600 transition-all duration-500 rounded-full"></div>
                 <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
-                <span className="relative z-10">Get Started</span>
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-red-800/0 via-red-800/20 to-red-800/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <span className="relative z-10 flex items-center justify-center">
+                  Get Started
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
               </Button>
               <Button
                 size="lg"
                 variant="outline"
-                className="group relative px-6 py-4 text-base font-semibold text-white border border-white/30 hover:border-white/50 rounded-full backdrop-blur-sm transition-all duration-300 overflow-hidden w-full sm:w-auto"
+                className="group relative px-6 py-4 text-base font-semibold text-white border border-white/30 hover:border-white/50 hover:bg-white/5 rounded-full backdrop-blur-sm transition-all duration-300 overflow-hidden w-full sm:w-auto"
               >
                 <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 transition-opacity duration-300"></div>
                 <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
-                <span className="relative z-10">Learn More</span>
+                <span className="relative z-10 flex items-center justify-center">Learn More
+                  <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
               </Button>
             </motion.div>
 
-            {/* Features Grid */}
-            <motion.div
-              className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
+            {/* Enhanced Features display */}
+            <motion.div 
+              className="mt-12 w-full"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
             >
-              {features.map((feature, index) => (
-                <motion.div
-                  key={feature.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                  className="group relative p-4 rounded-2xl bg-black/40 backdrop-blur-sm border border-white/10 hover:border-red-800/50 transition-all duration-300 hover:shadow-[0_0_15px_rgba(185,28,28,0.15)]"
-                  whileHover={{ 
-                    scale: 1.02, 
-                    transition: { duration: 0.2 } 
-                  }}
-                >
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-red-800/0 via-red-800/10 to-red-800/0 opacity-0 group-hover:opacity-100 transition-all duration-300" />
-                  <div className="absolute top-0 right-0 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute top-0 right-0 h-px w-6 bg-gradient-to-l from-red-600/80 to-transparent"></div>
-                    <div className="absolute top-0 right-0 h-6 w-px bg-gradient-to-b from-red-600/80 to-transparent"></div>
-                  </div>
-                  <div className="relative space-y-3">
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2 rounded-lg bg-red-800/20 group-hover:bg-red-800/30 transition-colors duration-300 group-hover:scale-110 transform">
-                    {feature.icon}
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+                {features.map((feature, index) => (
+                  <EnhancedFeatureCard
+                    key={feature.id}
+                    icon={feature.icon}
+                    title={feature.title}
+                    description={feature.description}
+                    color={feature.color as "red" | "blue" | "green" | "purple"}
+                    index={index}
+                  />
+                ))}
               </div>
-                      <h3 className="text-base font-semibold text-white group-hover:text-red-400 transition-colors duration-300">
-                        {feature.title}
-                      </h3>
-                    </div>
-                    <p className="text-sm text-white/70 group-hover:text-white/90 transition-colors duration-300">
-                      {feature.description}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
             </motion.div>
             </motion.div>
 
@@ -1053,7 +1111,7 @@ export default function HyperHero() {
                         <div className="absolute h-[1px] w-8 bg-gradient-to-r from-transparent via-red-800 to-transparent bottom-1/4 -right-3 animate-neural-2" />
                         <div className="absolute w-[1px] h-8 bg-gradient-to-b from-transparent via-red-800 to-transparent -top-3 left-1/4 animate-neural-3" />
                         <div className="absolute w-[1px] h-8 bg-gradient-to-b from-transparent via-red-800 to-transparent -bottom-3 right-1/4 animate-neural-4" />
-                        </div>
+                      </div>
 
                       {/* Enhanced Brain icon with RGB border */}
                       <div className="relative z-10 group animate-heartbeat">
@@ -1062,37 +1120,40 @@ export default function HyperHero() {
                           {/* Moving RGB gradient border */}
                           <div className="absolute inset-[-2px] rounded-[20px] animate-rgb-spin group-hover:animate-rgb-spin-fast">
                             <div className="absolute inset-0 bg-[conic-gradient(from_0deg,#8B0000,#420000,#690000,#8B0000)] rounded-[20px] group-hover:bg-[conic-gradient(from_0deg,#8B0000,#420000,#690000,#8B0000)]" />
-                              </div>
+                          </div>
                           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent rounded-[20px] animate-border-flow group-hover:animate-border-flow-fast" />
                           <div className="absolute inset-0 rounded-[20px] bg-black">
                             <div className="absolute inset-0 rounded-[20px] bg-gradient-to-r from-[#8B000030] via-[#42000030] to-[#69000030] animate-rgb-spin-reverse group-hover:animate-rgb-spin-reverse-fast group-hover:from-[#8B000050] group-hover:via-[#42000050] group-hover:to-[#69000050]" />
+                          </div>
                         </div>
-                      </div>
                         
                         {/* Icon container */}
                         <div className="relative bg-black rounded-[20px] p-8 md:p-10 transition-transform duration-300 group-hover:scale-[0.98]">
-                          <Brain 
-                            className="h-20 w-20 md:h-24 md:w-24 text-red-700 transform transition-all duration-300 group-hover:text-red-600 animate-blink-pulse" 
+                          <img 
+                            src="/images/brain.svg" 
+                            alt="Mindscape Brain Logo"
+                            className="h-14 w-14 md:h-24 md:w-24 transform transition-all duration-300 group-hover:scale-[0.98]"
                             style={{
-                              filter: 'drop-shadow(0 0 12px rgb(139 0 0 / 0.4))'
+                              //filter: 'invert(1) sepia(1) saturate(3000%) hue-rotate(0deg) brightness(0.3) contrast(1)',
+                              animation: 'pulse 2s infinite'
                             }}
                           />
-                                </div>
-                          </div>
                         </div>
+                      </div>
+                    </div>
 
                     {/* Floating particles */}
                     <div className="absolute inset-0 overflow-hidden rounded-[20px] pointer-events-none scale-[1.3]">
                       <div className="w-1.5 h-1.5 bg-red-600 rounded-full animate-particle-2 bottom-[20%] right-[20%]" />
                       <div className="w-1 h-1 bg-red-500 rounded-full animate-particle-3 top-[50%] right-[30%]" />
-                        </div>
-              </div>
-                    </motion.div>
+                    </div>
                   </div>
-                </div>
-                        </motion.div>
-                            </div>
-                            </div>
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
     </section>
   )
 }
@@ -1499,6 +1560,18 @@ const styles = `
     animation: slide-up 0.5s ease-out forwards;
     animation-delay: 0.6s;
     opacity: 0;
+  }
+
+  @keyframes pulse {
+    0% {
+      filter: invert(1) sepia(1) saturate(3000%) hue-rotate(0deg) brightness(0.3) contrast(1);
+    }
+    50% {
+      filter: invert(1) sepia(1) saturate(3000%) hue-rotate(0deg) brightness(0.5) contrast(1);
+    }
+    100% {
+      filter: invert(1) sepia(1) saturate(3000%) hue-rotate(0deg) brightness(0.3) contrast(1);
+    }
   }
 `
 

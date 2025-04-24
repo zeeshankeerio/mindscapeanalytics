@@ -531,8 +531,10 @@ export default function MainNavigation() {
                       
                       {/* Icon container */}
                       <div className="relative bg-black rounded-xl p-2 transition-transform duration-300 group-hover:scale-[0.98]">
-                        <Brain 
-                          className="h-7 w-7 text-red-700 transform transition-all duration-300 group-hover:text-red-600" 
+                      <img 
+                          src="/images/brain.svg" 
+                          alt="AI Icon"
+                          className="h-8 w-8 text-red-700 transform transition-all duration-300 group-hover:text-red-600" 
                           style={{
                             filter: 'drop-shadow(0 0 8px rgb(139 0 0 / 0.4))'
                           }}

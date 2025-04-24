@@ -9,7 +9,7 @@ import {
   ShoppingBag,
   Factory,
   Truck,
-  ChartBar,
+  BarChart,
   Shield,
   Lightbulb,
   ArrowRight,
@@ -49,7 +49,8 @@ import {
   ArrowUp,
   ArrowDown,
   Server,
-  BarChart,
+  AlertCircle,
+  TrendingUp,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -299,7 +300,7 @@ const industries: Industry[] = [
       {
         title: "Predictive Analytics",
         description: "Forecast market trends and customer behavior with high accuracy",
-        icon: ChartBar,
+        icon: BarChart,
         benefits: [
           "Data-driven investment decisions",
           "Personalized financial recommendations",
@@ -338,7 +339,7 @@ const industries: Industry[] = [
       {
         title: "Scalable Transaction Processing",
         description: "Elastic infrastructure that scales with transaction volume",
-        icon: ChartBar,
+        icon: BarChart,
         benefits: [
           "Handles 100,000+ transactions per second",
           "Automatic scaling during peak demand periods",
@@ -351,7 +352,7 @@ const industries: Industry[] = [
       {
         name: "Bloomberg Terminal",
         category: "Financial Data",
-        icon: ChartBar,
+        icon: BarChart,
         description: "Real-time financial data integration with Bloomberg Terminal"
       },
       {
@@ -376,7 +377,7 @@ const industries: Industry[] = [
       {
         title: "Hybrid Deployment",
         description: "Seamless integration between on-premises systems and cloud services",
-        icon: ChartBar,
+        icon: BarChart,
         features: [
           "Legacy core banking system integration",
           "Secure API gateway for controlled data access",
@@ -420,7 +421,7 @@ const industries: Industry[] = [
       {
         title: "Intelligent Trading Platform",
         description: "Next-generation algorithmic trading with AI-driven market analysis",
-        icon: ChartBar,
+        icon: BarChart,
         benefits: [
           "Market sentiment analysis",
           "Automated trading strategies",
@@ -504,7 +505,7 @@ const industries: Industry[] = [
       {
         title: "Intelligent Trading Platform",
         description: "Next-generation algorithmic trading with AI-driven market analysis",
-        icon: ChartBar,
+        icon: BarChart,
         capabilities: [
           "Market sentiment analysis",
           "Automated trading strategies",
@@ -630,7 +631,7 @@ const industries: Industry[] = [
       {
         title: "Patient Flow Optimization",
         description: "Intelligent scheduling and resource allocation systems",
-        icon: ChartBar,
+        icon: BarChart,
         benefits: [
           "Reduced wait times",
           "Optimized staff allocation",
@@ -752,7 +753,7 @@ const industries: Industry[] = [
       {
         title: "Predictive Maintenance",
         description: "AI-driven system that predicts equipment failures before they occur",
-        icon: ChartBar,
+        icon: BarChart,
         benefits: [
           "Reduced equipment downtime",
           "Optimized maintenance schedules",
@@ -805,7 +806,7 @@ const industries: Industry[] = [
       {
         title: "Smart Inventory Management",
         description: "AI-powered system for optimal inventory levels and demand forecasting",
-        icon: ChartBar,
+        icon: BarChart,
         benefits: [
           "Reduced stockouts and overstock",
           "Optimized supply chain",
@@ -858,7 +859,7 @@ const industries: Industry[] = [
       {
         title: "Smart Route Optimization",
         description: "AI-driven system for optimal route planning and real-time adjustments",
-        icon: ChartBar,
+        icon: BarChart,
         benefits: [
           "Reduced fuel consumption",
           "Faster deliveries",
@@ -2537,18 +2538,52 @@ export async function processTransaction(event, context) {
             </Badge>
             <h2 className="text-3xl sm:text-4xl font-bold mb-4">Case Studies</h2>
             <p className="text-muted-foreground">
-              See how organizations in {activeIndustry.name} are transforming with our platform
+              See how organizations across industries are transforming with our platform
             </p>
           </div>
 
+          {/* Industry Filter */}
+          <div className="flex justify-center mb-8">
+            <div className="inline-flex rounded-lg bg-black/40 p-1 backdrop-blur-sm border border-white/10">
+              <Button
+                variant="ghost"
+                className={`rounded-md px-4 py-2 text-sm ${
+                  activeIndustry.name === "All" ? "bg-white/10 text-white" : "text-white/70 hover:text-white"
+                }`}
+                onClick={() => setActiveIndustry({ ...industries[0], name: "All" })}
+              >
+                All Industries
+              </Button>
+              {industries.map((industry) => (
+                <Button
+                  key={industry.name}
+                  variant="ghost"
+                  className={`rounded-md px-4 py-2 text-sm ${
+                    activeIndustry.name === industry.name ? "bg-white/10 text-white" : "text-white/70 hover:text-white"
+                  }`}
+                  onClick={() => setActiveIndustry(industry)}
+                >
+                  {industry.name}
+                </Button>
+              ))}
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {activeIndustry.caseStudies.map((caseStudy, index) => (
+            {(activeIndustry.name === "All" 
+              ? industries.flatMap(industry => industry.caseStudies)
+              : activeIndustry.caseStudies
+            ).map((caseStudy, index) => (
               <Card 
                 key={index}
-                className="border-white/10 bg-black/30 backdrop-blur-sm overflow-hidden group hover:border-blue-500/50 transition-all duration-300 h-full flex flex-col"
+                className="group border-white/10 bg-black/30 backdrop-blur-sm overflow-hidden hover:border-blue-500/50 transition-all duration-300 h-full flex flex-col relative"
               >
+                {/* Background Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                
+                {/* Image Section */}
                 <div className="h-48 overflow-hidden relative">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent z-10"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent z-10"></div>
                   {caseStudy.imageUrl ? (
                     <img 
                       src={caseStudy.imageUrl} 
@@ -2560,46 +2595,74 @@ export async function processTransaction(event, context) {
                       <Building2 className="h-16 w-16 text-white/30" />
                     </div>
                   )}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                    <div className="text-lg font-bold line-clamp-1">{caseStudy.company}</div>
-                    <div className="text-sm text-blue-300">{caseStudy.industry}</div>
-                  </div>
-                </div>
-                <CardContent className="p-6 flex-1 flex flex-col">
-                  <div className="flex-1">
-                    <h3 className="text-xl font-bold mb-2">{caseStudy.company}</h3>
-                    <div className="space-y-3 mb-4">
-                      <div>
-                        <h4 className="text-sm font-medium text-blue-400">Challenge</h4>
-                        <p className="text-sm text-muted-foreground">{caseStudy.challenge}</p>
+                  <div className="absolute bottom-0 left-0 right-0 p-4 z-20">
+                    <div className="flex items-center gap-2">
+                      <div className="h-8 w-8 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center">
+                        <Building2 className="h-4 w-4 text-white/70" />
                       </div>
                       <div>
-                        <h4 className="text-sm font-medium text-blue-400">Solution</h4>
-                        <p className="text-sm text-muted-foreground">{caseStudy.solution}</p>
+                        <div className="text-lg font-bold line-clamp-1">{caseStudy.company}</div>
+                        <div className="text-sm text-blue-300/80">{caseStudy.industry}</div>
                       </div>
                     </div>
-                    <div>
-                      <h4 className="text-sm font-medium text-blue-400 mb-2">Results</h4>
-                      <div className="space-y-1">
+                  </div>
+                </div>
+
+                {/* Content Section */}
+                <CardContent className="p-6 flex-1 flex flex-col">
+                  <div className="flex-1 space-y-4">
+                    {/* Challenge Section */}
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <div className="h-6 w-6 rounded-full bg-red-500/20 flex items-center justify-center">
+                          <AlertCircle className="h-3 w-3 text-red-400" />
+                        </div>
+                        <h4 className="text-sm font-medium text-red-400">Challenge</h4>
+                      </div>
+                      <p className="text-sm text-white/70 group-hover:text-white/90 transition-colors">{caseStudy.challenge}</p>
+                    </div>
+
+                    {/* Solution Section */}
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <div className="h-6 w-6 rounded-full bg-blue-500/20 flex items-center justify-center">
+                          <Lightbulb className="h-3 w-3 text-blue-400" />
+                        </div>
+                        <h4 className="text-sm font-medium text-blue-400">Solution</h4>
+                      </div>
+                      <p className="text-sm text-white/70 group-hover:text-white/90 transition-colors">{caseStudy.solution}</p>
+                    </div>
+
+                    {/* Results Section */}
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-2">
+                        <div className="h-6 w-6 rounded-full bg-green-500/20 flex items-center justify-center">
+                          <TrendingUp className="h-3 w-3 text-green-400" />
+                        </div>
+                        <h4 className="text-sm font-medium text-green-400">Results</h4>
+                      </div>
+                      <div className="space-y-2">
                         {caseStudy.results.map((result, idx) => (
                           <div key={idx} className="flex items-start gap-2">
                             <div className="rounded-full p-1 bg-green-500/20 text-green-400 mt-0.5 shrink-0">
                               <Check className="h-3 w-3" />
                             </div>
-                            <span className="text-xs">{result}</span>
+                            <span className="text-xs text-white/70 group-hover:text-white/90 transition-colors">{result}</span>
                           </div>
                         ))}
                       </div>
                     </div>
                   </div>
-                  <div className="mt-4 pt-4 border-t border-white/10">
+
+                  {/* Action Button */}
+                  <div className="mt-6 pt-4 border-t border-white/10">
                     <Button 
                       variant="ghost" 
-                      className="text-blue-400 hover:text-blue-300 p-0 h-auto font-medium text-sm flex items-center"
+                      className="w-full text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 p-2 h-auto font-medium text-sm flex items-center justify-center gap-2 group/btn"
                       onClick={() => openCaseStudy(caseStudy)}
                     >
                       View Full Case Study
-                      <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+                      <ArrowRight className="h-3.5 w-3.5 group-hover/btn:translate-x-1 transition-transform" />
                     </Button>
                   </div>
                 </CardContent>

@@ -113,9 +113,9 @@ export default function CaseStudiesPage() {
                   <SelectItem value="2022">2022</SelectItem>
                 </SelectContent>
               </Select>
-            </div>
-          </div>
-        </div>
+              </div>
+              </div>
+              </div>
       </section>
 
       {/* Case Studies Grid */}

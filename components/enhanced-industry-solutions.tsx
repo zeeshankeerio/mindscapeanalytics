@@ -598,97 +598,6 @@ const industries: Industry[] = [
     }
   },
   {
-    id: "healthcare",
-    title: "Healthcare",
-    icon: <Stethoscope className="h-6 w-6" />,
-    description:
-      "Advanced diagnostic support, patient outcome prediction, and operational efficiency improvements for healthcare providers.",
-    benefits: [
-      "Improve diagnostic accuracy by up to 40% with AI assistance",
-      "Reduce patient readmission rates by 28% with predictive analytics",
-      "Optimize resource allocation, saving 22% in operational costs",
-      "Accelerate drug discovery by analyzing billions of molecular combinations",
-    ],
-    caseStudy: {
-      client: "National Hospital Network",
-      challenge: "Needed to improve diagnostic accuracy and reduce readmissions",
-      solution: "Deployed our healthcare AI platform across 12 hospitals",
-      results: "38% improvement in early diagnosis and 26% reduction in readmissions",
-      testimonial: {
-        name: "Dr. Michael Chen",
-        role: "Director of Medical Operations",
-        company: "National Hospital Network",
-        quote: "The AI-powered diagnostic tools have dramatically improved our early detection capabilities, leading to better patient outcomes and reduced costs."
-      }
-    },
-    stats: [
-      { label: "ROI", value: "320%", icon: <PieChart className="h-4 w-4" /> },
-      { label: "Implementation", value: "8 weeks", icon: <Clock className="h-4 w-4" /> },
-    ],
-    technologies: ["Computer Vision", "Time Series Analysis", "Reinforcement Learning", "Medical NLP"],
-    color: "from-green-500 to-green-700",
-    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop",
-    particleColor: "#22c55e",
-    solutions: [
-      "Medical Image Analysis",
-      "Patient Data Analytics",
-      "Treatment Optimization",
-      "Resource Management",
-      "Predictive Diagnostics",
-    ],
-    metrics: {
-      accuracy: "95% diagnostic accuracy",
-      time: "50% reduced wait times",
-      satisfaction: "85% patient satisfaction",
-    },
-    aiSolutions: [
-      {
-        title: "AI-Powered Diagnostics",
-        description: "Advanced image recognition for accurate medical diagnosis",
-        icon: <MindscapeBrainLogo variant="icon-only" size="sm" />,
-        capabilities: [
-          "Medical image analysis",
-          "Symptom pattern recognition",
-          "Disease progression prediction",
-          "Treatment recommendation"
-        ],
-        useCases: [
-          "Radiology image analysis",
-          "Pathology slide analysis",
-          "Dermatology condition assessment",
-          "Ophthalmology screening"
-        ],
-        performance: {
-          accuracy: 97.5,
-          latency: 120,
-          scalability: 800
-        }
-      },
-      {
-        title: "Patient Flow Optimization",
-        description: "Intelligent scheduling and resource allocation systems",
-        icon: <BarChart className="h-6 w-6" />,
-        capabilities: [
-          "Predictive patient flow modeling",
-          "Resource allocation optimization",
-          "Wait time prediction",
-          "Staff scheduling automation"
-        ],
-        useCases: [
-          "Emergency department optimization",
-          "Surgical suite scheduling",
-          "Outpatient clinic management",
-          "Hospital bed allocation"
-        ],
-        performance: {
-          accuracy: 94.2,
-          latency: 30,
-          scalability: 1200
-        }
-      }
-    ]
-  },
-  {
     id: "retail",
     title: "Retail & E-commerce",
     icon: <ShoppingBag className="h-6 w-6" />,
@@ -1581,8 +1490,8 @@ export default function EnhancedIndustrySolutions() {
       </motion.div>
       
       {/* Industry selector - desktop view with card-based grid */}
-      <div className="w-full mb-12 max-w-7xl mx-auto">
-        <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 w-full">
+      <div className="w-full mb-12 max-w-7xl mx-auto flex justify-center">
+        <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 place-items-center max-w-5xl mx-auto">
           {industries.map((industry, index) => (
             <motion.div
               key={industry.id}
@@ -1596,15 +1505,15 @@ export default function EnhancedIndustrySolutions() {
                 y: 0, 
                 transition: { delay: 0.1 + (index * 0.05) } 
               }}
-              className="h-full"
+              className="h-full w-full"
             >
               <Card3D
-                className={`cursor-pointer h-full ${activeIndustry.id === industry.id ? 'ring-2 ring-red-500 shadow-lg shadow-red-500/20' : ''}`}
+                className={`cursor-pointer h-full w-full ${activeIndustry.id === industry.id ? 'ring-2 ring-red-500 shadow-lg shadow-red-500/20' : ''}`}
                 onClick={() => handleIndustryChange(industry.id)}
                 intensity={0.5}
               >
                 <div
-                  className={`w-full h-full py-4 px-3 rounded-xl transition-all duration-300 flex flex-col items-center gap-3 group relative overflow-hidden border ${
+                  className={`w-full h-full py-5 px-4 rounded-xl transition-all duration-300 flex flex-col items-center gap-3 group relative overflow-hidden border ${
                     activeIndustry.id === industry.id
                       ? "bg-gradient-to-r from-red-600/20 to-red-500/5 border-red-500/40 shadow-lg shadow-red-500/5"
                       : "bg-black/50 backdrop-blur-md border-white/10 hover:bg-black/60 hover:border-white/20"
@@ -1663,7 +1572,7 @@ export default function EnhancedIndustrySolutions() {
         <div className="md:hidden w-full mb-8">
           <Tabs defaultValue={activeIndustry.id} onValueChange={handleIndustryChange}>
             <div className="w-full overflow-x-auto pb-3 -mx-4 px-4 scrollbar-thin scrollbar-thumb-red-500/20 scrollbar-track-white/5">
-              <TabsList className="w-max flex justify-start bg-black/50 backdrop-blur-md border border-white/10 p-1.5 gap-1.5 min-w-full rounded-xl">
+              <TabsList className="w-max flex justify-center bg-black/50 backdrop-blur-md border border-white/10 p-1.5 gap-1.5 mx-auto rounded-xl">
                 {industries.map((industry) => (
                   <TabsTrigger
                     key={industry.id}
@@ -2925,221 +2834,6 @@ export default function EnhancedIndustrySolutions() {
           </Card>
         </div>
       )}
-      
-      {/* Success metrics overview */}
-      <div className="grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto mt-8">
-        <motion.div 
-          className="bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 p-4"
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-        >
-          <div className="text-3xl font-bold text-transparent bg-gradient-to-r from-amber-400 to-amber-300 bg-clip-text">87%</div>
-          <div className="text-xs text-white/60 mt-1">Average ROI</div>
-        </motion.div>
-        <motion.div 
-          className="bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 p-4"
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.3, delay: 0.2 }}
-        >
-          <div className="text-3xl font-bold text-transparent bg-gradient-to-r from-red-400 to-red-300 bg-clip-text">56%</div>
-          <div className="text-xs text-white/60 mt-1">Efficiency Gains</div>
-        </motion.div>
-        <motion.div 
-          className="bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 p-4"
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.3, delay: 0.3 }}
-        >
-          <div className="text-3xl font-bold text-transparent bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text">3.2x</div>
-          <div className="text-xs text-white/60 mt-1">Revenue Growth</div>
-        </motion.div>
-        <motion.div 
-          className="bg-white/5 backdrop-blur-sm rounded-lg border border-white/10 p-4 hidden md:block"
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.3, delay: 0.4 }}
-        >
-          <div className="text-3xl font-bold text-transparent bg-gradient-to-r from-green-400 to-green-300 bg-clip-text">92%</div>
-          <div className="text-xs text-white/60 mt-1">Client Satisfaction</div>
-        </motion.div>
-      </div>
-      
-      {/* Case study filters */}
-      <div className="flex flex-wrap justify-center gap-2 mt-8">
-        <Button variant="outline" size="sm" className="bg-white/5 border-white/10 hover:bg-white/10 hover:border-amber-500/50 rounded-full">
-          <span className="text-amber-400 mr-2">•</span> All Industries
-        </Button>
-        <Button variant="outline" size="sm" className="bg-white/5 border-white/10 hover:bg-white/10 hover:border-red-500/50 rounded-full">
-          <span className="text-red-400 mr-2">•</span> By Implementation Time
-        </Button>
-        <Button variant="outline" size="sm" className="bg-white/5 border-white/10 hover:bg-white/10 hover:border-blue-500/50 rounded-full">
-          <span className="text-blue-400 mr-2">•</span> By ROI
-        </Button>
-        <Button variant="outline" size="sm" className="bg-white/5 border-white/10 hover:bg-white/10 hover:border-green-500/50 rounded-full">
-          <span className="text-green-400 mr-2">•</span> Featured
-        </Button>
-      </div>
-      
-      {/* Enhanced case study cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-        {industries.slice(0, 3).map((industry, index) => (
-          <motion.div
-            key={industry.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-          >
-            <Card3D className="h-full w-full" intensity={0.2}>
-              <div className="bg-gradient-to-br from-black/70 to-gray-900/40 backdrop-blur-sm rounded-xl border border-white/10 overflow-hidden group h-full hover:border-amber-500/30 transition-all duration-300 flex flex-col shadow-xl shadow-black/20">
-                <div className="h-48 relative overflow-hidden flex-shrink-0">
-                  <Image 
-                    src={industry.image} 
-                    alt={industry.title}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    width={400}
-                    height={250}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent"></div>
-                  
-                  {/* Floating status badge */}
-                  <div className="absolute top-3 right-3">
-                    <Badge className="bg-gradient-to-r from-amber-500/90 to-red-500/90 text-white border-0 px-2.5 py-1">
-                      <CheckCircle2 className="h-3 w-3 mr-1" />
-                      Verified Result
-                    </Badge>
-                  </div>
-                  
-                  {/* Industry indicator */}
-                  <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md border border-white/10 rounded-full px-3 py-1 flex items-center">
-                    <div className={`mr-2 p-1 rounded-full bg-gradient-to-br ${industry.color}`}>
-                      {industry.icon}
-                    </div>
-                    <span className="text-sm font-medium">{industry.title}</span>
-                  </div>
-                  
-                  <div className="absolute bottom-3 left-3 right-3">
-                    <h3 className="font-bold text-white text-xl leading-tight">
-                      {industry.caseStudy.client}
-                    </h3>
-                  </div>
-                </div>
-                
-                <div className="p-5 flex flex-col flex-grow">
-                  {/* Implementation metrics */}
-                  <div className="flex items-center gap-4 mb-4 text-xs text-white/60">
-                    <div className="flex items-center">
-                      <Clock className="h-3.5 w-3.5 mr-1 text-amber-400" />
-                      <span>3 months</span>
-                    </div>
-                    <div className="flex items-center">
-                      <TrendingUp className="h-3.5 w-3.5 mr-1 text-green-400" /> 
-                      <span>+{30 + index * 15}% ROI</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Users className="h-3.5 w-3.5 mr-1 text-blue-400" />
-                      <span>{1000 + index * 1500} users</span>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-4 flex-grow">
-                    <div>
-                      <p className="text-sm text-amber-400 font-medium mb-1 flex items-center">
-                        <AlertCircle className="h-3.5 w-3.5 mr-1.5" /> Challenge
-                      </p>
-                      <p className="text-sm text-white/80 line-clamp-3">{industry.caseStudy.challenge}</p>
-                    </div>
-                    
-                    <div>
-                      <p className="text-sm text-amber-400 font-medium mb-1 flex items-center">
-                        <Lightbulb className="h-3.5 w-3.5 mr-1.5" /> Solution Approach
-                      </p>
-                      <p className="text-sm text-white/80 line-clamp-2">{industry.caseStudy.solution}</p>
-                    </div>
-                    
-                    <div>
-                      <p className="text-sm text-amber-400 font-medium mb-1 flex items-center">
-                        <TrendingUp className="h-3.5 w-3.5 mr-1.5" /> Results
-                      </p>
-                      <div className="text-sm text-green-400 font-medium">
-                        {typeof industry.caseStudy.results === 'string' 
-                          ? industry.caseStudy.results
-                          : (
-                            <ul className="space-y-1">
-                              {industry.caseStudy.results.map((result, i) => (
-                                <li key={i} className="flex items-start">
-                                  <CheckCircle className="h-3.5 w-3.5 mt-0.5 mr-1.5 flex-shrink-0" />
-                                  <span>{result}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Testimonial if available */}
-                  {industry.caseStudy.testimonial && (
-                    <div className="mt-4 pt-4 border-t border-white/10">
-                      <div className="bg-white/5 backdrop-blur-sm rounded-lg p-3 border border-white/10">
-                        <p className="text-sm text-white/80 italic line-clamp-2">"{industry.caseStudy.testimonial.quote}"</p>
-                        <div className="flex items-center mt-2">
-                          {industry.caseStudy.testimonial.imageUrl && (
-                            <div className="h-8 w-8 rounded-full overflow-hidden mr-2 border border-white/20">
-                              <Image 
-                                src={industry.caseStudy.testimonial.imageUrl} 
-                                alt={industry.caseStudy.testimonial.name}
-                                width={32}
-                                height={32}
-                                className="object-cover"
-                              />
-                            </div>
-                          )}
-                          <div>
-                            <p className="text-xs font-medium">{industry.caseStudy.testimonial.name}</p>
-                            <p className="text-xs text-white/60">{industry.caseStudy.testimonial.role}</p>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  
-                  <Button 
-                    variant="outline" 
-                    className="mt-5 border-white/10 bg-gradient-to-r from-amber-500/10 to-red-500/10 hover:from-amber-500/20 hover:to-red-500/20 hover:border-amber-500/30 group"
-                  >
-                    <span className="flex items-center gap-2">
-                      View Full Case Study
-                      <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </span>
-                  </Button>
-                </div>
-              </div>
-            </Card3D>
-          </motion.div>
-        ))}
-      </div>
-      
-      {/* "View all case studies" button */}
-      <div className="mt-10 text-center">
-        <Button 
-          className="bg-gradient-to-r from-amber-500 to-red-500 hover:from-amber-600 hover:to-red-600 text-white shadow-lg shadow-amber-500/20 gap-2 group"
-        >
-          View All Case Studies
-          <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-        </Button>
-        
-        <p className="mt-3 text-white/40 text-sm">
-          <Info className="h-3.5 w-3.5 inline-block mr-1" />
-          Discover how our AI solutions are transforming businesses across all industries
-        </p>
-      </div>
     </div>
   );
 }

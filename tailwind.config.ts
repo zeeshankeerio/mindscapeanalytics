@@ -73,8 +73,14 @@ const config: Config = {
           to: { height: "0" },
         },
         "gradient-x": {
-          "0%, 100%": { transform: "translateX(-100%)" },
-          "50%": { transform: "translateX(100%)" },
+          "0%, 100%": {
+            "background-size": "200% 200%",
+            "background-position": "left center"
+          },
+          "50%": {
+            "background-size": "200% 200%",
+            "background-position": "right center"
+          },
         },
         "typing-cursor": {
           "0%, 100%": { opacity: "0" },
@@ -101,12 +107,13 @@ const config: Config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "gradient-x": "gradient-x 15s ease infinite",
+        "gradient-x": "gradient-x 8s ease infinite",
         "typing-cursor": "typing-cursor 0.8s ease-in-out infinite",
         "spin-slow": "spin-slow 8s linear infinite",
         "border-blink": "border-blink 3s ease-in-out infinite",
         "border-flow": "border-flow 8s linear infinite",
         "glow-pulse": "glow-pulse 4s ease-in-out infinite",
+        "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
     },
   },

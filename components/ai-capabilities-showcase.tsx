@@ -504,9 +504,17 @@ interface CodeAIResult {
   linesGenerated: number;
   quality: number;
   generationTime: string;
+  generatedCode?: string;
 }
 
-type AIResult = NLPResult | CVResult | MLResult | GenAIResult | DocAIResult | CodeAIResult | { message: string };
+type AIResult = 
+  | (NLPResult & { type: 'nlp' })
+  | (CVResult & { type: 'cv' })
+  | (MLResult & { type: 'ml' })
+  | (GenAIResult & { type: 'gen-ai' })
+  | (DocAIResult & { type: 'doc-ai' })
+  | (CodeAIResult & { type: 'code-ai' })
+  | { message: string; type: 'unknown' };
 
 interface PerformanceComparisonProps {
   metrics: MetricItem[];
@@ -551,12 +559,14 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
   const [showTypingEffect, setShowTypingEffect] = useState(false);
   const [typedText, setTypedText] = useState("");
   const [typingSpeed, setTypingSpeed] = useState(30); // ms per character
+  const [error, setError] = useState<string | null>(null);
   
   const handlePromptSelect = (prompt: string) => {
     setSelectedPrompt(prompt);
     setInput(prompt);
     // Reset results when changing prompt
     setResult(null);
+    setError(null);
   };
   
   const handleSubmit = () => {
@@ -564,15 +574,18 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
     
     setIsProcessing(true);
     setResult(null);
+    setError(null);
     
     // Simulate processing delay
     setTimeout(() => {
+      try {
       // Generate mock results based on capability
       let mockResult: AIResult;
       
       switch(capability) {
         case "nlp":
           mockResult = {
+              type: 'nlp',
             sentiment: Math.random() > 0.5 ? "Positive" : "Negative",
             confidence: Math.floor(75 + Math.random() * 20),
             entities: ["Product", "Service", "Company"],
@@ -581,6 +594,7 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
           break;
         case "cv":
           mockResult = {
+              type: 'cv',
             objects: Math.floor(1 + Math.random() * 5),
             confidence: Math.floor(80 + Math.random() * 15),
             processTime: (0.2 + Math.random() * 0.8).toFixed(2)
@@ -588,6 +602,7 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
           break;
         case "ml":
           mockResult = {
+              type: 'ml',
             prediction: Math.floor(1000 + Math.random() * 9000),
             accuracy: Math.floor(85 + Math.random() * 10),
             confidence: Math.floor(80 + Math.random() * 15)
@@ -596,6 +611,7 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
         case "gen-ai":
           const generatedText = "This is a sample generated text based on your prompt. It demonstrates the capabilities of our advanced generative AI system. The model can produce coherent, contextually relevant content that follows the style and intent specified in your instructions. It can be used for creative writing, business communication, content generation, and more.";
           mockResult = {
+              type: 'gen-ai',
             generatedText,
             tokens: Math.floor(40 + Math.random() * 30),
             generationTime: (0.5 + Math.random() * 2).toFixed(2)
@@ -617,6 +633,7 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
           break;
         case "doc-ai":
           mockResult = {
+              type: 'doc-ai',
             extractedFields: Math.floor(3 + Math.random() * 5),
             accuracy: Math.floor(90 + Math.random() * 8),
             processTime: (0.3 + Math.random() * 0.7).toFixed(2)
@@ -645,6 +662,7 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
 }`;
           
           mockResult = {
+              type: 'code-ai',
             linesGenerated: 19,
             quality: Math.floor(85 + Math.random() * 10),
             generationTime: (0.8 + Math.random() * 2).toFixed(2),
@@ -667,11 +685,17 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
           typeNextCodeChar();
           break;
         default:
-          mockResult = { message: "Processed successfully" };
+            mockResult = { type: 'unknown', message: "Processed successfully" };
       }
       
       setResult(mockResult);
+      } catch (err) {
+        // Handle any errors that might occur during processing
+        console.error("Error processing request:", err);
+        setError("An error occurred while processing your request. Please try again.");
+      } finally {
       setIsProcessing(false);
+      }
     }, 1500);
   };
   
@@ -681,15 +705,31 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
     setSelectedPrompt("");
     setShowTypingEffect(false);
     setTypedText("");
+    setError(null);
   };
   
   // Render different result visualizations based on capability
   const renderResults = () => {
+    if (error) {
+      return (
+        <div className="bg-red-900/30 border border-red-600/30 rounded-lg p-4 text-center">
+          <p className="text-red-400">{error}</p>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="mt-2 border-red-500/30 text-red-400 hover:bg-red-900/20"
+            onClick={() => setError(null)}
+          >
+            Dismiss
+          </Button>
+        </div>
+      );
+    }
+    
     if (!result) return null;
     
-    switch(capability) {
+    switch(result.type) {
       case "nlp":
-        const nlpResult = result as NLPResult;
         return (
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
@@ -698,26 +738,26 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
                 <div className="flex items-center">
                   <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
                     <div 
-                      className={`h-full rounded-full ${nlpResult.sentiment === "Positive" ? "bg-red-500" : "bg-red-700"}`} 
-                      style={{ width: `${nlpResult.confidence}%` }}
+                      className={`h-full rounded-full ${result.sentiment === "Positive" ? "bg-red-500" : "bg-red-700"}`} 
+                      style={{ width: `${result.confidence}%` }}
                     ></div>
                   </div>
-                  <span className={`ml-2 font-medium ${nlpResult.sentiment === "Positive" ? "text-red-500" : "text-red-700"}`}>
-                    {nlpResult.sentiment}
+                  <span className={`ml-2 font-medium ${result.sentiment === "Positive" ? "text-red-500" : "text-red-700"}`}>
+                    {result.sentiment}
                   </span>
                 </div>
               </div>
               
               <div className="bg-black/60 p-3 rounded-lg border border-white/10">
                 <p className="text-sm text-white/70 mb-1">Confidence</p>
-                <p className="text-lg font-medium">{nlpResult.confidence}%</p>
+                <p className="text-lg font-medium">{result.confidence}%</p>
               </div>
             </div>
             
             <div className="bg-black/60 p-3 rounded-lg border border-white/10">
               <p className="text-sm text-white/70 mb-1">Entities</p>
               <div className="flex flex-wrap gap-1 mt-1">
-                {nlpResult.entities.map((entity, index) => (
+                {result.entities.map((entity, index) => (
                   <span key={index} className="px-2 py-0.5 bg-red-500/20 text-red-400 rounded text-xs">
                     {entity}
                   </span>
@@ -728,18 +768,13 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
         );
         
       case "gen-ai":
-      case "code-ai":
-        const genResult = capability === "gen-ai" 
-          ? result as GenAIResult 
-          : result as CodeAIResult & { generatedCode: string };
-        
         return (
           <div className="space-y-4">
             <div className="bg-black/60 p-3 rounded-lg border border-white/10 text-sm leading-relaxed relative">
               <div className="mb-2 flex justify-between items-center">
                 <div className="flex items-center">
                   <div className={`h-2 w-2 rounded-full ${isProcessing ? "bg-red-600" : "bg-red-500"} mr-2`}></div>
-                  <p className="text-xs text-white/70">{capability === "gen-ai" ? "Generated Text" : "Generated Code"}</p>
+                  <p className="text-xs text-white/70">Generated Text</p>
                 </div>
                 {/* Adding a "copy" button */}
                 {showTypingEffect && typedText && (
@@ -759,7 +794,7 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
                 )}
               </div>
               
-              <div className={capability === "code-ai" ? "font-mono text-xs bg-black/50 p-2 rounded overflow-auto max-h-[300px]" : ""}>
+              <div>
                 {showTypingEffect ? (
                   <p className="text-white/90 whitespace-pre-wrap">
                     {typedText}
@@ -767,7 +802,7 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
                   </p>
                 ) : (
                   <p className="text-white/90 whitespace-pre-wrap">
-                    {capability === "gen-ai" ? genResult.generatedText : (genResult as any).generatedCode}
+                    {result.generatedText}
                   </p>
                 )}
               </div>
@@ -775,13 +810,13 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
             
             <div className="grid grid-cols-3 gap-3">
               <div className="bg-black/60 p-3 rounded-lg border border-white/10">
-                <p className="text-sm text-white/70 mb-1">{capability === "gen-ai" ? "Tokens" : "Lines"}</p>
-                <p className="text-lg font-medium">{capability === "gen-ai" ? genResult.tokens : genResult.linesGenerated}</p>
+                <p className="text-sm text-white/70 mb-1">Tokens</p>
+                <p className="text-lg font-medium">{result.tokens}</p>
               </div>
               
               <div className="bg-black/60 p-3 rounded-lg border border-white/10">
-                <p className="text-sm text-white/70 mb-1">{capability === "gen-ai" ? "Gen Time" : "Gen Time"}</p>
-                <p className="text-lg font-medium">{capability === "gen-ai" ? genResult.generationTime : genResult.generationTime}s</p>
+                <p className="text-sm text-white/70 mb-1">Gen Time</p>
+                <p className="text-lg font-medium">{result.generationTime}s</p>
               </div>
               
               <div className="bg-black/60 p-3 rounded-lg border border-white/10">
@@ -790,10 +825,78 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
                   <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
                     <div 
                       className="h-full rounded-full bg-red-500" 
-                      style={{ width: `${capability === "code-ai" ? genResult.quality : 90}%` }}
+                      style={{ width: "90%" }}
                     ></div>
                   </div>
-                  <span className="ml-2 font-medium">{capability === "code-ai" ? genResult.quality : 90}%</span>
+                  <span className="ml-2 font-medium">90%</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+        
+      case "code-ai":
+        return (
+          <div className="space-y-4">
+            <div className="bg-black/60 p-3 rounded-lg border border-white/10 text-sm leading-relaxed relative">
+              <div className="mb-2 flex justify-between items-center">
+                <div className="flex items-center">
+                  <div className={`h-2 w-2 rounded-full ${isProcessing ? "bg-red-600" : "bg-red-500"} mr-2`}></div>
+                  <p className="text-xs text-white/70">Generated Code</p>
+                </div>
+                {/* Adding a "copy" button */}
+                {showTypingEffect && typedText && (
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    className="h-6 w-6 p-0 opacity-50 hover:opacity-100 absolute top-2 right-2"
+                    onClick={() => {
+                      navigator.clipboard.writeText(typedText);
+                    }}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                  </Button>
+                )}
+              </div>
+              
+              <div className="font-mono text-xs bg-black/50 p-2 rounded overflow-auto max-h-[300px]">
+                {showTypingEffect ? (
+                  <p className="text-white/90 whitespace-pre-wrap">
+                    {typedText}
+                    <span className="inline-block w-1 h-4 ml-0.5 bg-white/70 animate-blink"></span>
+                  </p>
+                ) : (
+                  <p className="text-white/90 whitespace-pre-wrap">
+                    {result.generatedCode}
+                  </p>
+                )}
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-3 gap-3">
+              <div className="bg-black/60 p-3 rounded-lg border border-white/10">
+                <p className="text-sm text-white/70 mb-1">Lines</p>
+                <p className="text-lg font-medium">{result.linesGenerated}</p>
+              </div>
+              
+              <div className="bg-black/60 p-3 rounded-lg border border-white/10">
+                <p className="text-sm text-white/70 mb-1">Gen Time</p>
+                <p className="text-lg font-medium">{result.generationTime}s</p>
+              </div>
+              
+              <div className="bg-black/60 p-3 rounded-lg border border-white/10">
+                <p className="text-sm text-white/70 mb-1">Quality</p>
+                <div className="flex items-center">
+                  <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full rounded-full bg-red-500" 
+                      style={{ width: `${result.quality}%` }}
+                    ></div>
+                  </div>
+                  <span className="ml-2 font-medium">{result.quality}%</span>
                 </div>
               </div>
             </div>
@@ -804,6 +907,7 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
         return (
           <div className="space-y-2">
             {Object.entries(result).map(([key, value]) => (
+              key !== 'type' && (
               <div key={key} className="flex justify-between">
                 <span className="text-sm text-white/60 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
                 <span className="text-sm font-medium">
@@ -814,6 +918,7 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
                     : typeof value === 'string' || typeof value === 'number' ? value : Array.isArray(value) ? value.join(', ') : ''}
                 </span>
               </div>
+              )
             ))}
           </div>
         );
@@ -827,7 +932,7 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
           <button
             key={prompt}
             onClick={() => handlePromptSelect(prompt)}
-            className={`text-xs px-2 py-1 rounded-full border ${
+            className={`text-xs px-2 py-1 rounded-full border transition-all duration-300 ${
               selectedPrompt === prompt
                 ? "bg-red-500/20 border-red-500/50 text-red-400"
                 : "bg-black/30 border-white/10 text-white/70 hover:bg-black/40"
@@ -843,15 +948,22 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={`Enter a prompt for ${capability === "code-ai" ? "code generation" : capability === "gen-ai" ? "content generation" : "analysis"}...`}
-          className="w-full bg-black/30 border border-white/10 rounded-lg p-3 text-white/90 text-sm min-h-[80px] focus:border-red-500/50 focus:outline-none focus:ring-1 focus:ring-red-500/50"
+          className="w-full bg-black/30 border border-white/10 rounded-lg p-3 text-white/90 text-sm min-h-[80px] focus:border-red-500/50 focus:outline-none focus:ring-1 focus:ring-red-500/50 transition-all duration-300"
         />
         
         <div className="flex gap-2">
           <Button 
             onClick={handleSubmit} 
-            className="bg-red-600 hover:bg-red-700 text-white flex items-center gap-2"
+            className="bg-red-600 hover:bg-red-700 text-white flex items-center gap-2 transition-all duration-300 relative overflow-hidden group"
             disabled={isProcessing || !input.trim()}
           >
+            <motion.span
+              className="absolute inset-0 bg-gradient-to-r from-red-500/0 via-red-500/30 to-red-500/0 opacity-0 group-hover:opacity-100"
+              animate={{ 
+                x: ['-100%', '100%'],
+                transition: { repeat: Infinity, duration: 1.5, ease: 'linear' }
+              }}
+            />
             {isProcessing ? (
               <>
                 <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -868,7 +980,7 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
           <Button 
             onClick={reset} 
             variant="outline" 
-            className="border-white/10 text-white/70 hover:bg-white/5 flex items-center gap-2"
+            className="border-white/10 text-white/70 hover:bg-white/5 flex items-center gap-2 transition-all duration-300"
           >
             <RotateCcw className="h-4 w-4" />
             Reset
@@ -876,18 +988,22 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
         </div>
       </div>
       
-      {(result || isProcessing) && (
+      {(result || isProcessing || error) && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-black/40 border border-white/10 rounded-lg p-4"
+          transition={{ type: "spring", stiffness: 500, damping: 30 }}
+          className="bg-black/40 border border-white/10 rounded-lg p-4 shadow-lg"
         >
           <h4 className="text-sm font-medium mb-3 text-white/80">Results</h4>
           {isProcessing ? (
             <div className="flex items-center justify-center py-8">
               <div className="flex flex-col items-center">
-                <div className="h-10 w-10 border-4 border-white/10 border-t-red-500 rounded-full animate-spin mb-3"></div>
-                <p className="text-sm text-white/70">Processing your request...</p>
+                <div className="relative h-10 w-10">
+                  <div className="absolute inset-0 rounded-full border-4 border-white/5"></div>
+                  <div className="absolute inset-0 rounded-full border-4 border-t-red-500 border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
+                </div>
+                <p className="text-sm text-white/70 mt-3">Processing your request...</p>
               </div>
             </div>
           ) : (
@@ -900,7 +1016,7 @@ function TryItYourself({ capability, prompts }: TryItYourselfProps) {
 }
 
 export default function AICapabilitiesShowcase() {
-  const [activeTab, setActiveTab] = useState("nlp")
+  const [activeTab, setActiveTab] = useState<CapabilityId>("nlp")
   const [showCapabilityComparison, setShowCapabilityComparison] = useState(false)
   const [animateBackground, setAnimateBackground] = useState(true)
   const [modelSettings, setModelSettings] = useState({
@@ -908,8 +1024,9 @@ export default function AICapabilitiesShowcase() {
     maxTokens: 150,
     topP: 0.9
   })
+  const [showParticles, setShowParticles] = useState(true)
   
-  const toggleCapabilityComparison = (capabilityId) => {
+  const toggleCapabilityComparison = (capabilityId: CapabilityId) => {
     setActiveTab(capabilityId)
     setShowCapabilityComparison(prev => !prev)
   }
@@ -988,6 +1105,104 @@ export default function AICapabilitiesShowcase() {
     </div>
   )
 
+  // 3D Particles effect component
+  const AIParticles = () => {
+    useEffect(() => {
+      if (!showParticles) return;
+      
+      // Simulate 3D particles with div elements
+      const container = document.getElementById('particles-container');
+      if (!container) return;
+      
+      // Clean up any existing particles
+      container.innerHTML = '';
+      
+      // Create particles
+      const particleCount = 50;
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        
+        // Random sizes
+        const size = Math.random() * 5 + 2;
+        
+        // Random positions
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        const z = Math.random() * 100 - 50;
+        
+        // Random colors based on active tab
+        let color;
+        switch(activeTab) {
+          case 'nlp':
+            color = `rgba(239, 68, 68, ${Math.random() * 0.5 + 0.1})`;
+            break;
+          case 'cv':
+            color = `rgba(249, 115, 22, ${Math.random() * 0.5 + 0.1})`;
+            break;
+          case 'ml':
+            color = `rgba(59, 130, 246, ${Math.random() * 0.5 + 0.1})`;
+            break;
+          case 'gen-ai':
+            color = `rgba(217, 70, 239, ${Math.random() * 0.5 + 0.1})`;
+            break;
+          case 'doc-ai':
+            color = `rgba(16, 185, 129, ${Math.random() * 0.5 + 0.1})`;
+            break;
+          case 'code-ai':
+            color = `rgba(245, 158, 11, ${Math.random() * 0.5 + 0.1})`;
+            break;
+          default:
+            color = `rgba(239, 68, 68, ${Math.random() * 0.5 + 0.1})`;
+        }
+        
+        // Animation duration
+        const duration = 15 + Math.random() * 30;
+        
+        // Apply styles
+        particle.style.position = 'absolute';
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.borderRadius = '50%';
+        particle.style.backgroundColor = color;
+        particle.style.boxShadow = `0 0 ${size * 2}px ${color}`;
+        particle.style.left = `${x}%`;
+        particle.style.top = `${y}%`;
+        particle.style.transform = `translateZ(${z}px)`;
+        particle.style.animation = `float ${duration}s infinite ease-in-out`;
+        particle.style.opacity = '0.6';
+        
+        // Add to container
+        container.appendChild(particle);
+      }
+      
+      // Cleanup function
+      return () => {
+        if (container) container.innerHTML = '';
+      };
+    }, [activeTab, showParticles]);
+    
+    return (
+      <div id="particles-container" className="absolute inset-0 z-0 pointer-events-none perspective-1000">
+        <style jsx>{`
+          @keyframes float {
+            0%, 100% {
+              transform: translateY(0) translateX(0) translateZ(0) rotate(0deg);
+            }
+            25% {
+              transform: translateY(-20px) translateX(10px) translateZ(10px) rotate(5deg);
+            }
+            50% {
+              transform: translateY(10px) translateX(-15px) translateZ(-10px) rotate(-5deg);
+            }
+            75% {
+              transform: translateY(15px) translateX(5px) translateZ(20px) rotate(3deg);
+            }
+          }
+        `}</style>
+      </div>
+    );
+  };
+
   return (
     <section className="py-28 bg-black relative overflow-hidden">
       {/* Enhanced animated background */}
@@ -1037,6 +1252,9 @@ export default function AICapabilitiesShowcase() {
           <div className="absolute top-0 left-0 w-full h-full bg-black/60 backdrop-blur-3xl pointer-events-none"></div>
         </>
       )}
+      
+      {/* AI Particles effect */}
+      {showParticles && <AIParticles />}
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <motion.div 
@@ -1072,6 +1290,24 @@ export default function AICapabilitiesShowcase() {
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>Toggle background animations</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="flex items-center gap-2">
+                    <Switch
+                      checked={showParticles}
+                      onCheckedChange={setShowParticles}
+                      className="data-[state=checked]:bg-red-600"
+                    />
+                    <span className="text-sm text-white/70">Particles</span>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Toggle 3D particles effect</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -1167,8 +1403,15 @@ export default function AICapabilitiesShowcase() {
                       <motion.div variants={itemVariants} className="flex items-center gap-4">
                         <Button 
                           onClick={() => toggleCapabilityComparison(activeTab)}
-                          className="bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 shadow-md shadow-red-900/20 px-5"
+                          className="bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 shadow-md shadow-red-900/20 px-5 relative overflow-hidden group"
                         >
+                          <motion.span
+                            className="absolute inset-0 bg-gradient-to-r from-red-500/0 via-red-500/30 to-red-500/0 opacity-0 group-hover:opacity-100"
+                            animate={{ 
+                              x: ['-100%', '100%'],
+                              transition: { repeat: Infinity, duration: 1.5, ease: 'linear' }
+                            }}
+                          />
                           {showCapabilityComparison ? 'Hide Performance' : 'Show Performance'}
                           <BarChart3 className="ml-2 h-4 w-4" />
                         </Button>

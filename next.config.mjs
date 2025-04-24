@@ -9,18 +9,25 @@ try {
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   images: {
-    unoptimized: true,
+    unoptimized: false,
+    domains: ['images.unsplash.com', 'randomuser.me'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    formats: ['image/webp', 'image/avif'],
+    minimumCacheTTL: 60,
   },
   experimental: {
-    webpackBuildWorker: true,
-    parallelServerBuildTraces: true,
-    parallelServerCompiles: true,
+    optimizeCss: true,
+    optimizePackageImports: ['lucide-react', 'framer-motion', '@radix-ui/react-icons'],
+    webpackBuildWorker: false,
+    parallelServerBuildTraces: false,
+    parallelServerCompiles: false,
   },
   transpilePackages: ['three'],
   webpack: (config) => {
@@ -29,6 +36,11 @@ const nextConfig = {
     });
     return config;
   },
+  poweredByHeader: false,
+  compress: true,
+  productionBrowserSourceMaps: false,
+  reactStrictMode: true,
+  swcMinify: true,
 }
 
 // Only merge if userConfig exists (which it won't in this simplified version)
