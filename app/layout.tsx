@@ -30,6 +30,15 @@ export const metadata: Metadata = {
   authors: [{ name: "Mindscape Analytics" }],
   creator: "Mindscape Analytics",
   publisher: "Mindscape Analytics",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-icon.png" },
+    ],
+  },
   openGraph: {
     type: "website",
     locale: "en_US",
