@@ -541,6 +541,33 @@ const industries: Industry[] = [
         ]
       },
       {
+        title: "Advanced Encryption",
+        description: "Enterprise-grade encryption for data at rest and in transit",
+        icon: Lock,
+        benefits: [
+          "Protects sensitive data from unauthorized access",
+          "Ensures compliance with regulatory requirements",
+          "Maintains data integrity across all touchpoints"
+        ],
+        standards: [
+          "AES-256",
+          "RSA-4096",
+          "Quantum-resistant algorithms"
+        ],
+        certifications: [
+          "ISO 27001",
+          "SOC 2 Type II",
+          "PCI DSS"
+        ],
+        features: [
+          "End-to-end encryption",
+          "Key management system",
+          "Secure key rotation",
+          "Hardware security modules",
+          "Zero-knowledge protocols"
+        ]
+      },
+      {
         title: "Multi-factor Authentication",
         description: "Layered security approach requiring multiple verification methods",
         icon: ShieldCheck,
