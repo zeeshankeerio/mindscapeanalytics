@@ -67,7 +67,7 @@ function TestimonialCard({ testimonial, index }: { testimonial: typeof testimoni
         </div>
         
         {/* Quote */}
-        <p className="text-white/70 text-sm leading-relaxed flex-grow italic mb-6">&quot;{testimonial.quote}&quot;</p>
+        <p className="text-white/70 text-sm leading-relaxed flex-grow italic mb-6">"{testimonial.quote}"</p>
         
         {/* Author info */}
         <div className="flex items-center gap-4 mt-auto">
@@ -165,7 +165,7 @@ export default function TestimonialCarousel() {
             What Our <span className="text-red-500">Clients</span> Say
           </h2>
           <p className="text-xl text-white/70 max-w-3xl mx-auto">
-            Don&apos;t just take our word for it. Here&apos;s what our clients have to say about their experience working with us.
+            Don't just take our word for it. Here's what our clients have to say about their experience working with us.
           </p>
         </div>
 

@@ -165,7 +165,7 @@ export default function DashboardSidebar() {
         </Button>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto scrollbar-hide p-4">
         <nav className="space-y-6">
           <div>
             {!isCollapsed && (

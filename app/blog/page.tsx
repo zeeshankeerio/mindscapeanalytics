@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image";
 import MainNavigation from "@/components/main-navigation"
 import Footer from "@/components/footer"
 import { Button } from "@/components/ui/button"
@@ -500,11 +501,7 @@ export default function BlogPage() {
                 className="relative"
               >
                 <div className="absolute -inset-4 bg-red-500/20 rounded-full blur-3xl opacity-50"></div>
-                <img
-                  src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
-                  alt="Newsletter"
-                  className="w-full h-auto rounded-xl border border-white/10 relative z-10"
-                />
+                <Image src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop" alt="Newsletter" width={500} height={300} className="w-full h-auto rounded-xl border border-white/10 relative z-10" />
               </motion.div>
             </div>
           </div>

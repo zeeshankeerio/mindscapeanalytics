@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect, ReactNode, MouseEvent } from "react"
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion"
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useScroll, useAnimation } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -73,8 +73,6 @@ import {
 } from "lucide-react"
 import Image from "next/legacy/image"
 import "@/styles/industry-solutions.css"
-import { BarChartIcon } from "@/components/ui/bar-chart-icon"
-import { BrainIcon } from "@/components/ui/brain-icon"
 import MindscapeBrainLogo from "@/components/mindscape-brain-logo"
 
 // Define interfaces for better type safety
@@ -130,7 +128,14 @@ interface Industry {
   stats: Stat[];
   technologies: string[];
   color: string;
-  image: string;
+  image: {
+    src: string;
+    alt: string;
+    sizes: string;
+    priority: boolean;
+    placeholder: string;
+    blurDataURL: string;
+  };
   particleColor: string;
   solutions?: string[];
   metrics?: {
@@ -310,8 +315,15 @@ const industries: Industry[] = [
       { label: "Implementation", value: "6 weeks", icon: <Clock className="h-4 w-4" /> },
     ],
     technologies: ["Machine Learning", "NLP", "Predictive Analytics", "Pattern Recognition"],
-    color: "from-blue-500 to-blue-700",
-    image: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?q=80&w=2070&auto=format&fit=crop",
+    color: "from-blue-600 via-blue-500 to-blue-700",
+    image: {
+      src: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?q=80&w=2070&auto=format&fit=crop",
+      alt: "Financial Services AI Solutions",
+      sizes: "(max-width: 768px) 100vw, 50vw",
+      priority: true,
+      placeholder: "blur",
+      blurDataURL: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDcwIDE1MDAiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMzYjgyZjY0MCIvPjwvc3ZnPg=="
+    },
     particleColor: "#3b82f6",
     solutions: [
       "Risk Assessment & Fraud Detection",
@@ -627,7 +639,14 @@ const industries: Industry[] = [
     ],
     technologies: ["Recommendation Systems", "Demand Forecasting", "Customer Segmentation", "Dynamic Pricing"],
     color: "from-purple-500 to-purple-700",
-    image: "https://images.unsplash.com/photo-1481437156560-3205f6a55735?q=80&w=2095&auto=format&fit=crop",
+    image: {
+      src: "https://images.unsplash.com/photo-1481437156560-3205f6a55735?q=80&w=2095&auto=format&fit=crop",
+      alt: "Retail & E-commerce AI Solutions",
+      sizes: "(max-width: 768px) 100vw, 50vw",
+      priority: false,
+      placeholder: "blur",
+      blurDataURL: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDcwIDE1MDAiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNhODU1Zjc0MCIvPjwvc3ZnPg=="
+    },
     particleColor: "#a855f7",
     solutions: [
       "Demand Forecasting",
@@ -718,7 +737,14 @@ const industries: Industry[] = [
     ],
     technologies: ["IoT Integration", "Predictive Maintenance", "Computer Vision", "Digital Twin"],
     color: "from-yellow-500 to-yellow-700",
-    image: "https://images.unsplash.com/photo-1581093450021-4a7360e9a6b5?q=80&w=2070&auto=format&fit=crop",
+    image: {
+      src: "https://images.unsplash.com/photo-1581093450021-4a7360e9a6b5?q=80&w=2070&auto=format&fit=crop",
+      alt: "Manufacturing AI Solutions",
+      sizes: "(max-width: 768px) 100vw, 50vw",
+      priority: false,
+      placeholder: "blur",
+      blurDataURL: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDcwIDE1MDAiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlYWIzMDg0MCIvPjwvc3ZnPg=="
+    },
     particleColor: "#eab308",
     solutions: [
       "Predictive Maintenance",
@@ -840,7 +866,14 @@ const industries: Industry[] = [
     ],
     technologies: ["Document Processing", "Anomaly Detection", "Risk Modeling", "Auto Classification"],
     color: "from-red-500 to-red-700",
-    image: "https://images.unsplash.com/photo-1556742031-c6961e8560b0?q=80&w=2070&auto=format&fit=crop",
+    image: {
+      src: "https://images.unsplash.com/photo-1556742031-c6961e8560b0?q=80&w=2070&auto=format&fit=crop",
+      alt: "Insurance AI Solutions",
+      sizes: "(max-width: 768px) 100vw, 50vw",
+      priority: false,
+      placeholder: "blur",
+      blurDataURL: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDcwIDE1MDAiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlZjQ0NDQ0MCIvPjwvc3ZnPg=="
+    },
     particleColor: "#ef4444",
     aiSolutions: [
       {
@@ -891,7 +924,14 @@ const industries: Industry[] = [
     ],
     technologies: ["Dynamic Pricing", "Personalization", "Sentiment Analysis", "Demand Forecasting"],
     color: "from-cyan-500 to-cyan-700",
-    image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070&auto=format&fit=crop",
+    image: {
+      src: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070&auto=format&fit=crop",
+      alt: "Travel & Hospitality AI Solutions",
+      sizes: "(max-width: 768px) 100vw, 50vw",
+      priority: false,
+      placeholder: "blur",
+      blurDataURL: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDcwIDE1MDAiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMwNmI2ZDQ0MCIvPjwvc3ZnPg=="
+    },
     particleColor: "#06b6d4",
     solutions: [
       "Route Optimization",
@@ -993,61 +1033,149 @@ function Card3D({ children, className = "", onClick = () => {}, intensity = 0.5 
   )
 }
 
-// Particles animation component
-function Particles({ color = "#ef4444", count = 15 }) {
-  // Using useEffect to ensure client-side only rendering
-  const [particles, setParticles] = useState<Array<{
-    id: number;
-    x: number;
-    y: number;
-    size: number;
-    duration: number;
-  }>>([]);
-  
-  useEffect(() => {
-    // Generate particles only on the client side
-    const newParticles = Array.from({ length: count }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 3 + 1,
-      duration: Math.random() * 10 + 10
-    }));
-    setParticles(newParticles);
-  }, [count]);
-  
-  // Don't render anything during SSR
-  if (particles.length === 0) {
-    return null;
-  }
-  
+// Enhanced Industry Card with modern design
+function EnhancedIndustryCard({ 
+  industry, 
+  isActive = false, 
+  onClick,
+  compareMode = false,
+  isCompared = false,
+  onCompareToggle
+}: { 
+  industry: Industry; 
+  isActive?: boolean;
+  onClick?: () => void;
+  compareMode?: boolean;
+  isCompared?: boolean;
+  onCompareToggle?: () => void;
+}) {
   return (
-    <div className="absolute inset-0 overflow-hidden">
-      {particles.map((particle) => (
-        <motion.div
-          key={particle.id}
-          className="absolute rounded-full"
-          style={{
-            backgroundColor: color,
-            width: `${particle.size}px`,
-            height: `${particle.size}px`,
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            opacity: 0.6
-          }}
-          animate={{
-            y: [0, -30, 0],
-            opacity: [0.6, 0.2, 0.6]
-          }}
-          transition={{
-            duration: particle.duration,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        />
-      ))}
+    <motion.div
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
+      className="h-full w-full"
+    >
+      <Card3D
+        className={`cursor-pointer h-full w-full ${isActive ? 'ring-1 ring-red-500/50' : ''}`}
+        onClick={onClick}
+        intensity={0.3}
+      >
+        <div
+          className={`w-full h-full py-2 px-2 rounded-lg transition-all duration-300 flex flex-col items-center justify-center gap-1.5 group relative overflow-hidden border ${
+            isActive
+              ? "bg-gradient-to-r from-red-600/20 to-red-500/5 border-red-500/40"
+              : "bg-black/50 backdrop-blur-md border-white/10 hover:bg-black/60 hover:border-white/20"
+          }`}
+        >
+          {/* Modern shine effect on hover */}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none">
+            <div className="absolute inset-[-100%] w-[400%] rotate-[25deg] bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shine"></div>
+          </div>
+          
+          <div className={`p-1.5 rounded-lg bg-gradient-to-br ${industry.color} transition-transform duration-300 group-hover:scale-110`}>
+            {industry.icon}
+          </div>
+          <h3 className="font-medium text-center text-xs">{industry.title}</h3>
+          
+          {isActive && (
+            <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-red-600 to-red-400"></div>
+          )}
+          
+          {compareMode && (
+            <div 
+              className="absolute top-1 right-1 z-10 cursor-pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+                onCompareToggle && onCompareToggle();
+              }}
+            >
+              <div className={`h-3.5 w-3.5 rounded-full flex items-center justify-center ${
+                isCompared 
+                  ? 'bg-red-500 text-white' 
+                  : 'bg-black/60 text-white/70 border border-white/20'
+              }`}>
+                {isCompared ? (
+                  <Check className="h-2 w-2" />
+                ) : (
+                  <Plus className="h-2 w-2" />
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </Card3D>
+    </motion.div>
+  );
+}
+
+// Enhanced Solution Card with modern design
+function EnhancedSolutionCard({
+  title,
+  description,
+  icon,
+  benefits,
+  color = "from-blue-500 to-blue-700",
+  onActionClick
+}: {
+  title: string;
+  description: string;
+  icon: ReactNode;
+  benefits: string[];
+  color?: string;
+  onActionClick?: () => void;
+}) {
+  return (
+    <Card3D className="h-full" intensity={0.2}>
+      <div className="p-3 bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl hover:border-blue-500/30 transition-all duration-300 h-full">
+        <div className="flex flex-col h-full">
+          <div className="flex items-start gap-3 mb-2">
+            <div className={`p-1.5 rounded-lg bg-gradient-to-br ${color} flex-shrink-0`}>
+              {icon}
+            </div>
+            <div>
+              <h3 className="font-medium mb-0.5 text-sm">{title}</h3>
+              <p className="text-xs text-white/70">{description}</p>
+            </div>
+          </div>
+          
+          {benefits.length > 0 && (
+            <div className="mt-2 space-y-1">
+              <h4 className="text-[10px] font-medium text-white/50 uppercase tracking-wider">Benefits</h4>
+              <ul className="space-y-1">
+                {benefits.slice(0, 3).map((benefit, idx) => (
+                  <li key={idx} className="flex items-start gap-1.5">
+                    <div className="p-0.5 rounded-full bg-blue-500/20 text-blue-400 mt-0.5 shrink-0">
+                      <Check className="h-2 w-2" />
+                    </div>
+                    <span className="text-xs text-white/80">{benefit}</span>
+                  </li>
+                ))}
+                {benefits.length > 3 && (
+                  <li className="text-[10px] text-white/50 pl-3.5">+ {benefits.length - 3} more</li>
+                )}
+              </ul>
     </div>
-  )
+          )}
+          
+          {onActionClick && (
+            <div className="mt-auto pt-2 text-right">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="p-0 h-6 text-blue-400 hover:text-blue-300 hover:bg-transparent"
+                onClick={onActionClick}
+              >
+                <span className="flex items-center gap-1 text-[10px]">
+                  Learn more
+                  <ArrowRight className="h-2.5 w-2.5" />
+                </span>
+              </Button>
+            </div>
+          )}
+        </div>
+      </div>
+    </Card3D>
+  );
 }
 
 export default function EnhancedIndustrySolutions() {
@@ -1066,7 +1194,26 @@ export default function EnhancedIndustrySolutions() {
     efficiency: 30
   })
   const [isGeneratingReport, setIsGeneratingReport] = useState(false)
+  const [isScrollPaused, setIsScrollPaused] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
+  
+  // Create a consistent badge map for solutions to ensure they don't change on rerender
+  const [solutionBadges, setSolutionBadges] = useState<{[key: string]: {type: string | null, index: number}}>({});
+  
+  // Initialize solution badges on first render or when solutions change
+  useEffect(() => {
+    if (activeIndustry.solutions && activeIndustry.solutions.length > 0) {
+      const newBadges: {[key: string]: {type: string | null, index: number}} = {};
+      activeIndustry.solutions.forEach((solution, index) => {
+        const random = Math.random();
+        let badgeType = null;
+        if (random > 0.6) badgeType = "new";
+        else if (random > 0.3) badgeType = "popular";
+        newBadges[solution] = { type: badgeType, index };
+      });
+      setSolutionBadges(newBadges);
+    }
+  }, [activeIndustry.id, activeIndustry.solutions]);
   
   const [viewOptions, setViewOptions] = useState({
     solutions: "card", // or "list"
@@ -1388,278 +1535,414 @@ export default function EnhancedIndustrySolutions() {
   };
   
   return (
-    <div className="max-w-none px-4 md:px-6 py-16 md:py-24 relative">
-      {/* Hero section with animations */}
+    <div className="w-full px-4 md:px-6 py-10 md:py-16 relative">
+      {/* Compact Hero section with standard text sizes */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="text-center mb-12 md:mb-16 w-full max-w-5xl mx-auto"
+        className="text-center mb-8 md:mb-12 w-full mx-auto"
       >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center"
         >
-          <Badge className="mb-4 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm border border-white/5 px-3 py-1.5">
-            <Sparkles className="h-3.5 w-3.5 mr-1.5 text-red-400" />
-            INDUSTRY SOLUTIONS
-          </Badge>
+          <div className="text-left space-y-3">
+            <Badge className="inline-flex items-center bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm border border-white/5 px-3 py-1.5">
+              <Sparkles className="h-3.5 w-3.5 mr-1.5 text-red-400" />
+              INDUSTRY SOLUTIONS
+            </Badge>
+            
+            <motion.h2 
+              className="text-3xl md:text-4xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-white/90"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+            >
+              Transform Your Industry with Advanced AI
+            </motion.h2>
+            
+            <motion.p 
+              className="text-lg text-white/70"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+            >
+              Discover tailored AI solutions designed for your industry's unique challenges.
+            </motion.p>
+          </div>
           
-          <motion.h2 
-            className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-white/90"
+          {/* Compact Action Buttons */}
+          <motion.div 
+            className="flex flex-wrap gap-3 justify-start md:justify-end items-start"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
           >
-            Transform Your Industry with Advanced AI
-          </motion.h2>
-          
-          <motion.p 
-            className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-          >
-            Discover tailored AI and blockchain solutions designed to address the unique challenges of your industry, 
-            improving efficiency, reducing costs, and driving innovation.
-          </motion.p>
-        </motion.div>
-        
-        {/* Enhanced Action Buttons */}
-        <motion.div 
-          className="flex flex-wrap gap-3 mt-8 justify-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
-        >
-          <Button 
-            variant="outline" 
-            onClick={() => setCompareMode(!compareMode)}
-            className={`px-5 py-2.5 ${compareMode ? 
-              'bg-gradient-to-r from-red-500/20 to-red-600/10 border-red-500/40 text-white ring-1 ring-red-500/30 ring-offset-1 ring-offset-black/30' : 
-              'bg-black/40 border-white/10'}`}
-          >
-            <div className="flex items-center gap-2">
-              <Scale className="h-4 w-4" />
-              Compare Industries
-              {compareMode && (
-                <div className="relative h-2 w-2">
-                  <div className="absolute inset-0 bg-red-400 rounded-full animate-ping"></div>
-                  <div className="absolute inset-0 bg-red-500 rounded-full"></div>
-                </div>
-              )}
-            </div>
-          </Button>
-          
-          <Button 
-            variant="outline" 
-            onClick={() => setShowRoiCalculator(!showRoiCalculator)}
-            className={`px-5 py-2.5 ${showRoiCalculator ? 
-              'bg-gradient-to-r from-blue-500/20 to-blue-600/10 border-blue-500/40 text-white ring-1 ring-blue-500/30 ring-offset-1 ring-offset-black/30' : 
-              'bg-black/40 border-white/10'}`}
-          >
-            <div className="flex items-center gap-2">
-              <Calculator className="h-4 w-4" />
-              ROI Calculator
-              {showRoiCalculator && (
-                <div className="relative h-2 w-2">
-                  <div className="absolute inset-0 bg-blue-400 rounded-full animate-ping"></div>
-                  <div className="absolute inset-0 bg-blue-500 rounded-full"></div>
-                </div>
-              )}
-            </div>
-          </Button>
-          
-          <Button
-            variant="outline"
-            className="px-5 py-2.5 bg-gradient-to-r from-purple-500/20 to-purple-600/10 border-purple-500/40 text-white"
-            onClick={generateIndustryReport}
-            disabled={isGeneratingReport}
-          >
-            <div className="flex items-center gap-2">
-              {isGeneratingReport ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <FileText className="h-4 w-4" />
-              )}
-              Download Industry Report
-            </div>
-          </Button>
+            <Button 
+              variant="outline" 
+              onClick={() => setCompareMode(!compareMode)}
+              className={`${compareMode ? 
+                'bg-gradient-to-r from-red-500/20 to-red-600/10 border-red-500/40 text-white' : 
+                'bg-black/40 border-white/10'}`}
+              size="sm"
+            >
+              <div className="flex items-center gap-2">
+                <Scale className="h-4 w-4" />
+                Compare Industries
+                {compareMode && (
+                  <div className="relative h-2 w-2">
+                    <div className="absolute inset-0 bg-red-500 rounded-full"></div>
+                  </div>
+                )}
+              </div>
+            </Button>
+            
+            <Button 
+              variant="outline" 
+              onClick={() => setShowRoiCalculator(!showRoiCalculator)}
+              className={`${showRoiCalculator ? 
+                'bg-gradient-to-r from-blue-500/20 to-blue-600/10 border-blue-500/40 text-white' : 
+                'bg-black/40 border-white/10'}`}
+              size="sm"
+            >
+              <div className="flex items-center gap-2">
+                <Calculator className="h-4 w-4" />
+                ROI Calculator
+              </div>
+            </Button>
+            
+            <Button
+              variant="outline"
+              className="bg-black/40 border-white/10 hover:border-purple-500/40 hover:bg-purple-500/5"
+              onClick={generateIndustryReport}
+              disabled={isGeneratingReport}
+              size="sm"
+            >
+              <div className="flex items-center gap-2">
+                {isGeneratingReport ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <FileText className="h-4 w-4" />
+                )}
+                Download Report
+              </div>
+            </Button>
+          </motion.div>
         </motion.div>
       </motion.div>
       
-      {/* Industry selector - desktop view with card-based grid */}
-      <div className="w-full mb-12 max-w-7xl mx-auto flex justify-center">
-        <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 place-items-center max-w-5xl mx-auto">
-          {industries.map((industry, index) => (
-            <motion.div
-              key={industry.id}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              onMouseEnter={() => setHoverIndex(index)}
-              onMouseLeave={() => setHoverIndex(null)}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ 
-                opacity: 1, 
-                y: 0, 
-                transition: { delay: 0.1 + (index * 0.05) } 
-              }}
-              className="h-full w-full"
-            >
-              <Card3D
-                className={`cursor-pointer h-full w-full ${activeIndustry.id === industry.id ? 'ring-2 ring-red-500 shadow-lg shadow-red-500/20' : ''}`}
+      {/* Compact Industry selector - horizontal scrolling tabs on mobile, compact grid on desktop */}
+      <div className="w-full mx-auto mb-10">
+        {/* Mobile scrolling tabs */}
+        <div className="md:hidden overflow-x-auto hide-scrollbar pb-2">
+          <div className="flex space-x-2 min-w-max px-1">
+            {industries.map((industry) => (
+              <button
+                key={industry.id}
                 onClick={() => handleIndustryChange(industry.id)}
-                intensity={0.5}
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-lg whitespace-nowrap text-sm font-medium transition-all ${
+                  activeIndustry.id === industry.id
+                    ? 'bg-gradient-to-r from-red-600/20 to-red-500/5 border border-red-500/40 text-white'
+                    : 'bg-black/40 border border-white/10 text-white/70 hover:text-white hover:bg-black/60'
+                }`}
               >
-                <div
-                  className={`w-full h-full py-5 px-4 rounded-xl transition-all duration-300 flex flex-col items-center gap-3 group relative overflow-hidden border ${
-                    activeIndustry.id === industry.id
-                      ? "bg-gradient-to-r from-red-600/20 to-red-500/5 border-red-500/40 shadow-lg shadow-red-500/5"
-                      : "bg-black/50 backdrop-blur-md border-white/10 hover:bg-black/60 hover:border-white/20"
-                  }`}
-                >
-                  {/* Modern shine effect on hover */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none">
-                    <div className="absolute inset-[-100%] w-[400%] rotate-[25deg] bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shine"></div>
-                  </div>
-                  
-                  <div className={`p-3 rounded-lg bg-gradient-to-br ${industry.color} transition-transform duration-300 group-hover:scale-110`}>
-                    {industry.icon}
-                  </div>
-                  <h3 className="font-medium text-center">{industry.title}</h3>
-                  <p className="text-xs text-white/60 text-center line-clamp-2">{industry.description}</p>
-                  
-                  {activeIndustry.id === industry.id && (
-                    <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-red-600 to-red-400"></div>
-                  )}
-                  
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 flex items-end justify-center pb-3 transition-opacity duration-300">
-                    <span className="text-xs font-medium text-white/90 flex items-center gap-1">
-                      <ArrowRight className="h-3 w-3" />
-                      View Solutions
-                    </span>
-                  </div>
-                  
-                  {compareMode && (
-                    <div 
-                      className="absolute top-2 right-2 z-10 cursor-pointer"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        toggleIndustryComparison(industry.id);
-                      }}
-                    >
-                      <div className={`w-5 h-5 rounded-full flex items-center justify-center ${
-                        comparedIndustries.includes(industry.id) ? 
-                          'bg-red-500 text-white' : 
-                          'bg-white/10 text-white/60 hover:bg-white/20'
-                      }`}>
-                        {comparedIndustries.includes(industry.id) ? (
-                          <Check className="h-3 w-3" />
-                        ) : (
-                          <Plus className="h-3 w-3" />
-                        )}
-                      </div>
-                    </div>
-                  )}
+                <div className={`p-1 rounded-md bg-gradient-to-br ${industry.color}`}>
+                  {industry.icon}
                 </div>
-              </Card3D>
-            </motion.div>
-          ))}
+                {industry.title}
+              </button>
+            ))}
+          </div>
         </div>
         
-        {/* Mobile industry selector - horizontal tabs with enhanced UI */}
-        <div className="md:hidden w-full mb-8">
-          <Tabs defaultValue={activeIndustry.id} onValueChange={handleIndustryChange}>
-            <div className="w-full overflow-x-auto pb-3 -mx-4 px-4 scrollbar-thin scrollbar-thumb-red-500/20 scrollbar-track-white/5">
-              <TabsList className="w-max flex justify-center bg-black/50 backdrop-blur-md border border-white/10 p-1.5 gap-1.5 mx-auto rounded-xl">
-                {industries.map((industry) => (
-                  <TabsTrigger
-                    key={industry.id}
-                    value={industry.id}
-                    className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-600 data-[state=active]:to-red-500 data-[state=active]:text-white px-4 py-2 flex items-center gap-2 rounded-lg whitespace-nowrap transition-all duration-300"
-                  >
-                    <div className="shrink-0 w-5 h-5 flex items-center justify-center">
-                      {industry.icon}
-                    </div>
-                    <span className="text-sm font-medium">{industry.title}</span>
-                    
-                    {compareMode && (
-                      <div 
-                        className="ml-1.5 w-4 h-4 rounded-full flex items-center justify-center"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleIndustryComparison(industry.id);
-                        }}
-                      >
-                        {comparedIndustries.includes(industry.id) ? (
-                          <Check className="h-3 w-3 text-green-400" />
-                        ) : (
-                          <Plus className="h-3 w-3 text-white/60" />
-                        )}
-                      </div>
-                    )}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </div>
-          </Tabs>
-          
-          {/* Mobile selection indicator with animation */}
-          <div className="text-center my-4">
-            <Badge className="bg-black/30 border-white/10 text-white/70">
-              <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${activeIndustry.color}`}></div>
-                <span>Selected: {activeIndustry.title}</span>
-              </div>
-            </Badge>
-          </div>
+        {/* Desktop compact grid */}
+        <div className="hidden md:grid grid-cols-2 lg:grid-cols-5 gap-2 w-full mx-auto">
+          {industries.map((industry, index) => (
+            <EnhancedIndustryCard
+              key={industry.id}
+              industry={industry}
+              isActive={activeIndustry.id === industry.id}
+                onClick={() => handleIndustryChange(industry.id)}
+              compareMode={compareMode}
+              isCompared={comparedIndustries.includes(industry.id)}
+              onCompareToggle={() => toggleIndustryComparison(industry.id)}
+            />
+          ))}
         </div>
       </div>
       
+      {/* Solutions Grid - Compact and Efficient Layout */}
+      <div className="w-full mx-auto mb-10">
+        {/* Solutions Header - Two-column layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4 items-center">
+          <div className="space-y-1.5">
+            <Badge variant="outline" className="inline-flex items-center mb-1 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm border border-white/5 px-2 py-0.5 text-xs">
+              <CheckCircle2 className="h-3 w-3 mr-1 text-green-400" />
+              {activeIndustry.title.toUpperCase()} SOLUTIONS
+            </Badge>
+            <h3 className="text-xl md:text-2xl font-bold tracking-tight">
+              Tailored for Your Industry
+            </h3>
+            <p className="text-xs md:text-sm text-white/70">
+              Our comprehensive suite of solutions designed specifically for {activeIndustry.title} industry challenges.
+            </p>
+          </div>
+          
+          <div className="flex justify-start md:justify-end items-start">
+            <Button variant="outline" size="sm" className="text-xs border-white/20 hover:border-green-500/40 h-8 px-3">
+              View Case Studies
+              <ArrowRight className="ml-1.5 h-3 w-3" />
+            </Button>
+          </div>
+        </div>
+        
+        {/* Solution Cards - Single Row Layout with Auto-Scroll */}
+        <div 
+          className="relative overflow-hidden pb-2 w-full" 
+          style={{ maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}
+          onMouseEnter={() => setIsScrollPaused(true)}
+          onMouseLeave={() => setIsScrollPaused(false)}
+        >
+          <motion.div 
+            className="flex gap-2 w-full"
+            initial={{ x: 0 }}
+            animate={{ x: isScrollPaused ? undefined : `-${(activeIndustry.solutions?.length || 0) * 132}px` }}
+            transition={{
+              repeat: Infinity,
+              repeatType: "loop",
+              duration: 30,
+              ease: "linear",
+              repeatDelay: 0
+            }}
+          >
+            {/* Solution Cards */}
+          {(activeIndustry.solutions || []).map((solution, index) => (
+            <motion.div
+                key={`card-${solution}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.05 }}
+                className="group w-[260px] shrink-0"
+                whileHover={{ scale: 1.02 }}
+              >
+                <div className="h-full rounded-lg border border-white/10 bg-black/40 backdrop-blur-md overflow-hidden hover:border-green-500/30 hover:bg-black/50 transition-all duration-300 relative">
+                  {/* Animated gradient border on hover */}
+                  <div className="absolute inset-0 p-[1px] rounded-lg bg-gradient-to-r from-transparent via-green-500/30 to-transparent opacity-0 group-hover:opacity-100 blur-[0.5px] -z-10"></div>
+                  
+                  {/* Top highlight accent */}
+                  <div className="absolute h-0.5 w-0 top-0 left-0 bg-gradient-to-r from-green-500 to-green-300 opacity-0 group-hover:opacity-100 group-hover:w-full transition-all duration-700"></div>
+                  
+                  <div className="p-3">
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-sm font-medium mr-2 line-clamp-1">{solution}</h4>
+                        <Badge 
+                          variant="outline" 
+                          className={`text-[10px] px-1 py-0 h-3.5 bg-black/40 ${index % 2 === 0 ? 'text-green-400 border-green-500/30' : 'text-blue-400 border-blue-500/30'}`}
+                        >
+                          {index % 2 === 0 ? 'New' : 'Popular'}
+                        </Badge>
+                  </div>
+                  
+                      <p className="text-xs text-white/60 mb-2 line-clamp-2 group-hover:text-white/80 transition-colors">
+                      {index % 2 === 0
+                        ? `Optimize your ${activeIndustry.title.toLowerCase()} operations with our advanced ${solution.toLowerCase()} solution.`
+                        : `Industry-leading ${solution.toLowerCase()} capabilities designed for modern ${activeIndustry.title.toLowerCase()} needs.`
+                      }
+                    </p>
+                    
+                      <div className="flex flex-wrap items-center gap-1 text-[10px] text-white/50">
+                        <div className="flex items-center p-0.5 px-1.5 rounded-full bg-white/5 border border-white/10">
+                          <Clock className="h-2.5 w-2.5 mr-0.5 text-white/40" />
+                          <span>4-6 wks</span>
+                      </div>
+                        <div className="flex items-center p-0.5 px-1.5 rounded-full bg-white/5 border border-white/10">
+                          <TrendingUp className="h-2.5 w-2.5 mr-0.5 text-white/40" />
+                        <span>High ROI</span>
+                      </div>
+                        <div className="flex items-center p-0.5 px-1.5 rounded-full bg-white/5 border border-white/10">
+                          <Trophy className="h-2.5 w-2.5 mr-0.5 text-white/40" />
+                          <span>Top</span>
+                    </div>
+                  </div>
+                      
+                      <div className="mt-2 pt-2 border-t border-white/10 flex justify-between items-center">
+                        <div className="flex -space-x-1.5">
+                          {[...Array(3)].map((_, i) => (
+                            <div 
+                              key={i} 
+                              className="w-4 h-4 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 ring-2 ring-black flex items-center justify-center text-[8px] font-medium"
+                            >
+                              {String.fromCharCode(65 + i)}
+                            </div>
+                          ))}
+                          <div className="w-4 h-4 rounded-full bg-white/10 ring-2 ring-black flex items-center justify-center text-[8px] font-medium">
+                            +{5 + index}
+                          </div>
+                        </div>
+                        
+                        <Button
+                          variant="ghost" 
+                          size="sm" 
+                          className="rounded-full p-0 w-5 h-5 flex items-center justify-center"
+                        >
+                          <ArrowRight className="h-2.5 w-2.5 text-green-400 group-hover:translate-x-0.5 transition-transform" />
+                        </Button>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+            
+            {/* View all button as a card */}
+            <div className="w-[120px] shrink-0 h-full">
+              <div 
+                className="h-full w-full rounded-lg border border-white/10 bg-black/30 backdrop-blur-md hover:bg-black/50 hover:border-white/20 transition-all duration-300 flex flex-col items-center justify-center p-3 cursor-pointer"
+                onClick={() => {
+                  // Show a modal or navigate to a page with all solutions
+                  alert('View all solutions for ' + activeIndustry.title);
+                }}
+              >
+                <div className="rounded-full w-8 h-8 bg-white/5 border border-white/10 flex items-center justify-center mb-2">
+                  <ArrowRight className="h-3.5 w-3.5 text-white/70" />
+                </div>
+                <span className="text-xs text-white/70">View All</span>
+                <span className="text-[10px] text-white/40 mt-0.5">Solutions</span>
+              </div>
+        </div>
+        
+            {/* Duplicate cards for looping effect */}
+            {(activeIndustry.solutions || []).map((solution, index) => (
+              <motion.div
+                key={`duplicate-${solution}`}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                className="group w-[260px] shrink-0"
+                whileHover={{ scale: 1.02 }}
+              >
+                <div className="h-full rounded-lg border border-white/10 bg-black/40 backdrop-blur-md overflow-hidden hover:border-green-500/30 hover:bg-black/50 transition-all duration-300 relative">
+                  {/* Same card structure as above */}
+                  <div className="p-3">
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-center justify-between">
+                        <h4 className="text-sm font-medium mr-2 line-clamp-1">{solution}</h4>
+                        <Badge 
+                          variant="outline" 
+                          className={`text-[10px] px-1 py-0 h-3.5 bg-black/40 ${index % 2 === 0 ? 'text-green-400 border-green-500/30' : 'text-blue-400 border-blue-500/30'}`}
+                        >
+                          {index % 2 === 0 ? 'New' : 'Popular'}
+                        </Badge>
+                      </div>
+                      
+                      <p className="text-xs text-white/60 mb-2 line-clamp-2 group-hover:text-white/80 transition-colors">
+                        {index % 2 === 0
+                          ? `Optimize your ${activeIndustry.title.toLowerCase()} operations with our advanced ${solution.toLowerCase()} solution.`
+                          : `Industry-leading ${solution.toLowerCase()} capabilities designed for modern ${activeIndustry.title.toLowerCase()} needs.`
+                        }
+                      </p>
+                      
+                      <div className="flex flex-wrap items-center gap-1 text-[10px] text-white/50">
+                        <div className="flex items-center p-0.5 px-1.5 rounded-full bg-white/5 border border-white/10">
+                          <Clock className="h-2.5 w-2.5 mr-0.5 text-white/40" />
+                          <span>4-6 wks</span>
+                        </div>
+                        <div className="flex items-center p-0.5 px-1.5 rounded-full bg-white/5 border border-white/10">
+                          <TrendingUp className="h-2.5 w-2.5 mr-0.5 text-white/40" />
+                          <span>High ROI</span>
+                        </div>
+                        <div className="flex items-center p-0.5 px-1.5 rounded-full bg-white/5 border border-white/10">
+                          <Trophy className="h-2.5 w-2.5 mr-0.5 text-white/40" />
+                          <span>Top</span>
+                        </div>
+                      </div>
+                      
+                      <div className="mt-2 pt-2 border-t border-white/10 flex justify-between items-center">
+                        <div className="flex -space-x-1.5">
+                          {[...Array(3)].map((_, i) => (
+                            <div 
+                              key={i} 
+                              className="w-4 h-4 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 ring-2 ring-black flex items-center justify-center text-[8px] font-medium"
+                            >
+                              {String.fromCharCode(65 + i)}
+                            </div>
+                          ))}
+                          <div className="w-4 h-4 rounded-full bg-white/10 ring-2 ring-black flex items-center justify-center text-[8px] font-medium">
+                            +{5 + index}
+                          </div>
+                        </div>
+                        
+                        <Button
+                          variant="ghost" 
+                          size="sm" 
+                          className="rounded-full p-0 w-5 h-5 flex items-center justify-center"
+                        >
+                          <ArrowRight className="h-2.5 w-2.5 text-green-400 group-hover:translate-x-0.5 transition-transform" />
+            </Button>
+          </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+          
+          {/* Gradient overlays for fading effect */}
+          <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-black to-transparent pointer-events-none"></div>
+          <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-black to-transparent pointer-events-none"></div>
+        </div>
+        
+        {/* We'll add a simple margin below our scrollable area */}
+        <div className="h-4"></div>
+      </div>
+      
       {/* Industry content grid - full width with responsive columns */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full mb-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 w-full mb-8">
         {/* Left column - Industry overview */}
-        <div className="space-y-8 w-full">
+        <div className="space-y-5 w-full">
           <Card className="w-full border border-white/10 bg-black/30 backdrop-blur-sm h-auto">
-            <CardHeader className="pb-3">
-              <CardTitle className="flex items-center gap-2">
-                <div className={`p-2 rounded-lg ${activeIndustry.color.replace('from-', '').replace('to-', '').split(' ')[0]}`}>
+            <CardHeader className="pb-2 pt-4 px-4">
+              <CardTitle className="flex items-center gap-2 text-base">
+                <div className={`p-1.5 rounded-lg ${activeIndustry.color.replace('from-', '').replace('to-', '').split(' ')[0]}`}>
                   {activeIndustry.icon}
                 </div>
                 <span className="text-white">{activeIndustry.title}</span>
               </CardTitle>
-              <CardDescription className="text-lg">
+              <CardDescription className="text-sm">
                 {activeIndustry.description}
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-6">
+            <CardContent className="px-4 pt-0">
+              <div className="space-y-4">
                 <div>
-                  <h4 className="font-medium mb-2">Key Benefits</h4>
-                  <ul className="space-y-2">
+                  <h4 className="font-medium mb-1.5 text-sm">Key Benefits</h4>
+                  <ul className="space-y-1.5">
                     {activeIndustry.benefits.map((benefit, index) => (
                       <li key={index} className="flex items-start gap-2">
-                        <div className="p-1 rounded-full bg-green-500/20 text-green-400 mt-0.5 shrink-0">
-                          <Check className="h-3 w-3" />
+                        <div className="p-0.5 rounded-full bg-green-500/20 text-green-400 mt-0.5 shrink-0">
+                          <Check className="h-2.5 w-2.5" />
                         </div>
-                        <span>{benefit}</span>
+                        <span className="text-xs">{benefit}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
                 
                 <div>
-                  <h4 className="font-medium mb-2">Performance Metrics</h4>
-                  <div className="grid grid-cols-2 gap-4">
+                  <h4 className="font-medium mb-1.5 text-sm">Performance Metrics</h4>
+                  <div className="grid grid-cols-2 gap-2">
                     {activeIndustry.stats.map((stat, index) => (
-                      <div key={index} className="flex items-center gap-3 bg-white/5 p-3 rounded-lg">
-                        <div className="p-2 rounded-lg bg-white/10 text-white">
+                      <div key={index} className="flex items-center gap-2 bg-white/5 p-2 rounded-lg">
+                        <div className="p-1.5 rounded-lg bg-white/10 text-white">
                           {stat.icon}
                         </div>
                         <div>
-                          <p className="text-sm text-white/70">{stat.label}</p>
-                          <p className="font-bold">{stat.value}</p>
+                          <p className="text-xs text-white/70">{stat.label}</p>
+                          <p className="text-sm font-bold">{stat.value}</p>
                         </div>
                       </div>
                     ))}
@@ -1670,26 +1953,26 @@ export default function EnhancedIndustrySolutions() {
           </Card>
           
           <Card3D className="w-full" intensity={0.3}>
-            <div className="bg-gradient-to-br from-black/80 to-black/60 rounded-xl p-6 backdrop-blur-xl border border-white/10 h-full flex flex-col relative overflow-hidden">
+            <div className="bg-gradient-to-br from-black/80 to-black/60 rounded-xl p-4 backdrop-blur-xl border border-white/10 h-full flex flex-col relative overflow-hidden">
               <div className="absolute -right-12 -top-12 w-40 h-40 bg-gradient-to-br from-red-500/20 to-red-500/0 rounded-full blur-3xl pointer-events-none"></div>
-              <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
-                <div className={`p-2 rounded-lg ${activeIndustry.color.replace('from-', '').replace('to-', '').split(' ')[0]}`}>
+              <h3 className="text-sm font-bold mb-3 flex items-center gap-2">
+                <div className={`p-1.5 rounded-lg ${activeIndustry.color.replace('from-', '').replace('to-', '').split(' ')[0]}`}>
                   {activeIndustry.icon}
                 </div>
                 <span>Case Study: {activeIndustry.caseStudy.client}</span>
               </h3>
-              <div className="space-y-4 flex-grow">
+              <div className="space-y-3 flex-grow">
                 <div>
-                  <h4 className="text-sm font-medium text-white/70 mb-1">Challenge</h4>
-                  <p className="text-sm">{activeIndustry.caseStudy.challenge}</p>
+                  <h4 className="text-xs font-medium text-white/70 mb-0.5">Challenge</h4>
+                  <p className="text-xs">{activeIndustry.caseStudy.challenge}</p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-white/70 mb-1">Solution</h4>
-                  <p className="text-sm">{activeIndustry.caseStudy.solution}</p>
+                  <h4 className="text-xs font-medium text-white/70 mb-0.5">Solution</h4>
+                  <p className="text-xs">{activeIndustry.caseStudy.solution}</p>
                 </div>
                 <div>
-                  <h4 className="text-sm font-medium text-white/70 mb-1">Results</h4>
-                  <p className="text-sm text-green-400 font-medium">
+                  <h4 className="text-xs font-medium text-white/70 mb-0.5">Results</h4>
+                  <p className="text-xs text-green-400 font-medium">
                     {typeof activeIndustry.caseStudy.results === 'string' 
                       ? activeIndustry.caseStudy.results
                       : activeIndustry.caseStudy.results.join(' • ')}
@@ -1697,14 +1980,14 @@ export default function EnhancedIndustrySolutions() {
                 </div>
               </div>
               {activeIndustry.caseStudy.testimonial && (
-                <div className="mt-4 pt-4 border-t border-white/10">
+                <div className="mt-3 pt-3 border-t border-white/10">
                   <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center text-lg font-bold">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center text-sm font-bold">
                       {activeIndustry.caseStudy.testimonial.name.charAt(0)}
                     </div>
                     <div>
-                      <p className="text-sm italic text-white/80 mb-1">"{activeIndustry.caseStudy.testimonial.quote}"</p>
-                      <p className="text-xs text-white/60">
+                      <p className="text-xs italic text-white/80 mb-1">"{activeIndustry.caseStudy.testimonial.quote}"</p>
+                      <p className="text-[10px] text-white/60">
                         <span className="font-medium">{activeIndustry.caseStudy.testimonial.name}</span> • {activeIndustry.caseStudy.testimonial.role}, {activeIndustry.caseStudy.testimonial.company}
                       </p>
                     </div>
@@ -1716,15 +1999,19 @@ export default function EnhancedIndustrySolutions() {
         </div>
         
         {/* Right column - AI Solutions and Technologies */}
-        <div className="space-y-8 w-full">
+        <div className="space-y-5 w-full">
           <Card className="w-full border border-white/10 bg-black/30 backdrop-blur-sm overflow-hidden h-auto">
             <div className="relative h-48">
               <Image 
-                src={activeIndustry.image} 
-                alt={activeIndustry.title} 
+                src={activeIndustry.image.src} 
+                alt={activeIndustry.image.alt} 
                 className="w-full h-full object-cover"
                 width={300}
                 height={200}
+                sizes={activeIndustry.image.sizes}
+                priority={activeIndustry.image.priority}
+                placeholder={activeIndustry.image.placeholder as "blur" | "empty" | undefined}
+                blurDataURL={activeIndustry.image.blurDataURL}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
               <div className="absolute bottom-4 left-4 right-4">
@@ -1780,56 +2067,45 @@ export default function EnhancedIndustrySolutions() {
                 </div>
                 
                 {/* Solutions tab content */}
-                <TabsContent value="solutions" className="space-y-4 min-h-[300px] w-full">
+                <TabsContent value="solutions" className="space-y-3 min-h-[200px] w-full">
                   {viewMode === 'card' ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full">
                       {activeIndustry.solutions?.map((solution, index) => (
-                        <Card3D key={index} className="h-full" intensity={0.2}>
-                          <div className="p-4 bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl hover:border-red-500/30 transition-all duration-300 h-full">
-                            <div className="flex items-start h-full">
-                              <div className="p-2.5 rounded-lg bg-gradient-to-br from-red-500/20 to-red-600/30 text-red-400 mr-4 flex-shrink-0">
-                                <Zap className="h-5 w-5" />
-                              </div>
-                              <div className="flex-grow flex flex-col h-full">
-                                <h4 className="font-medium mb-1">{solution}</h4>
-                                <p className="text-sm text-white/60 flex-grow">
-                                  Advanced AI solution tailored for {activeIndustry.title.toLowerCase()} applications.
-                                </p>
-                                <div className="mt-3 pt-3 border-t border-white/10">
-                                  <Button 
-                                    variant="ghost" 
-                                    size="sm" 
-                                    className="px-0 text-red-400 hover:text-red-300 hover:bg-transparent"
-                                  >
-                                    <span className="flex items-center gap-1 text-xs">
-                                      Learn more
-                                      <ArrowRight className="h-3 w-3" />
-                                    </span>
-                                  </Button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </Card3D>
+                        <EnhancedSolutionCard
+                          key={index}
+                          title={solution}
+                          description={`Advanced AI solution tailored for ${activeIndustry.title.toLowerCase()} applications.`}
+                          icon={<MindscapeBrainLogo variant="icon-only" size="sm" />}
+                          benefits={[
+                            "Reduce operational costs",
+                            "Increase efficiency",
+                            "Improve customer satisfaction"
+                          ]}
+                          color="from-blue-500 to-blue-700"
+                          onActionClick={() => {
+                            // Show a modal or navigate to a page with all solutions
+                            alert('View all solutions for ' + activeIndustry.title);
+                          }}
+                        />
                       ))}
                     </div>
                   ) : (
-                    <div className="grid grid-cols-1 gap-3 w-full">
+                    <div className="grid grid-cols-1 gap-1.5 w-full">
                       {activeIndustry.solutions?.map((solution, index) => (
                         <div key={index} className="group">
-                          <div className="p-4 bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl hover:border-red-500/30 transition-all duration-300">
+                          <div className="p-2 bg-black/40 backdrop-blur-sm border border-white/10 rounded-lg hover:border-red-500/30 transition-all duration-300">
                             <div className="flex items-center">
-                              <div className="p-2.5 rounded-lg bg-gradient-to-br from-red-500/20 to-red-600/30 text-red-400 mr-4 flex-shrink-0">
-                                <Zap className="h-5 w-5" />
+                              <div className="p-1.5 rounded-lg bg-gradient-to-br from-red-500/20 to-red-600/30 text-red-400 mr-3 flex-shrink-0">
+                                <Zap className="h-4 w-4" />
                               </div>
                               <div className="flex-grow">
-                                <h4 className="font-medium mb-1">{solution}</h4>
-                                <p className="text-sm text-white/60">
+                                <h4 className="font-medium text-sm">{solution}</h4>
+                                <p className="text-xs text-white/60 line-clamp-1">
                                   Advanced AI solution tailored for {activeIndustry.title.toLowerCase()} applications.
                                 </p>
                               </div>
                               <div className="ml-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <ChevronRight className="h-5 w-5 text-red-500" />
+                                <ChevronRight className="h-4 w-4 text-red-500" />
                               </div>
                             </div>
                           </div>
@@ -1837,102 +2113,101 @@ export default function EnhancedIndustrySolutions() {
                       ))}
                     </div>
                   )}
-                  <div className="flex justify-end mt-4">
+                  <div className="flex justify-end mt-2">
                     <Button 
                       variant="outline" 
                       size="sm" 
-                      className="bg-black/40 border-white/10 hover:bg-black/60 hover:border-red-500/30"
+                      className="bg-black/40 border-white/10 hover:bg-black/60 hover:border-red-500/30 h-7 text-xs px-2"
                       onClick={() => {
                         // Show a modal or navigate to a page with all solutions
                         alert('View all solutions for ' + activeIndustry.title);
                       }}
                     >
-                      <div className="flex items-center gap-2">
-                        <span>View All Solutions</span>
-                        <ArrowRight className="h-4 w-4" />
+                      <div className="flex items-center gap-1.5">
+                        <span>View All</span>
+                        <ArrowRight className="h-3 w-3" />
                       </div>
                     </Button>
                   </div>
                 </TabsContent>
                 
                 {/* AI Capabilities tab content */}
-                <TabsContent value="ai" className="space-y-4 min-h-[300px] w-full">
+                <TabsContent value="ai" className="space-y-3 min-h-[200px] w-full">
                   {activeIndustry.aiSolutions && activeIndustry.aiSolutions.length > 0 ? (
                     <>
                       {viewMode === 'card' ? (
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full">
                           {activeIndustry.aiSolutions.map((solution, index) => (
-                            <Card3D key={index} className="h-full" intensity={0.2}>
-                              <div className="p-4 bg-black/40 backdrop-blur-sm border border-white/10 rounded-xl hover:border-blue-500/30 transition-all duration-300 h-full">
-                                <div className="flex items-start h-full">
-                                  <div className="p-2.5 rounded-lg bg-gradient-to-br from-blue-500/20 to-blue-600/30 text-blue-400 mr-4 flex-shrink-0">
-                                    {solution.icon || <MindscapeBrainLogo variant="icon-only" size="sm" />}
-                                  </div>
-                                  <div className="flex flex-col h-full">
-                                    <h3 className="font-medium mb-1">{solution.title}</h3>
-                                    <p className="text-sm text-white/70 mb-3">{solution.description}</p>
-                                    
-                                    <div className="mt-auto pt-3 border-t border-white/10 flex flex-wrap gap-2">
-                                      <Badge variant="outline" className="bg-blue-500/10 text-blue-400 border-blue-500/20">
-                                        {solution.performance.accuracy}% Accuracy
-                                      </Badge>
-                                      <Badge variant="outline" className="bg-purple-500/10 text-purple-400 border-purple-500/20">
-                                        {solution.performance.latency}ms Latency
-                                      </Badge>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </Card3D>
+                            <EnhancedSolutionCard
+                              key={index}
+                              title={solution.title}
+                              description={solution.description}
+                              icon={solution.icon || <MindscapeBrainLogo variant="icon-only" size="sm" />}
+                              benefits={[
+                                `${solution.performance.accuracy}% Accuracy`,
+                                `${solution.performance.latency}ms Latency`,
+                                `${solution.performance.scalability}/10 Scale`
+                              ]}
+                              color="from-blue-500 to-blue-700"
+                              onActionClick={() => {
+                                // Show a modal or navigate to a page with all AI solutions
+                                alert('View all AI solutions for ' + activeIndustry.title);
+                              }}
+                            />
                           ))}
                         </div>
                       ) : (
-                        <div className="space-y-3 w-full">
+                        <div className="space-y-2 w-full">
                           {activeIndustry.aiSolutions.map((solution, index) => (
-                            <div key={index} className="flex gap-4 p-3 border border-white/10 rounded-lg bg-black/20 hover:bg-black/40 transition-colors">
-                              <div className="p-2.5 rounded-lg bg-gradient-to-br from-blue-500/20 to-blue-600/30 text-blue-400 flex-shrink-0">
+                            <div key={index} className="flex gap-3 p-2 border border-white/10 rounded-lg bg-black/20 hover:bg-black/40 transition-colors">
+                              <div className="p-1.5 rounded-lg bg-gradient-to-br from-blue-500/20 to-blue-600/30 text-blue-400 flex-shrink-0">
                                 {solution.icon || <MindscapeBrainLogo variant="icon-only" size="sm" />}
                               </div>
-                              <div>
-                                <h3 className="font-medium">{solution.title}</h3>
-                                <p className="text-sm text-white/70 mb-2">{solution.description}</p>
+                              <div className="flex-1 min-w-0">
+                                <h3 className="font-medium text-sm">{solution.title}</h3>
+                                <p className="text-xs text-white/70 mb-1 line-clamp-1">{solution.description}</p>
                                 
-                                <div className="mt-2 space-y-2">
+                                <div className="grid grid-cols-3 gap-2 mt-1.5">
                                   <div>
-                                    <p className="text-xs font-medium text-white/60 mb-1">Key Capabilities:</p>
-                                    <div className="flex flex-wrap gap-1">
-                                      {solution.capabilities.map((capability, i) => (
-                                        <Badge key={i} variant="outline" className="bg-black/30 text-white/80 border-white/20 text-xs">
-                                          {capability}
-                                        </Badge>
-                                      ))}
+                                    <div className="flex justify-between items-center text-[9px] mb-0.5">
+                                      <span className="text-white/60">Accuracy</span>
+                                      <span className="text-white/80 font-medium">{solution.performance.accuracy}%</span>
                                     </div>
-                                  </div>
-                                  
-                                  <div>
-                                    <p className="text-xs font-medium text-white/60 mb-1">Performance:</p>
-                                    <div className="grid grid-cols-3 gap-2">
-                                      <div>
-                                        <p className="text-xs text-white/50">Accuracy</p>
-                                        <div className="flex items-center">
-                                          <Progress value={solution.performance.accuracy} className="h-1.5 mr-2" />
-                                          <span className="text-xs font-medium">{solution.performance.accuracy}%</span>
+                                    <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
+                                      <motion.div
+                                        className="h-full bg-green-500 rounded-full"
+                                        initial={{ width: 0 }}
+                                        animate={{ width: `${solution.performance.accuracy}%` }}
+                                        transition={{ duration: 1, ease: "easeOut" }}
+                                      />
                                         </div>
                                       </div>
                                       <div>
-                                        <p className="text-xs text-white/50">Latency</p>
-                                        <div className="flex items-center">
-                                          <Progress value={100 - (solution.performance.latency / 2)} className="h-1.5 mr-2" />
-                                          <span className="text-xs font-medium">{solution.performance.latency}ms</span>
+                                    <div className="flex justify-between items-center text-[9px] mb-0.5">
+                                      <span className="text-white/60">Latency</span>
+                                      <span className="text-white/80 font-medium">{solution.performance.latency}ms</span>
+                                    </div>
+                                    <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
+                                      <motion.div
+                                        className="h-full bg-blue-500 rounded-full"
+                                        initial={{ width: 0 }}
+                                        animate={{ width: `${100 - (solution.performance.latency / 200) * 100}%` }}
+                                        transition={{ duration: 1, ease: "easeOut" }}
+                                      />
                                         </div>
                                       </div>
                                       <div>
-                                        <p className="text-xs text-white/50">Scalability</p>
-                                        <div className="flex items-center">
-                                          <Progress value={solution.performance.scalability} className="h-1.5 mr-2" />
-                                          <span className="text-xs font-medium">{solution.performance.scalability}/10</span>
+                                    <div className="flex justify-between items-center text-[9px] mb-0.5">
+                                      <span className="text-white/60">Scale</span>
+                                      <span className="text-white/80 font-medium">{solution.performance.scalability}</span>
                                         </div>
-                                      </div>
+                                    <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
+                                      <motion.div
+                                        className="h-full bg-purple-500 rounded-full"
+                                        initial={{ width: 0 }}
+                                        animate={{ width: `${(solution.performance.scalability / 5000) * 100}%` }}
+                                        transition={{ duration: 1, ease: "easeOut" }}
+                                      />
                                     </div>
                                   </div>
                                 </div>
@@ -1942,30 +2217,30 @@ export default function EnhancedIndustrySolutions() {
                         </div>
                       )}
                       
-                      <div className="mt-6 flex justify-center">
+                      <div className="flex justify-center mt-2">
                         <Button 
                           variant="outline" 
                           size="sm" 
-                          className="bg-black/40 border-white/10 hover:bg-black/60 hover:border-blue-500/30"
+                          className="bg-black/40 border-white/10 hover:bg-black/60 hover:border-blue-500/30 h-7 text-xs px-2"
                           onClick={() => {
                             // Show a modal or navigate to a page with all AI solutions
                             alert('View all AI solutions for ' + activeIndustry.title);
                           }}
                         >
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-1.5">
                             <span>Explore AI Capabilities</span>
-                            <ArrowRight className="h-4 w-4" />
+                            <ArrowRight className="h-3 w-3" />
                           </div>
                         </Button>
                       </div>
                     </>
                   ) : (
-                    <div className="flex flex-col items-center justify-center py-12 text-center">
-                      <div className="w-16 h-16 rounded-full bg-blue-500/10 flex items-center justify-center mb-4">
+                    <div className="flex flex-col items-center justify-center py-8 text-center">
+                      <div className="w-12 h-12 rounded-full bg-blue-500/10 flex items-center justify-center mb-3">
                         <MindscapeBrainLogo variant="icon-only" size="sm" />
                       </div>
-                      <h3 className="text-lg font-medium mb-2">No AI Solutions Available</h3>
-                      <p className="text-white/60 max-w-md">
+                      <h3 className="text-base font-medium mb-1">No AI Solutions Available</h3>
+                      <p className="text-white/60 max-w-md text-xs">
                         This industry doesn't have specific AI solutions defined yet. Check back later for updates.
                       </p>
                     </div>
@@ -2102,13 +2377,13 @@ export default function EnhancedIndustrySolutions() {
           </Card>
           
           <Card className="w-full border border-white/10 bg-black/30 backdrop-blur-sm">
-            <CardHeader className="pb-3">
-              <CardTitle>Technologies</CardTitle>
+            <CardHeader className="pb-2 p-3">
+              <CardTitle className="text-sm">Technologies</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="flex flex-wrap gap-2">
+            <CardContent className="px-3 pt-0 pb-3">
+              <div className="flex flex-wrap gap-1.5">
                 {activeIndustry.technologies.map((tech, index) => (
-                  <Badge key={index} variant="outline" className="bg-white/5 border-white/10">
+                  <Badge key={index} variant="outline" className="bg-white/5 border-white/10 text-xs py-0.5">
                     {tech}
                   </Badge>
                 ))}
@@ -2693,7 +2968,7 @@ export default function EnhancedIndustrySolutions() {
                               <td key={industry.id} className="py-3 px-4">
                                 <div className="flex items-center">
                                   <span className="text-green-400 font-bold mr-2">{roi}</span>
-                                  <Progress value={parseInt(roi)} max={400} className="h-2 w-24 bg-white/10">
+                                  <Progress value={(parseInt(roi) / 400) * 100} className="h-2 w-24 bg-white/10">
                                     <div className="h-full bg-green-500 rounded-full"></div>
                                   </Progress>
                                 </div>
@@ -2834,6 +3109,234 @@ export default function EnhancedIndustrySolutions() {
           </Card>
         </div>
       )}
+      
+      {/* AI Solutions Section - Compact Layout */}
+      {activeIndustry.aiSolutions && activeIndustry.aiSolutions.length > 0 && (
+        <div className="w-full max-w-7xl mx-auto mb-16">
+          {/* Two-column header layout */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 items-center">
+            <div className="space-y-2">
+              <Badge variant="outline" className="inline-flex items-center mb-1 bg-blue-500/10 text-blue-400 border-blue-500/30 px-3 py-1">
+                <Brain className="h-3.5 w-3.5 mr-1.5 text-blue-400" />
+                AI CAPABILITIES
+              </Badge>
+              <h3 className="text-2xl md:text-3xl font-bold tracking-tight">
+                Advanced AI Technologies
+              </h3>
+              <p className="text-sm md:text-base text-white/70">
+                Cutting-edge AI solutions designed for {activeIndustry.title} industry challenges.
+              </p>
+            </div>
+            
+            <div className="flex justify-start md:justify-end items-start">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="text-xs bg-black/40 border-white/10"
+                onClick={() => setViewOptions({...viewOptions, ai: viewOptions.ai === "card" ? "list" : "card"})}
+              >
+                {viewOptions.ai === "card" ? (
+                  <>
+                    <LayoutList className="h-3.5 w-3.5 mr-1.5" />
+                    List View
+                  </>
+                ) : (
+                  <>
+                    <LayoutGrid className="h-3.5 w-3.5 mr-1.5" />
+                    Grid View
+                  </>
+                )}
+              </Button>
+            </div>
+          </div>
+          
+          {/* AI Solutions Cards - Compact grid layout */}
+          <div className={`grid gap-4 ${viewOptions.ai === "card" ? "grid-cols-1 md:grid-cols-2 lg:grid-cols-3" : "grid-cols-1"}`}>
+            {activeIndustry.aiSolutions.map((solution, index) => (
+              <motion.div
+                key={solution.title}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <div className={`h-full border border-white/10 bg-black/40 backdrop-blur-md rounded-lg overflow-hidden hover:border-blue-500/30 transition-all duration-300 ${
+                  viewOptions.ai === "card" ? "p-4" : "p-4 md:p-5"
+                }`}>
+                  {viewOptions.ai === "card" ? (
+                    <div className="h-full flex flex-col">
+                      <div className="flex items-start gap-3 mb-3">
+                        <div className="shrink-0 h-10 w-10 rounded-lg bg-gradient-to-br from-blue-500/20 to-blue-600/10 flex items-center justify-center">
+                          {solution.icon || <Brain className="h-5 w-5 text-blue-400" />}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-base font-medium mb-1">{solution.title}</h4>
+                          <p className="text-sm text-white/60 line-clamp-2">{solution.description}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="mt-auto pt-3 border-t border-white/10">
+                        <div className="flex justify-between items-center text-xs mb-2">
+                          <span className="text-white/60">Performance</span>
+                          <span className="text-white/80 font-medium">{solution.performance.accuracy}% accuracy</span>
+                        </div>
+                        <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                          <motion.div
+                            className="h-full bg-blue-500 rounded-full"
+                            initial={{ width: 0 }}
+                            animate={{ width: `${solution.performance.accuracy}%` }}
+                            transition={{ duration: 1.5, ease: "easeOut" }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    // List view layout
+                    <div className="flex flex-col md:flex-row gap-4 md:gap-6">
+                      <div className="shrink-0 h-12 w-12 rounded-lg bg-gradient-to-br from-blue-500/20 to-blue-600/10 flex items-center justify-center">
+                        {solution.icon || <Brain className="h-6 w-6 text-blue-400" />}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-lg font-medium mb-1">{solution.title}</h4>
+                        <p className="text-sm text-white/70 mb-3">{solution.description}</p>
+                        
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                          <div>
+                            <h5 className="text-xs text-white/50 uppercase mb-1.5">Key Capabilities</h5>
+                            <ul className="space-y-1">
+                              {solution.capabilities.slice(0, 3).map((capability, idx) => (
+                                <li key={idx} className="flex items-start text-sm">
+                                  <Check className="h-3.5 w-3.5 mr-1.5 text-blue-400 mt-0.5 shrink-0" />
+                                  <span className="line-clamp-1">{capability}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                          
+                          <div>
+                            <h5 className="text-xs text-white/50 uppercase mb-1.5">Use Cases</h5>
+                            <ul className="space-y-1">
+                              {solution.useCases.slice(0, 3).map((useCase, idx) => (
+                                <li key={idx} className="flex items-start text-sm">
+                                  <Check className="h-3.5 w-3.5 mr-1.5 text-blue-400 mt-0.5 shrink-0" />
+                                  <span className="line-clamp-1">{useCase}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </div>
+                        
+                        <div className="grid grid-cols-3 gap-4">
+                          <div>
+                            <div className="flex justify-between items-center text-xs mb-1">
+                              <span className="text-white/60">Accuracy</span>
+                              <span className="text-white/80 font-medium">{solution.performance.accuracy}%</span>
+                            </div>
+                            <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                              <motion.div
+                                className="h-full bg-blue-500 rounded-full"
+                                initial={{ width: 0 }}
+                                animate={{ width: `${solution.performance.accuracy}%` }}
+                                transition={{ duration: 1.5, ease: "easeOut" }}
+                              />
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <div className="flex justify-between items-center text-xs mb-1">
+                              <span className="text-white/60">Speed</span>
+                              <span className="text-white/80 font-medium">{solution.performance.latency}ms</span>
+                            </div>
+                            <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                              <motion.div
+                                className="h-full bg-green-500 rounded-full"
+                                initial={{ width: 0 }}
+                                animate={{ width: `${100 - (solution.performance.latency / 2)}%` }}
+                                transition={{ duration: 1.5, ease: "easeOut" }}
+                              />
+                            </div>
+                          </div>
+                          
+                          <div>
+                            <div className="flex justify-between items-center text-xs mb-1">
+                              <span className="text-white/60">Scale</span>
+                              <span className="text-white/80 font-medium">{solution.performance.scalability}</span>
+                            </div>
+                            <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                              <motion.div
+                                className="h-full bg-purple-500 rounded-full"
+                                initial={{ width: 0 }}
+                                animate={{ width: `${(solution.performance.scalability / 5000) * 100}%` }}
+                                transition={{ duration: 1.5, ease: "easeOut" }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
+}
+
+// Particles animation component
+function Particles({ color = "#ef4444", count = 15 }) {
+  // Using useEffect to ensure client-side only rendering
+  const [particles, setParticles] = useState<Array<{
+    id: number;
+    x: number;
+    y: number;
+    size: number;
+    duration: number;
+  }>>([]);
+  
+  useEffect(() => {
+    // Generate particles only on the client side
+    const newParticles = Array.from({ length: count }, (_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 3 + 1,
+      duration: Math.random() * 10 + 10
+    }));
+    setParticles(newParticles);
+  }, [count]);
+  
+  // Don't render anything during SSR
+  if (particles.length === 0) {
+    return null;
+  }
+  
+  return (
+    <div className="absolute inset-0 overflow-hidden">
+      {particles.map((particle) => (
+        <motion.div
+          key={particle.id}
+          className="absolute rounded-full"
+          style={{
+            backgroundColor: color,
+            width: `${particle.size}px`,
+            height: `${particle.size}px`,
+            left: `${particle.x}%`,
+            top: `${particle.y}%`,
+            opacity: 0.6
+          }}
+          animate={{
+            y: [0, -30, 0],
+            opacity: [0.6, 0.2, 0.6]
+          }}
+          transition={{
+            duration: particle.duration,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+      ))}
+    </div>
+  )
 }

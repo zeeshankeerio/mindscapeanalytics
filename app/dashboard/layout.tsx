@@ -49,8 +49,11 @@ export default function DashboardLayout({
         <ErrorBoundary>
           <DashboardSidebar />
           <div className="flex flex-1 flex-col overflow-hidden">
-            <DashboardHeader heading="Dashboard" onMenuClick={() => handleSidebarToggle(!sidebarOpen)} />
-            <main className="flex-1 overflow-y-auto bg-black/40 backdrop-blur-sm supports-[backdrop-filter]:bg-black/40 p-6">
+            <DashboardHeader 
+              heading="Dashboard" 
+              onMenuClick={() => handleSidebarToggle(!sidebarOpen)}
+            />
+            <main className="flex-1 overflow-y-auto scrollbar-hide bg-black/40 backdrop-blur-sm supports-[backdrop-filter]:bg-black/40 p-6 scroll-smooth">
               <ErrorBoundary>
                 <div className="mx-auto max-w-7xl">
                   {children}

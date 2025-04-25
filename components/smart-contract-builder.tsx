@@ -339,19 +339,19 @@ const SmartContractBuilder: React.FC = () => {
                           {selectedModules.includes('upgradeable') && <span>, <span className="text-blue-400">Initializable</span></span>}
                           <span> {`{`}</span>
                         </div>
-                        <div>    <span className="text-green-400">// Constructor</span></div>
-                        <div>    <span className="text-purple-400">constructor</span>() <span className="text-blue-400">ERC20</span>(<span className="text-amber-400">&quot;{contractName}&quot;</span>, <span className="text-amber-400">&quot;{tokenSymbol}&quot;</span>) {`{`}</div>
+                        <div>    {/* Constructor */}</div>
+                        <div><span className="text-purple-400">constructor</span>() <span className="text-blue-400">ERC20</span>(<span className="text-amber-400">"{contractName}"</span>, <span className="text-amber-400">"{tokenSymbol}"</span>) {`{`}</div>
                         <div>        _mint(<span className="text-blue-400">msg.sender</span>, 1000000 * 10 ** 18);</div>
                         <div>    {`}`}</div>
                         <div></div>
                         {selectedModules.includes('events') && (
                           <>
-                            <div>    <span className="text-green-400">// Custom events</span></div>
+                            <div>    {/* Custom events */}</div>
                             <div>    <span className="text-purple-400">event</span> <span className="text-blue-400">TokensLocked</span>(address indexed owner, uint256 amount);</div>
                             <div></div>
                           </>
                         )}
-                        <div>    <span className="text-green-400">// More code here based on selected modules...</span></div>
+                        <div>    {/* More code here based on selected modules... */}</div>
                         <div>{`}`}</div>
                       </div>
                     </div>

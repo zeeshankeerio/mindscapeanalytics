@@ -384,7 +384,7 @@ export default function ROIShowcase() {
                         </div>
 
                         <div className="pt-4 border-t border-white/10">
-                          <p className="italic text-white/80">&quot;{study.quote}&quot;</p>
+                          <p className="italic text-white/80">"{study.quote}"</p>
                         </div>
 
                         <Button variant="outline" className="mt-6 w-full border-white/10 hover:bg-white/10">

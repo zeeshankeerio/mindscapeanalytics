@@ -305,7 +305,7 @@ export function SmartContractPlayground() {
                   </div>
                   <div>
                     <p className="text-sm text-slate-500 mb-1">Constructor Arguments</p>
-                    <p className="font-medium">[&quot;Test Token&quot;, &quot;TEST&quot;, 1000000]</p>
+                    <p className="font-medium">["Test Token", "TEST", 1000000]</p>
                   </div>
                   <div>
                     <p className="text-sm text-slate-500 mb-1">Compiler Version</p>

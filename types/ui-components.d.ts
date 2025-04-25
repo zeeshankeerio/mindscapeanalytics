@@ -95,8 +95,12 @@ declare module '@/components/ui/tooltip' {
 
   export const TooltipProvider: React.FC<TooltipProviderProps>;
 
+  export interface TooltipTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    asChild?: boolean;
+  }
+
   export const TooltipTrigger: React.ForwardRefExoticComponent<
-    React.ButtonHTMLAttributes<HTMLButtonElement> & React.RefAttributes<HTMLButtonElement>
+    TooltipTriggerProps & React.RefAttributes<HTMLButtonElement>
   >;
 
   export const TooltipContent: React.ForwardRefExoticComponent<

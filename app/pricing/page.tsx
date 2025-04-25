@@ -313,12 +313,10 @@ export default function PricingPage() {
                       <div className="col-span-1 flex items-center">
                         <TooltipProvider>
                           <Tooltip>
-                            <TooltipTrigger asChild>
-                              <div className="flex items-center gap-2">
-                                <span>{feature.name}</span>
-                                {feature.tooltip && <HelpCircle className="h-4 w-4 text-white/40" />}
-                              </div>
-                            </TooltipTrigger>
+                            <div className="flex items-center gap-2">
+                              <span>{feature.name}</span>
+                              {feature.tooltip && <HelpCircle className="h-4 w-4 text-white/40" />}
+                            </div>
                             {feature.tooltip && (
                               <TooltipContent>
                                 <p className="max-w-xs">{feature.tooltip}</p>
@@ -549,9 +547,9 @@ function PricingCard({ plan }: { plan: any }) {
                   </span>
                   <TooltipProvider>
                     <Tooltip>
-                      <TooltipTrigger asChild>
+                      <div>
                         <HelpCircle className="h-3.5 w-3.5 text-white/40 ml-1.5 cursor-help" />
-                      </TooltipTrigger>
+                      </div>
                       <TooltipContent className="bg-black/90 border border-white/10 text-white">
                         <p className="text-xs max-w-[200px] flex items-center gap-1.5">
                           {feature.icon}

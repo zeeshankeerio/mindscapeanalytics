@@ -16,6 +16,7 @@ import { ScrollToTop } from "@/components/scroll-to-top"
 import { FloatingChatWidget } from "@/components/floating-chat-widget"
 import { CookieConsent } from "@/components/cookie-consent"
 import InteractiveDemoSection from "@/components/interactive-demo-section"
+import NewsTicker from "@/components/news-ticker"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef } from "react"
 import { Database } from "lucide-react"
@@ -90,9 +91,14 @@ export default function Home() {
         >
           <HyperHero />
         </motion.div>
+        
+        {/* News Ticker - Now positioned under HyperHero */}
+        <div className="mt-2 relative">
+          <NewsTicker />
+        </div>
       </header>
       
-      {/* Features - Core Capabilities */}
+      {/* 1. POWERFUL FEATURES - Core Capabilities */}
       <section id="features" className="relative z-10 w-full py-12 overflow-hidden">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
@@ -103,40 +109,7 @@ export default function Home() {
         </div>
       </section>
       
-      {/* AI Capabilities - Advanced Features */}
-      <section id="ai-capabilities" className="relative z-10 w-full py-12 overflow-hidden">
-        <div className={sectionBackgroundStyles.container} aria-hidden="true">
-          <div className={sectionBackgroundStyles.glow}></div>
-          <div className={sectionBackgroundStyles.glow}></div>
-        </div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <AICapabilitiesShowcase />
-        </div>
-      </section>
-      
-      {/* Projects Showcase - Our Innovations */}
-      <section id="projects" className="relative z-10 w-full py-12 overflow-hidden">
-        <div className={sectionBackgroundStyles.container} aria-hidden="true">
-          <div className={sectionBackgroundStyles.glow}></div>
-          <div className={sectionBackgroundStyles.glow}></div>
-        </div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <ProjectsShowcase />
-        </div>
-      </section>
-      
-      {/* Analytics Preview - Data Visualization */}
-      <section id="analytics" className="relative z-10 w-full py-12 overflow-hidden">
-        <div className={sectionBackgroundStyles.container} aria-hidden="true">
-          <div className={sectionBackgroundStyles.glow}></div>
-          <div className={sectionBackgroundStyles.glow}></div>
-        </div>
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <AnalyticsPreview />
-        </div>
-      </section>
-      
-      {/* Industry Solutions - Vertical Focus */}
+      {/* 2. INDUSTRY SOLUTIONS - Vertical Focus */}
       <section id="solutions" className="relative z-10 w-full py-12 overflow-hidden">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
@@ -147,7 +120,51 @@ export default function Home() {
         </div>
       </section>
       
-      {/* Tech Stack - Our Technology */}
+      {/* 3. AI CAPABILITIES - Advanced Features */}
+      <section id="ai-capabilities" className="relative z-10 w-full py-12 overflow-hidden">
+        <div className={sectionBackgroundStyles.container} aria-hidden="true">
+          <div className={sectionBackgroundStyles.glow}></div>
+          <div className={sectionBackgroundStyles.glow}></div>
+        </div>
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <AICapabilitiesShowcase />
+        </div>
+      </section>
+      
+      {/* 5. INTERACTIVE DEMOS - Showcase Key Features */}
+      <section id="interactive-demo" className="relative z-10 w-full py-12 overflow-hidden">
+        <div className={sectionBackgroundStyles.container} aria-hidden="true">
+          <div className={sectionBackgroundStyles.glow}></div>
+          <div className={sectionBackgroundStyles.glow}></div>
+        </div>
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <InteractiveDemoSection />
+        </div>
+      </section>
+      
+      {/* 6. ENTERPRISE ANALYTICS SUITE - Data Visualization */}
+      <section id="analytics" className="relative z-10 w-full py-12 overflow-hidden">
+        <div className={sectionBackgroundStyles.container} aria-hidden="true">
+          <div className={sectionBackgroundStyles.glow}></div>
+          <div className={sectionBackgroundStyles.glow}></div>
+        </div>
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <AnalyticsPreview />
+        </div>
+      </section>
+      
+      {/* 7. OUR PROJECTS - Innovations */}
+      <section id="projects" className="relative z-10 w-full py-12 overflow-hidden">
+        <div className={sectionBackgroundStyles.container} aria-hidden="true">
+          <div className={sectionBackgroundStyles.glow}></div>
+          <div className={sectionBackgroundStyles.glow}></div>
+        </div>
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <ProjectsShowcase />
+        </div>
+      </section>
+      
+      {/* 8. TECHNOLOGY STACK - Our Technology */}
       <section id="tech-stack" className="relative z-10 w-full py-12 overflow-hidden">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>

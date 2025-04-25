@@ -282,7 +282,7 @@ export default function FeaturesSection() {
   };
 
   return (
-    <section ref={containerRef} className="relative overflow-hidden py-24">
+    <section ref={containerRef} className="relative overflow-hidden py-12">
       {/* Enhanced Background Elements */}
       <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]"></div>
       <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-red-500/10 blur-[100px] animate-pulse-slow"></div>
@@ -294,56 +294,58 @@ export default function FeaturesSection() {
       />
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Enhanced Features Header */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="text-center mb-20"
-        >
-          <div className="mb-6 inline-flex items-center justify-center">
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              <Badge 
-                variant="outline" 
-                className="text-sm font-medium bg-red-500/10 backdrop-blur-sm border-red-500/30 text-red-400 shadow-glow-sm shadow-red-500/20 px-4 py-1.5"
-              >
-                POWERFUL FEATURES
-              </Badge>
-            </motion.div>
-          </div>
-          
-          <motion.h2 
+        {/* Compact Feature Header - Two-column layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 items-center">
+          {/* Left column: Title and description */}
+          <motion.div 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="text-4xl md:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70"
+            transition={{ duration: 0.7, delay: 0.2 }}
           >
-            Enterprise-Grade <span className="text-red-500">AI Platform</span>
-          </motion.h2>
-          
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto mb-8"
-          >
-            Built for scale and performance, our platform delivers cutting-edge AI capabilities with enterprise-grade reliability.
-          </motion.p>
-          
-          {/* Comparison Mode Toggle - Enhanced */}
+            <div className="mb-4 inline-flex items-center">
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <Badge 
+                  variant="outline" 
+                  className="text-sm font-medium bg-red-500/10 backdrop-blur-sm border-red-500/30 text-red-400 shadow-glow-sm shadow-red-500/20 px-4 py-1.5"
+                >
+                  POWERFUL FEATURES
+                </Badge>
+              </motion.div>
+            </div>
+            
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.4 }}
+              className="text-3xl md:text-4xl font-bold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70"
+            >
+              Enterprise-Grade <span className="text-red-500">AI Platform</span>
+            </motion.h2>
+            
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.7, delay: 0.5 }}
+              className="text-base md:text-lg text-white/70"
+            >
+              Built for scale and performance, our platform delivers cutting-edge AI capabilities with enterprise-grade reliability.
+            </motion.p>
+          </motion.div>
+
+          {/* Right column: Compare Features button */}
           <motion.div 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
-            className="flex justify-center mt-8"
+            className="flex justify-start md:justify-end"
           >
             <Button 
               variant="outline" 
-              className={`flex items-center gap-2 ${comparisonMode ? 'bg-red-500/20 text-red-300 border-red-500/40' : 'border-white/20 hover:border-red-500/40'} backdrop-blur-sm transition-all duration-300 hover:shadow-glow-sm hover:shadow-red-500/20 px-5 py-6`}
+              className={`flex items-center gap-2 ${comparisonMode ? 'bg-red-500/20 text-red-300 border-red-500/40' : 'border-white/20 hover:border-red-500/40'} backdrop-blur-sm transition-all duration-300 hover:shadow-glow-sm hover:shadow-red-500/20 px-5 py-2.5`}
               onClick={() => setComparisonMode(!comparisonMode)}
             >
               <Sliders className="h-4 w-4 mr-2" />
@@ -357,136 +359,136 @@ export default function FeaturesSection() {
               </motion.span>
             </Button>
           </motion.div>
-          
-          {/* Comparison Mode Panel - Enhanced */}
-          <AnimatePresence>
-            {comparisonMode && (
-              <motion.div 
-                initial={{ opacity: 0, height: 0, y: -20 }}
-                animate={{ opacity: 1, height: 'auto', y: 0 }}
-                exit={{ opacity: 0, height: 0, y: -20 }}
-                transition={{ duration: 0.4 }}
-                className="mt-6 overflow-hidden"
-              >
-                <div className="rounded-xl bg-black/30 backdrop-blur-md border border-white/10 p-6 max-w-3xl mx-auto">
-                  <p className="text-sm text-white/60 mb-3">Select up to 3 features to compare</p>
-                  <div className="flex justify-center gap-2 flex-wrap">
-                    {features.map(feature => (
-                      <Badge 
-                        key={feature.title}
-                        variant={selectedFeatures.includes(feature.title) ? "default" : "outline"}
-                        className={`cursor-pointer backdrop-blur-sm transition-all duration-300 ${
-                          selectedFeatures.includes(feature.title) 
-                            ? `bg-${feature.color}-500/20 text-${feature.color}-300 border-${feature.color}-500/40` 
-                            : 'hover:bg-white/10 border-white/20'
-                        }`}
-                        onClick={() => toggleFeatureSelection(feature.title)}
-                      >
-                        {feature.title}
-                        {selectedFeatures.includes(feature.title) && (
-                          <Check className="ml-1 h-3 w-3" />
-                        )}
-                      </Badge>
-                    ))}
-                  </div>
-                  
-                  {selectedFeatures.length > 0 && (
-                    <motion.div 
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5 }}
-                      className="mt-8"
+        </div>
+        
+        {/* Comparison Mode Panel - Enhanced */}
+        <AnimatePresence>
+          {comparisonMode && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0, y: -20 }}
+              animate={{ opacity: 1, height: 'auto', y: 0 }}
+              exit={{ opacity: 0, height: 0, y: -20 }}
+              transition={{ duration: 0.4 }}
+              className="mb-10 overflow-hidden"
+            >
+              <div className="rounded-xl bg-black/30 backdrop-blur-md border border-white/10 p-4 max-w-3xl mx-auto">
+                <p className="text-sm text-white/60 mb-2">Select up to 3 features to compare</p>
+                <div className="flex justify-center gap-2 flex-wrap">
+                  {features.map(feature => (
+                    <Badge 
+                      key={feature.title}
+                      variant={selectedFeatures.includes(feature.title) ? "default" : "outline"}
+                      className={`cursor-pointer backdrop-blur-sm transition-all duration-300 ${
+                        selectedFeatures.includes(feature.title) 
+                          ? `bg-${feature.color}-500/20 text-${feature.color}-300 border-${feature.color}-500/40` 
+                          : 'hover:bg-white/10 border-white/20'
+                      }`}
+                      onClick={() => toggleFeatureSelection(feature.title)}
                     >
-                      <div className="flex justify-center gap-2 mb-4">
-                        {(["performance", "reliability", "scalability", "costEfficiency"] as const).map(metric => (
-                          <Button 
-                            key={metric}
-                            variant={selectedMetric === metric ? "default" : "outline"}
-                            size="sm"
-                            onClick={() => setSelectedMetric(metric)}
-                            className={`text-xs backdrop-blur-sm transition-all duration-300 ${
-                              selectedMetric === metric 
-                                ? 'bg-red-500/20 text-red-300 border-red-500/40 shadow-glow-sm shadow-red-500/20' 
-                                : 'border-white/20 hover:border-red-500/30'
-                            }`}
-                          >
-                            {metric.replace(/([A-Z])/g, ' $1').trim().split(' ').map(word => 
-                              word.charAt(0).toUpperCase() + word.slice(1)
-                            ).join(' ')}
-                          </Button>
-                        ))}
-                      </div>
-                      
-                      <div className="flex-1 flex flex-col justify-end gap-6 max-w-2xl mx-auto">
-                        {selectedFeatures.map(featureTitle => {
-                          const feature = features.find(f => f.title === featureTitle);
-                          if (!feature) return null;  // Safety check
-                          const value = featureComparison[selectedMetric as MetricKey][featureTitle];
-                          const color = feature?.color === 'red' ? 'bg-red-500' : 
-                                      feature?.color === 'blue' ? 'bg-blue-500' : 
-                                      feature?.color === 'green' ? 'bg-green-500' : 'bg-yellow-500';
-                          const glowColor = feature?.color === 'red' ? 'shadow-red-500/30' : 
-                                          feature?.color === 'blue' ? 'shadow-blue-500/30' : 
-                                          feature?.color === 'green' ? 'shadow-green-500/30' : 'shadow-yellow-500/30';
-                          
-                          return (
-                            <motion.div 
-                              key={featureTitle} 
-                              className="space-y-2"
-                              initial={{ width: 0 }}
-                              animate={{ width: "100%" }}
-                              transition={{ duration: 0.7 }}
-                            >
-                              <div className="flex justify-between text-sm">
-                                <div className="flex items-center gap-2">
-                                  <div className={`w-2 h-2 rounded-full ${color}`}></div>
-                                  {featureTitle}
-                                </div>
-                                <span className="text-white/70">{value}%</span>
-                              </div>
-                              <div className="h-3 w-full bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
-                                <motion.div
-                                  className={`h-full ${color} shadow-glow-sm ${glowColor}`}
-                                  initial={{ width: 0 }}
-                                  animate={{ width: `${value}%` }}
-                                  transition={{ duration: 1.5, ease: "easeOut" }}
-                                />
-                              </div>
-                            </motion.div>
-                          );
-                        })}
+                      {feature.title}
+                      {selectedFeatures.includes(feature.title) && (
+                        <Check className="ml-1 h-3 w-3" />
+                      )}
+                    </Badge>
+                  ))}
+                </div>
+                
+                {selectedFeatures.length > 0 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="mt-6"
+                  >
+                    <div className="flex justify-center gap-2 mb-4">
+                      {(["performance", "reliability", "scalability", "costEfficiency"] as const).map(metric => (
+                        <Button 
+                          key={metric}
+                          variant={selectedMetric === metric ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => setSelectedMetric(metric)}
+                          className={`text-xs backdrop-blur-sm transition-all duration-300 ${
+                            selectedMetric === metric 
+                              ? 'bg-red-500/20 text-red-300 border-red-500/40 shadow-glow-sm shadow-red-500/20' 
+                              : 'border-white/20 hover:border-red-500/30'
+                          }`}
+                        >
+                          {metric.replace(/([A-Z])/g, ' $1').trim().split(' ').map(word => 
+                            word.charAt(0).toUpperCase() + word.slice(1)
+                          ).join(' ')}
+                        </Button>
+                      ))}
+                    </div>
+                    
+                    <div className="flex-1 flex flex-col justify-end gap-4 max-w-2xl mx-auto">
+                      {selectedFeatures.map(featureTitle => {
+                        const feature = features.find(f => f.title === featureTitle);
+                        if (!feature) return null;  // Safety check
+                        const value = featureComparison[selectedMetric as MetricKey][featureTitle];
+                        const color = feature?.color === 'red' ? 'bg-red-500' : 
+                                    feature?.color === 'blue' ? 'bg-blue-500' : 
+                                    feature?.color === 'green' ? 'bg-green-500' : 'bg-yellow-500';
+                        const glowColor = feature?.color === 'red' ? 'shadow-red-500/30' : 
+                                        feature?.color === 'blue' ? 'shadow-blue-500/30' : 
+                                        feature?.color === 'green' ? 'shadow-green-500/30' : 'shadow-yellow-500/30';
                         
-                        {/* Show industry benchmark */}
-                        {showBenchmark && (
-                          <div className="mt-4 pt-4 border-t border-white/10">
-                            <div className="flex justify-between text-sm mb-2">
+                        return (
+                          <motion.div 
+                            key={featureTitle} 
+                            className="space-y-1"
+                            initial={{ width: 0 }}
+                            animate={{ width: "100%" }}
+                            transition={{ duration: 0.7 }}
+                          >
+                            <div className="flex justify-between text-sm">
                               <div className="flex items-center gap-2">
-                                <div className="w-2 h-2 rounded-full bg-white/50"></div>
-                                Industry Average
+                                <div className={`w-2 h-2 rounded-full ${color}`}></div>
+                                {featureTitle}
                               </div>
-                              <span className="text-white/70">{industryBenchmarks[selectedMetric as MetricKey]}%</span>
+                              <span className="text-white/70">{value}%</span>
                             </div>
-                            <div className="h-3 w-full bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
+                            <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
                               <motion.div
-                                className="h-full bg-white/30"
+                                className={`h-full ${color} shadow-glow-sm ${glowColor}`}
                                 initial={{ width: 0 }}
-                                animate={{ width: `${industryBenchmarks[selectedMetric as MetricKey]}%` }}
+                                animate={{ width: `${value}%` }}
                                 transition={{ duration: 1.5, ease: "easeOut" }}
                               />
                             </div>
+                          </motion.div>
+                        );
+                      })}
+                      
+                      {/* Show industry benchmark */}
+                      {showBenchmark && (
+                        <div className="mt-2 pt-2 border-t border-white/10">
+                          <div className="flex justify-between text-sm mb-1">
+                            <div className="flex items-center gap-2">
+                              <div className="w-2 h-2 rounded-full bg-white/50"></div>
+                              Industry Average
+                            </div>
+                            <span className="text-white/70">{industryBenchmarks[selectedMetric as MetricKey]}%</span>
                           </div>
-                        )}
-                      </div>
-                    </motion.div>
-                  )}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
+                          <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
+                            <motion.div
+                              className="h-full bg-white/30"
+                              initial={{ width: 0 }}
+                              animate={{ width: `${industryBenchmarks[selectedMetric as MetricKey]}%` }}
+                              transition={{ duration: 1.5, ease: "easeOut" }}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {/* Enhanced Feature Cards */}
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        {/* Compact Feature Cards - Grid Layout */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
@@ -500,12 +502,12 @@ export default function FeaturesSection() {
                 stiffness: 100
               }}
               whileHover={{ 
-                y: -10, 
+                y: -5, 
                 transition: { duration: 0.2 },
-                scale: 1.02
+                scale: 1.01
               }}
               onClick={() => comparisonMode ? toggleFeatureSelection(feature.title) : handleFeatureClick(feature.title)}
-              className="cursor-pointer relative perspective-1000"
+              className="cursor-pointer relative"
             >
               {comparisonMode && (
                 <motion.div 
@@ -518,61 +520,51 @@ export default function FeaturesSection() {
                   }`}
                 >
                   {selectedFeatures.includes(feature.title) ? (
-                    <Check className="h-4 w-4" />
+                    <Check className="h-3 w-3" />
                   ) : (
-                    <Plus className="h-4 w-4" />
+                    <Plus className="h-3 w-3" />
                   )}
                 </motion.div>
               )}
               
-              <Card className={`h-full bg-black/40 backdrop-blur-md border-white/10 hover:border-${feature.color}-500/50 ${feature.glow} hover:${feature.glow} transition-all duration-300 transform-gpu group`}>
-                <CardContent className="p-6 relative overflow-hidden">
+              <Card className={`h-full bg-black/40 backdrop-blur-md border-white/10 hover:border-${feature.color}-500/50 transition-all duration-300 transform-gpu group`}>
+                <CardContent className="p-4 relative overflow-hidden">
                   {/* Animated gradient background */}
                   <div className={`absolute -inset-[1px] bg-gradient-to-r ${feature.gradient} rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0`} />
                   
                   <div className="relative z-10">
-                    <motion.div 
-                      initial={{ scale: 0.8, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
-                      className={`w-16 h-16 rounded-lg ${feature.gradient} flex items-center justify-center mb-6 shadow-glow-sm shadow-${feature.color}-500/30 group-hover:shadow-glow-md group-hover:shadow-${feature.color}-500/40 transition-all duration-500`}
-                    >
-                      {feature.icon}
-                    </motion.div>
+                    <div className="flex items-center mb-3">
+                      <motion.div 
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
+                        className={`w-10 h-10 rounded-lg ${feature.gradient} flex items-center justify-center mr-3 shadow-glow-sm shadow-${feature.color}-500/30 group-hover:shadow-glow-md group-hover:shadow-${feature.color}-500/40 transition-all duration-500`}
+                      >
+                        {feature.icon}
+                      </motion.div>
+                      
+                      <h3 className="text-lg font-bold group-hover:text-white/90 transition-colors">
+                        {feature.title}
+                      </h3>
+                    </div>
                     
-                    <h3 className="text-2xl font-bold mb-3 group flex items-center">
-                      {feature.title}
-                      <Button variant="ghost" size="icon" className="h-6 w-6 ml-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Info className="h-4 w-4" />
-                      </Button>
-                    </h3>
+                    <p className="text-white/70 mb-4 text-sm">{feature.description}</p>
                     
-                    <p className="text-white/70 mb-6 text-sm lg:text-base">{feature.description}</p>
-                    
-                    <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                      <span className="text-sm text-white/60">{feature.stats.label}</span>
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <motion.span 
-                              initial={{ scale: 0.8, opacity: 0 }}
-                              animate={{ scale: 1, opacity: 1 }}
-                              transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
-                              className={`text-xl font-bold text-${feature.color}-400`}
-                            >
-                              {feature.stats.value}
-                            </motion.span>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Industry-leading performance metric</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
+                    <div className="flex items-center justify-between pt-2 border-t border-white/10">
+                      <span className="text-xs text-white/60">{feature.stats.label}</span>
+                      <motion.span 
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
+                        className={`text-base font-bold text-${feature.color}-400`}
+                      >
+                        {feature.stats.value}
+                      </motion.span>
                     </div>
                     
                     {animatedStats[feature.title] && (
-                      <div className="mt-4">
-                        <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
+                      <div className="mt-2">
+                        <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
                           <motion.div 
                             className={`h-full rounded-full ${feature.color === 'red' ? 'bg-red-500' : feature.color === 'blue' ? 'bg-blue-500' : feature.color === 'green' ? 'bg-green-500' : 'bg-yellow-500'} shadow-glow-sm shadow-${feature.color}-500/30`}
                             initial={{ width: "0%" }}
@@ -589,20 +581,30 @@ export default function FeaturesSection() {
           ))}
         </div>
 
-        <div className="mt-16">
-          <div className="text-center mb-12">
-            <Badge variant="outline" className="mb-4 text-sm font-medium">
-              AI CAPABILITIES
-            </Badge>
-            <h2 className="text-4xl font-bold tracking-tight mb-4">
-              Advanced AI Technologies
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Harness the power of multiple AI technologies working together to solve complex business challenges.
-            </p>
+        <div className="mt-10">
+          {/* Two-column layout for AI CAPABILITIES header - Reversed order */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 items-center">
+            <div className="flex justify-start md:justify-start">
+              <Button variant="outline" size="sm" className="text-sm border-white/20 hover:border-blue-500/40">
+                View All Capabilities
+                <ArrowRight className="ml-2 h-3.5 w-3.5" />
+              </Button>
+            </div>
+            <div className="text-right">
+              <Badge variant="outline" className="mb-2 text-sm font-medium bg-blue-500/10 border-blue-500/30 text-blue-400">
+                AI CAPABILITIES
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
+                Advanced AI Technologies
+              </h2>
+              <p className="text-lg text-white/70">
+                Harness the power of multiple AI technologies working together to solve complex business challenges.
+              </p>
+            </div>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-3">
+          {/* Compact grid for capabilities */}
+          <div className="grid gap-4 md:grid-cols-3">
             {capabilities.map((capability, index) => (
               <motion.div
                 key={capability.title}
@@ -611,22 +613,27 @@ export default function FeaturesSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ 
-                  scale: 1.03, 
-                  boxShadow: "0 10px 30px -15px rgba(0, 0, 0, 0.3)",
+                  y: -5,
+                  scale: 1.01,
                   transition: { duration: 0.2 } 
                 }}
+                className="cursor-pointer"
               >
-                <Card className={`h-full bg-background/50 backdrop-blur-sm border-primary/20 hover:shadow-lg transition-all duration-300`}>
-                  <CardContent className="p-6">
-                    <div className={`w-10 h-10 rounded-lg ${capability.gradient} flex items-center justify-center mb-4`}>
+                <Card className="h-full bg-black/40 backdrop-blur-md border-white/10 hover:border-blue-500/50 transition-all duration-300">
+                  <CardContent className="p-4">
+                    <div className="flex items-center mb-3">
+                      <div className={`w-10 h-10 rounded-lg ${capability.gradient} flex items-center justify-center mr-3`}>
                         {capability.icon}
+                      </div>
+                      <h3 className="text-lg font-semibold">{capability.title}</h3>
                     </div>
-                    <h3 className="text-lg font-semibold mb-2">{capability.title}</h3>
-                    <p className="text-muted-foreground">{capability.description}</p>
-                    <Button variant="ghost" size="sm" className="mt-4 hover:bg-white/5 p-0">
-                      <span className="text-sm">Explore</span>
-                      <ArrowRight className="ml-1 h-3 w-3" />
-                    </Button>
+                    <p className="text-white/70 text-sm mb-3">{capability.description}</p>
+                    <div className="flex justify-end">
+                      <Button variant="ghost" size="sm" className="px-0 py-0 h-auto hover:bg-transparent hover:text-blue-400 text-white/70">
+                        <span className="text-xs">Explore</span>
+                        <ArrowRight className="ml-1 h-3 w-3" />
+                      </Button>
+                    </div>
                   </CardContent>
                 </Card>
               </motion.div>

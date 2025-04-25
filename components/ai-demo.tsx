@@ -2,6 +2,7 @@
 
 import type React from "react"
 
+import Image from "next/image";
 import { useState, useRef, useEffect } from "react"
 import { Send, Sparkles, ImageIcon, Download, Copy, Check, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"

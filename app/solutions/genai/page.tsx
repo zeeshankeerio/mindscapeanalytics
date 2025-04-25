@@ -49,6 +49,27 @@ import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
 
+// Add these type definitions before the component
+interface AnalysisResult {
+  toxicity: number;
+  bias: number;
+  hateSpeech: number;
+  misinformation: number;
+}
+
+interface SearchResult {
+  title: string;
+  match: number;
+  content: string;
+}
+
+interface AgentActivity {
+  agent: string;
+  status: string;
+  action: string;
+  progress?: number;
+}
+
 export default function GenAISolutionsPage() {
   const [activeTab, setActiveTab] = useState("overview")
   const [selectedFeature, setSelectedFeature] = useState(0)
@@ -68,12 +89,12 @@ export default function GenAISolutionsPage() {
   const [isCopied, setIsCopied] = useState(false)
   const [isShared, setIsShared] = useState(false)
   const [activeDemo, setActiveDemo] = useState("text")
-  const [uploadedImage, setUploadedImage] = useState(null)
+  const [uploadedImage, setUploadedImage] = useState<string | null>(null)
   const [transcriptionText, setTranscriptionText] = useState("")
   const [selectedLanguage, setSelectedLanguage] = useState("English")
   const [translatedText, setTranslatedText] = useState("")
   const [contentToAnalyze, setContentToAnalyze] = useState("")
-  const [analysisResults, setAnalysisResults] = useState(null)
+  const [analysisResults, setAnalysisResults] = useState<AnalysisResult | null>(null)
   const [taskDescription, setTaskDescription] = useState("")
   const [agentStatus, setAgentStatus] = useState({
     research: "waiting",
@@ -81,7 +102,7 @@ export default function GenAISolutionsPage() {
     output: "waiting"
   })
   const [searchQuery, setSearchQuery] = useState("")
-  const [searchResults, setSearchResults] = useState([])
+  const [searchResults, setSearchResults] = useState<SearchResult[]>([])
   const [trainingConfig, setTrainingConfig] = useState({
     baseModel: "MindscapeGPT-4.5",
     trainingData: "Company Documentation",
@@ -95,8 +116,15 @@ export default function GenAISolutionsPage() {
     evaluation: "pending"
   })
   
+  // Add agentActivities state
+  const [agentActivities, setAgentActivities] = useState<AgentActivity[]>([
+    { agent: "Research Agent", status: "waiting", action: "Gathering information...", progress: 0 },
+    { agent: "Analysis Agent", status: "waiting", action: "Analyzing data...", progress: 0 },
+    { agent: "Output Agent", status: "waiting", action: "Preparing response...", progress: 0 }
+  ]);
+  
   // Function to handle demo interactions
-  const handleDemoInteraction = (demoType, action) => {
+  const handleDemoInteraction = (demoType: string, action: string) => {
     switch(demoType) {
       case "multimodal":
         if (action === "upload") {
@@ -168,6 +196,13 @@ export default function GenAISolutionsPage() {
             output: "waiting"
           })
           
+          // Update agent activities for UI
+          setAgentActivities([
+            { agent: "Research Agent", status: "active", action: "Gathering information...", progress: 10 },
+            { agent: "Analysis Agent", status: "waiting", action: "Waiting for research...", progress: 0 },
+            { agent: "Output Agent", status: "waiting", action: "Waiting for analysis...", progress: 0 }
+          ]);
+          
           // Simulate research agent completing
           setTimeout(() => {
             setAgentStatus({
@@ -175,6 +210,13 @@ export default function GenAISolutionsPage() {
               analysis: "active",
               output: "waiting"
             })
+            
+            // Update agent activities for UI
+            setAgentActivities([
+              { agent: "Research Agent", status: "complete", action: "Information gathered successfully", progress: 100 },
+              { agent: "Analysis Agent", status: "active", action: "Processing data and identifying patterns...", progress: 30 },
+              { agent: "Output Agent", status: "waiting", action: "Waiting for analysis...", progress: 0 }
+            ]);
             
             // Simulate analysis agent completing
             setTimeout(() => {
@@ -184,6 +226,13 @@ export default function GenAISolutionsPage() {
                 output: "active"
               })
               
+              // Update agent activities for UI
+              setAgentActivities([
+                { agent: "Research Agent", status: "complete", action: "Information gathered successfully", progress: 100 },
+                { agent: "Analysis Agent", status: "complete", action: "Analysis completed with high confidence", progress: 100 },
+                { agent: "Output Agent", status: "active", action: "Generating recommendations...", progress: 60 }
+              ]);
+              
               // Simulate output agent completing
               setTimeout(() => {
                 setAgentStatus({
@@ -191,6 +240,14 @@ export default function GenAISolutionsPage() {
                   analysis: "complete",
                   output: "complete"
                 })
+                
+                // Update agent activities for UI
+                setAgentActivities([
+                  { agent: "Research Agent", status: "complete", action: "Information gathered successfully", progress: 100 },
+                  { agent: "Analysis Agent", status: "complete", action: "Analysis completed with high confidence", progress: 100 },
+                  { agent: "Output Agent", status: "complete", action: "Response generated and optimized", progress: 100 }
+                ]);
+                
                 setGeneratedContent("Based on our research and analysis, here's a comprehensive plan for implementing AI in your customer service workflow. The solution includes natural language processing for query understanding, sentiment analysis for customer satisfaction monitoring, and automated response generation for common inquiries.")
                 toast.success("Task completed by AI agents")
               }, 1500)
@@ -273,7 +330,7 @@ export default function GenAISolutionsPage() {
   }
   
   // Function to copy content to clipboard
-  const copyToClipboard = (text) => {
+  const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text)
     setIsCopied(true)
     toast.success("Copied to clipboard")
@@ -288,8 +345,8 @@ export default function GenAISolutionsPage() {
   }
   
   // Function to handle file upload
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0]
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
     if (file) {
       setUploadedImage(URL.createObjectURL(file))
       toast.success("Image uploaded successfully")
@@ -1100,10 +1157,10 @@ export default function GenAISolutionsPage() {
                                   <div className="w-32 h-2 bg-black/50 rounded-full overflow-hidden">
                                     <div 
                                       className={`h-full rounded-full ${
-                                        analysisResults.toxicity < 0.3 ? 'bg-green-500' : 
-                                        analysisResults.toxicity < 0.7 ? 'bg-yellow-500' : 'bg-red-500'
+                                        (analysisResults as AnalysisResult).toxicity < 0.3 ? 'bg-green-500' : 
+                                        (analysisResults as AnalysisResult).toxicity < 0.7 ? 'bg-yellow-500' : 'bg-red-500'
                                       }`}
-                                      style={{ width: `${analysisResults.toxicity * 100}%` }}
+                                      style={{ width: `${(analysisResults as AnalysisResult).toxicity * 100}%` }}
                                     ></div>
                                   </div>
                                 </div>
@@ -1112,10 +1169,10 @@ export default function GenAISolutionsPage() {
                                   <div className="w-32 h-2 bg-black/50 rounded-full overflow-hidden">
                                     <div 
                                       className={`h-full rounded-full ${
-                                        analysisResults.bias < 0.3 ? 'bg-green-500' : 
-                                        analysisResults.bias < 0.7 ? 'bg-yellow-500' : 'bg-red-500'
+                                        (analysisResults as AnalysisResult).bias < 0.3 ? 'bg-green-500' : 
+                                        (analysisResults as AnalysisResult).bias < 0.7 ? 'bg-yellow-500' : 'bg-red-500'
                                       }`}
-                                      style={{ width: `${analysisResults.bias * 100}%` }}
+                                      style={{ width: `${(analysisResults as AnalysisResult).bias * 100}%` }}
                                     ></div>
                                   </div>
                                 </div>
@@ -1124,10 +1181,10 @@ export default function GenAISolutionsPage() {
                                   <div className="w-32 h-2 bg-black/50 rounded-full overflow-hidden">
                                     <div 
                                       className={`h-full rounded-full ${
-                                        analysisResults.hateSpeech < 0.3 ? 'bg-green-500' : 
-                                        analysisResults.hateSpeech < 0.7 ? 'bg-yellow-500' : 'bg-red-500'
+                                        (analysisResults as AnalysisResult).hateSpeech < 0.3 ? 'bg-green-500' : 
+                                        (analysisResults as AnalysisResult).hateSpeech < 0.7 ? 'bg-yellow-500' : 'bg-red-500'
                                       }`}
-                                      style={{ width: `${analysisResults.hateSpeech * 100}%` }}
+                                      style={{ width: `${(analysisResults as AnalysisResult).hateSpeech * 100}%` }}
                                     ></div>
                                   </div>
                                 </div>
@@ -1136,10 +1193,10 @@ export default function GenAISolutionsPage() {
                                   <div className="w-32 h-2 bg-black/50 rounded-full overflow-hidden">
                                     <div 
                                       className={`h-full rounded-full ${
-                                        analysisResults.misinformation < 0.3 ? 'bg-green-500' : 
-                                        analysisResults.misinformation < 0.7 ? 'bg-yellow-500' : 'bg-red-500'
+                                        (analysisResults as AnalysisResult).misinformation < 0.3 ? 'bg-green-500' : 
+                                        (analysisResults as AnalysisResult).misinformation < 0.7 ? 'bg-yellow-500' : 'bg-red-500'
                                       }`}
-                                      style={{ width: `${analysisResults.misinformation * 100}%` }}
+                                      style={{ width: `${(analysisResults as AnalysisResult).misinformation * 100}%` }}
                                     ></div>
                                   </div>
                                 </div>
@@ -1147,9 +1204,9 @@ export default function GenAISolutionsPage() {
                                 <div className="mt-3 p-2 bg-black/50 rounded text-sm">
                                   <p className="text-white/70 mb-1">Recommendation:</p>
                                   <p className="text-white">
-                                    {analysisResults.toxicity > 0.7 || analysisResults.hateSpeech > 0.7 ? 
+                                    {(analysisResults as AnalysisResult).toxicity > 0.7 || (analysisResults as AnalysisResult).hateSpeech > 0.7 ? 
                                       "Content flagged for review. Contains potentially harmful elements." :
-                                      analysisResults.toxicity > 0.3 || analysisResults.bias > 0.3 || analysisResults.hateSpeech > 0.3 || analysisResults.misinformation > 0.3 ?
+                                      (analysisResults as AnalysisResult).toxicity > 0.3 || (analysisResults as AnalysisResult).bias > 0.3 || (analysisResults as AnalysisResult).hateSpeech > 0.3 || (analysisResults as AnalysisResult).misinformation > 0.3 ?
                                       "Content has some concerning elements. Consider revision." :
                                       "Content appears safe and appropriate."}
                                   </p>

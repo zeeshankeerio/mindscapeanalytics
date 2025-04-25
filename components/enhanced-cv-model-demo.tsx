@@ -2,6 +2,7 @@
 
 import type React from "react"
 
+import Image from "next/image";
 import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence, useAnimation } from "framer-motion"
 import type * as THREE from "three"

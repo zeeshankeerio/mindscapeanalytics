@@ -148,6 +148,7 @@ export default function EnhancedROICalculator() {
   const [discountRate, setDiscountRate] = useState(5)
   const [isCalculating, setIsCalculating] = useState(false)
   const [results, setResults] = useState<any>(null)
+  const [shouldButtonBlink, setShouldButtonBlink] = useState(false)
 
   const { toast } = useToast()
 
@@ -179,6 +180,36 @@ export default function EnhancedROICalculator() {
       setAnnualCosts(14000000)
     }
   }, [industry, solutionType, companySize])
+
+  // Effect to start blinking after user makes changes to inputs
+  useEffect(() => {
+    // Only start blinking when user has made changes and has not yet calculated
+    if (!results && (
+      companySize !== 'small' || 
+      annualRevenue !== 1000000 || 
+      annualCosts !== 3500000 ||
+      implementationCost !== 75000 ||
+      annualMaintenanceCost !== 15000 ||
+      revenueIncrease !== 8 ||
+      costReduction !== 12 ||
+      timeToImplement !== 4 ||
+      includeIntangibles !== true ||
+      employeeProductivity !== 15 ||
+      customerSatisfaction !== 10 ||
+      timeHorizon !== 5 ||
+      discountRate !== 5
+    )) {
+      setShouldButtonBlink(true)
+    } else {
+      setShouldButtonBlink(false)
+    }
+  }, [
+    companySize, annualRevenue, annualCosts, 
+    implementationCost, annualMaintenanceCost, revenueIncrease, 
+    costReduction, timeToImplement, includeIntangibles, 
+    employeeProductivity, customerSatisfaction, timeHorizon, 
+    discountRate, results
+  ])
 
   // Calculate ROI
   const calculateROI = () => {
@@ -613,7 +644,14 @@ export default function EnhancedROICalculator() {
                 <RefreshCw className="mr-2 h-4 w-4" />
                 Reset to Defaults
               </Button>
-              <Button className="bg-red-600 hover:bg-red-700" onClick={calculateROI} disabled={isCalculating}>
+              <Button 
+                className={`bg-red-600 hover:bg-red-700 ${shouldButtonBlink ? 'animate-attention-pulse' : ''}`} 
+                onClick={() => {
+                  calculateROI()
+                  setShouldButtonBlink(false)
+                }} 
+                disabled={isCalculating}
+              >
                 {isCalculating ? (
                   <>
                     <RefreshCw className="mr-2 h-4 w-4 animate-spin" />

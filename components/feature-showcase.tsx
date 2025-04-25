@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Brain, Database, LineChart, Lock, Zap } from "lucide-react"
@@ -121,9 +122,11 @@ export default function FeatureShowcase() {
                       <div
                         className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-10 rounded-xl`}
                       ></div>
-                      <img
+                      <Image
                         src={feature.image || "/placeholder.svg"}
                         alt={feature.title}
+                        width={800}
+                        height={450}
                         className="w-full h-auto rounded-xl relative z-10"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div>

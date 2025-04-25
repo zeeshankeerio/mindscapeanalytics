@@ -89,7 +89,7 @@ export default function ContactForm() {
           <CheckCircle2 className="h-16 w-16 text-green-500 mb-4" />
           <h3 className="text-xl font-bold mb-2">Message Sent!</h3>
           <p className="text-white/70 text-center max-w-xs">
-            Thank you for reaching out. We&apos;ll get back to you as soon as possible.
+            Thank you for reaching out. We'll get back to you as soon as possible.
           </p>
         </div>
       )}

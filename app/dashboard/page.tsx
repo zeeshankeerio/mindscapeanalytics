@@ -13,6 +13,7 @@ import { useToast } from "@/components/ui/use-toast"
 import { ErrorBoundary } from "@/components/error-boundary"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import MindscapeBrainLogo from "@/components/mindscape-brain-logo"
+import { DashboardHeader } from "@/components/dashboard-header"
 
 // Lazy load heavy components
 const ApiUsageChart = lazy(() => import("@/components/dashboard/api-usage-chart").then(mod => ({ default: mod.ApiUsageChart })))
@@ -321,46 +322,39 @@ export default function DashboardPage() {
 
   return (
     <div className="flex-1 space-y-8 p-8 pt-6">
-      {/* Dashboard Header with Logo */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
-        <div className="flex items-center">
-          {/* Animated Brain Logo */}
-          <div className="relative flex items-center gap-4 group">
-            {/* Glow effects */}
-            <div className="absolute inset-0 bg-red-900/10 blur-md rounded-xl animate-pulse-slow"></div>
-            <div className="absolute inset-0 bg-red-800/20 blur-sm rounded-xl animate-pulse-medium"></div>
-            
-            {/* Brain icon with RGB border */}
-            <div className="relative z-10 group">
-              {/* RGB Border Container */}
-              <div className="absolute -inset-[1px] rounded-xl">
-                {/* RGB gradient border */}
-                <div className="absolute inset-[-1px] rounded-xl animate-rgb-spin-slow">
-                  <div className="absolute inset-0 bg-[conic-gradient(from_0deg,#8B0000,#420000,#690000,#8B0000)] rounded-xl"></div>
-                </div>
-              </div>
-              
-              {/* Icon container */}
-              <div className="relative bg-black rounded-xl p-3 transition-transform duration-300 group-hover:scale-[0.98]">
-                <Brain 
-                  className="h-10 w-10 text-red-700 transform transition-all duration-300 group-hover:text-red-600" 
-                  style={{
-                    filter: 'drop-shadow(0 0 8px rgb(139 0 0 / 0.4))'
-                  }}
-                />
+      {/* Dashboard Header */}
+      <div className="flex items-center justify-between gap-4 mb-8">
+        <div className="flex items-center gap-4">
+          {/* Brain icon with RGB border */}
+          <div className="relative z-10 group mr-3">
+            {/* RGB Border Container */}
+            <div className="absolute -inset-[1px] rounded-xl">
+              {/* RGB gradient border */}
+              <div className="absolute inset-[-1px] rounded-xl animate-rgb-spin-slow">
+                <div className="absolute inset-0 bg-[conic-gradient(from_0deg,#8B0000,#420000,#690000,#8B0000)] rounded-xl"></div>
               </div>
             </div>
             
-            {/* Text part */}
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight font-sans">
-                <span className="text-white">Mindscape</span>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-700/80 via-red-600 to-red-700/80 ml-2">Analytics</span>
-              </h1>
-              <p className="text-sm text-white/70 mt-1">Where AI Meets Innovation</p>
+            {/* Icon container */}
+            <div className="relative bg-black rounded-xl p-3 transition-transform duration-300 group-hover:scale-[0.98]">
+              <Brain 
+                className="h-10 w-10 text-red-700 transform transition-all duration-300 group-hover:text-red-600" 
+                style={{
+                  filter: 'drop-shadow(0 0 8px rgb(139 0 0 / 0.4))'
+                }}
+              />
             </div>
           </div>
+          
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight font-sans">
+              <span className="text-white">Mindscape</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-700/80 via-red-600 to-red-700/80 ml-2">Analytics</span>
+            </h1>
+            <p className="text-sm text-white/70 mt-1">Where AI Meets Innovation</p>
+          </div>
         </div>
+        
         <div className="flex items-center space-x-4">
           <Button
             variant="outline"

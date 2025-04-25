@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Image from "next/image";
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
@@ -537,14 +538,7 @@ export default function MainNavigation() {
                       
                       {/* Icon container */}
                       <div className="relative bg-black rounded-xl p-2 transition-transform duration-300 group-hover:scale-[0.98]">
-                      <img 
-                          src="/images/brain.svg" 
-                          alt="AI Icon"
-                          className="h-8 w-8 text-red-700 transform transition-all duration-300 group-hover:text-red-600" 
-                          style={{
-                            filter: 'drop-shadow(0 0 8px rgb(139 0 0 / 0.4))'
-                          }}
-                        />
+                      <Image src="/images/brain.svg" alt="AI Icon" width={500} height={300} className="h-8 w-8 text-red-700 transform transition-all duration-300 group-hover:text-red-600" />
                       </div>
                     </div>
                   </div>

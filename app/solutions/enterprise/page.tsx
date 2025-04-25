@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
+import Image from "next/image";
 import { motion } from "framer-motion"
 import { 
   Building, 
@@ -1106,19 +1107,19 @@ export default function EnterpriseSolutionsPage() {
           <div className="mt-12 flex items-center justify-center gap-8">
             <div className="flex items-center">
               <Badge className="bg-black/30 text-white/70 border-white/10 flex gap-2 items-center">
-                <img src="/aws-logo.png" alt="AWS" className="h-4 w-4" />
+                <Image src="/aws-logo.png" alt="AWS" width={500} height={300} className="h-4 w-4" />
                 <span>AWS Partner</span>
               </Badge>
             </div>
             <div className="flex items-center">
               <Badge className="bg-black/30 text-white/70 border-white/10 flex gap-2 items-center">
-                <img src="/azure-logo.png" alt="Azure" className="h-4 w-4" />
+                <Image src="/azure-logo.png" alt="Azure" width={500} height={300} className="h-4 w-4" />
                 <span>Azure Certified</span>
               </Badge>
             </div>
             <div className="flex items-center">
               <Badge className="bg-black/30 text-white/70 border-white/10 flex gap-2 items-center">
-                <img src="/gcp-logo.png" alt="GCP" className="h-4 w-4" />
+                <Image src="/gcp-logo.png" alt="GCP" width={500} height={300} className="h-4 w-4" />
                 <span>GCP Ready</span>
               </Badge>
             </div>
@@ -1850,7 +1851,6 @@ export default function EnterpriseSolutionsPage() {
                         step={1} 
                         className="flex-1"
                         onValueChange={(value: number[]) => handleNodeScale(value[0])}
-                        disabled={isRunningDemo || demoScenarioRunning}
                       />
                       <Button 
                         variant="outline" 

@@ -140,7 +140,7 @@ export function NewsletterSubscription() {
             </motion.div>
             <h3 className="text-xl font-semibold text-white mb-2">Thanks for subscribing!</h3>
             <p className="text-white/70">
-              We&apos;ve sent a confirmation to your email. Stay tuned for updates on our latest features and announcements.
+              We've sent a confirmation to your email. Stay tuned for updates on our latest features and announcements.
             </p>
           </motion.div>
         ) : (
@@ -148,7 +148,7 @@ export function NewsletterSubscription() {
             <div className="text-center max-w-2xl mx-auto">
               <h2 className="text-xl md:text-2xl font-bold mb-2">Join Our Newsletter</h2>
               <p className="text-white/70 mb-6">
-                Stay updated with the latest in AI technology. Don&apos;t worry, we won&apos;t spam your inbox.
+                Stay updated with the latest in AI technology. Don't worry, we won't spam your inbox.
               </p>
             </div>
             

@@ -74,7 +74,7 @@ export default function ApiDocsPage() {
                   <Input
                     placeholder="Search documentation..."
                     className="bg-black/50 border-white/10 focus-visible:ring-red-500"
-                    prefix={<Search className="h-4 w-4 text-white/50" />}
+                    startAdornment={<Search className="h-4 w-4 text-white/50" />}
                   />
                 </div>
 

@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { ArrowRight, Brain, Code, FileText, MessageSquare, Image, Video, Sparkles, Zap, Layers } from "lucide-react"
+import { ArrowRight, Brain, Code, FileText, MessageSquare, Image as ImageIcon, Video, Sparkles, Zap, Layers } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -55,7 +55,7 @@ export default function GenAISolutions() {
     {
       id: "image",
       label: "Image Generation",
-      icon: <Image className="h-4 w-4" />,
+      icon: <ImageIcon className="h-4 w-4" />,
       description: "Create and edit images with state-of-the-art diffusion models",
       solutions: [
         {
@@ -63,7 +63,7 @@ export default function GenAISolutions() {
           description:
             "Generate photorealistic product images for marketing, e-commerce, and design iterations without expensive photo shoots.",
           features: ["Style customization", "Background variations", "Lighting adjustments", "Multi-angle generation"],
-          icon: <Image className="h-10 w-10 text-red-500" />,
+          icon: <ImageIcon className="h-10 w-10 text-red-500" />,
           caseStudy:
             "Reduced product photography costs by 80% while increasing conversion rates by 15% for a retail chain.",
         },

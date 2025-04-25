@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, ReactNode } from "react"
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -12,11 +13,56 @@ import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
-const capabilities = [
+// Import extracted components
+import { CapabilityDemo } from "@/components/ai-capability/capability-demo"
+import { PerformanceComparison } from "@/components/ai-capability/performance-comparison"
+import { TryItYourself } from "@/components/ai-capability/try-it-yourself"
+import { AIParticlesEffect } from "@/components/ai-capability/particles-effect"
+
+// Type definitions
+export type CapabilityId = "nlp" | "cv" | "ml" | "gen-ai" | "doc-ai" | "code-ai";
+
+interface MetricItem {
+  name: string;
+  value: number;
+  color: string;
+}
+
+interface CapabilityData {
+  id: CapabilityId;
+  title: string;
+  shortTitle?: string;
+  icon: ReactNode;
+  description: string;
+  features: string[];
+  demo: ReactNode;
+}
+
+// Animation variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { 
+    opacity: 1,
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 }
+  }
+}
+  
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: { 
+    y: 0, 
+    opacity: 1,
+    transition: { type: "spring", stiffness: 300, damping: 24 }
+  }
+}
+
+// Define capability data directly
+const capabilityData: CapabilityData[] = [
   {
     id: "nlp",
     title: "Natural Language Processing",
-    icon: <MessageSquare className="h-6 w-6" />,
+    shortTitle: "NLP",
+    icon: <MessageSquare className="h-4 w-4" />,
     description:
       "Our advanced NLP models understand context, sentiment, and intent to deliver human-like text understanding and generation.",
     features: [
@@ -63,7 +109,8 @@ const capabilities = [
   {
     id: "cv",
     title: "Computer Vision",
-    icon: <Eye className="h-6 w-6" />,
+    shortTitle: "Vision",
+    icon: <Eye className="h-4 w-4" />,
     description:
       "Our computer vision systems can identify objects, people, text, and activities in images and video with exceptional accuracy.",
     features: [
@@ -76,11 +123,7 @@ const capabilities = [
     demo: (
       <div className="space-y-4">
         <div className="relative rounded-lg overflow-hidden aspect-video bg-black/40 border border-white/10">
-          <img
-            src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop"
-            alt="Computer Vision Demo"
-            className="w-full h-full object-cover opacity-80"
-          />
+          <Image src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2070&auto=format&fit=crop" alt="Computer Vision Demo" width={500} height={300} className="w-full h-full object-cover opacity-80" />
           <div className="absolute inset-0">
             {/* Simulated object detection boxes */}
             <div className="absolute top-[20%] left-[30%] w-[25%] h-[40%] border-2 border-red-500 rounded-md">
@@ -112,7 +155,8 @@ const capabilities = [
   {
     id: "ml",
     title: "Machine Learning",
-    icon: <Brain className="h-6 w-6" />,
+    shortTitle: "ML",
+    icon: <Brain className="h-4 w-4" />,
     description:
       "Our machine learning algorithms learn from data patterns to make predictions, classifications, and recommendations.",
     features: [
@@ -122,117 +166,23 @@ const capabilities = [
       "Time Series Forecasting",
       "Clustering & Classification",
     ],
-    demo: (
-      <div className="space-y-4">
-        <div className="bg-black/40 p-4 rounded-lg border border-white/10 h-[180px] relative overflow-hidden">
-          {/* Simulated ML prediction graph */}
-          <svg viewBox="0 0 400 120" className="w-full h-full absolute inset-0">
-            <defs>
-              <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                <stop offset="0%" stopColor="rgba(239, 68, 68, 0.5)" />
-                <stop offset="100%" stopColor="rgba(239, 68, 68, 0)" />
-              </linearGradient>
-            </defs>
-            {/* Actual data line */}
-            <polyline
-              points="0,100 40,80 80,90 120,60 160,70 200,40 240,50 280,30 320,45 360,20 400,30"
-              fill="none"
-              stroke="#ef4444"
-              strokeWidth="3"
-            />
-            {/* Prediction line (dashed) */}
-            <polyline
-              points="400,30 440,20 480,35 520,15 560,25"
-              fill="none"
-              stroke="#ef4444"
-              strokeWidth="3"
-              strokeDasharray="5,5"
-            />
-            {/* Area under the curve */}
-            <path
-              d="M0,100 40,80 80,90 120,60 160,70 200,40 240,50 280,30 320,45 360,20 400,30 L400,120 L0,120 Z"
-              fill="url(#gradient)"
-            />
-          </svg>
-          <div className="absolute bottom-2 right-2 bg-black/60 text-xs text-white/80 px-2 py-1 rounded">
-            Prediction Confidence: 92%
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <div className="bg-black/40 p-3 rounded-lg border border-white/10">
-            <p className="text-sm text-white/70 mb-1">Model Accuracy</p>
-            <div className="flex items-center">
-              <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
-                <div className="h-full w-[92%] bg-red-500 rounded-full"></div>
-              </div>
-              <span className="ml-2 text-white font-medium">92%</span>
-            </div>
-          </div>
-
-          <div className="bg-black/40 p-3 rounded-lg border border-white/10">
-            <p className="text-sm text-white/70 mb-1">Training Data</p>
-            <p className="text-lg font-medium">1.2M samples</p>
-          </div>
-        </div>
-      </div>
-    ),
+    demo: <div>Machine Learning Demo</div>,
   },
   {
     id: "gen-ai",
     title: "Generative AI",
-    icon: <Wand2 className="h-6 w-6" />,
+    shortTitle: "Gen AI",
+    icon: <Wand2 className="h-4 w-4" />,
     description:
       "Our generative AI creates new content, designs, and solutions based on learned patterns and specific requirements.",
     features: ["Text Generation", "Image Synthesis", "Code Generation", "Design Creation", "Content Personalization"],
-    demo: (
-      <div className="space-y-4">
-        <div className="bg-black/40 p-4 rounded-lg border border-white/10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="h-2 w-2 rounded-full bg-red-500"></div>
-            <p className="text-sm text-white/70">Prompt</p>
-          </div>
-          <p className="text-white/90 p-2 bg-black/40 rounded border border-white/5 text-sm">
-            Generate a product description for a smart AI-powered fitness tracker.
-          </p>
-
-          <div className="mt-3">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="h-2 w-2 rounded-full bg-red-500"></div>
-              <p className="text-sm text-white/70">Generated Output</p>
-            </div>
-            <div className="p-2 bg-black/40 rounded border border-white/5 text-sm">
-              <p className="text-white/90">
-                <span className="typing-text">
-                  Introducing the FitAI Pro: The revolutionary fitness tracker that learns and adapts to your unique
-                  body and goals. Powered by advanced AI algorithms, it provides real-time coaching, personalized
-                  workout recommendations, and predictive health insights based on your biometric data. With sleek
-                  design and 7-day battery life, FitAI Pro is your personal fitness coach on your wrist.
-                </span>
-                <span className="animate-typing-cursor">|</span>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <div className="bg-black/40 p-3 rounded-lg border border-white/10">
-            <p className="text-sm text-white/70 mb-1">Generation Time</p>
-            <p className="text-lg font-medium">1.2s</p>
-          </div>
-
-          <div className="bg-black/40 p-3 rounded-lg border border-white/10">
-            <p className="text-sm text-white/70 mb-1">Model</p>
-            <p className="text-lg font-medium">MindscapeGPT</p>
-          </div>
-        </div>
-      </div>
-    ),
+    demo: <div>Generative AI Demo</div>,
   },
   {
     id: "doc-ai",
     title: "Document AI",
-    icon: <FileText className="h-6 w-6" />,
+    shortTitle: "Doc AI",
+    icon: <FileText className="h-4 w-4" />,
     description:
       "Our Document AI extracts, analyzes, and processes information from various document types with high precision.",
     features: [
@@ -242,153 +192,22 @@ const capabilities = [
       "Contract Analysis",
       "Compliance Checking",
     ],
-    demo: (
-      <div className="space-y-4">
-        <div className="bg-black/40 p-4 rounded-lg border border-white/10 relative">
-          <div className="absolute right-3 top-3 bg-black/60 text-xs text-white/80 px-2 py-1 rounded">
-            Invoice #INV-2023-0042
-          </div>
-
-          <div className="grid grid-cols-2 gap-4 mt-6">
-            <div>
-              <p className="text-xs text-white/50 mb-1">Extracted From</p>
-              <div className="h-20 bg-black/30 rounded border border-white/5 flex items-center justify-center">
-                <FileText className="h-8 w-8 text-white/30" />
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <div>
-                <p className="text-xs text-white/50 mb-0.5">Vendor</p>
-                <p className="text-sm bg-black/30 p-1 rounded">TechSupplies Inc.</p>
-              </div>
-              <div>
-                <p className="text-xs text-white/50 mb-0.5">Amount</p>
-                <p className="text-sm bg-black/30 p-1 rounded">$2,450.00</p>
-              </div>
-              <div>
-                <p className="text-xs text-white/50 mb-0.5">Date</p>
-                <p className="text-sm bg-black/30 p-1 rounded">2023-10-15</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <div className="bg-black/40 p-3 rounded-lg border border-white/10">
-            <p className="text-sm text-white/70 mb-1">Extraction Accuracy</p>
-            <div className="flex items-center">
-              <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
-                <div className="h-full w-[98%] bg-red-500 rounded-full"></div>
-              </div>
-              <span className="ml-2 text-white font-medium">98%</span>
-            </div>
-          </div>
-
-          <div className="bg-black/40 p-3 rounded-lg border border-white/10">
-            <p className="text-sm text-white/70 mb-1">Processing Time</p>
-            <p className="text-lg font-medium">0.8s</p>
-          </div>
-        </div>
-      </div>
-    ),
+    demo: <div>Document AI Demo</div>,
   },
   {
     id: "code-ai",
     title: "Code AI",
-    icon: <Code className="h-6 w-6" />,
+    shortTitle: "Code AI",
+    icon: <Code className="h-4 w-4" />,
     description:
       "Our Code AI assists developers by generating, reviewing, and optimizing code across multiple programming languages.",
     features: ["Code Generation", "Code Completion", "Bug Detection", "Code Refactoring", "Documentation Generation"],
-    demo: (
-      <div className="space-y-4">
-        <div className="bg-black/40 p-4 rounded-lg border border-white/10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="h-2 w-2 rounded-full bg-red-500"></div>
-            <p className="text-sm text-white/70">Prompt</p>
-          </div>
-          <p className="text-white/90 p-2 bg-black/40 rounded border border-white/5 text-sm">
-            Create a React component for a data visualization dashboard.
-          </p>
-
-          <div className="mt-3">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="h-2 w-2 rounded-full bg-red-500"></div>
-              <p className="text-sm text-white/70">Generated Code</p>
-            </div>
-            <div className="p-2 bg-black/40 rounded border border-white/5 text-sm font-mono code-scroll overflow-auto max-h-[120px]">
-              <pre className="text-white/90">
-                {`import React, { useState, useEffect } from 'react';
-import { LineChart, BarChart } from './Charts';
-import { DataFilter } from './DataFilter';
-
-export function Dashboard({ data }) {
-  const [filteredData, setFilteredData] = useState(data);
-  const [activeView, setActiveView] = useState('overview');
-  
-  const handleFilterChange = (filters) => {
-    // Apply filters to data
-    setFilteredData(applyFilters(data, filters));
-  };
-  
-  return (
-    <div className="dashboard-container">
-      <h2>Analytics Dashboard</h2>
-      <DataFilter onChange={handleFilterChange} />
-      <div className="charts-grid">
-        <LineChart data={filteredData} />
-        <BarChart data={filteredData} />
-      </div>
-    </div>
-  );
-}`}
-              </pre>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3">
-          <div className="bg-black/40 p-3 rounded-lg border border-white/10">
-            <p className="text-sm text-white/70 mb-1">Language</p>
-            <p className="text-lg font-medium">React/JSX</p>
-          </div>
-
-          <div className="bg-black/40 p-3 rounded-lg border border-white/10">
-            <p className="text-sm text-white/70 mb-1">Generation Time</p>
-            <p className="text-lg font-medium">1.5s</p>
-          </div>
-        </div>
-      </div>
-    ),
+    demo: <div>Code AI Demo</div>,
   },
-]
-
-interface MetricItem {
-  name: string;
-  value: number;
-  color: string;
-}
-
-interface CapabilityMetrics {
-  nlp: MetricItem[];
-  cv: MetricItem[];
-  ml: MetricItem[];
-  "gen-ai": MetricItem[];
-  "doc-ai": MetricItem[];
-  "code-ai": MetricItem[];
-}
-
-interface InteractivePrompts {
-  nlp: string[];
-  cv: string[];
-  ml: string[];
-  "gen-ai": string[];
-  "doc-ai": string[];
-  "code-ai": string[];
-}
+];
 
 // Performance metrics for each capability
-const performanceMetrics: CapabilityMetrics = {
+const performanceMetrics = {
   "nlp": [
     { name: "Accuracy", value: 92, color: "bg-red-500" },
     { name: "Speed", value: 87, color: "bg-red-600" },
@@ -428,7 +247,7 @@ const performanceMetrics: CapabilityMetrics = {
 };
 
 // Interactive prompts for "Try it yourself" section
-const interactivePrompts: InteractivePrompts = {
+const interactivePrompts = {
   "nlp": [
     "Analyze the sentiment of this customer review",
     "Extract key entities from this news article",
@@ -467,550 +286,69 @@ const interactivePrompts: InteractivePrompts = {
   ]
 };
 
-type CapabilityId = keyof typeof performanceMetrics;
-
-interface NLPResult {
-  sentiment: string;
-  confidence: number;
-  entities: string[];
-  language: string;
-}
-
-interface CVResult {
-  objects: number;
-  confidence: number;
-  processTime: string;
-}
-
-interface MLResult {
-  prediction: number;
-  accuracy: number;
-  confidence: number;
-}
-
-interface GenAIResult {
-  generatedText: string;
-  tokens: number;
-  generationTime: string;
-}
-
-interface DocAIResult {
-  extractedFields: number;
-  accuracy: number;
-  processTime: string;
-}
-
-interface CodeAIResult {
-  linesGenerated: number;
-  quality: number;
-  generationTime: string;
-  generatedCode?: string;
-}
-
-type AIResult = 
-  | (NLPResult & { type: 'nlp' })
-  | (CVResult & { type: 'cv' })
-  | (MLResult & { type: 'ml' })
-  | (GenAIResult & { type: 'gen-ai' })
-  | (DocAIResult & { type: 'doc-ai' })
-  | (CodeAIResult & { type: 'code-ai' })
-  | { message: string; type: 'unknown' };
-
-interface PerformanceComparisonProps {
-  metrics: MetricItem[];
-}
-
-// Performance comparison component
-function PerformanceComparison({ metrics }: PerformanceComparisonProps) {
+// Add a simple local ModelParameters component
+function ModelParameters({ 
+  settings, 
+  onChange 
+}: { 
+  settings: { temperature: number; maxTokens: number; topP: number }; 
+  onChange: (setting: string, value: number) => void 
+}) {
   return (
-    <div className="rounded-lg bg-black/40 border border-white/10 p-4 space-y-3">
-      <h3 className="text-sm font-medium text-white/90">Performance Metrics</h3>
-      <div className="space-y-3">
-        {metrics.map((metric, index) => (
-          <div key={index} className="space-y-1">
-            <div className="flex justify-between text-xs">
-              <span className="text-white/70">{metric.name}</span>
-              <span className="text-white/90">{metric.value}%</span>
-            </div>
-            <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-              <div
-                className="h-full rounded-full bg-red-600"
-                style={{ width: `${metric.value}%` }}
-              ></div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-interface TryItYourselfProps {
-  capability: CapabilityId;
-  prompts: string[];
-}
-
-// Try it yourself component
-function TryItYourself({ capability, prompts }: TryItYourselfProps) {
-  const [input, setInput] = useState("");
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [result, setResult] = useState<AIResult | null>(null);
-  const [selectedPrompt, setSelectedPrompt] = useState("");
-  const [showTypingEffect, setShowTypingEffect] = useState(false);
-  const [typedText, setTypedText] = useState("");
-  const [typingSpeed, setTypingSpeed] = useState(30); // ms per character
-  const [error, setError] = useState<string | null>(null);
-  
-  const handlePromptSelect = (prompt: string) => {
-    setSelectedPrompt(prompt);
-    setInput(prompt);
-    // Reset results when changing prompt
-    setResult(null);
-    setError(null);
-  };
-  
-  const handleSubmit = () => {
-    if (!input.trim()) return;
-    
-    setIsProcessing(true);
-    setResult(null);
-    setError(null);
-    
-    // Simulate processing delay
-    setTimeout(() => {
-      try {
-      // Generate mock results based on capability
-      let mockResult: AIResult;
-      
-      switch(capability) {
-        case "nlp":
-          mockResult = {
-              type: 'nlp',
-            sentiment: Math.random() > 0.5 ? "Positive" : "Negative",
-            confidence: Math.floor(75 + Math.random() * 20),
-            entities: ["Product", "Service", "Company"],
-            language: "English"
-          };
-          break;
-        case "cv":
-          mockResult = {
-              type: 'cv',
-            objects: Math.floor(1 + Math.random() * 5),
-            confidence: Math.floor(80 + Math.random() * 15),
-            processTime: (0.2 + Math.random() * 0.8).toFixed(2)
-          };
-          break;
-        case "ml":
-          mockResult = {
-              type: 'ml',
-            prediction: Math.floor(1000 + Math.random() * 9000),
-            accuracy: Math.floor(85 + Math.random() * 10),
-            confidence: Math.floor(80 + Math.random() * 15)
-          };
-          break;
-        case "gen-ai":
-          const generatedText = "This is a sample generated text based on your prompt. It demonstrates the capabilities of our advanced generative AI system. The model can produce coherent, contextually relevant content that follows the style and intent specified in your instructions. It can be used for creative writing, business communication, content generation, and more.";
-          mockResult = {
-              type: 'gen-ai',
-            generatedText,
-            tokens: Math.floor(40 + Math.random() * 30),
-            generationTime: (0.5 + Math.random() * 2).toFixed(2)
-          };
-          // Start typing effect for generative AI
-          setTypedText("");
-          setShowTypingEffect(true);
-          
-          let charIndex = 0;
-          const typeNextChar = () => {
-            if (charIndex < generatedText.length) {
-              setTypedText(generatedText.substring(0, charIndex + 1));
-              charIndex++;
-              setTimeout(typeNextChar, typingSpeed);
-            }
-          };
-          
-          typeNextChar();
-          break;
-        case "doc-ai":
-          mockResult = {
-              type: 'doc-ai',
-            extractedFields: Math.floor(3 + Math.random() * 5),
-            accuracy: Math.floor(90 + Math.random() * 8),
-            processTime: (0.3 + Math.random() * 0.7).toFixed(2)
-          };
-          break;
-        case "code-ai":
-          const codeExample = `function analyzeData(dataset) {
-  // Preprocess the data
-  const cleanData = dataset.filter(item => item.value !== null);
-  
-  // Calculate statistics
-  const sum = cleanData.reduce((acc, item) => acc + item.value, 0);
-  const average = sum / cleanData.length;
-  
-  // Identify anomalies
-  const anomalies = cleanData.filter(item => 
-    Math.abs(item.value - average) > average * 0.5
-  );
-  
-  return {
-    total: cleanData.length,
-    average: average.toFixed(2),
-    anomalies: anomalies.length,
-    anomalyPercentage: ((anomalies.length / cleanData.length) * 100).toFixed(1)
-  };
-}`;
-          
-          mockResult = {
-              type: 'code-ai',
-            linesGenerated: 19,
-            quality: Math.floor(85 + Math.random() * 10),
-            generationTime: (0.8 + Math.random() * 2).toFixed(2),
-            generatedCode: codeExample
-          };
-          
-          // Start typing effect for code generation
-          setTypedText("");
-          setShowTypingEffect(true);
-          
-          let codeIndex = 0;
-          const typeNextCodeChar = () => {
-            if (codeIndex < codeExample.length) {
-              setTypedText(codeExample.substring(0, codeIndex + 1));
-              codeIndex++;
-              setTimeout(typeNextCodeChar, typingSpeed / 2); // Type code faster
-            }
-          };
-          
-          typeNextCodeChar();
-          break;
-        default:
-            mockResult = { type: 'unknown', message: "Processed successfully" };
-      }
-      
-      setResult(mockResult);
-      } catch (err) {
-        // Handle any errors that might occur during processing
-        console.error("Error processing request:", err);
-        setError("An error occurred while processing your request. Please try again.");
-      } finally {
-      setIsProcessing(false);
-      }
-    }, 1500);
-  };
-  
-  const reset = () => {
-    setInput("");
-    setResult(null);
-    setSelectedPrompt("");
-    setShowTypingEffect(false);
-    setTypedText("");
-    setError(null);
-  };
-  
-  // Render different result visualizations based on capability
-  const renderResults = () => {
-    if (error) {
-      return (
-        <div className="bg-red-900/30 border border-red-600/30 rounded-lg p-4 text-center">
-          <p className="text-red-400">{error}</p>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            className="mt-2 border-red-500/30 text-red-400 hover:bg-red-900/20"
-            onClick={() => setError(null)}
-          >
-            Dismiss
-          </Button>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 bg-black/30 p-5 rounded-xl border border-white/10 backdrop-blur-sm">
+      <div className="space-y-2">
+        <div className="flex justify-between items-center">
+          <label htmlFor="temperature-slider" className="text-sm text-white/70">Temperature</label>
+          <span className="text-xs font-mono bg-white/10 px-2 py-0.5 rounded">{settings.temperature.toFixed(1)}</span>
         </div>
-      );
-    }
-    
-    if (!result) return null;
-    
-    switch(result.type) {
-      case "nlp":
-        return (
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-3">
-              <div className="bg-black/60 p-3 rounded-lg border border-white/10">
-                <p className="text-sm text-white/70 mb-1">Sentiment</p>
-                <div className="flex items-center">
-                  <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
-                    <div 
-                      className={`h-full rounded-full ${result.sentiment === "Positive" ? "bg-red-500" : "bg-red-700"}`} 
-                      style={{ width: `${result.confidence}%` }}
-                    ></div>
-                  </div>
-                  <span className={`ml-2 font-medium ${result.sentiment === "Positive" ? "text-red-500" : "text-red-700"}`}>
-                    {result.sentiment}
-                  </span>
-                </div>
-              </div>
-              
-              <div className="bg-black/60 p-3 rounded-lg border border-white/10">
-                <p className="text-sm text-white/70 mb-1">Confidence</p>
-                <p className="text-lg font-medium">{result.confidence}%</p>
-              </div>
-            </div>
-            
-            <div className="bg-black/60 p-3 rounded-lg border border-white/10">
-              <p className="text-sm text-white/70 mb-1">Entities</p>
-              <div className="flex flex-wrap gap-1 mt-1">
-                {result.entities.map((entity, index) => (
-                  <span key={index} className="px-2 py-0.5 bg-red-500/20 text-red-400 rounded text-xs">
-                    {entity}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-        );
-        
-      case "gen-ai":
-        return (
-          <div className="space-y-4">
-            <div className="bg-black/60 p-3 rounded-lg border border-white/10 text-sm leading-relaxed relative">
-              <div className="mb-2 flex justify-between items-center">
-                <div className="flex items-center">
-                  <div className={`h-2 w-2 rounded-full ${isProcessing ? "bg-red-600" : "bg-red-500"} mr-2`}></div>
-                  <p className="text-xs text-white/70">Generated Text</p>
-                </div>
-                {/* Adding a "copy" button */}
-                {showTypingEffect && typedText && (
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    className="h-6 w-6 p-0 opacity-50 hover:opacity-100 absolute top-2 right-2"
-                    onClick={() => {
-                      navigator.clipboard.writeText(typedText);
-                    }}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                  </Button>
-                )}
-              </div>
-              
-              <div>
-                {showTypingEffect ? (
-                  <p className="text-white/90 whitespace-pre-wrap">
-                    {typedText}
-                    <span className="inline-block w-1 h-4 ml-0.5 bg-white/70 animate-blink"></span>
-                  </p>
-                ) : (
-                  <p className="text-white/90 whitespace-pre-wrap">
-                    {result.generatedText}
-                  </p>
-                )}
-              </div>
-            </div>
-            
-            <div className="grid grid-cols-3 gap-3">
-              <div className="bg-black/60 p-3 rounded-lg border border-white/10">
-                <p className="text-sm text-white/70 mb-1">Tokens</p>
-                <p className="text-lg font-medium">{result.tokens}</p>
-              </div>
-              
-              <div className="bg-black/60 p-3 rounded-lg border border-white/10">
-                <p className="text-sm text-white/70 mb-1">Gen Time</p>
-                <p className="text-lg font-medium">{result.generationTime}s</p>
-              </div>
-              
-              <div className="bg-black/60 p-3 rounded-lg border border-white/10">
-                <p className="text-sm text-white/70 mb-1">Quality</p>
-                <div className="flex items-center">
-                  <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full rounded-full bg-red-500" 
-                      style={{ width: "90%" }}
-                    ></div>
-                  </div>
-                  <span className="ml-2 font-medium">90%</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-        
-      case "code-ai":
-        return (
-          <div className="space-y-4">
-            <div className="bg-black/60 p-3 rounded-lg border border-white/10 text-sm leading-relaxed relative">
-              <div className="mb-2 flex justify-between items-center">
-                <div className="flex items-center">
-                  <div className={`h-2 w-2 rounded-full ${isProcessing ? "bg-red-600" : "bg-red-500"} mr-2`}></div>
-                  <p className="text-xs text-white/70">Generated Code</p>
-                </div>
-                {/* Adding a "copy" button */}
-                {showTypingEffect && typedText && (
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    className="h-6 w-6 p-0 opacity-50 hover:opacity-100 absolute top-2 right-2"
-                    onClick={() => {
-                      navigator.clipboard.writeText(typedText);
-                    }}
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                    </svg>
-                  </Button>
-                )}
-              </div>
-              
-              <div className="font-mono text-xs bg-black/50 p-2 rounded overflow-auto max-h-[300px]">
-                {showTypingEffect ? (
-                  <p className="text-white/90 whitespace-pre-wrap">
-                    {typedText}
-                    <span className="inline-block w-1 h-4 ml-0.5 bg-white/70 animate-blink"></span>
-                  </p>
-                ) : (
-                  <p className="text-white/90 whitespace-pre-wrap">
-                    {result.generatedCode}
-                  </p>
-                )}
-              </div>
-            </div>
-            
-            <div className="grid grid-cols-3 gap-3">
-              <div className="bg-black/60 p-3 rounded-lg border border-white/10">
-                <p className="text-sm text-white/70 mb-1">Lines</p>
-                <p className="text-lg font-medium">{result.linesGenerated}</p>
-              </div>
-              
-              <div className="bg-black/60 p-3 rounded-lg border border-white/10">
-                <p className="text-sm text-white/70 mb-1">Gen Time</p>
-                <p className="text-lg font-medium">{result.generationTime}s</p>
-              </div>
-              
-              <div className="bg-black/60 p-3 rounded-lg border border-white/10">
-                <p className="text-sm text-white/70 mb-1">Quality</p>
-                <div className="flex items-center">
-                  <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full rounded-full bg-red-500" 
-                      style={{ width: `${result.quality}%` }}
-                    ></div>
-                  </div>
-                  <span className="ml-2 font-medium">{result.quality}%</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
-        
-      default:
-        return (
-          <div className="space-y-2">
-            {Object.entries(result).map(([key, value]) => (
-              key !== 'type' && (
-              <div key={key} className="flex justify-between">
-                <span className="text-sm text-white/60 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                <span className="text-sm font-medium">
-                  {typeof value === 'number' ? 
-                    key.includes('Time') ? `${value}s` : 
-                    key.includes('confidence') || key.includes('accuracy') || key.includes('quality') ? `${value}%` : 
-                    value 
-                    : typeof value === 'string' || typeof value === 'number' ? value : Array.isArray(value) ? value.join(', ') : ''}
-                </span>
-              </div>
-              )
-            ))}
-          </div>
-        );
-    }
-  };
-  
-  return (
-    <div className="space-y-4">
-      <div className="flex flex-wrap gap-2 mb-2">
-        {prompts.map((prompt) => (
-          <button
-            key={prompt}
-            onClick={() => handlePromptSelect(prompt)}
-            className={`text-xs px-2 py-1 rounded-full border transition-all duration-300 ${
-              selectedPrompt === prompt
-                ? "bg-red-500/20 border-red-500/50 text-red-400"
-                : "bg-black/30 border-white/10 text-white/70 hover:bg-black/40"
-            }`}
-          >
-            {prompt}
-          </button>
-        ))}
+        <Slider
+          id="temperature-slider"
+          value={[settings.temperature * 10]}
+          min={0}
+          max={10}
+          step={1}
+          onValueChange={(value) => onChange("temperature", value[0] / 10)}
+          className="my-1.5"
+          aria-label="Adjust temperature"
+        />
+        <p className="text-xs text-white/50">Controls randomness: lower is more deterministic</p>
       </div>
       
       <div className="space-y-2">
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder={`Enter a prompt for ${capability === "code-ai" ? "code generation" : capability === "gen-ai" ? "content generation" : "analysis"}...`}
-          className="w-full bg-black/30 border border-white/10 rounded-lg p-3 text-white/90 text-sm min-h-[80px] focus:border-red-500/50 focus:outline-none focus:ring-1 focus:ring-red-500/50 transition-all duration-300"
-        />
-        
-        <div className="flex gap-2">
-          <Button 
-            onClick={handleSubmit} 
-            className="bg-red-600 hover:bg-red-700 text-white flex items-center gap-2 transition-all duration-300 relative overflow-hidden group"
-            disabled={isProcessing || !input.trim()}
-          >
-            <motion.span
-              className="absolute inset-0 bg-gradient-to-r from-red-500/0 via-red-500/30 to-red-500/0 opacity-0 group-hover:opacity-100"
-              animate={{ 
-                x: ['-100%', '100%'],
-                transition: { repeat: Infinity, duration: 1.5, ease: 'linear' }
-              }}
-            />
-            {isProcessing ? (
-              <>
-                <div className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Processing...
-              </>
-            ) : (
-              <>
-                <Play className="h-4 w-4" />
-                Run
-              </>
-            )}
-          </Button>
-          
-          <Button 
-            onClick={reset} 
-            variant="outline" 
-            className="border-white/10 text-white/70 hover:bg-white/5 flex items-center gap-2 transition-all duration-300"
-          >
-            <RotateCcw className="h-4 w-4" />
-            Reset
-          </Button>
+        <div className="flex justify-between items-center">
+          <label htmlFor="max-tokens-slider" className="text-sm text-white/70">Max Tokens</label>
+          <span className="text-xs font-mono bg-white/10 px-2 py-0.5 rounded">{settings.maxTokens}</span>
         </div>
+        <Slider
+          id="max-tokens-slider"
+          value={[settings.maxTokens]}
+          min={10}
+          max={300}
+          step={10}
+          onValueChange={(value) => onChange("maxTokens", value[0])}
+          className="my-1.5"
+          aria-label="Adjust maximum tokens"
+        />
+        <p className="text-xs text-white/50">Maximum length of generated output</p>
       </div>
       
-      {(result || isProcessing || error) && (
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ type: "spring", stiffness: 500, damping: 30 }}
-          className="bg-black/40 border border-white/10 rounded-lg p-4 shadow-lg"
-        >
-          <h4 className="text-sm font-medium mb-3 text-white/80">Results</h4>
-          {isProcessing ? (
-            <div className="flex items-center justify-center py-8">
-              <div className="flex flex-col items-center">
-                <div className="relative h-10 w-10">
-                  <div className="absolute inset-0 rounded-full border-4 border-white/5"></div>
-                  <div className="absolute inset-0 rounded-full border-4 border-t-red-500 border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
-                </div>
-                <p className="text-sm text-white/70 mt-3">Processing your request...</p>
-              </div>
-            </div>
-          ) : (
-            renderResults()
-          )}
-        </motion.div>
-      )}
+      <div className="space-y-2">
+        <div className="flex justify-between items-center">
+          <label htmlFor="top-p-slider" className="text-sm text-white/70">Top P</label>
+          <span className="text-xs font-mono bg-white/10 px-2 py-0.5 rounded">{settings.topP.toFixed(1)}</span>
+        </div>
+        <Slider
+          id="top-p-slider"
+          value={[settings.topP * 10]}
+          min={1}
+          max={10}
+          step={1}
+          onValueChange={(value) => onChange("topP", value[0] / 10)}
+          className="my-1.5"
+          aria-label="Adjust top P"
+        />
+        <p className="text-xs text-white/50">Nucleus sampling: diversity vs. specificity</p>
+      </div>
     </div>
   );
 }
@@ -1031,180 +369,17 @@ export default function AICapabilitiesShowcase() {
     setShowCapabilityComparison(prev => !prev)
   }
 
-  // Animation variants for smoother transitions
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: { 
-        staggerChildren: 0.1,
-        delayChildren: 0.2
-      }
-    }
-  }
-  
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: { 
-      y: 0, 
-      opacity: 1,
-      transition: { type: "spring", stiffness: 300, damping: 24 }
-    }
+  const handleModelSettingsChange = (setting: string, value: number) => {
+    setModelSettings(prev => ({
+      ...prev,
+      [setting]: value
+    }))
   }
 
-  // Additional parameters for modern model configuration
-  const renderModelParams = () => (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 bg-black/30 p-5 rounded-xl border border-white/10 backdrop-blur-sm">
-      <div className="space-y-2">
-        <div className="flex justify-between items-center">
-          <label className="text-sm text-white/70">Temperature</label>
-          <span className="text-xs font-mono bg-white/10 px-2 py-0.5 rounded">{modelSettings.temperature.toFixed(1)}</span>
-        </div>
-        <Slider
-          value={[modelSettings.temperature * 10]}
-          min={0}
-          max={10}
-          step={1}
-          onValueChange={(value) => setModelSettings({...modelSettings, temperature: value[0] / 10})}
-          className="my-1.5"
-        />
-        <p className="text-xs text-white/50">Controls randomness: lower is more deterministic</p>
-      </div>
-      
-      <div className="space-y-2">
-        <div className="flex justify-between items-center">
-          <label className="text-sm text-white/70">Max Tokens</label>
-          <span className="text-xs font-mono bg-white/10 px-2 py-0.5 rounded">{modelSettings.maxTokens}</span>
-        </div>
-        <Slider
-          value={[modelSettings.maxTokens]}
-          min={10}
-          max={300}
-          step={10}
-          onValueChange={(value) => setModelSettings({...modelSettings, maxTokens: value[0]})}
-          className="my-1.5"
-        />
-        <p className="text-xs text-white/50">Maximum length of generated output</p>
-      </div>
-      
-      <div className="space-y-2">
-        <div className="flex justify-between items-center">
-          <label className="text-sm text-white/70">Top P</label>
-          <span className="text-xs font-mono bg-white/10 px-2 py-0.5 rounded">{modelSettings.topP.toFixed(1)}</span>
-        </div>
-        <Slider
-          value={[modelSettings.topP * 10]}
-          min={1}
-          max={10}
-          step={1}
-          onValueChange={(value) => setModelSettings({...modelSettings, topP: value[0] / 10})}
-          className="my-1.5"
-        />
-        <p className="text-xs text-white/50">Nucleus sampling: diversity vs. specificity</p>
-      </div>
-    </div>
-  )
-
-  // 3D Particles effect component
-  const AIParticles = () => {
-    useEffect(() => {
-      if (!showParticles) return;
-      
-      // Simulate 3D particles with div elements
-      const container = document.getElementById('particles-container');
-      if (!container) return;
-      
-      // Clean up any existing particles
-      container.innerHTML = '';
-      
-      // Create particles
-      const particleCount = 50;
-      for (let i = 0; i < particleCount; i++) {
-        const particle = document.createElement('div');
-        
-        // Random sizes
-        const size = Math.random() * 5 + 2;
-        
-        // Random positions
-        const x = Math.random() * 100;
-        const y = Math.random() * 100;
-        const z = Math.random() * 100 - 50;
-        
-        // Random colors based on active tab
-        let color;
-        switch(activeTab) {
-          case 'nlp':
-            color = `rgba(239, 68, 68, ${Math.random() * 0.5 + 0.1})`;
-            break;
-          case 'cv':
-            color = `rgba(249, 115, 22, ${Math.random() * 0.5 + 0.1})`;
-            break;
-          case 'ml':
-            color = `rgba(59, 130, 246, ${Math.random() * 0.5 + 0.1})`;
-            break;
-          case 'gen-ai':
-            color = `rgba(217, 70, 239, ${Math.random() * 0.5 + 0.1})`;
-            break;
-          case 'doc-ai':
-            color = `rgba(16, 185, 129, ${Math.random() * 0.5 + 0.1})`;
-            break;
-          case 'code-ai':
-            color = `rgba(245, 158, 11, ${Math.random() * 0.5 + 0.1})`;
-            break;
-          default:
-            color = `rgba(239, 68, 68, ${Math.random() * 0.5 + 0.1})`;
-        }
-        
-        // Animation duration
-        const duration = 15 + Math.random() * 30;
-        
-        // Apply styles
-        particle.style.position = 'absolute';
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.borderRadius = '50%';
-        particle.style.backgroundColor = color;
-        particle.style.boxShadow = `0 0 ${size * 2}px ${color}`;
-        particle.style.left = `${x}%`;
-        particle.style.top = `${y}%`;
-        particle.style.transform = `translateZ(${z}px)`;
-        particle.style.animation = `float ${duration}s infinite ease-in-out`;
-        particle.style.opacity = '0.6';
-        
-        // Add to container
-        container.appendChild(particle);
-      }
-      
-      // Cleanup function
-      return () => {
-        if (container) container.innerHTML = '';
-      };
-    }, [activeTab, showParticles]);
+  const activeCapability = capabilityData.find((c) => c.id === activeTab)
     
     return (
-      <div id="particles-container" className="absolute inset-0 z-0 pointer-events-none perspective-1000">
-        <style jsx>{`
-          @keyframes float {
-            0%, 100% {
-              transform: translateY(0) translateX(0) translateZ(0) rotate(0deg);
-            }
-            25% {
-              transform: translateY(-20px) translateX(10px) translateZ(10px) rotate(5deg);
-            }
-            50% {
-              transform: translateY(10px) translateX(-15px) translateZ(-10px) rotate(-5deg);
-            }
-            75% {
-              transform: translateY(15px) translateX(5px) translateZ(20px) rotate(3deg);
-            }
-          }
-        `}</style>
-      </div>
-    );
-  };
-
-  return (
-    <section className="py-28 bg-black relative overflow-hidden">
+    <section className="py-28 bg-black relative overflow-hidden" aria-labelledby="ai-capabilities-heading">
       {/* Enhanced animated background */}
       {animateBackground && (
         <>
@@ -1254,7 +429,7 @@ export default function AICapabilitiesShowcase() {
       )}
       
       {/* AI Particles effect */}
-      {showParticles && <AIParticles />}
+      {showParticles && <AIParticlesEffect activeTab={activeTab} />}
 
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <motion.div 
@@ -1267,7 +442,10 @@ export default function AICapabilitiesShowcase() {
             <Badge className="mb-4 bg-gradient-to-r from-red-500/80 to-red-600/80 text-white hover:from-red-600/80 hover:to-red-700/80 border-none shadow-lg shadow-red-900/20 px-3 py-1.5">
               ADVANCED CAPABILITIES
             </Badge>
-            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white/95 to-white/90">
+            <h2 
+              id="ai-capabilities-heading" 
+              className="text-3xl md:text-5xl font-bold tracking-tight mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white/95 to-white/90"
+            >
               AI Capabilities Showcase
           </h2>
             <p className="text-xl text-white/70 max-w-2xl">
@@ -1279,13 +457,15 @@ export default function AICapabilitiesShowcase() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 outline-none bg-transparent border-none cursor-pointer">
                     <Switch
+                      id="toggle-animations"
                       checked={animateBackground}
                       onCheckedChange={setAnimateBackground}
                       className="data-[state=checked]:bg-red-600"
+                      aria-label="Toggle animations"
                     />
-                    <span className="text-sm text-white/70">Animations</span>
+                    <label htmlFor="toggle-animations" className="text-sm text-white/70">Animations</label>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -1297,13 +477,15 @@ export default function AICapabilitiesShowcase() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 outline-none bg-transparent border-none cursor-pointer">
                     <Switch
+                      id="toggle-particles"
                       checked={showParticles}
                       onCheckedChange={setShowParticles}
                       className="data-[state=checked]:bg-red-600"
+                      aria-label="Toggle particles"
                     />
-                    <span className="text-sm text-white/70">Particles</span>
+                    <label htmlFor="toggle-particles" className="text-sm text-white/70">Particles</label>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -1314,48 +496,30 @@ export default function AICapabilitiesShowcase() {
           </div>
         </motion.div>
 
-        <Tabs defaultValue="nlp" value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <Tabs 
+          defaultValue="nlp" 
+          value={activeTab} 
+          onValueChange={(value) => setActiveTab(value as CapabilityId)} 
+          className="w-full"
+        >
           <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 p-1.5 bg-black/50 backdrop-blur-xl border border-white/10 rounded-xl mb-10 shadow-lg shadow-black/20">
-            <TabsTrigger value="nlp" className="data-[state=active]:bg-red-600/90 data-[state=active]:text-white rounded-lg transition-all duration-200">
+            {capabilityData.map((capability) => (
+              <TabsTrigger 
+                key={capability.id}
+                value={capability.id} 
+                className="data-[state=active]:bg-red-600/90 data-[state=active]:text-white rounded-lg transition-all duration-200"
+                aria-label={capability.title}
+              >
               <div className="flex flex-col items-center gap-1.5 py-1.5">
-                <MessageSquare className="h-4 w-4" />
-                <span className="text-xs font-medium">NLP</span>
+                  {capability.icon}
+                  <span className="text-xs font-medium">{capability.shortTitle || capability.title}</span>
               </div>
                   </TabsTrigger>
-            <TabsTrigger value="cv" className="data-[state=active]:bg-red-600/90 data-[state=active]:text-white rounded-lg transition-all duration-200">
-              <div className="flex flex-col items-center gap-1.5 py-1.5">
-                <Eye className="h-4 w-4" />
-                <span className="text-xs font-medium">Vision</span>
-            </div>
-            </TabsTrigger>
-            <TabsTrigger value="ml" className="data-[state=active]:bg-red-600/90 data-[state=active]:text-white rounded-lg transition-all duration-200">
-              <div className="flex flex-col items-center gap-1.5 py-1.5">
-                <Brain className="h-4 w-4" />
-                <span className="text-xs font-medium">ML</span>
-              </div>
-            </TabsTrigger>
-            <TabsTrigger value="gen-ai" className="data-[state=active]:bg-red-600/90 data-[state=active]:text-white rounded-lg transition-all duration-200">
-              <div className="flex flex-col items-center gap-1.5 py-1.5">
-                <Wand2 className="h-4 w-4" />
-                <span className="text-xs font-medium">Gen AI</span>
-              </div>
-            </TabsTrigger>
-            <TabsTrigger value="doc-ai" className="data-[state=active]:bg-red-600/90 data-[state=active]:text-white rounded-lg transition-all duration-200">
-              <div className="flex flex-col items-center gap-1.5 py-1.5">
-                <FileText className="h-4 w-4" />
-                <span className="text-xs font-medium">Doc AI</span>
-              </div>
-            </TabsTrigger>
-            <TabsTrigger value="code-ai" className="data-[state=active]:bg-red-600/90 data-[state=active]:text-white rounded-lg transition-all duration-200">
-              <div className="flex flex-col items-center gap-1.5 py-1.5">
-                <Code className="h-4 w-4" />
-                <span className="text-xs font-medium">Code AI</span>
-              </div>
-            </TabsTrigger>
+            ))}
           </TabsList>
 
                     <motion.div
-            key={activeTab}
+            key={activeTab as string}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -20 }}
@@ -1366,6 +530,7 @@ export default function AICapabilitiesShowcase() {
                 <Card className="border-white/10 bg-black/40 backdrop-blur-md overflow-hidden relative shadow-xl shadow-black/10 hover:shadow-black/20 transition-all duration-300">
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500 to-red-600"></div>
                   <CardContent className="p-8">
+                    {activeCapability && (
                     <motion.div
                       variants={containerVariants}
                       initial="hidden"
@@ -1373,21 +538,21 @@ export default function AICapabilitiesShowcase() {
                     >
                       <motion.div variants={itemVariants} className="flex items-center gap-4 mb-6">
                         <div className="p-3 bg-gradient-to-br from-red-500/20 to-red-600/20 rounded-lg text-red-500 border border-red-500/10">
-                          {capabilities.find(c => c.id === activeTab)?.icon}
+                            {activeCapability.icon}
                         </div>
                         <h3 className="text-2xl font-semibold">
-                          {capabilities.find(c => c.id === activeTab)?.title}
+                            {activeCapability.title}
                         </h3>
                       </motion.div>
 
                       <motion.p variants={itemVariants} className="text-white/70 mb-8 text-lg leading-relaxed">
-                        {capabilities.find(c => c.id === activeTab)?.description}
+                          {activeCapability.description}
                       </motion.p>
 
                       <motion.div variants={itemVariants} className="mb-8">
                         <h4 className="text-sm font-medium text-white/90 mb-4 uppercase tracking-wide">Key Features</h4>
                         <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          {capabilities.find(c => c.id === activeTab)?.features.map((feature, index) => (
+                            {activeCapability.features.map((feature, index) => (
                             <motion.li
                               key={index}
                               variants={itemVariants}
@@ -1421,6 +586,7 @@ export default function AICapabilitiesShowcase() {
                         </Button>
                       </motion.div>
                     </motion.div>
+                    )}
                   </CardContent>
                 </Card>
 
@@ -1439,9 +605,7 @@ export default function AICapabilitiesShowcase() {
                             <BarChart3 className="mr-2 h-5 w-5 text-red-500" />
                             Performance Metrics
                           </h3>
-                          <PerformanceComparison 
-                            metrics={performanceMetrics[activeTab]} 
-                          />
+                          <PerformanceComparison metrics={performanceMetrics[activeTab]} />
                         </CardContent>
                       </Card>
                     </motion.div>
@@ -1457,7 +621,7 @@ export default function AICapabilitiesShowcase() {
                       <PlayCircle className="mr-2 h-5 w-5 text-red-500" />
                       Live Demonstration
                     </h3>
-                    {capabilities.find(c => c.id === activeTab)?.demo}
+                    {activeCapability && <CapabilityDemo capability={activeCapability} />}
                   </CardContent>
                 </Card>
 
@@ -1474,7 +638,12 @@ export default function AICapabilitiesShowcase() {
                     />
                     
                     {/* Add model parameters UI for generative capabilities */}
-                    {(activeTab === "gen-ai" || activeTab === "code-ai" || activeTab === "nlp") && renderModelParams()}
+                    {(activeTab === "gen-ai" || activeTab === "code-ai" || activeTab === "nlp") && (
+                      <ModelParameters 
+                        settings={modelSettings}
+                        onChange={handleModelSettingsChange}
+                      />
+                    )}
                   </CardContent>
                 </Card>
         </div>
