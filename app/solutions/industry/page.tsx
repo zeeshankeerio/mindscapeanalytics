@@ -1244,75 +1244,7 @@ const industries: Industry[] = [
           unit: "%"
         },
         improvementPercentage: 15
-      }
-    ],
-    implementationTimeline: [
-      {
-        name: "Planning & Analysis",
-        description: "Initial assessment and requirements gathering",
-        icon: ClipboardList,
-        duration: "2-4 weeks",
-        keyMilestones: [
-          "Requirements gathering",
-          "Solution architecture design",
-          "Resource planning"
-        ],
-        deliverables: [
-          "Project scope document",
-          "Technical architecture",
-          "Implementation plan"
-        ]
       },
-      {
-        name: "Development",
-        description: "Core development and integration",
-        icon: Code,
-        duration: "8-12 weeks",
-        keyMilestones: [
-          "Core functionality development",
-          "Integration with existing systems",
-          "Security implementation"
-        ],
-        deliverables: [
-          "Working prototype",
-          "Integration documentation",
-          "Security audit report"
-        ]
-      },
-      {
-        name: "Testing & Validation",
-        description: "Comprehensive testing and validation",
-        icon: TestTube,
-        duration: "4-6 weeks",
-        keyMilestones: [
-          "Functional testing",
-          "Performance testing",
-          "Security testing"
-        ],
-        deliverables: [
-          "Test reports",
-          "Performance metrics",
-          "Security compliance report"
-        ]
-      },
-      {
-        name: "Deployment & Support",
-        description: "User training, final deployment, and go-live support",
-        icon: Rocket,
-        duration: "4-6 weeks",
-        keyMilestones: [
-          "Training program completion",
-          "Production deployment",
-          "Initial support period"
-        ],
-        deliverables: [
-          "User documentation",
-          "Training materials",
-          "Support plan"
-        ]
-      }
-    ],
-    successMetrics: [
       {
         name: "Fraud Detection Rate",
         description: "Percentage of fraudulent transactions successfully detected",
