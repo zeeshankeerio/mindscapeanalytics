@@ -129,6 +129,7 @@ interface Feature {
   benefits: string[];
   standards?: string[]; // Add optional standards property
   certifications?: string[]; // Add optional certifications property
+  features?: string[]; // Add optional features property
 }
 
 interface Testimonial {
@@ -4339,12 +4340,12 @@ export async function processTransaction(event, context) {
                               <div>
                                 <div className="text-xs font-medium mb-1 text-blue-400">Features</div>
                                 <div className="flex flex-wrap gap-1.5">
-                                  {feature.features.slice(0, 3).map((item, i) => (
+                                  {feature.features?.slice(0, 3).map((item, i) => (
                                     <div key={i} className="text-xs bg-white/5 text-gray-300 rounded-full px-2 py-0.5">
                                       {item}
                                     </div>
                                   ))}
-                                  {feature.features.length > 3 && (
+                                  {feature.features?.length > 3 && (
                                     <div className="text-xs text-blue-400 cursor-pointer hover:underline">
                                       +{feature.features.length - 3} more
                                     </div>
