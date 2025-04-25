@@ -128,6 +128,7 @@ interface Feature {
   icon: any;
   benefits: string[];
   standards?: string[]; // Add optional standards property
+  certifications?: string[]; // Add optional certifications property
 }
 
 interface Testimonial {
