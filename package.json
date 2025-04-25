@@ -91,7 +91,8 @@
     "tailwindcss-animate": "^1.0.7",
     "three": "0.175.0",
     "vaul": "^0.9.6",
-    "zod": "latest"
+    "zod": "latest",
+    "prisma": "^6.5.0"
   },
   "devDependencies": {
     "@types/node": "^22",
@@ -102,7 +103,6 @@
     "eslint": "^8.57.1",
     "eslint-config-next": "14.1.0",
     "postcss": "^8",
-    "prisma": "^6.5.0",
     "tailwindcss": "^3.4.17",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
@@ -114,7 +114,10 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "sharp"
+      "sharp",
+      "prisma",
+      "@prisma/client",
+      "@prisma/engines"
     ]
   }
 }
