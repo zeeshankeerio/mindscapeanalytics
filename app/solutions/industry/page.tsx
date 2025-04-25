@@ -521,6 +521,11 @@ const industries: Industry[] = [
         title: "Advanced Encryption",
         description: "Enterprise-grade encryption for data at rest and in transit",
         icon: Lock,
+        benefits: [
+          "Protects sensitive data from unauthorized access",
+          "Ensures regulatory compliance and data sovereignty",
+          "Prevents data breaches and unauthorized disclosure"
+        ],
         standards: [
           "AES-256 encryption",
           "TLS 1.3 protocol",
@@ -571,6 +576,11 @@ const industries: Industry[] = [
         title: "Multi-factor Authentication",
         description: "Layered security approach requiring multiple verification methods",
         icon: ShieldCheck,
+        benefits: [
+          "Significantly reduces account takeover risks",
+          "Protects against credential stuffing and brute force attacks",
+          "Ensures only authorized users can access sensitive financial data"
+        ],
         standards: [
           "NIST 800-63B",
           "FIDO2 compliance",
@@ -592,6 +602,11 @@ const industries: Industry[] = [
         title: "Fraud Monitoring System",
         description: "AI-powered real-time fraud detection and prevention",
         icon: AlertCircle,
+        benefits: [
+          "Reduces financial losses from fraudulent transactions",
+          "Minimizes false positives to improve customer experience",
+          "Provides early warning of emerging fraud patterns"
+        ],
         standards: [
           "Machine learning best practices",
           "Real-time monitoring standards",
@@ -614,6 +629,11 @@ const industries: Industry[] = [
         title: "Secure API Gateway",
         description: "Controlled access to banking APIs with comprehensive security",
         icon: Server,
+        benefits: [
+          "Protects sensitive APIs from unauthorized access",
+          "Enables secure third-party integrations",
+          "Provides detailed audit trails for all API activity"
+        ],
         standards: [
           "OAuth 2.0",
           "OpenID Connect",
@@ -636,6 +656,11 @@ const industries: Industry[] = [
         title: "Secure DevOps Pipeline",
         description: "Security integrated throughout the development lifecycle",
         icon: Code,
+        benefits: [
+          "Identifies security issues early in the development process",
+          "Reduces the cost of fixing security vulnerabilities",
+          "Accelerates delivery of secure financial applications"
+        ],
         standards: [
           "DevSecOps best practices",
           "CI/CD security integration",
@@ -657,6 +682,11 @@ const industries: Industry[] = [
         title: "Identity and Access Management",
         description: "Comprehensive identity management with principle of least privilege",
         icon: Users,
+        benefits: [
+          "Minimizes insider threat risks through fine-grained access control",
+          "Simplifies compliance with regulatory requirements",
+          "Streamlines user onboarding and offboarding processes"
+        ],
         standards: [
           "RBAC implementation",
           "Zero Trust architecture",
