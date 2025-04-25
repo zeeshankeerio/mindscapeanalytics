@@ -40,16 +40,16 @@ export default function DashboardLayout({
   }
 
   if (isLoading) {
-    return <LoadingScreen text="Loading dashboard..." />
+    return <LoadingScreen />
   }
 
   return (
     <DashboardLayoutContent inter={inter}>
       <div className="flex h-screen bg-gradient-to-br from-black to-zinc-900 overflow-hidden">
         <ErrorBoundary>
-          <DashboardSidebar open={sidebarOpen} onOpenChange={handleSidebarToggle} />
+          <DashboardSidebar />
           <div className="flex flex-1 flex-col overflow-hidden">
-            <DashboardHeader onMenuClick={() => handleSidebarToggle(!sidebarOpen)} />
+            <DashboardHeader heading="Dashboard" onMenuClick={() => handleSidebarToggle(!sidebarOpen)} />
             <main className="flex-1 overflow-y-auto bg-black/40 backdrop-blur-sm supports-[backdrop-filter]:bg-black/40 p-6">
               <ErrorBoundary>
                 <div className="mx-auto max-w-7xl">
