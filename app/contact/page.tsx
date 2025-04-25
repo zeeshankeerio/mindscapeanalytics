@@ -1,11 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { motion, useInView } from "framer-motion"
+import { motion } from "framer-motion"
+import { useInView } from "react-intersection-observer"
 import { ArrowRight, MessageSquare, Phone, MapPin, Calendar, Globe, Clock } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -68,13 +69,13 @@ function BuildingIcon(props: any) {
 export default function ContactPage() {
   const [activeTab, setActiveTab] = useState("contact")
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle")
-  const formRef = useRef(null)
-  const inView = useInView(formRef, { once: true })
-
-  const [heroRef, heroInView] = useInView({ triggerOnce: true, threshold: 0.1 })
-  const [contactRef, contactInView] = useInView({ triggerOnce: true, threshold: 0.1 })
-  const [mapRef, mapInView] = useInView({ triggerOnce: true, threshold: 0.1 })
-  const [faqRef, faqInView] = useInView({ triggerOnce: true, threshold: 0.1 })
+  
+  const { ref: formRef, inView } = useInView({ triggerOnce: true })
+  
+  const { ref: heroRef, inView: heroInView } = useInView({ triggerOnce: true })
+  const { ref: contactRef, inView: contactInView } = useInView({ triggerOnce: true })
+  const { ref: mapRef, inView: mapInView } = useInView({ triggerOnce: true })
+  const { ref: faqRef, inView: faqInView } = useInView({ triggerOnce: true })
   
   // Auto-scroll to contact form if URL has parameters
   useEffect(() => {
