@@ -218,7 +218,7 @@ export default function EnhancedCTASection({
     <section
       ref={sectionRef}
       className={cn(
-        "relative overflow-hidden py-24 md:py-32",
+        "relative overflow-hidden py-16 md:py-24 lg:py-32",
         "bg-black",
         className
       )}
@@ -229,7 +229,7 @@ export default function EnhancedCTASection({
       
       {/* Animated gradient orbs */}
       <motion.div 
-        className="absolute top-1/4 -left-24 w-96 h-96 rounded-full bg-red-500/20 blur-[120px] opacity-70"
+        className="absolute top-1/4 -left-24 w-64 md:w-96 h-64 md:h-96 rounded-full bg-red-500/20 blur-[80px] md:blur-[120px] opacity-70"
         animate={{
           scale: [1, 1.2, 1],
           opacity: [0.5, 0.7, 0.5],
@@ -241,7 +241,7 @@ export default function EnhancedCTASection({
         }}
       />
       <motion.div 
-        className="absolute bottom-1/4 -right-24 w-96 h-96 rounded-full bg-blue-500/20 blur-[120px] opacity-70"
+        className="absolute bottom-1/4 -right-24 w-64 md:w-96 h-64 md:h-96 rounded-full bg-blue-500/20 blur-[80px] md:blur-[120px] opacity-70"
         animate={{
           scale: [1, 1.3, 1],
           opacity: [0.5, 0.8, 0.5],
@@ -249,314 +249,214 @@ export default function EnhancedCTASection({
         transition={{
           duration: 10,
           repeat: Infinity,
-          ease: "easeInOut",
-          delay: 1
+          ease: "easeInOut"
         }}
       />
-      <motion.div 
-        className="absolute bottom-1/3 left-1/3 w-64 h-64 rounded-full bg-purple-500/20 blur-[100px] opacity-50"
-        animate={{
-          scale: [1, 1.4, 1],
-          opacity: [0.3, 0.6, 0.3],
-          x: [0, 50, 0],
-        }}
-        transition={{
-          duration: 12,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 2
-        }}
-      />
-
+      
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-10 md:gap-20 items-center">
-          {/* Left content - CTA copy */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={controls}
-            className="max-w-2xl"
-          >
-            {badge && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="mb-6"
-              >
-                <Badge className="py-1.5 px-4 text-sm bg-red-500/30 text-red-400 hover:bg-red-500/40 backdrop-blur-sm">
-                  <Sparkles className="h-3.5 w-3.5 mr-2" />
-                  {badge}
-                </Badge>
-              </motion.div>
-            )}
-
-            <motion.h2
+        {/* Enhanced variant uses 3D-ish card layout */}
+        {variant === "enhanced" && (
+          <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-12">
+            {/* Left Column - Main CTA Content */}
+            <motion.div 
+              className="flex-1 text-center lg:text-left space-y-6"
               initial={{ opacity: 0, y: 20 }}
               animate={controls}
-              transition={{ delay: 0.1 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-tight"
             >
-              {title.split(' ').map((word, i) => (
-                <span key={`title-word-${i}`} className={i % 4 === 1 ? "text-red-500" : ""}>
-                  {word}{" "}
-                </span>
-              ))}
-            </motion.h2>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={controls}
-              transition={{ delay: 0.2 }}
-              className="text-xl text-white/70 mb-8"
-            >
-              {description}
-            </motion.p>
-
-            {/* Client logos */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={controls}
-              transition={{ delay: 0.3 }}
-              className="mb-10"
-            >
-              <p className="text-white/50 text-sm mb-4">Trusted by industry leaders</p>
-              <div className="flex flex-wrap gap-6 items-center">
-                {clients.map((client, index) => (
-                  <motion.div
-                    key={client}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.4 + index * 0.1 }}
-                    className="text-white/50 font-semibold"
-                  >
-                    {client}
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Key features */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={controls}
-              transition={{ delay: 0.5 }}
-              className="mb-10"
-            >
-              <div className="grid grid-cols-2 gap-5">
-                {features.map((feature, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ 
-                      opacity: 1, 
-                      y: 0,
-                      scale: activeFeature === index ? 1.05 : 1,
-                      boxShadow: activeFeature === index ? "0 10px 30px -10px rgba(220, 38, 38, 0.2)" : "none" 
-                    }}
-                    transition={{ 
-                      delay: 0.6 + index * 0.1,
-                      duration: 0.3
-                    }}
-                    className={`p-4 rounded-xl border ${
-                      activeFeature === index 
-                        ? "border-red-500/50 bg-gradient-to-br from-black to-red-950/30" 
-                        : "border-white/10 bg-white/5 hover:bg-white/10"
-                    } transition-all duration-300 ease-out cursor-pointer`}
-                    onClick={() => setActiveFeature(index)}
-                  >
-                    <div className={`p-2 rounded-full w-fit mb-3 ${
-                      activeFeature === index ? "bg-red-500/20" : "bg-white/10"
-                    }`}>
-                      {feature.icon}
-                    </div>
-                    <h3 className="text-lg font-semibold mb-1">{feature.title}</h3>
-                    <p className="text-sm text-white/60">{feature.description}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* CTA buttons */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={controls}
-              transition={{ delay: 0.7 }}
-              className="flex flex-col sm:flex-row gap-4"
-            >
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                onHoverStart={() => setIsPrimaryHovering(true)}
-                onHoverEnd={() => setIsPrimaryHovering(false)}
-              >
-                <Button
+              <Badge className="bg-gradient-to-r from-red-500/80 to-red-600/80 text-white border-none shadow-lg shadow-red-900/20 px-2 py-1 md:px-3 md:py-1.5 text-xs">
+                {badge}
+              </Badge>
+              
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/80">
+                {title}
+              </h2>
+              
+              <p className="text-base md:text-lg text-white/70 max-w-2xl mx-auto lg:mx-0">
+                {description}
+              </p>
+              
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                <Button 
                   size="lg"
-                  className="relative bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400 w-full sm:w-auto"
+                  className="group relative px-6 py-4 text-base font-semibold text-white rounded-full hover:brightness-110 transition-all duration-300 overflow-hidden w-full sm:w-auto"
                   onClick={handlePrimaryButtonClick}
                 >
-                  {primaryButtonText}
-                  <motion.div
-                    animate={{ x: isPrimaryHovering ? 5 : 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </motion.div>
-                  
-                  {/* Pulsing effect */}
-                  <motion.div
-                    className="absolute inset-0 rounded-lg"
-                    initial={{ boxShadow: "0 0 0 0 rgba(220, 38, 38, 0)" }}
-                    animate={{ 
-                      boxShadow: isPrimaryHovering 
-                        ? "0 0 0 4px rgba(220, 38, 38, 0.3)" 
-                        : "0 0 0 0 rgba(220, 38, 38, 0)" 
-                    }}
-                    transition={{ duration: 0.3 }}
-                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-red-700 via-red-600 to-red-700 group-hover:from-red-600 group-hover:via-red-500 group-hover:to-red-600 transition-all duration-500 rounded-full"></div>
+                  <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
+                  <span className="relative z-10 flex items-center justify-center">
+                    {primaryButtonText}
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
                 </Button>
-              </motion.div>
-              
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                onHoverStart={() => setIsSecondaryHovering(true)}
-                onHoverEnd={() => setIsSecondaryHovering(false)}
-              >
+                
                 <Button
                   variant="outline"
                   size="lg"
-                  className="relative w-full sm:w-auto border-white/20 bg-white/5 hover:bg-white/10"
+                  className="group relative px-6 py-4 text-base font-semibold text-white border border-white/30 hover:border-white/50 hover:bg-white/5 rounded-full backdrop-blur-sm transition-all duration-300 overflow-hidden w-full sm:w-auto"
                   onClick={handleSecondaryButtonClick}
                 >
-                  {secondaryButtonText}
-                  <motion.div
-                    animate={{ 
-                      rotate: isSecondaryHovering ? 45 : 0,
-                      x: isSecondaryHovering ? 2 : 0,
-                      y: isSecondaryHovering ? -2 : 0
-                    }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <ArrowUpRight className="ml-2 h-4 w-4" />
-                  </motion.div>
+                  <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 transition-opacity duration-300"></div>
+                  <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
+                  <span className="relative z-10 flex items-center justify-center">
+                    {secondaryButtonText}
+                    <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
                 </Button>
-              </motion.div>
-            </motion.div>
-          </motion.div>
-
-          {/* Right content - Testimonial Showcase & 3D Card */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={controls}
-            transition={{ delay: 0.4 }}
-            className="hidden lg:block"
-          >
-            <div className="relative">
-              {/* 3D Card Effect */}
-              <motion.div
-                ref={cardRef}
-                style={{
-                  transform: `perspective(1000px) rotateX(${calculateTransform.rotateX}deg) rotateY(${calculateTransform.rotateY}deg)`,
-                  transformStyle: "preserve-3d"
-                }}
-                className="bg-gradient-to-br from-black/80 to-gray-900/80 backdrop-blur-sm p-6 rounded-2xl border border-white/10 shadow-2xl"
-              >
-                {/* Testimonial carousel */}
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={testimonialIndex}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
-                    className="p-4"
+              </div>
+              
+              {/* Feature highlights */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 pt-8">
+                {features.slice(0, 3).map((feature, index) => (
+                  <div 
+                    key={feature.title}
+                    className="flex items-start gap-2"
                   >
-                    <div className="flex justify-center mb-6">
-                      <div className="flex">
-                        {[...Array(testimonials[testimonialIndex].rating)].map((_, i) => (
-                          <Star key={i} className="w-5 h-5 text-yellow-500 fill-yellow-500" />
-                        ))}
-                      </div>
+                    <div className="p-1.5 md:p-2 bg-red-500/10 rounded-lg text-red-500">
+                      {feature.icon}
                     </div>
-                    
-                    <p className="text-xl italic text-white/90 mb-6 text-center">
-                      "{testimonials[testimonialIndex].quote}"
-                    </p>
-                    
-                    <div className="flex flex-col items-center">
-                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-red-500 to-purple-600 mb-3 flex items-center justify-center text-2xl font-bold">
-                        {testimonials[testimonialIndex].author.charAt(0)}
-                      </div>
-                      <h4 className="font-medium text-lg">{testimonials[testimonialIndex].author}</h4>
-                      <p className="text-white/60">{testimonials[testimonialIndex].role}</p>
+                    <div>
+                      <h3 className="text-sm md:text-base font-semibold mb-1">{feature.title}</h3>
+                      <p className="text-xs md:text-sm text-white/60">{feature.description.slice(0, 50)}...</p>
                     </div>
-                  </motion.div>
-                </AnimatePresence>
-
-                {/* Pagination dots */}
-                <div className="flex justify-center mt-6 gap-2">
-                  {testimonials.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setTestimonialIndex(index)}
-                      className={`w-2.5 h-2.5 rounded-full transition-colors ${
-                        index === testimonialIndex ? "bg-red-500" : "bg-white/20"
-                      }`}
-                      aria-label={`Go to testimonial ${index + 1}`}
-                    />
-                  ))}
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+            
+            {/* Right Column - Social Proof & Testimonial */}
+            <motion.div 
+              ref={cardRef}
+              className="flex-1 w-full max-w-md"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={controls}
+              style={{
+                transform: `perspective(1000px) rotateX(${calculateTransform.rotateX}deg) rotateY(${calculateTransform.rotateY}deg)`,
+                transition: "transform 0.2s ease-out",
+              }}
+            >
+              <div className="bg-gradient-to-b from-black/60 to-black/40 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden shadow-2xl shadow-black/50 p-4 md:p-6">
+                {/* Testimonial */}
+                <div className="mb-6">
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-base md:text-lg font-semibold flex items-center">
+                      <Star className="h-4 w-4 md:h-5 md:w-5 text-yellow-500 mr-2" />
+                      Client Testimonial
+                    </h3>
+                    <div className="flex">
+                      {[...Array(testimonials[testimonialIndex].rating)].map((_, i) => (
+                        <Star key={i} className="h-3 w-3 md:h-4 md:w-4 text-yellow-500 fill-yellow-500" />
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={testimonialIndex}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <blockquote className="text-sm md:text-base text-white/80 italic mb-4">
+                        "{testimonials[testimonialIndex].quote}"
+                      </blockquote>
+                      
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 md:w-10 md:h-10 bg-gray-700 rounded-full overflow-hidden flex-shrink-0">
+                          {testimonials[testimonialIndex].avatar && (
+                            <img 
+                              src={testimonials[testimonialIndex].avatar} 
+                              alt={testimonials[testimonialIndex].author} 
+                              className="w-full h-full object-cover"
+                            />
+                          )}
+                        </div>
+                        <div>
+                          <div className="text-sm md:text-base font-medium">{testimonials[testimonialIndex].author}</div>
+                          <div className="text-xs md:text-sm text-white/60">{testimonials[testimonialIndex].role}</div>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
                 </div>
-
-                {/* Floating elements for 3D effect */}
-                <div 
-                  style={{ transform: "translateZ(40px)" }}
-                  className="absolute top-4 right-4 p-3 bg-red-500/20 rounded-full"
-                >
-                  <TrendingUp className="w-5 h-5 text-red-400" />
+                
+                {/* Client logos */}
+                <div className="border-t border-white/10 pt-4 md:pt-6">
+                  <div className="text-xs md:text-sm text-white/60 mb-3">Trusted by industry leaders:</div>
+                  <div className="flex flex-wrap gap-4 items-center justify-center">
+                    {clients.slice(0, 5).map((client, index) => (
+                      <div key={index} className="text-white/40 hover:text-white/70 transition-colors text-xs font-semibold tracking-wider">
+                        {client}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div 
-                  style={{ transform: "translateZ(30px)" }}
-                  className="absolute bottom-8 left-4 p-3 bg-blue-500/20 rounded-full"
-                >
-                  <Lock className="w-5 h-5 text-blue-400" />
+                
+                {/* Stats */}
+                <div className="grid grid-cols-3 gap-2 md:gap-4 mt-6 border-t border-white/10 pt-4 md:pt-6">
+                  <div className="text-center">
+                    <div className="text-lg md:text-2xl font-bold text-red-500">99.9%</div>
+                    <div className="text-xs text-white/60">Uptime</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-lg md:text-2xl font-bold text-blue-500">24/7</div>
+                    <div className="text-xs text-white/60">Support</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-lg md:text-2xl font-bold text-green-500">500+</div>
+                    <div className="text-xs text-white/60">Clients</div>
+                  </div>
                 </div>
-              </motion.div>
-
-              {/* Stats counter */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={controls}
-                transition={{ delay: 0.8 }}
-                className="absolute -bottom-10 right-10 bg-white/10 backdrop-blur-md p-5 rounded-xl border border-white/10 shadow-xl"
-                style={{ transform: "translateZ(20px)" }}
+              </div>
+            </motion.div>
+          </div>
+        )}
+        
+        {/* Centered variant */}
+        {variant === "centered" && (
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <Badge className="bg-gradient-to-r from-red-500/80 to-red-600/80 text-white border-none shadow-lg shadow-red-900/20 px-2 py-1 md:px-3 md:py-1.5 text-xs">
+              {badge}
+            </Badge>
+            
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-white/90 to-white/80">
+              {title}
+            </h2>
+            
+            <p className="text-base md:text-lg text-white/70">
+              {description}
+            </p>
+            
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+              <Button 
+                size="lg"
+                className="group relative px-6 py-4 text-base font-semibold text-white rounded-full hover:brightness-110 transition-all duration-300 overflow-hidden w-full sm:w-auto"
+                onClick={handlePrimaryButtonClick}
               >
-                <div className="flex items-center gap-4">
-                  <div>
-                    <p className="text-white/70 text-sm">Businesses Transformed</p>
-                    <motion.p
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 1, duration: 1 }}
-                      className="text-2xl font-bold"
-                    >
-                      10,000+
-                    </motion.p>
-                  </div>
-                  <div className="w-px h-10 bg-white/20"></div>
-                  <div>
-                    <p className="text-white/70 text-sm">Avg. ROI Increase</p>
-                    <motion.p
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ delay: 1.2, duration: 1 }}
-                      className="text-2xl font-bold text-red-500"
-                    >
-                      320%
-                    </motion.p>
-                  </div>
-                </div>
-              </motion.div>
+                <div className="absolute inset-0 bg-gradient-to-r from-red-700 via-red-600 to-red-700 group-hover:from-red-600 group-hover:via-red-500 group-hover:to-red-600 transition-all duration-500 rounded-full"></div>
+                <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
+                <span className="relative z-10 flex items-center justify-center">
+                  {primaryButtonText}
+                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
+              </Button>
+              
+              <Button
+                variant="outline"
+                size="lg"
+                className="group relative px-6 py-4 text-base font-semibold text-white border border-white/30 hover:border-white/50 hover:bg-white/5 rounded-full backdrop-blur-sm transition-all duration-300 overflow-hidden w-full sm:w-auto"
+                onClick={handleSecondaryButtonClick}
+              >
+                <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 transition-opacity duration-300"></div>
+                <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
+                <span className="relative z-10 flex items-center justify-center">
+                  {secondaryButtonText}
+                  <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
+              </Button>
             </div>
-          </motion.div>
-        </div>
+          </div>
+        )}
       </div>
     </section>
   )

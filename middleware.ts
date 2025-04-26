@@ -45,6 +45,15 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
   
+  // Handle empty main category paths to redirect to specific pages
+  if (path === '/solutions') {
+    return NextResponse.redirect(new URL('/solutions/industry', request.url))
+  }
+  
+  if (path === '/resources') {
+    return NextResponse.redirect(new URL('/docs', request.url))
+  }
+  
   return NextResponse.next()
 }
 

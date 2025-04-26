@@ -1,5 +1,165 @@
-// API endpoints
-const API_BASE_URL = "/api"
+import { useEffect } from 'react'
+import useSWR, { SWRConfiguration, SWRResponse } from 'swr'
+
+export type ApiError = {
+  message: string
+  code?: string
+  status?: number
+}
+
+export interface ApiResponse<T> {
+  data: T
+  success: boolean
+  error?: ApiError
+}
+
+// Base API URL with environment-aware configuration
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '/api'
+
+// Custom fetcher with error handling
+export async function fetcher<T>(url: string, options?: RequestInit): Promise<ApiResponse<T>> {
+  try {
+    // Determine if URL is absolute or relative
+    const apiUrl = url.startsWith('http') ? url : `${API_BASE_URL}${url}`
+    
+    // Set up default headers
+    const defaultHeaders: Record<string, string> = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+    
+    // Get auth token from local storage if available
+    const token = typeof window !== 'undefined' ? localStorage.getItem('authToken') : null
+    
+    // Add auth token to headers if available
+    const authHeaders: Record<string, string> = token 
+      ? { 'Authorization': `Bearer ${token}` }
+      : {}
+    
+    // Make the fetch request
+    const response = await fetch(apiUrl, {
+      ...options,
+      headers: {
+        ...defaultHeaders,
+        ...authHeaders,
+        ...((options?.headers || {}) as Record<string, string>)
+      }
+    })
+    
+    // Parse the JSON response
+    const responseData = await response.json()
+    
+    // Check if the response is successful
+    if (!response.ok) {
+      const error: ApiError = {
+        message: responseData.message || 'An unexpected error occurred',
+        code: responseData.code,
+        status: response.status
+      }
+      
+      // Throw error for SWR to catch
+      throw error
+    }
+    
+    // Return the response data
+    return {
+      data: responseData.data || responseData,
+      success: true
+    }
+  } catch (error) {
+    // Handle network errors or JSON parsing errors
+    if (error instanceof Error) {
+      return {
+        data: null as unknown as T,
+        success: false,
+        error: {
+          message: error.message || 'An unexpected error occurred',
+          code: 'FETCH_ERROR'
+        }
+      }
+    }
+    
+    // Pass through ApiError objects
+    return {
+      data: null as unknown as T,
+      success: false,
+      error: error as ApiError
+    }
+  }
+}
+
+// POST request helper
+export async function postData<T, P = any>(url: string, data: P): Promise<ApiResponse<T>> {
+  return fetcher<T>(url, {
+    method: 'POST',
+    body: JSON.stringify(data)
+  })
+}
+
+// PUT request helper
+export async function putData<T, P = any>(url: string, data: P): Promise<ApiResponse<T>> {
+  return fetcher<T>(url, {
+    method: 'PUT',
+    body: JSON.stringify(data)
+  })
+}
+
+// DELETE request helper
+export async function deleteData<T>(url: string): Promise<ApiResponse<T>> {
+  return fetcher<T>(url, {
+    method: 'DELETE'
+  })
+}
+
+// Custom hook for data fetching with SWR
+export function useApi<T>(
+  url: string | null, 
+  options?: SWRConfiguration
+): SWRResponse<ApiResponse<T>, Error> & { 
+  isLoading: boolean 
+} {
+  const swr = useSWR<ApiResponse<T>, Error>(
+    url,
+    fetcher,
+    {
+      revalidateOnFocus: true,
+      revalidateOnReconnect: true,
+      dedupingInterval: 10000,
+      ...options
+    }
+  )
+  
+  // Define isLoading state
+  const isLoading = !swr.error && !swr.data
+  
+  // Session expiry handling
+  useEffect(() => {
+    if (swr.error?.message === 'Unauthorized' || swr.data?.error?.status === 401) {
+      // Clear auth token and redirect to login
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('authToken')
+        window.location.href = '/auth/signin'
+      }
+    }
+  }, [swr.error, swr.data])
+  
+  return {
+    ...swr,
+    isLoading
+  }
+}
+
+// Typed mock data function for development
+export function mockApi<T>(data: T, delay = 1000): Promise<ApiResponse<T>> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        data,
+        success: true
+      })
+    }, delay)
+  })
+}
 
 // Cache keys for offline storage
 const CACHE_KEYS = {

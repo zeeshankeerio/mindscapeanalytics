@@ -107,6 +107,20 @@ const config: Config = {
           '0%, 100%': { transform: 'translateX(-100%)' },
           '50%': { transform: 'translateX(100%)' },
         },
+        "enhanced-pulse": {
+          "0%": { 
+            filter: "drop-shadow(0 0 2px rgba(255, 0, 0, 0.5)) brightness(0.9)",
+            transform: "scale(1)"
+          },
+          "50%": { 
+            filter: "drop-shadow(0 0 10px rgba(255, 0, 0, 0.8)) brightness(1.2)",
+            transform: "scale(1.05)"
+          },
+          "100%": { 
+            filter: "drop-shadow(0 0 2px rgba(255, 0, 0, 0.5)) brightness(0.9)",
+            transform: "scale(1)"
+          }
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -119,6 +133,7 @@ const config: Config = {
         "glow-pulse": "glow-pulse 4s ease-in-out infinite",
         "pulse-slow": "pulse 6s ease-in-out infinite",
         "wave-slow": "wave 6s ease-in-out infinite",
+        "enhanced-pulse": "enhanced-pulse 1.5s ease-in-out infinite",
       },
     },
   },

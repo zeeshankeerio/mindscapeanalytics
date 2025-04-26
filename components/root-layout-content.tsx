@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { ThemeProvider } from "@/components/theme-provider"
 import EnhancedHeader from "@/components/enhanced-header"
 import Footer from "@/components/footer"
+import { Toaster } from "@/components/ui/toaster"
 
 interface RootLayoutContentProps {
   children: React.ReactNode
@@ -33,6 +34,7 @@ export default function RootLayoutContent({ children, inter }: RootLayoutContent
             {children}
           </div>
           {showFooter && <Footer />}
+          <Toaster />
         </div>
       </ThemeProvider>
     </body>

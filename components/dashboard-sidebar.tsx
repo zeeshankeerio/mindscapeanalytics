@@ -134,19 +134,40 @@ const accountNavigation = [
   },
 ]
 
-export default function DashboardSidebar() {
-  const [isCollapsed, setIsCollapsed] = useState(false)
+interface DashboardSidebarProps {
+  isCollapsed?: boolean;
+  setIsCollapsed?: (collapsed: boolean) => void;
+}
+
+export default function DashboardSidebar({ 
+  isCollapsed = false, 
+  setIsCollapsed 
+}: DashboardSidebarProps) {
+  // Use internal state if no props provided (for backwards compatibility)
+  const [internalIsCollapsed, setInternalIsCollapsed] = useState(false)
   const pathname = usePathname()
+  
+  // Use either the prop or internal state
+  const collapsed = isCollapsed !== undefined ? isCollapsed : internalIsCollapsed
+  
+  // Handle toggle click
+  const handleToggleClick = () => {
+    if (setIsCollapsed) {
+      setIsCollapsed(!collapsed)
+    } else {
+      setInternalIsCollapsed(!collapsed)
+    }
+  }
 
   return (
     <div
       className={cn(
         "relative flex h-screen flex-col bg-background/50 backdrop-blur-sm transition-all duration-300 shadow-lg",
-        isCollapsed ? "w-16" : "w-64"
+        collapsed ? "w-16" : "w-64"
       )}
     >
       <div className="flex h-14 items-center justify-between px-4">
-        {!isCollapsed && (
+        {!collapsed && (
           <Link href="/dashboard" className="flex items-center space-x-2">
             <span className="text-lg font-bold">Dashboard</span>
           </Link>
@@ -155,9 +176,9 @@ export default function DashboardSidebar() {
           variant="ghost"
           size="icon"
           className="ml-auto hover:bg-accent/10"
-          onClick={() => setIsCollapsed(!isCollapsed)}
+          onClick={handleToggleClick}
         >
-          {isCollapsed ? (
+          {collapsed ? (
             <Menu className="h-4 w-4" />
           ) : (
           <ChevronLeft className="h-4 w-4" />
@@ -168,7 +189,7 @@ export default function DashboardSidebar() {
       <div className="flex-1 overflow-y-auto scrollbar-hide p-4">
         <nav className="space-y-6">
           <div>
-            {!isCollapsed && (
+            {!collapsed && (
               <h2 className="mb-2 px-2 text-xs font-semibold text-muted-foreground">
                 Main
               </h2>
@@ -186,14 +207,14 @@ export default function DashboardSidebar() {
                   )}
                 >
                   <item.icon className={cn("h-4 w-4", item.color)} />
-                  {!isCollapsed && <span className="ml-3">{item.name}</span>}
+                  {!collapsed && <span className="ml-3">{item.name}</span>}
                 </Link>
               ))}
             </div>
           </div>
 
           <div>
-            {!isCollapsed && (
+            {!collapsed && (
               <h2 className="mb-2 px-2 text-xs font-semibold text-muted-foreground">
                 Business Intelligence
               </h2>
@@ -211,14 +232,14 @@ export default function DashboardSidebar() {
                   )}
                 >
                   <item.icon className={cn("h-4 w-4", item.color)} />
-                  {!isCollapsed && <span className="ml-3">{item.name}</span>}
+                  {!collapsed && <span className="ml-3">{item.name}</span>}
                 </Link>
               ))}
             </div>
           </div>
 
           <div>
-            {!isCollapsed && (
+            {!collapsed && (
               <h2 className="mb-2 px-2 text-xs font-semibold text-muted-foreground">
                 AI Tools
               </h2>
@@ -236,7 +257,7 @@ export default function DashboardSidebar() {
                   )}
                 >
                   <item.icon className={cn("h-4 w-4", item.color)} />
-                  {!isCollapsed && <span className="ml-3">{item.name}</span>}
+                  {!collapsed && <span className="ml-3">{item.name}</span>}
                 </Link>
               ))}
             </div>
@@ -258,11 +279,12 @@ export default function DashboardSidebar() {
               )}
             >
               <item.icon className={cn("h-4 w-4", item.color)} />
-              {!isCollapsed && <span className="ml-3">{item.name}</span>}
+              {!collapsed && <span className="ml-3">{item.name}</span>}
             </Link>
           ))}
         </div>
-        <div className="mt-4">
+        <div className="mt-6 flex items-center justify-between">
+          {!collapsed && <span className="text-xs text-muted-foreground">v1.0.0</span>}
           <ThemeToggle />
         </div>
       </div>

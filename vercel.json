@@ -28,19 +28,24 @@
   ],
   "rewrites": [
     { "source": "/api/auth/:path*", "destination": "/api/auth/:path*" },
-    { "source": "/solutions/blockchain:path*", "destination": "/solutions/blockchain:path*" },
-    { "source": "/solutions/enterprise:path*", "destination": "/solutions/enterprise:path*" },
-    { "source": "/solutions/industry:path*", "destination": "/solutions/industry:path*" },
-    { "source": "/solutions/real-estate:path*", "destination": "/solutions/real-estate:path*" },
-    { "source": "/solutions/industry-paas:path*", "destination": "/solutions/industry-paas:path*" },
-    { "source": "/solutions/aiops:path*", "destination": "/solutions/aiops:path*" },
-    { "source": "/solutions/genai:path*", "destination": "/solutions/genai:path*" },
-    { "source": "/solutions/cloud:path*", "destination": "/solutions/cloud:path*" },
+    { "source": "/solutions", "destination": "/solutions/industry" },
+    { "source": "/resources", "destination": "/docs" },
+    { "source": "/solutions/blockchain/:path*", "destination": "/solutions/blockchain/:path*" },
+    { "source": "/solutions/enterprise/:path*", "destination": "/solutions/enterprise/:path*" },
+    { "source": "/solutions/industry/:path*", "destination": "/solutions/industry/:path*" },
+    { "source": "/solutions/real-estate/:path*", "destination": "/solutions/real-estate/:path*" },
+    { "source": "/solutions/industry-paas/:path*", "destination": "/solutions/industry-paas/:path*" },
+    { "source": "/solutions/aiops/:path*", "destination": "/solutions/aiops/:path*" },
+    { "source": "/solutions/genai/:path*", "destination": "/solutions/genai/:path*" },
+    { "source": "/solutions/cloud/:path*", "destination": "/solutions/cloud/:path*" },
     { "source": "/services/:path*", "destination": "/services/:path*" },
     { "source": "/dashboard/:path*", "destination": "/dashboard/:path*" },
     { "source": "/auth/:path*", "destination": "/auth/:path*" },
     { "source": "/blog/:path*", "destination": "/blog/:path*" },
     { "source": "/projects/:path*", "destination": "/projects/:path*" },
-    { "source": "/case-studies/:path*", "destination": "/case-studies/:path*" }
+    { "source": "/case-studies/:path*", "destination": "/case-studies/:path*" },
+    { "source": "/docs/:path*", "destination": "/docs/:path*" },
+    { "source": "/developers/:path*", "destination": "/developers/:path*" },
+    { "source": "/support/:path*", "destination": "/support/:path*" }
   ]
 } 

@@ -1,28 +1,44 @@
 "use client"
 
-import React from "react"
-import { ThemeProvider } from "@/components/theme-provider"
+import { useEffect } from "react"
+import Head from "next/head"
+import { NextFont } from "next/dist/compiled/@next/font"
+import { useDashboard } from "@/providers/dashboard-context"
 
 interface DashboardLayoutContentProps {
   children: React.ReactNode
-  inter: any // Font
+  inter: NextFont
 }
 
 export default function DashboardLayoutContent({ children, inter }: DashboardLayoutContentProps) {
+  const { theme } = useDashboard()
+
+  // Handle theme changes
+  useEffect(() => {
+    const root = document.documentElement
+    
+    // Remove previous theme class
+    root.classList.remove('light', 'dark')
+    
+    // Apply selected theme
+    if (theme === 'system') {
+      // Check system preference
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+      root.classList.add(systemTheme)
+    } else {
+      root.classList.add(theme)
+    }
+  }, [theme])
+
   return (
-    <body className={`${inter.className} antialiased`}>
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="dark"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <div className="relative min-h-screen bg-gradient-to-b from-black to-zinc-950">
-          <div className="relative z-10">
-            {children}
-          </div>
-        </div>
-      </ThemeProvider>
-    </body>
+    <>
+      <Head>
+        <title>Mindscape Dashboard</title>
+        <meta name="description" content="AI-powered analytics and insights dashboard" />
+      </Head>
+      <div className={inter.className}>
+        {children}
+      </div>
+    </>
   )
 } 

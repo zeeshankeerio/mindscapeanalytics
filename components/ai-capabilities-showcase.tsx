@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Brain, Code, Eye, FileText, MessageSquare, Wand2, BarChart3, ArrowLeftRight, Play, RotateCcw, PlayCircle, MousePointerClick } from "lucide-react"
+import { Brain, Code, Eye, FileText, MessageSquare, Wand2, BarChart3, ArrowLeftRight, Play, RotateCcw, PlayCircle, MousePointerClick, Check, ArrowRight } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
@@ -379,7 +379,7 @@ export default function AICapabilitiesShowcase() {
   const activeCapability = capabilityData.find((c) => c.id === activeTab)
     
     return (
-    <section className="py-28 bg-black relative overflow-hidden" aria-labelledby="ai-capabilities-heading">
+    <section id="ai-capabilities" className="relative py-16 md:py-24 w-full overflow-hidden bg-black">
       {/* Enhanced animated background */}
       {animateBackground && (
         <>
@@ -436,22 +436,22 @@ export default function AICapabilitiesShowcase() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex flex-col md:flex-row justify-between items-start md:items-center mb-14"
+          className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-14"
         >
           <div>
-            <Badge className="mb-4 bg-gradient-to-r from-red-500/80 to-red-600/80 text-white hover:from-red-600/80 hover:to-red-700/80 border-none shadow-lg shadow-red-900/20 px-3 py-1.5">
+            <Badge className="mb-3 md:mb-4 bg-gradient-to-r from-red-500/80 to-red-600/80 text-white hover:from-red-600/80 hover:to-red-700/80 border-none shadow-lg shadow-red-900/20 px-2 py-1 md:px-3 md:py-1.5 text-xs">
               ADVANCED CAPABILITIES
             </Badge>
             <h2 
               id="ai-capabilities-heading" 
-              className="text-3xl md:text-5xl font-bold tracking-tight mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white/95 to-white/90"
+              className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight mb-2 md:mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white/95 to-white/90"
             >
               AI Capabilities Showcase
-          </h2>
-            <p className="text-xl text-white/70 max-w-2xl">
+            </h2>
+            <p className="text-base md:text-xl text-white/70 max-w-2xl">
               Explore our cutting-edge AI technologies powering next-generation solutions
-          </p>
-        </div>
+            </p>
+          </div>
 
           <div className="mt-6 md:mt-0 flex items-center gap-3">
             <TooltipProvider>
@@ -502,123 +502,113 @@ export default function AICapabilitiesShowcase() {
           onValueChange={(value) => setActiveTab(value as CapabilityId)} 
           className="w-full"
         >
-          <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 p-1.5 bg-black/50 backdrop-blur-xl border border-white/10 rounded-xl mb-10 shadow-lg shadow-black/20">
+          <TabsList className="grid w-full grid-cols-3 md:grid-cols-6 p-1 md:p-1.5 bg-black/50 backdrop-blur-xl border border-white/10 rounded-xl mb-6 md:mb-10 shadow-lg shadow-black/20 overflow-x-auto scrollbar-hide">
             {capabilityData.map((capability) => (
               <TabsTrigger 
                 key={capability.id}
                 value={capability.id} 
-                className="data-[state=active]:bg-red-600/90 data-[state=active]:text-white rounded-lg transition-all duration-200"
+                className="data-[state=active]:bg-red-600/90 data-[state=active]:text-white rounded-lg transition-all duration-200 py-1.5 md:py-2"
                 aria-label={capability.title}
               >
-              <div className="flex flex-col items-center gap-1.5 py-1.5">
+                <div className="flex flex-col items-center gap-1 md:gap-1.5">
                   {capability.icon}
-                  <span className="text-xs font-medium">{capability.shortTitle || capability.title}</span>
-              </div>
-                  </TabsTrigger>
+                  <span className="text-[10px] md:text-xs font-medium">{capability.shortTitle || capability.title}</span>
+                </div>
+              </TabsTrigger>
             ))}
           </TabsList>
 
-                    <motion.div
+          <motion.div
             key={activeTab as string}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4 }}
           >
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="space-y-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8">
+              <div className="space-y-4 md:space-y-8">
                 <Card className="border-white/10 bg-black/40 backdrop-blur-md overflow-hidden relative shadow-xl shadow-black/10 hover:shadow-black/20 transition-all duration-300">
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500 to-red-600"></div>
-                  <CardContent className="p-8">
+                  <CardContent className="p-4 sm:p-6 md:p-8">
                     {activeCapability && (
-                    <motion.div
-                      variants={containerVariants}
-                      initial="hidden"
-                      animate="visible"
-                    >
-                      <motion.div variants={itemVariants} className="flex items-center gap-4 mb-6">
-                        <div className="p-3 bg-gradient-to-br from-red-500/20 to-red-600/20 rounded-lg text-red-500 border border-red-500/10">
+                      <motion.div
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                      >
+                        <motion.div variants={itemVariants} className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6">
+                          <div className="p-2 md:p-3 bg-gradient-to-br from-red-500/20 to-red-600/20 rounded-lg text-red-500 border border-red-500/10">
                             {activeCapability.icon}
-                        </div>
-                        <h3 className="text-2xl font-semibold">
+                          </div>
+                          <h3 className="text-xl md:text-2xl font-semibold">
                             {activeCapability.title}
-                        </h3>
-                      </motion.div>
+                          </h3>
+                        </motion.div>
 
-                      <motion.p variants={itemVariants} className="text-white/70 mb-8 text-lg leading-relaxed">
+                        <motion.p variants={itemVariants} className="text-white/70 mb-6 md:mb-8 text-base md:text-lg leading-relaxed">
                           {activeCapability.description}
-                      </motion.p>
+                        </motion.p>
 
-                      <motion.div variants={itemVariants} className="mb-8">
-                        <h4 className="text-sm font-medium text-white/90 mb-4 uppercase tracking-wide">Key Features</h4>
-                        <ul className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <motion.div variants={itemVariants} className="space-y-2 md:space-y-3">
+                          <h4 className="text-sm md:text-base font-medium text-white/90">Key Features:</h4>
+                          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-1 md:gap-y-2">
                             {activeCapability.features.map((feature, index) => (
-                            <motion.li
-                              key={index}
-                              variants={itemVariants}
-                              className="flex items-center gap-3 bg-white/5 hover:bg-white/10 transition-colors duration-200 p-2.5 rounded-lg"
-                            >
-                              <div className="h-2 w-2 rounded-full bg-red-500"></div>
-                              <span className="text-sm text-white/80">{feature}</span>
-                            </motion.li>
-                          ))}
-                        </ul>
-                      </motion.div>
+                              <motion.li
+                                key={feature}
+                                variants={itemVariants}
+                                className="flex items-center gap-2 text-white/80 text-sm md:text-base"
+                              >
+                                <div className="flex-shrink-0 w-5 h-5 rounded-full bg-red-500/10 flex items-center justify-center">
+                                  <Check className="w-3 h-3 text-red-500" />
+                                </div>
+                                <span>{feature}</span>
+                              </motion.li>
+                            ))}
+                          </ul>
+                        </motion.div>
 
-                      <motion.div variants={itemVariants} className="flex items-center gap-4">
-                        <Button 
-                          onClick={() => toggleCapabilityComparison(activeTab)}
-                          className="bg-gradient-to-r from-red-600 to-red-700 text-white hover:from-red-700 hover:to-red-800 shadow-md shadow-red-900/20 px-5 relative overflow-hidden group"
-                        >
-                          <motion.span
-                            className="absolute inset-0 bg-gradient-to-r from-red-500/0 via-red-500/30 to-red-500/0 opacity-0 group-hover:opacity-100"
-                            animate={{ 
-                              x: ['-100%', '100%'],
-                              transition: { repeat: Infinity, duration: 1.5, ease: 'linear' }
-                            }}
-                          />
-                          {showCapabilityComparison ? 'Hide Performance' : 'Show Performance'}
-                          <BarChart3 className="ml-2 h-4 w-4" />
-                        </Button>
-                        <Button variant="outline" className="border-white/20 hover:bg-white/10">
-                          Learn More
-                          <ArrowLeftRight className="ml-2 h-4 w-4" />
-                        </Button>
+                        <motion.div variants={itemVariants} className="mt-6 md:mt-8">
+                          <div className="flex flex-wrap items-center gap-2 md:gap-3">
+                            <Button
+                              size="sm"
+                              className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white border-none rounded-full text-xs md:text-sm"
+                              onClick={() => toggleCapabilityComparison(activeTab)}
+                            >
+                              Performance Metrics
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="text-white/80 hover:text-white border-white/20 hover:border-white/40 hover:bg-white/5 rounded-full text-xs md:text-sm"
+                            >
+                              Documentation
+                              <ArrowRight className="ml-1 h-3 w-3" />
+                            </Button>
+                          </div>
+                        </motion.div>
                       </motion.div>
-                    </motion.div>
                     )}
                   </CardContent>
                 </Card>
 
-                <AnimatePresence>
-                  {showCapabilityComparison && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <Card className="border-white/10 bg-black/40 backdrop-blur-md shadow-xl shadow-black/10">
-                        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500/70 to-red-600/70"></div>
-                        <CardContent className="p-8">
-                          <h3 className="text-lg font-semibold mb-6 flex items-center">
-                            <BarChart3 className="mr-2 h-5 w-5 text-red-500" />
-                            Performance Metrics
-                          </h3>
-                          <PerformanceComparison metrics={performanceMetrics[activeTab]} />
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  )}
-              </AnimatePresence>
-            </div>
+                <Card className="border-white/10 bg-black/40 backdrop-blur-md overflow-hidden shadow-xl shadow-black/10 hover:shadow-black/20 transition-all duration-300">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500/90 to-red-600/90"></div>
+                  <CardContent className="p-4 sm:p-6 md:p-8">
+                    <h3 className="text-base md:text-lg font-semibold mb-4 md:mb-6 flex items-center">
+                      <BarChart3 className="mr-2 h-4 w-4 text-red-500" />
+                      Performance Metrics
+                    </h3>
+                    <PerformanceComparison metrics={performanceMetrics[activeTab]} />
+                  </CardContent>
+                </Card>
+              </div>
 
-              <div className="space-y-8">
+              <div className="space-y-4 md:space-y-8">
                 <Card className="border-white/10 bg-black/40 backdrop-blur-md h-full shadow-xl shadow-black/10 hover:shadow-black/20 transition-all duration-300">
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500/90 to-red-600/90"></div>
-                  <CardContent className="p-8">
-                    <h3 className="text-lg font-semibold mb-6 flex items-center">
-                      <PlayCircle className="mr-2 h-5 w-5 text-red-500" />
+                  <CardContent className="p-4 sm:p-6 md:p-8">
+                    <h3 className="text-base md:text-lg font-semibold mb-4 md:mb-6 flex items-center">
+                      <PlayCircle className="mr-2 h-4 w-4 text-red-500" />
                       Live Demonstration
                     </h3>
                     {activeCapability && <CapabilityDemo capability={activeCapability} />}
@@ -627,9 +617,9 @@ export default function AICapabilitiesShowcase() {
 
                 <Card className="border-white/10 bg-black/40 backdrop-blur-md overflow-hidden shadow-xl shadow-black/10 hover:shadow-black/20 transition-all duration-300">
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500/80 to-red-600/80"></div>
-                  <CardContent className="p-8">
-                    <h3 className="text-lg font-semibold mb-6 flex items-center">
-                      <MousePointerClick className="mr-2 h-5 w-5 text-red-500" />
+                  <CardContent className="p-4 sm:p-6 md:p-8">
+                    <h3 className="text-base md:text-lg font-semibold mb-4 md:mb-6 flex items-center">
+                      <MousePointerClick className="mr-2 h-4 w-4 text-red-500" />
                       Try It Yourself
                     </h3>
                     <TryItYourself 
@@ -646,7 +636,7 @@ export default function AICapabilitiesShowcase() {
                     )}
                   </CardContent>
                 </Card>
-        </div>
+              </div>
             </div>
           </motion.div>
         </Tabs>

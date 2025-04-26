@@ -1,4 +1,73 @@
-import type { SVGProps } from "react"
+"use client"
+
+import { SVGProps } from "react"
+import {
+  AlertTriangle,
+  ArrowRight,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Command,
+  CreditCard,
+  File,
+  FileText,
+  HelpCircle,
+  Image,
+  Laptop,
+  Loader2,
+  Moon,
+  MoreVertical,
+  Pizza,
+  Plus,
+  Settings,
+  SunMedium,
+  Trash,
+  Twitter,
+  User,
+  X,
+  Github,
+  Monitor,
+  Upload,
+  LayoutDashboard,
+  Users,
+  type LucideIcon
+} from "lucide-react"
+
+export type Icon = LucideIcon
+
+export const Icons = {
+  logo: Command,
+  close: X,
+  spinner: Loader2,
+  chevronLeft: ChevronLeft,
+  chevronRight: ChevronRight,
+  trash: Trash,
+  settings: Settings,
+  billing: CreditCard,
+  ellipsis: MoreVertical,
+  add: Plus,
+  warning: AlertTriangle,
+  user: User,
+  arrowRight: ArrowRight,
+  help: HelpCircle,
+  pizza: Pizza,
+  sun: SunMedium,
+  moon: Moon,
+  laptop: Laptop,
+  gitHub: Github,
+  twitter: Twitter,
+  check: Check,
+  file: File,
+  fileText: FileText,
+  image: Image,
+  // Dashboard specific icons
+  dashboard: LayoutDashboard,
+  upload: Upload,
+  database: DatabaseIcon,
+  monitor: Monitor,
+  users: Users,
+  plus: Plus,
+}
 
 export function XCircle(props: SVGProps<SVGSVGElement>) {
   return (
@@ -49,7 +118,7 @@ export function Cpu(props: SVGProps<SVGSVGElement>) {
   )
 }
 
-export function Database(props: SVGProps<SVGSVGElement>) {
+export function DatabaseIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

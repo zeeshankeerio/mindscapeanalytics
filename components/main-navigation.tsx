@@ -78,6 +78,7 @@ interface NavigationItem {
 }
 
 export default function MainNavigation() {
+  const pathname = usePathname()
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
@@ -89,7 +90,11 @@ export default function MainNavigation() {
     { id: 3, title: "Performance", message: "System optimization complete", type: "success" },
   ])
   const [unreadNotifications, setUnreadNotifications] = useState(3)
-  const pathname = usePathname()
+  const [scrollProgress, setScrollProgress] = useState(0)
+  const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
+    solutions: false,
+    resources: false
+  })
 
   // Add error handling for navigation
   const [navigationError, setNavigationError] = useState(false)
@@ -134,9 +139,6 @@ export default function MainNavigation() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Add scroll progress state for animation effects
-  const [scrollProgress, setScrollProgress] = useState(0)
-  
   // Track scroll progress for animation effects
   useEffect(() => {
     const handleScrollProgress = () => {
@@ -266,13 +268,26 @@ export default function MainNavigation() {
   ]
 
   const mobileNavItems: NavItem[] = [
-    { title: "Solutions", href: "/solutions", icon: <Building className="h-5 w-5" /> },
-    { title: "Resources", href: "/resources", icon: <HelpCircle className="h-5 w-5" /> },
+    // Use solution groups for mobile too
+    { title: "Solutions", href: "#", icon: <Building className="h-5 w-5" />, hasMegaMenu: true },
+    { title: "Industry Solutions", href: "/solutions/industry", icon: <Building className="h-5 w-5" /> },
+    { title: "Blockchain Solutions", href: "/solutions/blockchain", icon: <Code className="h-5 w-5" /> },
+    { title: "Generative AI", href: "/solutions/genai", icon: <MessageSquare className="h-5 w-5" /> },
+    { title: "Enterprise Solutions", href: "/solutions/enterprise", icon: <Brain className="h-5 w-5" /> },
+    { title: "Cloud Solutions", href: "/solutions/cloud", icon: <Cloud className="h-5 w-5" /> },
+    { title: "Real Estate Solutions", href: "/solutions/real-estate", icon: <Home className="h-5 w-5" /> },
+    
+    // Resources section
+    { title: "Resources", href: "#", icon: <HelpCircle className="h-5 w-5" />, hasMegaMenu: true },
+    { title: "Documentation", href: "/docs", icon: <FileText className="h-5 w-5" /> },
+    { title: "Blog", href: "/blog", icon: <FileText className="h-5 w-5" /> },
+    { title: "Developer Resources", href: "/developers", icon: <Code className="h-5 w-5" /> },
+    { title: "Support", href: "/support", icon: <HelpCircle className="h-5 w-5" /> },
+    
+    // Main items
     { title: "Pricing", href: "/pricing", icon: <CreditCard className="h-5 w-5" /> },
     { title: "Case Studies", href: "/case-studies", icon: <FileText className="h-5 w-5" /> },
     { title: "About", href: "/about", icon: <Users className="h-5 w-5" /> },
-    { title: "Documentation", href: "/docs", icon: <FileText className="h-5 w-5" /> },
-    { title: "Settings", href: "/settings", icon: <Settings className="h-5 w-5" /> },
     { title: "Dashboard", href: "/dashboard", icon: <LayoutDashboard className="h-5 w-5" /> },
   ]
 
@@ -389,6 +404,32 @@ export default function MainNavigation() {
   // Safely render mobile menu items with error handling
   const renderMobileNavItems = () => {
     try {
+      // Group items for organization
+      const solutionsItems = mobileNavItems.filter(item => 
+        item.href?.startsWith('/solutions/') || (item.title === 'Solutions' && item.hasMegaMenu)
+      );
+      const resourcesItems = mobileNavItems.filter(item => 
+        (item.title === 'Documentation' || item.title === 'Blog' || 
+         item.title === 'Developer Resources' || item.title === 'Support') ||
+        (item.title === 'Resources' && item.hasMegaMenu)
+      );
+      const mainItems = mobileNavItems.filter(item => 
+        !item.href?.startsWith('/solutions/') && 
+        item.title !== 'Solutions' &&
+        item.title !== 'Resources' &&
+        item.title !== 'Documentation' &&
+        item.title !== 'Blog' &&
+        item.title !== 'Developer Resources' &&
+        item.title !== 'Support'
+      );
+
+      const toggleSection = (section: string) => {
+        setExpandedSections(prev => ({
+          ...prev,
+          [section]: !prev[section]
+        }));
+      };
+
       return (
         <div className="flex flex-col space-y-1 my-2">
           <div className="shadow-inner shadow-black/10 pb-3 mb-2">
@@ -402,10 +443,77 @@ export default function MainNavigation() {
             </div>
           </div>
           
-          {mobileNavItems.map((item, index) => (
+          {/* Solutions Section */}
+          <div className="mb-2">
+            <button 
+              onClick={() => toggleSection('solutions')}
+              className="flex items-center justify-between w-full rounded-lg px-3 py-2 text-white hover:bg-red-900/20 transition-colors"
+            >
+              <div className="flex items-center space-x-2.5">
+                <div className="text-white/70"><Building className="h-5 w-5" /></div>
+                <span className="text-sm font-medium">Solutions</span>
+              </div>
+              <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${expandedSections.solutions ? 'rotate-180' : ''}`} />
+            </button>
+            
+            {expandedSections.solutions && (
+              <div className="pl-10 space-y-1 mt-1 border-l-2 border-red-900/20 ml-5">
+                {solutionsItems.slice(1).map((item, index) => (
+                  <Link
+                    key={`mobile-solutions-${index}`}
+                    href={item.href || "#"}
+                    className={cn(
+                      "flex items-center space-x-2.5 rounded-lg px-3 py-2 text-white hover:bg-red-900/20 transition-colors",
+                      pathname === item.href ? "bg-red-900/30" : ""
+                    )}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <div className="text-white/70">{item.icon}</div>
+                    <span className="text-sm">{item.title}</span>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+          
+          {/* Resources Section */}
+          <div className="mb-2">
+            <button 
+              onClick={() => toggleSection('resources')}
+              className="flex items-center justify-between w-full rounded-lg px-3 py-2 text-white hover:bg-red-900/20 transition-colors"
+            >
+              <div className="flex items-center space-x-2.5">
+                <div className="text-white/70"><HelpCircle className="h-5 w-5" /></div>
+                <span className="text-sm font-medium">Resources</span>
+              </div>
+              <ChevronDown className={`h-4 w-4 transition-transform duration-300 ${expandedSections.resources ? 'rotate-180' : ''}`} />
+            </button>
+            
+            {expandedSections.resources && (
+              <div className="pl-10 space-y-1 mt-1 border-l-2 border-red-900/20 ml-5">
+                {resourcesItems.slice(1).map((item, index) => (
+                  <Link
+                    key={`mobile-resources-${index}`}
+                    href={item.href || "#"}
+                    className={cn(
+                      "flex items-center space-x-2.5 rounded-lg px-3 py-2 text-white hover:bg-red-900/20 transition-colors",
+                      pathname === item.href ? "bg-red-900/30" : ""
+                    )}
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <div className="text-white/70">{item.icon}</div>
+                    <span className="text-sm">{item.title}</span>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+          
+          {/* Main Items */}
+          {mainItems.map((item, index) => (
             <Link
-              key={`mobile-${item.title}-${index}`}
-              href={item.href || "/"}
+              key={`mobile-main-${index}`}
+              href={item.href || "#"}
               className={cn(
                 "flex items-center space-x-2.5 rounded-lg px-3 py-2 text-white hover:bg-red-900/20 transition-colors",
                 pathname === item.href ? "bg-red-900/30" : ""

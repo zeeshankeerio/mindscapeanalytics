@@ -586,66 +586,69 @@ function AITerminalCard({ delay = 0 }) {
   )
 }
 
-// EnhancedFeatureCard component for improved feature presentation
-function EnhancedFeatureCard({
-  icon,
-  title,
-  description,
-  color = "red",
-  index = 0,
-}: {
-  icon: React.ReactNode
-  title: string
-  description: string
-  color: "red" | "blue" | "green" | "purple"
-  index: number
-}) {
+// Add the EnhancedFeatureCard component implementation before the HyperHero component
+type FeatureColors = "red" | "blue" | "green" | "purple"
+
+const EnhancedFeatureCard = ({ 
+  icon, 
+  title, 
+  description, 
+  color,
+  index 
+}: { 
+  icon: React.ReactNode; 
+  title: string; 
+  description: string; 
+  color: FeatureColors;
+  index: number;
+}) => {
   const colorMap = {
-    red: "from-red-600/20 to-red-900/10 border-red-800/30 group-hover:border-red-600/50 text-red-500",
-    blue: "from-blue-600/20 to-blue-900/10 border-blue-800/30 group-hover:border-blue-600/50 text-blue-500",
-    green: "from-green-600/20 to-green-900/10 border-green-800/30 group-hover:border-green-600/50 text-green-500",
-    purple: "from-purple-600/20 to-purple-900/10 border-purple-800/30 group-hover:border-purple-600/50 text-purple-500",
+    red: {
+      bg: "bg-gradient-to-b from-red-950/40 to-red-900/20",
+      border: "border-red-900/30",
+      iconBg: "bg-gradient-to-b from-red-800/30 to-red-900/20",
+      text: "text-red-400"
+    },
+    blue: {
+      bg: "bg-gradient-to-b from-blue-950/40 to-blue-900/20",
+      border: "border-blue-900/30",
+      iconBg: "bg-gradient-to-b from-blue-800/30 to-blue-900/20",
+      text: "text-blue-400"
+    },
+    green: {
+      bg: "bg-gradient-to-b from-green-950/40 to-green-900/20",
+      border: "border-green-900/30",
+      iconBg: "bg-gradient-to-b from-green-800/30 to-green-900/20",
+      text: "text-green-400"
+    },
+    purple: {
+      bg: "bg-gradient-to-b from-purple-950/40 to-purple-900/20",
+      border: "border-purple-900/30",
+      iconBg: "bg-gradient-to-b from-purple-800/30 to-purple-900/20",
+      text: "text-purple-400"
+    }
   }
+
+  const styles = colorMap[color]
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ 
-        duration: 0.5, 
-        delay: 0.2 + (index * 0.1),
-        ease: [0.22, 1, 0.36, 1]
-      }}
-      className={`group relative p-5 rounded-xl backdrop-blur-md border border-white/10 hover:shadow-lg transition-all duration-300 overflow-hidden bg-gradient-to-br ${colorMap[color]}`}
+      transition={{ duration: 0.4, delay: 0.2 + (index * 0.1) }}
+      className={`relative rounded-xl border ${styles.border} ${styles.bg} backdrop-blur-sm p-4 hover:bg-opacity-90 transition-all duration-300 group`}
     >
-      {/* Subtle background pattern */}
-      <div className="absolute inset-0 bg-grid-white/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/0 via-black/0 to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
       
-      {/* Decorative corner accent */}
-      <div className="absolute top-0 right-0 h-10 w-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <div className="absolute top-0 right-0 h-px w-6 bg-gradient-to-l from-current to-transparent"></div>
-        <div className="absolute top-0 right-0 h-6 w-px bg-gradient-to-b from-current to-transparent"></div>
+      <div className={`p-2 rounded-lg inline-flex ${styles.iconBg} ${styles.text} mb-3`}>
+        {icon}
       </div>
       
-      <div className="space-y-4">
-        {/* Icon with glowing effect */}
-        <div className="relative flex">
-          <div className={`p-2.5 rounded-lg bg-black/30 backdrop-blur-sm text-current flex items-center justify-center relative z-10 group-hover:scale-110 transform transition-transform duration-300`}>
-            <div className="absolute inset-0 rounded-lg bg-current opacity-10 group-hover:opacity-20 transition-opacity"></div>
-            {icon}
-          </div>
-          <div className="absolute -inset-1 bg-current opacity-0 blur-xl group-hover:opacity-10 transition-opacity duration-300 rounded-full" />
-        </div>
-        
-        {/* Content */}
-        <div>
-          <h3 className="text-base font-semibold text-white mb-1 group-hover:text-current transition-colors duration-300">
-            {title}
-          </h3>
-          <p className="text-sm text-white/70 group-hover:text-white/90 transition-colors duration-300 leading-relaxed">
-            {description}
-          </p>
-        </div>
+      <h3 className="text-white text-lg font-semibold mb-1">{title}</h3>
+      <p className="text-white/70 text-sm">{description}</p>
+      
+      <div className="absolute bottom-0 right-0 p-1.5">
+        <div className={`h-2 w-2 rounded-full ${styles.text} opacity-40 animate-pulse-slow`} />
       </div>
     </motion.div>
   )
@@ -757,6 +760,37 @@ export default function HyperHero() {
     },
   ]
 
+  const optimizedFeatures = [
+    {
+      id: "ai",
+      title: "Advanced AI",
+      description: "Enterprise LLMs with multimodal capabilities and real-time predictions",
+      icon: <Brain className="h-6 w-6" />,
+      color: "red",
+    },
+    {
+      id: "security",
+      title: "Enterprise Security",
+      description: "End-to-end encryption with SOC 2 & GDPR compliance built-in",
+      icon: <Shield className="h-6 w-6" />,
+      color: "blue",
+    },
+    {
+      id: "speed",
+      title: "Real-time Processing",
+      description: "Sub-millisecond inference with optimized GPU acceleration",
+      icon: <Zap className="h-6 w-6" />,
+      color: "green",
+    },
+    {
+      id: "integration",
+      title: "Seamless Integration",
+      description: "Connect with any tech stack via REST API or custom SDKs",
+      icon: <Workflow className="h-6 w-6" />,
+      color: "purple",
+    },
+  ]
+
   const handle3DError = useCallback(() => {
     setHas3DError(true)
     setUse3D(false)
@@ -772,34 +806,34 @@ export default function HyperHero() {
   
   // For mobile view
   if (isMobile) {
-  return (
+    return (
       <section className="relative min-h-[100vh] flex flex-col justify-start overflow-hidden">
         {/* Enhanced Mobile Background */}
-      <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]" />
+        <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]" />
         <div className="absolute inset-0 bg-gradient-to-br from-black via-black/90 to-black/80" />
         
         {/* Dynamic background elements */}
         <div className="absolute inset-0 overflow-hidden">
           {/* Animated gradient orbs */}
-          <div className="absolute top-[10%] left-[15%] w-[150px] h-[150px] rounded-full bg-gradient-to-r from-red-900/20 to-transparent blur-[60px] animate-float-slow" />
-          <div className="absolute top-[40%] right-[10%] w-[100px] h-[100px] rounded-full bg-gradient-to-r from-red-800/10 to-transparent blur-[40px] animate-float-medium" />
+          <div className="absolute top-[10%] left-[15%] w-[120px] sm:w-[150px] h-[120px] sm:h-[150px] rounded-full bg-gradient-to-r from-red-900/20 to-transparent blur-[60px] animate-float-slow" />
+          <div className="absolute top-[40%] right-[10%] w-[80px] sm:w-[100px] h-[80px] sm:h-[100px] rounded-full bg-gradient-to-r from-red-800/10 to-transparent blur-[40px] animate-float-medium" />
           
           {/* Neural dots */}
-      <div className="absolute inset-0">
-            <div className="absolute top-[25%] left-[20%] h-[1px] w-8 bg-gradient-to-r from-transparent via-red-700/40 to-transparent animate-pulse-slow" />
-            <div className="absolute bottom-[35%] right-[25%] h-[1px] w-10 bg-gradient-to-r from-transparent via-red-700/30 to-transparent animate-pulse-medium" />
-            <div className="absolute top-[65%] left-[30%] w-[1px] h-6 bg-gradient-to-b from-transparent via-red-700/30 to-transparent animate-pulse-fast" />
-            <div className="absolute top-[15%] right-[15%] w-[1px] h-8 bg-gradient-to-b from-transparent via-red-700/40 to-transparent animate-pulse-medium" />
+          <div className="absolute inset-0">
+            <div className="absolute top-[25%] left-[20%] h-[1px] w-6 sm:w-8 bg-gradient-to-r from-transparent via-red-700/40 to-transparent animate-pulse-slow" />
+            <div className="absolute bottom-[35%] right-[25%] h-[1px] w-8 sm:w-10 bg-gradient-to-r from-transparent via-red-700/30 to-transparent animate-pulse-medium" />
+            <div className="absolute top-[65%] left-[30%] w-[1px] h-5 sm:h-6 bg-gradient-to-b from-transparent via-red-700/30 to-transparent animate-pulse-fast" />
+            <div className="absolute top-[15%] right-[15%] w-[1px] h-6 sm:h-8 bg-gradient-to-b from-transparent via-red-700/40 to-transparent animate-pulse-medium" />
           </div>
           
           {/* Floating particles */}
-          <div className="w-2 h-2 bg-red-600/50 rounded-full animate-float-slow absolute top-[15%] left-[25%]" />
-          <div className="w-1.5 h-1.5 bg-red-700/40 rounded-full animate-float-medium absolute top-[55%] right-[15%]" />
-          <div className="w-1 h-1 bg-red-500/60 rounded-full animate-float-fast absolute bottom-[20%] left-[10%]" />
+          <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 bg-red-600/50 rounded-full animate-float-slow absolute top-[15%] left-[25%]" />
+          <div className="w-1 sm:w-1.5 h-1 sm:h-1.5 bg-red-700/40 rounded-full animate-float-medium absolute top-[55%] right-[15%]" />
+          <div className="w-0.5 sm:w-1 h-0.5 sm:h-1 bg-red-500/60 rounded-full animate-float-fast absolute bottom-[20%] left-[10%]" />
         </div>
         
-        {/* Main content container with 74px top padding (header height + 10px) */}
-        <div className="flex-1 flex flex-col justify-start pt-[74px] relative z-10">
+        {/* Main content container with safer top padding for different device heights */}
+        <div className="flex-1 flex flex-col justify-start pt-[max(60px,10vh)] relative z-10">
           {/* Header section with logo */}
           <div className="px-4 pb-2">
             <div className="flex justify-center">
@@ -821,76 +855,74 @@ export default function HyperHero() {
                   </div>
                   
                   {/* Icon container */}
-                  <div className="relative bg-black rounded-[20px] p-5">
+                  <div className="relative bg-black rounded-[20px] p-4 xs:p-5">
                     <Image 
                       src="/images/brain.svg" 
                       alt="Mindscape Brain Logo"
-                      className="h-14 w-14 animate-blink-pulse"
+                      className="h-12 xs:h-14 w-12 xs:w-14 animate-enhanced-pulse"
                       width={56}
                       height={56}
-                      style={{
-                        animation: 'pulse 2s infinite'
-                      }}
+                      priority
                     />
                   </div>
                 </div>
               </div>
             </div>
-      </div>
+          </div>
           
           {/* Content sections */}
           <div className="flex-1 flex flex-col justify-between px-4 pb-8">
             {/* Top section with title and badges */}
-            <div className="text-center space-y-3">
+            <div className="text-center space-y-2 sm:space-y-3">
               {/* Enterprise Platform Section */}
-              <div className="mb-3 animate-fade-in-1">
-                <div className="inline-block px-3 py-1 bg-gradient-to-r from-red-900/30 to-red-800/20 rounded-full backdrop-blur-sm border border-red-900/30">
-                  <p className="text-xs font-medium text-red-400">
-                    <Sparkles className="h-3 w-3 mr-1 inline-block animate-[pulse_2s_ease-in-out_infinite]" />
+              <div className="mb-2 sm:mb-3 animate-fade-in-1">
+                <div className="inline-block px-2 xs:px-3 py-1 bg-gradient-to-r from-red-900/30 to-red-800/20 rounded-full backdrop-blur-sm border border-red-900/30">
+                  <p className="text-[10px] xs:text-xs font-medium text-red-400">
+                    <Sparkles className="h-2.5 xs:h-3 w-2.5 xs:w-3 mr-1 inline-block animate-[pulse_2s_ease-in-out_infinite]" />
                     Enterprise-Grade AI Platform
                   </p>
                 </div>
               </div>
               
               {/* Badges */}
-              <div className="flex flex-wrap justify-center gap-2 mb-1">
-                <Badge className="bg-gradient-to-r from-blue-500/30 to-blue-500/10 text-blue-400 border-blue-500/30 animate-fade-in-2">
-                  <Shield className="h-3 w-3 mr-1 animate-[pulse_2.5s_ease-in-out_infinite]" />
+              <div className="flex flex-wrap justify-center gap-1.5 xs:gap-2 mb-1">
+                <Badge className="bg-gradient-to-r from-blue-500/30 to-blue-500/10 text-blue-400 border-blue-500/30 animate-fade-in-2 text-[10px] xs:text-xs py-0.5">
+                  <Shield className="h-2.5 xs:h-3 w-2.5 xs:w-3 mr-1 animate-[pulse_2.5s_ease-in-out_infinite]" />
                   SOC 2 Certified
                 </Badge>
-                <Badge className="bg-gradient-to-r from-green-500/30 to-green-500/10 text-green-400 border-green-500/30 animate-fade-in-3">
-                  <Zap className="h-3 w-3 mr-1 animate-[pulse_3s_ease-in-out_infinite]" />
+                <Badge className="bg-gradient-to-r from-green-500/30 to-green-500/10 text-green-400 border-green-500/30 animate-fade-in-3 text-[10px] xs:text-xs py-0.5">
+                  <Zap className="h-2.5 xs:h-3 w-2.5 xs:w-3 mr-1 animate-[pulse_3s_ease-in-out_infinite]" />
                   Real-time Inference
                 </Badge>
               </div>
               
               {/* Title and description */}
               <div className="animate-fade-up">
-                <h1 className="text-4xl font-bold tracking-tight leading-tight mb-2">
+                <h1 className="text-3xl xs:text-4xl font-bold tracking-tight leading-tight mb-2">
                   <span className="text-white backdrop-blur-[0.5px] relative z-10">Transform Your Business with</span>
                   <br />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/20 before:to-transparent before:opacity-40 before:blur-[0.5px] before:-z-10">
                     Advanced AI Solutions
                   </span>
                 </h1>
-                <p className="text-base text-white/70 max-w-xs mx-auto mt-2">
+                <p className="text-sm xs:text-base text-white/70 max-w-xs mx-auto mt-2">
                   Harness the power of AI to drive innovation and growth in your organization.
                 </p>
               </div>
             </div>
             
             {/* Middle section with feature cards */}
-            <div className="my-6">
-              <h2 className="text-lg font-medium text-white/90 mb-3 text-center animate-fade-up-2">
+            <div className="my-4 sm:my-6">
+              <h2 className="text-base xs:text-lg font-medium text-white/90 mb-2 sm:mb-3 text-center animate-fade-up-2">
                 Key Capabilities
               </h2>
               
               {/* Feature cards in grid instead of scrolling */}
-              <div className="grid grid-cols-2 gap-3 px-1">
+              <div className="grid grid-cols-2 gap-2 xs:gap-3 px-1">
                 {features.map((feature, index) => (
                   <div
                     key={feature.title}
-                    className={`group relative p-3 rounded-xl bg-gradient-to-br from-black/40 to-black/20 backdrop-blur-sm border border-white/10 animate-slide-up-${index + 1} hover:border-${feature.color}-500/30 transition-all duration-300`}
+                    className={`group relative p-2 xs:p-3 rounded-xl bg-gradient-to-br from-black/40 to-black/20 backdrop-blur-sm border border-white/10 animate-slide-up-${index + 1} hover:border-${feature.color}-500/30 transition-all duration-300`}
                   >
                     {/* Corner accent */}
                     <div className="absolute top-0 right-0 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -898,16 +930,16 @@ export default function HyperHero() {
                       <div className="absolute top-0 right-0 h-4 w-px bg-gradient-to-b from-current to-transparent"></div>
                     </div>
                     
-                    <div className="space-y-1.5">
+                    <div className="space-y-1 xs:space-y-1.5">
                       <div className="flex items-center space-x-1.5">
-                        <div className={`p-1.5 rounded-lg bg-${feature.color}-500/20 text-${feature.color}-500`}>
-                          <div className="w-4 h-4">{feature.icon}</div>
+                        <div className={`p-1 xs:p-1.5 rounded-lg bg-${feature.color}-500/20 text-${feature.color}-500`}>
+                          <div className="w-3 h-3 xs:w-4 xs:h-4">{feature.icon}</div>
                         </div>
-                        <h3 className="text-xs font-medium text-white group-hover:text-${feature.color}-400 transition-colors">
+                        <h3 className="text-[10px] xs:text-xs font-medium text-white group-hover:text-${feature.color}-400 transition-colors">
                           {feature.title}
                         </h3>
                       </div>
-                      <p className="text-[10px] leading-tight text-white/70 group-hover:text-white/90 transition-colors">
+                      <p className="text-[8px] xs:text-[10px] leading-tight text-white/70 group-hover:text-white/90 transition-colors">
                         {feature.description}
                       </p>
                     </div>
@@ -919,47 +951,47 @@ export default function HyperHero() {
             {/* Bottom section with CTA */}
             <div className="space-y-3 animate-fade-up-3">
               {/* Stats row */}
-              <div className="grid grid-cols-4 gap-2 mb-4">
-                <div className="bg-black/30 p-2 rounded-lg text-center">
-                  <div className="text-lg font-bold text-red-500">99.9%</div>
-                  <div className="text-[10px] text-white/60">Uptime</div>
+              <div className="grid grid-cols-4 gap-1 xs:gap-2 mb-4">
+                <div className="bg-black/30 p-1.5 xs:p-2 rounded-lg text-center">
+                  <div className="text-base xs:text-lg font-bold text-red-500">99.9%</div>
+                  <div className="text-[8px] xs:text-[10px] text-white/60">Uptime</div>
                 </div>
-                <div className="bg-black/30 p-2 rounded-lg text-center">
-                  <div className="text-lg font-bold text-green-500">10ms</div>
-                  <div className="text-[10px] text-white/60">Response</div>
+                <div className="bg-black/30 p-1.5 xs:p-2 rounded-lg text-center">
+                  <div className="text-base xs:text-lg font-bold text-green-500">10ms</div>
+                  <div className="text-[8px] xs:text-[10px] text-white/60">Response</div>
                 </div>
-                <div className="bg-black/30 p-2 rounded-lg text-center">
-                  <div className="text-lg font-bold text-blue-500">500+</div>
-                  <div className="text-[10px] text-white/60">Clients</div>
+                <div className="bg-black/30 p-1.5 xs:p-2 rounded-lg text-center">
+                  <div className="text-base xs:text-lg font-bold text-blue-500">500+</div>
+                  <div className="text-[8px] xs:text-[10px] text-white/60">Clients</div>
                 </div>
-                <div className="bg-black/30 p-2 rounded-lg text-center">
-                  <div className="text-lg font-bold text-purple-500">24/7</div>
-                  <div className="text-[10px] text-white/60">Support</div>
+                <div className="bg-black/30 p-1.5 xs:p-2 rounded-lg text-center">
+                  <div className="text-base xs:text-lg font-bold text-purple-500">24/7</div>
+                  <div className="text-[8px] xs:text-[10px] text-white/60">Support</div>
                 </div>
               </div>
               
               {/* CTA buttons */}
               <Button 
                 size="lg" 
-                className="group relative px-6 py-4 text-base font-semibold text-white rounded-full hover:brightness-110 transition-all duration-300 w-full mb-2 overflow-hidden"
+                className="group relative px-4 xs:px-6 py-3 xs:py-4 text-sm xs:text-base font-semibold text-white rounded-full hover:brightness-110 transition-all duration-300 w-full mb-2 overflow-hidden"
                 onClick={handleGetStartedClick}
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-red-700 via-red-600 to-red-700 group-hover:from-red-600 group-hover:via-red-500 group-hover:to-red-600 transition-all duration-500 rounded-full"></div>
                 <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
                 <span className="relative z-10 flex items-center justify-center">
                   Get Started
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="ml-2 h-3 xs:h-4 w-3 xs:w-4 transition-transform group-hover:translate-x-1" />
                 </span>
               </Button>
               <Link href="/services" className="w-full">
                 <Button
                   variant="outline"
-                  className="group relative px-6 py-3 text-sm font-medium text-white/90 border border-white/20 hover:border-white/40 hover:bg-white/5 rounded-full backdrop-blur-sm w-full transition-all duration-300 overflow-hidden"
+                  className="group relative px-4 xs:px-6 py-2.5 xs:py-3 text-xs xs:text-sm font-medium text-white/90 border border-white/20 hover:border-white/40 hover:bg-white/5 rounded-full backdrop-blur-sm w-full transition-all duration-300 overflow-hidden"
                 >
                   <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 transition-opacity duration-300"></div>
                   <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
                   <span className="relative z-10 flex items-center justify-center">Learn More
-                    <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                    <ArrowRight className="ml-1.5 h-3 xs:h-4 w-3 xs:w-4 transition-transform group-hover:translate-x-1" />
                   </span>
                 </Button>
               </Link>
@@ -972,20 +1004,27 @@ export default function HyperHero() {
 
   // Desktop view
   return (
-    <section className="relative h-[90vh] flex flex-col justify-center overflow-hidden pt-[170px] pb-16">
+    <section className="relative h-[90vh] flex flex-col justify-center overflow-hidden pt-[max(120px,15vh)] md:pt-[170px] pb-8 md:pb-16">
       {/* Enhanced Background */}
       <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]" />
       <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black/80" />
+      
+      {/* Animated particles for added depth */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-[15%] left-[20%] w-[150px] md:w-[200px] h-[150px] md:h-[200px] rounded-full bg-gradient-to-r from-red-900/20 to-transparent blur-[60px] md:blur-[80px] animate-float-slow" />
+        <div className="absolute bottom-[25%] right-[15%] w-[120px] md:w-[150px] h-[120px] md:h-[150px] rounded-full bg-gradient-to-r from-red-800/10 to-transparent blur-[40px] md:blur-[60px] animate-float-medium" />
+        <div className="absolute top-[60%] left-[15%] w-[80px] md:w-[100px] h-[80px] md:h-[100px] rounded-full bg-gradient-to-r from-red-700/15 to-transparent blur-[30px] md:blur-[40px] animate-float-fast" />
+      </div>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-8">
+        <div className="flex flex-col lg:flex-row items-center gap-6 md:gap-8">
           {/* Left Column - Content */}
-            <motion.div
-            className="flex-1 space-y-6 relative w-full"
+          <motion.div
+            className="flex-1 space-y-4 md:space-y-6 relative w-full"
             style={{ y }}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
             {/* Enhanced Badge Section */}
@@ -1017,14 +1056,14 @@ export default function HyperHero() {
               transition={{ duration: 0.5, delay: 0.4 }}
             >
               <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
-                <span className="text-white relative z-10">Transform Your Business with</span>
+                <span className="text-white relative z-10">Unlock Next-Gen Intelligence with</span>
                 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600 relative">
-                  Advanced AI Solutions
+                  Enterprise AI Solutions
                 </span>
               </h1>
               <p className="text-lg text-white/80 mt-4 max-w-xl">
-                Harness the power of artificial intelligence to drive innovation, efficiency, and growth across your entire organization.
+                Accelerate innovation with our end-to-end AI platform that delivers powerful insights, automates workflows, and drives tangible business outcomes.
               </p>
             </motion.div>
 
@@ -1055,7 +1094,7 @@ export default function HyperHero() {
                 >
                   <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 transition-opacity duration-300"></div>
                   <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
-                  <span className="relative z-10 flex items-center justify-center">Learn More
+                  <span className="relative z-10 flex items-center justify-center">Explore Solutions
                     <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </span>
                 </Button>
@@ -1070,7 +1109,7 @@ export default function HyperHero() {
               transition={{ duration: 0.5, delay: 0.2 }}
             >
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-                {features.map((feature, index) => (
+                {optimizedFeatures.map((feature, index) => (
                   <EnhancedFeatureCard
                     key={feature.id}
                     icon={feature.icon}
@@ -1082,7 +1121,7 @@ export default function HyperHero() {
                 ))}
               </div>
             </motion.div>
-            </motion.div>
+          </motion.div>
 
           {/* Right Column - Logo */}
           <motion.div
@@ -1139,12 +1178,9 @@ export default function HyperHero() {
                           <Image 
                             src="/images/brain.svg" 
                             alt="Mindscape Brain Logo"
-                            className="h-14 w-14 md:h-24 md:w-24 transform transition-all duration-300 group-hover:scale-[0.98]"
+                            className="h-14 w-14 md:h-24 md:w-24 transform transition-all duration-300 group-hover:scale-[0.98] animate-enhanced-pulse"
                             width={96}
                             height={96}
-                            style={{
-                              animation: 'pulse 2s infinite'
-                            }}
                           />
                         </div>
                       </div>
@@ -1160,6 +1196,30 @@ export default function HyperHero() {
               </div>
             </div>
           </motion.div>
+        </div>
+      </div>
+      
+      {/* Stats banner at bottom */}
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-r from-black via-black/95 to-black backdrop-blur-sm border-t border-white/5 py-2 px-4">
+        <div className="container mx-auto flex justify-between items-center">
+          <div className="flex items-center space-x-8">
+            <div className="flex items-center space-x-2">
+              <div className="text-red-500 font-bold">99.9%</div>
+              <div className="text-xs text-white/60">Platform Uptime</div>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="text-green-500 font-bold">10ms</div>
+              <div className="text-xs text-white/60">Response Time</div>
+            </div>
+            <div className="flex items-center space-x-2 hidden md:flex">
+              <div className="text-blue-500 font-bold">500+</div>
+              <div className="text-xs text-white/60">Enterprise Clients</div>
+            </div>
+          </div>
+          <div className="text-xs text-white/60 flex items-center">
+            <Shield className="h-3 w-3 mr-1 text-white/40" />
+            Enterprise-grade security
+          </div>
         </div>
       </div>
     </section>
@@ -1444,6 +1504,25 @@ const styles = `
 
   .animate-blink-pulse {
     animation: blink-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes enhanced-pulse {
+    0% { 
+      filter: drop-shadow(0 0 2px rgba(255, 0, 0, 0.5)) brightness(0.9);
+      transform: scale(1);
+    }
+    50% { 
+      filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.8)) brightness(1.2); 
+      transform: scale(1.05);
+    }
+    100% { 
+      filter: drop-shadow(0 0 2px rgba(255, 0, 0, 0.5)) brightness(0.9);
+      transform: scale(1);
+    }
+  }
+
+  .animate-enhanced-pulse {
+    animation: enhanced-pulse 1.5s ease-in-out infinite;
   }
 
   @keyframes heartbeat {
