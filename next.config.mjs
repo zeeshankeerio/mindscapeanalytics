@@ -61,7 +61,7 @@ const nextConfig = {
       'sonner',
       'zod'
     ],
-    webpackBuildWorker: false,
+    webpackBuildWorker: true,
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
     webVitalsAttribution: ['CLS', 'LCP', 'FCP', 'FID', 'TTFB', 'INP'],
