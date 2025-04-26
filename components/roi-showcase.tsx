@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -10,8 +10,29 @@ import { Label } from "@/components/ui/label"
 import { Slider } from "@/components/ui/slider"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { DollarSign, Clock, TrendingUp, BarChart, ArrowRight, CheckCircle2 } from "lucide-react"
-import { Line, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer, AreaChart, Area } from "recharts"
+import { Line, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer, AreaChart, Area, Tooltip } from "recharts"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+
+// Custom tooltip component for the charts
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-black/90 backdrop-blur-md border border-white/10 p-3 rounded-lg shadow-xl">
+        <p className="text-white/80 text-sm font-medium mb-2">{label}</p>
+        {payload.map((entry: any, index: number) => (
+          <div key={index} className="flex items-center gap-2 text-sm">
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }}></div>
+            <span className="font-medium">{entry.name}:</span>
+            <span className="text-white/80">
+              ${typeof entry.value === "number" ? entry.value.toLocaleString() : entry.value}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
 
 export default function ROIShowcase() {
   const [companySize, setCompanySize] = useState(100)
@@ -258,7 +279,7 @@ export default function ROIShowcase() {
                               stroke="rgba(255,255,255,0.5)"
                               tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
                             />
-                            <ChartTooltip content={<ChartTooltipContent />} />
+                            <Tooltip content={<CustomTooltip />} />
                             <Legend />
                             <Area
                               type="monotone"

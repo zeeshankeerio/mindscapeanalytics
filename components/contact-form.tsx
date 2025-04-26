@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -25,7 +25,7 @@ const formSchema = z.object({
   }),
 })
 
-export default function ContactForm() {
+function ContactFormContent() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const { toast } = useToast()
@@ -225,6 +225,16 @@ export default function ContactForm() {
         </form>
       </Form>
     </div>
+  )
+}
+
+export default function ContactForm() {
+  return (
+    <Suspense fallback={<div className="min-h-[500px] flex items-center justify-center">
+      <Loader2 className="h-8 w-8 animate-spin text-red-600" />
+    </div>}>
+      <ContactFormContent />
+    </Suspense>
   )
 }
 

@@ -2,20 +2,11 @@
 
 import React, { useRef, useEffect, useState } from "react"
 import * as THREE from "three"
+// @ts-ignore
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import { useTheme } from 'next-themes'
-
-// Add explicit types for OrbitControls
-declare module "three/examples/jsm/controls/OrbitControls.js" {
-  export class OrbitControls {
-    constructor(camera: THREE.Camera, domElement: HTMLElement);
-    update(): void;
-    enableDamping: boolean;
-    dampingFactor: number;
-  }
-}
 
 export interface ThreeModelViewerProps {
   type: "network" | "neuralNetwork" | "cloud" | "security";
@@ -540,64 +531,4 @@ export function ThreeModelViewer({
       )}
     </div>
   )
-}
-
-// Optimize rendering with frame limiting for better performance
-const optimizedRender = (renderer: THREE.WebGLRenderer, scene: THREE.Scene, camera: THREE.Camera) => {
-  // Only render at most 60 frames per second
-  let lastRender = 0;
-  const minFrameTime = 1000 / 60; // 60 FPS max
-  
-  const animate = (time: number) => {
-    const frameIdRef = requestAnimationFrame(animate);
-    
-    // Skip rendering if not enough time has passed
-    const delta = time - lastRender;
-    if (delta < minFrameTime) return frameIdRef;
-    
-    lastRender = time;
-    
-    // Update controls if available
-    if (controlsRef.current) {
-      controlsRef.current.update();
-    }
-    
-    // Render scene
-    renderer.render(scene, camera);
-    
-    return frameIdRef;
-  };
-  
-  return animate(0);
-};
-
-// Properly dispose of all THREE.js resources
-const disposeResources = () => {
-  // Dispose of all materials and geometries
-  objectsRef.current.forEach(obj => {
-    obj.traverse(child => {
-      if (child instanceof THREE.Mesh) {
-        if (child.geometry) {
-          child.geometry.dispose();
-        }
-        
-        if (child.material) {
-          if (Array.isArray(child.material)) {
-            child.material.forEach(material => material.dispose());
-          } else {
-            child.material.dispose();
-          }
-        }
-      }
-    });
-  });
-  
-  // Clear references
-  objectsRef.current = [];
-  
-  // Dispose of renderer
-  if (rendererRef.current) {
-    rendererRef.current.dispose();
-    rendererRef.current = null;
-  }
-}; 
+} 

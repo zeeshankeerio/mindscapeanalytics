@@ -1,7 +1,18 @@
 "use client"
 
+import React from "react"
 import { motion } from "framer-motion"
 import { BrainIcon } from "@/components/ui/brain-icon"
+
+interface BrainIconProps {
+  className?: string
+  size?: number
+  color?: string
+  secondaryColor?: string
+  variant?: "default" | "simple" | "animated"
+  animateConnections?: boolean
+  style?: React.CSSProperties
+}
 
 interface MindscapeAnimatedLogoProps {
   size?: "sm" | "md" | "lg" | "xl"

@@ -128,6 +128,10 @@ const SKILLS = {
 
 const PROJECTS = [
   {
+    title: "Mindscape Analytics",
+    description: "Developed, designed and launched Mindscape Analytics (www.mindscapeanalytics.com) from scratch in just 1 month of continuous development, creating a comprehensive analytics platform."
+  },
+  {
     title: "Crypto & Stock Market Prediction Models",
     description: "Developed and deployed machine learning models for predicting cryptocurrency and stock market movements, providing strategic insights for investors."
   },
@@ -202,7 +206,7 @@ export default function ZeeshanKeerioPage() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(120,50,250,0.03)_0,rgba(255,30,86,0.03)_25%,rgba(0,0,0,0)_50%)]"></div>
         
         {/* Digital Circuit Pattern */}
-        <div className="absolute inset-0 opacity-[0.03] bg-[url('/circuit-pattern.png')] bg-repeat"></div>
+        <div className="absolute inset-0 opacity-[0.03] bg-gradient-to-br from-red-500/5 to-purple-500/5"></div>
       </div>
 
       <StandardBackground />
@@ -246,7 +250,7 @@ export default function ZeeshanKeerioPage() {
               <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
                 {Array.from({ length: 8 }).map((_, i) => (
                   <motion.div 
-                    key={i}
+                    key={`network-line-${i}`}
                     className="absolute w-[1px] h-[100px] bg-gradient-to-b from-red-500/0 via-red-500/20 to-red-500/0"
                     style={{
                       left: `${(i + 1) * 12.5}%`,
@@ -334,7 +338,7 @@ export default function ZeeshanKeerioPage() {
                     {/* Small data points around the circle */}
                     {Array.from({ length: 8 }).map((_, i) => (
                       <div 
-                        key={i} 
+                        key={`circle-point-${i}`}
                         className="absolute w-1 h-1 bg-red-500/40"
                         style={{
                           top: `${50 + 45 * Math.sin(i * Math.PI / 4)}%`,
@@ -505,7 +509,7 @@ export default function ZeeshanKeerioPage() {
               >
                 {/* Animated circuit board background */}
                 <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-black/20 rounded-lg overflow-hidden">
-                  <div className="absolute inset-0 opacity-10 bg-[url('/circuit-pattern.png')] bg-repeat"></div>
+                  <div className="absolute inset-0 opacity-10 bg-gradient-to-br from-red-500/5 to-purple-500/5"></div>
                   
                   {/* Data points animation */}
                   {Array.from({ length: 10 }).map((_, i) => (
@@ -684,7 +688,7 @@ export default function ZeeshanKeerioPage() {
                       whileHover={{ y: -5, boxShadow: "0 15px 30px rgba(220,38,38,0.15)" }}
                     >
                       {/* AI-themed background pattern */}
-                      <div className="absolute inset-0 bg-[url('/circuit-pattern.png')] bg-repeat opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
+                      <div className="absolute inset-0 bg-[url('/circuit-pattern.svg')] bg-repeat opacity-0 group-hover:opacity-5 transition-opacity duration-500"></div>
                       
                       {/* Animated highlight corner */}
                       <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden">
@@ -762,7 +766,7 @@ export default function ZeeshanKeerioPage() {
                   transition={{ delay: 0.2 }}
                   whileHover={{ y: -5, boxShadow: "0 15px 30px rgba(220,38,38,0.15)" }}
                 >
-                  <div className="absolute inset-0 bg-[url('/circuit-pattern.png')] bg-repeat opacity-5"></div>
+                  <div className="absolute inset-0 bg-[url('/circuit-pattern.svg')] bg-repeat opacity-5"></div>
                   
                   <div className="flex flex-col md:flex-row">
                     {/* Project visualization */}
@@ -1185,26 +1189,171 @@ export default function ZeeshanKeerioPage() {
                   Skills & Expertise
                 </h3>
                 
-              <div className="grid md:grid-cols-2 gap-8">
-                  {/* General Skills */}
+                {/* Skill Summary Section */}
                 <motion.div 
+                  className="bg-gradient-to-r from-black/60 to-black/40 border border-white/10 rounded-xl p-6 backdrop-blur-sm relative overflow-hidden mb-8"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <div className="absolute right-0 bottom-0 w-64 h-64 bg-gradient-to-br from-red-500/10 to-purple-500/5 rounded-full -mr-20 -mb-20 blur-3xl"></div>
+                  
+                  <div className="grid md:grid-cols-2 gap-6 items-center">
+                    <div className="relative z-10">
+                      <h4 className="text-lg font-bold mb-3">Professional Overview</h4>
+                      <p className="text-white/70 mb-4">
+                        With 7+ years of expertise in AI, Big Data, and Machine Learning technologies, I specialize in developing scalable data solutions and intelligent systems that drive business value.
+                      </p>
+                      
+                      <div className="grid grid-cols-2 gap-4 mt-6">
+                        <div className="bg-black/30 p-4 rounded-lg border border-white/5 text-center">
+                          <h5 className="text-red-400 text-xl font-bold mb-1">7+</h5>
+                          <p className="text-xs text-white/60">Years Experience</p>
+                        </div>
+                        <div className="bg-black/30 p-4 rounded-lg border border-white/5 text-center">
+                          <h5 className="text-purple-400 text-xl font-bold mb-1">25+</h5>
+                          <p className="text-xs text-white/60">Projects Completed</p>
+                        </div>
+                        <div className="bg-black/30 p-4 rounded-lg border border-white/5 text-center">
+                          <h5 className="text-blue-400 text-xl font-bold mb-1">10+</h5>
+                          <p className="text-xs text-white/60">Certifications</p>
+                        </div>
+                        <div className="bg-black/30 p-4 rounded-lg border border-white/5 text-center">
+                          <h5 className="text-green-400 text-xl font-bold mb-1">40+</h5>
+                          <p className="text-xs text-white/60">ML Models Built</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Skill radar chart */}
+                    <div className="relative h-64 flex items-center justify-center">
+                      {/* Radar background */}
+                      <div className="w-48 h-48 rounded-full border border-white/10 absolute"></div>
+                      <div className="w-36 h-36 rounded-full border border-white/10 absolute"></div>
+                      <div className="w-24 h-24 rounded-full border border-white/10 absolute"></div>
+                      <div className="w-12 h-12 rounded-full border border-white/10 absolute"></div>
+                      
+                      {/* Radar axes */}
+                      <div className="w-48 h-1 bg-white/5 absolute transform rotate-0"></div>
+                      <div className="w-48 h-1 bg-white/5 absolute transform rotate-45"></div>
+                      <div className="w-48 h-1 bg-white/5 absolute transform rotate-90"></div>
+                      <div className="w-48 h-1 bg-white/5 absolute transform rotate-135"></div>
+                      
+                      {/* Radar area */}
+                      <motion.div
+                        initial={{ scale: 0, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ delay: 0.8, duration: 1.5 }}
+                        className="absolute inset-0 flex items-center justify-center"
+                      >
+                        <svg viewBox="0 0 100 100" className="w-full h-full">
+                          <polygon 
+                            points="50,10 90,40 80,85 20,85 10,40" 
+                            fill="url(#skillGradient)" 
+                            stroke="rgba(239, 68, 68, 0.6)" 
+                            strokeWidth="1"
+                            className="opacity-60"
+                          />
+                          <defs>
+                            <linearGradient id="skillGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                              <stop offset="0%" stopColor="rgba(239, 68, 68, 0.2)" />
+                              <stop offset="100%" stopColor="rgba(168, 85, 247, 0.2)" />
+                            </linearGradient>
+                          </defs>
+                        </svg>
+                      </motion.div>
+                      
+                      {/* Skill points */}
+                      <motion.div 
+                        className="absolute top-10 left-1/2 transform -translate-x-1/2 w-3 h-3 rounded-full bg-red-500"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.5 }}
+                      >
+                        <span className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-6 text-xs text-white/80">AI</span>
+                      </motion.div>
+                      <motion.div 
+                        className="absolute top-1/3 left-[85%] transform -translate-y-1/2 w-3 h-3 rounded-full bg-red-500"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.6 }}
+                      >
+                        <span className="absolute top-0 left-0 transform translate-x-2 text-xs text-white/80">Data Science</span>
+                      </motion.div>
+                      <motion.div 
+                        className="absolute top-3/4 left-[80%] transform -translate-y-1/2 w-3 h-3 rounded-full bg-red-500"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.7 }}
+                      >
+                        <span className="absolute top-0 left-0 transform translate-x-2 text-xs text-white/80">Backend</span>
+                      </motion.div>
+                      <motion.div 
+                        className="absolute top-3/4 left-[20%] transform -translate-y-1/2 w-3 h-3 rounded-full bg-red-500"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.8 }}
+                      >
+                        <span className="absolute top-0 right-0 transform -translate-x-2 text-xs text-white/80">Frontend</span>
+                      </motion.div>
+                      <motion.div 
+                        className="absolute top-1/3 left-[15%] transform -translate-y-1/2 w-3 h-3 rounded-full bg-red-500"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ delay: 0.9 }}
+                      >
+                        <span className="absolute top-0 right-0 transform -translate-x-2 text-xs text-white/80">Cloud</span>
+                      </motion.div>
+                    </div>
+                  </div>
+                </motion.div>
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  {/* Technical Skills */}
+                  <motion.div 
                     className="bg-gradient-to-r from-black/60 to-black/40 border border-white/10 rounded-xl p-6 backdrop-blur-sm relative overflow-hidden"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2 }}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 }}
                     whileHover={{ y: -5, boxShadow: "0 15px 30px rgba(220,38,38,0.15)" }}
                   >
                     <div className="absolute right-0 bottom-0 w-40 h-40 bg-gradient-to-br from-red-500/10 to-purple-500/5 rounded-full -mr-10 -mb-10 blur-3xl"></div>
                     
                     <h4 className="text-lg font-bold mb-4 flex items-center gap-2 relative z-10">
                       <div className="w-8 h-8 bg-red-500/20 rounded-full flex items-center justify-center">
-                        <User className="h-4 w-4 text-red-400" />
+                        <Code className="h-4 w-4 text-red-400" />
                       </div>
-                    General Skills
+                      Technical Expertise
                     </h4>
                     
-                    <div className="flex flex-wrap gap-2 relative z-10">
-                      {SKILLS.generalSkills.map((skill, index) => (
+                    {/* Skill bars with animations */}
+                    <div className="space-y-5 relative z-10">
+                      {[
+                        { skill: "Python", level: 95, color: "from-red-500 to-red-600" },
+                        { skill: "Machine Learning", level: 90, color: "from-purple-500 to-purple-600" },
+                        { skill: "Deep Learning", level: 88, color: "from-blue-500 to-blue-600" },
+                        { skill: "Big Data", level: 92, color: "from-green-500 to-green-600" },
+                        { skill: "SQL", level: 85, color: "from-yellow-500 to-yellow-600" }
+                      ].map((item, index) => (
+                        <div key={index} className="space-y-1">
+                          <div className="flex justify-between text-sm">
+                            <span className="text-white/80">{item.skill}</span>
+                            <span className="text-red-400">{item.level}%</span>
+                          </div>
+                          <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+                            <motion.div 
+                              className={`h-full bg-gradient-to-r ${item.color} rounded-full`}
+                              initial={{ width: '0%' }}
+                              animate={{ width: `${item.level}%` }}
+                              transition={{ duration: 1.5, delay: index * 0.1 + 0.5, ease: "easeOut" }}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                    
+                    <div className="mt-6 flex flex-wrap gap-2 relative z-10">
+                      {SKILLS.technicalSkills.slice(0, 12).map((skill, index) => (
                         <motion.span 
                           key={index}
                           className="bg-gradient-to-r from-red-500/20 to-red-600/10 px-3 py-1.5 rounded-full text-sm font-medium text-white/90 backdrop-blur-sm"
@@ -1215,78 +1364,141 @@ export default function ZeeshanKeerioPage() {
                         >
                           {skill}
                         </motion.span>
-                    ))}
-                  </div>
-                </motion.div>
-                
-                  {/* Technical Skills */}
-                <motion.div 
+                      ))}
+                      <motion.span 
+                        className="bg-gradient-to-r from-purple-500/20 to-purple-600/10 px-3 py-1.5 rounded-full text-sm font-medium text-white/90 backdrop-blur-sm"
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.9 }}
+                        whileHover={{ y: -3 }}
+                      >
+                        +{SKILLS.technicalSkills.length - 12} more
+                      </motion.span>
+                    </div>
+                  </motion.div>
+                  
+                  {/* Professional Skills */}
+                  <motion.div 
                     className="bg-gradient-to-r from-black/60 to-black/40 border border-white/10 rounded-xl p-6 backdrop-blur-sm relative overflow-hidden"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 }}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.4 }}
                     whileHover={{ y: -5, boxShadow: "0 15px 30px rgba(220,38,38,0.15)" }}
                   >
                     <div className="absolute left-0 bottom-0 w-40 h-40 bg-gradient-to-br from-purple-500/10 to-red-500/5 rounded-full -ml-10 -mb-10 blur-3xl"></div>
                     
-                    <h4 className="text-lg font-bold mb-4 flex items-center gap-2 relative z-10">
+                    <h4 className="text-lg font-bold mb-6 flex items-center gap-2 relative z-10">
                       <div className="w-8 h-8 bg-purple-500/20 rounded-full flex items-center justify-center">
-                        <Code className="h-4 w-4 text-purple-400" />
+                        <User className="h-4 w-4 text-purple-400" />
                       </div>
-                    Technical Skills
+                      Professional Skills
                     </h4>
                     
-                    <div className="flex flex-wrap gap-2 relative z-10">
-                      {SKILLS.technicalSkills.map((skill, index) => (
-                        <motion.span 
-                          key={index}
-                          className="bg-gradient-to-r from-purple-500/20 to-purple-600/10 px-3 py-1.5 rounded-full text-sm font-medium text-white/90 backdrop-blur-sm"
-                          initial={{ opacity: 0, scale: 0.5 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: index * 0.03 + 0.3 }}
-                          whileHover={{ y: -3, boxShadow: "0 10px 20px rgba(124,58,237,0.1)" }}
+                    {/* Circular progress bars */}
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6 relative z-10">
+                      {[
+                        { skill: "Problem Solving", level: 95, color: "text-red-400" },
+                        { skill: "Communication", level: 85, color: "text-purple-400" },
+                        { skill: "Leadership", level: 80, color: "text-blue-400" },
+                        { skill: "Time Management", level: 90, color: "text-green-400" },
+                        { skill: "Adaptability", level: 92, color: "text-yellow-400" },
+                        { skill: "Creativity", level: 88, color: "text-pink-400" }
+                      ].map((item, index) => (
+                        <motion.div 
+                          key={index} 
+                          className="text-center"
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.1 + 0.6 }}
                         >
-                          {skill}
-                        </motion.span>
-                    ))}
-                  </div>
-                </motion.div>
-              </div>
+                          <div className="relative mx-auto w-16 h-16 mb-2">
+                            <svg className="w-full h-full" viewBox="0 0 36 36">
+                              <circle cx="18" cy="18" r="16" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="2"></circle>
+                              <motion.circle 
+                                cx="18" 
+                                cy="18" 
+                                r="16" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                strokeWidth="2"
+                                className={item.color}
+                                strokeDasharray="100"
+                                strokeDashoffset="100"
+                                initial={{ strokeDashoffset: 100 }}
+                                animate={{ 
+                                  strokeDashoffset: 100 - item.level 
+                                }}
+                                transition={{ duration: 1.5, delay: index * 0.1 + 0.6 }}
+                                strokeLinecap="round"
+                                transform="rotate(-90 18 18)"
+                              />
+                            </svg>
+                            <div className="absolute inset-0 flex items-center justify-center text-sm font-bold">{item.level}%</div>
+                          </div>
+                          <p className="text-xs text-white/80">{item.skill}</p>
+                        </motion.div>
+                      ))}
+                    </div>
+                    
+                    <div className="space-y-4 relative z-10">
+                      <h5 className="text-sm uppercase tracking-wider text-white/50 mb-2">General Skills</h5>
+                      <div className="flex flex-wrap gap-2">
+                        {SKILLS.generalSkills.map((skill, index) => (
+                          <motion.span 
+                            key={index}
+                            className="bg-gradient-to-r from-purple-500/20 to-purple-600/10 px-3 py-1.5 rounded-full text-sm font-medium text-white/90 backdrop-blur-sm"
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: index * 0.05 + 0.5 }}
+                            whileHover={{ y: -3, boxShadow: "0 10px 20px rgba(124,58,237,0.1)" }}
+                          >
+                            {skill}
+                          </motion.span>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                </div>
                 
-                {/* Skill bars - visual representation */}
+                {/* Tools & Technologies Section */}
                 <motion.div 
                   className="mt-8 bg-gradient-to-r from-black/60 to-black/40 border border-white/10 rounded-xl p-6 backdrop-blur-sm"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
+                  transition={{ delay: 0.5 }}
                 >
                   <h4 className="text-lg font-bold mb-6 flex items-center gap-2">
-                    <Star className="h-4 w-4 text-yellow-400" />
-                    Core Expertise
+                    <Cpu className="h-4 w-4 text-blue-400" />
+                    Tools & Technologies
                   </h4>
                   
-                  <div className="space-y-4">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {[
-                      { skill: "Big Data Analytics", level: 95 },
-                      { skill: "Machine Learning", level: 90 },
-                      { skill: "Data Science", level: 85 },
-                      { skill: "Python Development", level: 88 },
-                      { skill: "SQL & Database Management", level: 92 }
-                    ].map((item, index) => (
-                      <div key={index} className="space-y-1">
-                        <div className="flex justify-between text-sm">
-                          <span className="text-white/80">{item.skill}</span>
-                          <span className="text-red-400">{item.level}%</span>
-                        </div>
-                        <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                          <motion.div 
-                            className="h-full bg-gradient-to-r from-red-500 to-purple-600 rounded-full"
-                            initial={{ width: '0%' }}
-                            animate={{ width: `${item.level}%` }}
-                            transition={{ duration: 1, delay: index * 0.1 + 0.5 }}
-                          />
-                        </div>
-                      </div>
+                      { name: "TensorFlow", icon: "🧠", category: "ML Framework" },
+                      { name: "PyTorch", icon: "🔥", category: "ML Framework" },
+                      { name: "Keras", icon: "⚙️", category: "ML API" },
+                      { name: "Scikit-learn", icon: "🔬", category: "ML Library" },
+                      { name: "Hadoop", icon: "🐘", category: "Big Data" },
+                      { name: "Spark", icon: "⚡", category: "Big Data" },
+                      { name: "Docker", icon: "🐳", category: "DevOps" },
+                      { name: "Kubernetes", icon: "☸️", category: "DevOps" },
+                      { name: "Tableau", icon: "📊", category: "Visualization" },
+                      { name: "Power BI", icon: "📈", category: "Visualization" },
+                      { name: "AWS", icon: "☁️", category: "Cloud" },
+                      { name: "Azure", icon: "☁️", category: "Cloud" }
+                    ].map((tool, index) => (
+                      <motion.div 
+                        key={index}
+                        className="bg-black/30 p-4 rounded-lg border border-white/10 hover:border-blue-500/30 transition-colors duration-300"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.05 + 0.6 }}
+                        whileHover={{ y: -3, boxShadow: "0 10px 20px rgba(59,130,246,0.1)" }}
+                      >
+                        <div className="text-xl mb-1">{tool.icon}</div>
+                        <h5 className="font-medium text-white">{tool.name}</h5>
+                        <p className="text-xs text-white/50">{tool.category}</p>
+                      </motion.div>
                     ))}
                   </div>
                 </motion.div>
@@ -1300,44 +1512,191 @@ export default function ZeeshanKeerioPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
               >
-                <h3 className="text-xl font-bold mb-6 flex items-center">
-                  <FileText className="mr-2 h-5 w-5 text-red-400" />
-                  Featured Projects
-                </h3>
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-xl font-bold flex items-center">
+                    <FileText className="mr-2 h-5 w-5 text-red-400" />
+                    Portfolio Showcase
+                  </h3>
+                  
+                  {/* Category filter buttons */}
+                  <div className="flex items-center gap-2 bg-black/30 p-1 rounded-lg border border-white/10">
+                    {["All", "Data & Analytics", "Machine Learning", "Web Development"].map((category) => (
+                      <button 
+                        key={category} 
+                        className={`px-3 py-1 text-sm rounded-md ${category === 'All' ? 'bg-red-500/20 text-white' : 'text-white/60 hover:text-white/90'}`}
+                      >
+                        {category}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Featured Project - Large Card */}
+                <motion.div
+                  className="mb-8 bg-gradient-to-r from-black/60 to-black/40 border border-white/10 rounded-xl overflow-hidden relative"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  whileHover={{ y: -5, boxShadow: "0 15px 30px rgba(220,38,38,0.15)" }}
+                >
+                  <div className="absolute inset-0 bg-[url('/circuit-pattern.svg')] bg-repeat opacity-5"></div>
+                  
+                  <div className="flex flex-col md:flex-row">
+                    {/* Project Showcase */}
+                    <div className="md:w-3/5 h-72 md:h-auto relative bg-gradient-to-br from-black/80 to-black/60 overflow-hidden">
+                      <div className="absolute inset-0 p-4">
+                        {/* Interactive mockup display */}
+                        <div className="relative w-full h-full rounded-lg overflow-hidden border border-white/10 shadow-2xl bg-gray-900">
+                          <Image
+                            src="/mindscape-showcase.jpg"
+                            alt="Mindscape Analytics"
+                            fill
+                            className="object-cover"
+                            priority
+                          />
+                          
+                          {/* Animated overlay elements */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
+                            <div className="absolute bottom-4 left-4 right-4">
+                              <motion.div 
+                                initial={{ width: 0 }}
+                                animate={{ width: "70%" }}
+                                transition={{ delay: 1, duration: 2, ease: "easeOut" }}
+                                className="h-1 bg-red-500/70 rounded-full mb-2"
+                              />
+                              <div className="flex items-center justify-between">
+                                <span className="text-xs text-white/70">www.mindscapeanalytics.com</span>
+                                <span className="text-xs text-white/70">Launch Date: 2023</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Project details */}
+                    <div className="p-6 md:p-8 md:w-2/5">
+                      <div className="flex items-center mb-2">
+                        <Badge className="bg-gradient-to-r from-red-500/20 to-purple-500/20 text-white mr-2">FEATURED</Badge>
+                        <Badge className="bg-blue-500/20 text-blue-400">Personal Project</Badge>
+                      </div>
+                      
+                      <h4 className="text-2xl font-bold mb-3">Mindscape Analytics</h4>
+                      <p className="text-white/70 mb-4">
+                        Developed, designed and launched Mindscape Analytics from scratch in just 1 month of continuous development, creating a comprehensive analytics platform with advanced data visualization and reporting features.
+                      </p>
+                      
+                      {/* Key achievements */}
+                      <div className="mb-4">
+                        <h5 className="text-sm uppercase tracking-wider text-white/50 mb-2">Key Achievements</h5>
+                        <ul className="grid grid-cols-1 gap-2">
+                          {[
+                            "Solo-developed in 1 month timeframe",
+                            "Full-stack implementation",
+                            "Custom analytics dashboard",
+                            "Responsive design across devices"
+                          ].map((item, i) => (
+                            <li key={i} className="flex items-center text-sm">
+                              <div className="w-1.5 h-1.5 bg-red-500 rounded-full mr-2"></div>
+                              <span className="text-white/80">{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      
+                      {/* Tech stack */}
+                      <div>
+                        <h5 className="text-sm uppercase tracking-wider text-white/50 mb-2">Technologies</h5>
+                        <div className="flex flex-wrap gap-2">
+                          {["React.js", "Next.js", "Node.js", "TypeScript", "TailwindCSS", "AWS"].map((tech, i) => (
+                            <span key={i} className="text-xs bg-white/10 px-2 py-1 rounded text-white/70">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      {/* CTA */}
+                      <div className="mt-4">
+                        <Link href="https://www.mindscapeanalytics.com" target="_blank" rel="noopener noreferrer">
+                          <Button className="bg-gradient-to-r from-red-600 to-purple-700 hover:from-red-700 hover:to-purple-800 text-white transition-all duration-300 shadow-lg shadow-red-900/30 px-6 py-2 w-full">
+                            Visit Website
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
                 
+                {/* Project Grid - Advanced Portfolio Cards */}
                 <div className="grid md:grid-cols-3 gap-6">
-                {PROJECTS.map((project, index) => (
-                  <motion.div 
-                    key={index}
+                  {PROJECTS.slice(1).map((project, index) => (
+                    <motion.div 
+                      key={index}
                       className="bg-gradient-to-r from-black/60 to-black/40 border border-white/10 rounded-xl overflow-hidden group relative h-full flex flex-col"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 + 0.2 }}
+                      transition={{ delay: index * 0.1 + 0.4 }}
                       whileHover={{ 
                         y: -5, 
                         boxShadow: "0 15px 30px rgba(220,38,38,0.15)",
                         borderColor: "rgba(239, 68, 68, 0.3)"
                       }}
                     >
-                      {/* Decorative top gradient bar */}
-                      <div className="h-2 bg-gradient-to-r from-red-500 to-purple-600 w-full"></div>
+                      {/* Project thumbnail/preview */}
+                      <div className="h-48 bg-gradient-to-br from-gray-900 to-black relative overflow-hidden">
+                        {/* Decorative elements */}
+                        <div className="absolute inset-0 flex items-center justify-center opacity-60">
+                          <svg className="w-full h-full text-red-500/10" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="currentColor" d="M45.4,-51.3C58.3,-39.2,68,-24.1,70.9,-7.8C73.8,8.6,70,26.1,59.7,38.9C49.4,51.7,32.5,59.8,14.9,63.5C-2.8,67.1,-21.1,66.3,-36.9,58.9C-52.7,51.5,-66,37.5,-70.9,21.1C-75.8,4.7,-72.3,-14.2,-63.3,-29.4C-54.2,-44.7,-39.6,-56.5,-24.1,-67.4C-8.7,-78.2,7.6,-88.1,22,-83.8C36.3,-79.4,48.8,-60.8,50.8,-47.8"/>
+                          </svg>
+                        </div>
+                        
+                        {/* Project visual representation */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          {index === 0 ? (
+                            <BrainCircuit className="w-20 h-20 text-red-400/50" />
+                          ) : index === 1 ? (
+                            <svg className="w-20 h-20 text-purple-400/50" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                              <path d="M2 12.5C2 12.5 5.5 7 12 7C18.5 7 22 12.5 22 12.5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                              <path d="M22 12.5C22 12.5 18.5 18 12 18C5.5 18 2 12.5 2 12.5" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                              <circle cx="12" cy="12.5" r="3.5" strokeWidth="1.5"/>
+                            </svg>
+                          ) : (
+                            <Network className="w-20 h-20 text-blue-400/50" />
+                          )}
+                        </div>
+                        
+                        {/* Overlay on hover */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                          <motion.button 
+                            className="px-4 py-2 bg-red-500 text-white rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                          >
+                            View Details
+                          </motion.button>
+                        </div>
+                      </div>
                       
                       {/* Project content */}
                       <div className="p-6 flex-grow flex flex-col relative z-10">
-                        {/* Hover effect background */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        {/* Top element */}
+                        <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden">
+                          <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-red-500/20 to-transparent transform origin-top-right -rotate-45 translate-x-8 -translate-y-8 group-hover:translate-x-0 group-hover:translate-y-0 transition-transform duration-500"></div>
+                        </div>
                         
                         <h4 className="text-lg font-bold text-white mb-3 group-hover:text-red-400 transition-colors duration-300 relative z-10">
                           {project.title}
                         </h4>
                         
-                        <p className="text-white/70 mb-4 flex-grow relative z-10">
+                        <p className="text-white/70 mb-4 flex-grow relative z-10 line-clamp-3">
                           {project.description}
                         </p>
                         
                         {/* Skills used in project */}
                         <div className="flex flex-wrap gap-2 mt-auto relative z-10">
-                          {["AI", "ML", "Python", "Data"].map((tag, tagIndex) => (
+                          {["Machine Learning", "Python", "Data"].slice(0, index + 1).map((tag, tagIndex) => (
                             <span 
                               key={tagIndex} 
                               className="text-xs bg-white/10 px-2 py-1 rounded-md text-white/60"
@@ -1348,7 +1707,7 @@ export default function ZeeshanKeerioPage() {
                         </div>
                       </div>
                       
-                      {/* View project link */}
+                      {/* Action footer */}
                       <div className="bg-gradient-to-r from-black/80 to-black/80 p-3 border-t border-white/5 relative z-10">
                         <motion.button 
                           className="text-sm text-red-400 hover:text-red-300 flex items-center w-full justify-center font-medium"
@@ -1360,8 +1719,22 @@ export default function ZeeshanKeerioPage() {
                           </svg>
                         </motion.button>
                       </div>
-                  </motion.div>
-                ))}
+                    </motion.div>
+                  ))}
+                </div>
+                
+                {/* View All Projects Button */}
+                <div className="mt-8 text-center">
+                  <motion.button
+                    className="px-6 py-3 bg-gradient-to-r from-red-500/20 to-purple-500/20 rounded-lg border border-white/10 text-white hover:from-red-500/30 hover:to-purple-500/30 transition-colors flex items-center gap-2 mx-auto"
+                    whileHover={{ y: -3 }}
+                    whileTap={{ y: 0 }}
+                  >
+                    <span>View Complete Portfolio</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7-7 7" />
+                    </svg>
+                  </motion.button>
                 </div>
               </motion.div>
             </TabsContent>
@@ -1443,6 +1816,115 @@ export default function ZeeshanKeerioPage() {
           </Tabs>
         </section>
         
+        {/* Testimonials Section */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="py-16 relative"
+        >
+          {/* Decorative elements */}
+          <div className="absolute left-0 top-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-red-500/10 to-purple-500/5 rounded-full -ml-32 blur-3xl"></div>
+          <div className="absolute right-0 top-1/3 w-80 h-80 bg-gradient-to-tl from-purple-500/10 to-red-500/5 rounded-full -mr-40 blur-3xl"></div>
+          
+          <div className="relative z-10">
+            <div className="text-center mb-12">
+              <Badge className="mb-4 bg-gradient-to-r from-red-500/20 to-purple-500/20 text-white px-4 py-1">TESTIMONIALS</Badge>
+              <h2 className="text-3xl font-bold">What Partners & Clients Say</h2>
+              <div className="mt-4 w-20 h-1 bg-gradient-to-r from-red-500 to-purple-500 mx-auto"></div>
+            </div>
+            
+            <div className="grid md:grid-cols-3 gap-6">
+              {[
+                {
+                  name: "Sarah Johnson",
+                  role: "CTO, DataTech Solutions",
+                  image: "/testimonial-1.jpg",
+                  quote: "Zeeshan's expertise in AI and machine learning transformed our data analytics workflow. His solutions reduced processing time by 65% while improving accuracy.",
+                  rating: 5
+                },
+                {
+                  name: "Michael Chen",
+                  role: "VP of Engineering, AI Innovations",
+                  image: "/testimonial-2.jpg",
+                  quote: "Working with Zeeshan on our predictive analytics platform was exceptional. His deep technical knowledge and problem-solving abilities are truly impressive.",
+                  rating: 5
+                },
+                {
+                  name: "Jessica Miller",
+                  role: "Product Manager, CloudScale",
+                  image: "/testimonial-3.jpg",
+                  quote: "Zeeshan delivered our ML infrastructure project on time and exceeded our expectations. His ability to translate complex concepts into practical solutions is remarkable.",
+                  rating: 5
+                }
+              ].map((testimonial, index) => (
+                <motion.div 
+                  key={index}
+                  className="bg-gradient-to-r from-black/60 to-black/40 border border-white/10 rounded-xl p-6 backdrop-blur-sm relative overflow-hidden"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 + 0.4 }}
+                  whileHover={{ y: -5, boxShadow: "0 15px 30px rgba(220,38,38,0.15)" }}
+                >
+                  {/* Decorative quote mark */}
+                  <div className="absolute -top-2 -right-2 text-6xl text-red-500/10 font-serif">"</div>
+                  
+                  <div className="relative z-10">
+                    {/* Quote */}
+                    <p className="text-white/80 mb-6 relative z-10">"{testimonial.quote}"</p>
+                    
+                    {/* Rating */}
+                    <div className="flex mb-4">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star 
+                          key={i} 
+                          className={`h-4 w-4 ${i < testimonial.rating ? 'text-yellow-400' : 'text-gray-600'}`} 
+                          fill={i < testimonial.rating ? 'currentColor' : 'none'}
+                        />
+                      ))}
+                    </div>
+                    
+                    {/* Author */}
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-full border-2 border-red-500/30 overflow-hidden flex-shrink-0 bg-black/50">
+                        <div className="flex items-center justify-center h-full text-xl">
+                          {testimonial.name.charAt(0)}
+                        </div>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-white">{testimonial.name}</h4>
+                        <p className="text-xs text-white/60">{testimonial.role}</p>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+            
+            {/* Client logos */}
+            <div className="mt-16 pt-8 border-t border-white/10">
+              <div className="text-center mb-8">
+                <h3 className="text-lg font-semibold text-white/80">Trusted by Leading Organizations</h3>
+              </div>
+              
+              <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+                {[1, 2, 3, 4, 5].map((_, index) => (
+                  <motion.div 
+                    key={index}
+                    className="w-24 h-12 bg-white/5 rounded-lg flex items-center justify-center"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: index * 0.1 + 0.3 }}
+                    whileHover={{ y: -3, opacity: 0.8 }}
+                  >
+                    <div className="text-white/40 text-sm font-medium">Client {index + 1}</div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.section>
+        
         {/* CTA Section */}
         <motion.section 
           initial={{ opacity: 0, y: 20 }}
@@ -1454,98 +1936,184 @@ export default function ZeeshanKeerioPage() {
           <div className="absolute left-0 top-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-br from-red-500/10 to-purple-500/5 rounded-full -ml-32 blur-3xl"></div>
           <div className="absolute right-0 top-1/3 w-80 h-80 bg-gradient-to-tl from-purple-500/10 to-red-500/5 rounded-full -mr-40 blur-3xl"></div>
           
-          <div className="relative z-10 max-w-4xl mx-auto bg-gradient-to-r from-black/80 to-black/60 border border-white/10 rounded-2xl p-8 md:p-10 backdrop-blur-sm shadow-xl">
-            <div className="grid md:grid-cols-2 gap-10 items-center">
-              <div>
-                <Badge className="mb-4 bg-gradient-to-r from-red-500/20 to-purple-500/20 text-white px-4 py-1">GET IN TOUCH</Badge>
-                <h2 className="text-3xl font-bold mb-4">Let's Work Together</h2>
-                <p className="text-white/70 mb-6">
-                  I'm always interested in hearing about new projects and opportunities. Whether you have a question or just want to say hi, I'll try my best to get back to you!
-                </p>
+          <div className="relative z-10 max-w-5xl mx-auto">
+            <div className="bg-gradient-to-r from-black/80 to-black/60 border border-white/10 rounded-2xl overflow-hidden shadow-xl">
+              <div className="absolute inset-0 overflow-hidden">
+                {/* Animated grid background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-black/80 to-black/60 opacity-5"></div>
                 
-                <div className="space-y-4 mb-6">
-                  <motion.a 
-                    href="mailto:imzeeshan.ai@gmail.com"
-                    className="flex items-center gap-3 group"
-                    whileHover={{ x: 5 }}
-                  >
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-red-500/20 to-red-600/20 flex items-center justify-center">
-                      <Mail className="h-5 w-5 text-red-400" />
-                    </div>
-                    <div className="group-hover:text-red-400 transition-colors">imzeeshan.ai@gmail.com</div>
-                  </motion.a>
-                  
-                  <motion.a 
-                    href="tel:+923077367967"
-                    className="flex items-center gap-3 group"
-                    whileHover={{ x: 5 }}
-                  >
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-red-500/20 to-red-600/20 flex items-center justify-center">
-                      <Phone className="h-5 w-5 text-red-400" />
-              </div>
-                    <div className="group-hover:text-red-400 transition-colors">+923077367967</div>
-                  </motion.a>
-                  
-                  <motion.a 
-                    href="https://www.linkedin.com/in/zeeshan-keerio/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center gap-3 group"
-                    whileHover={{ x: 5 }}
-                  >
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-red-500/20 to-red-600/20 flex items-center justify-center">
-                      <Linkedin className="h-5 w-5 text-red-400" />
-            </div>
-                    <div className="group-hover:text-red-400 transition-colors">linkedin.com/in/zeeshan-keerio</div>
-                  </motion.a>
-          </div>
+                {/* Floating particles */}
+                {Array.from({ length: 20 }).map((_, i) => (
+                  <motion.div
+                    key={`floating-particle-${i}`}
+                    className="absolute w-1 h-1 rounded-full bg-red-500/30"
+                    style={{
+                      top: `${Math.random() * 100}%`,
+                      left: `${Math.random() * 100}%`,
+                    }}
+                    animate={{
+                      y: [0, Math.random() * 40 - 20],
+                      x: [0, Math.random() * 40 - 20],
+                      opacity: [0, 0.5, 0],
+                    }}
+                    transition={{
+                      duration: Math.random() * 5 + 5,
+                      repeat: Infinity,
+                      repeatType: "loop",
+                      ease: "easeInOut",
+                      delay: Math.random() * 2
+                    }}
+                  />
+                ))}
               </div>
               
-              {/* Contact Form */}
-              <div className="bg-black/40 p-6 rounded-xl border border-white/10 backdrop-blur-md">
-                <h3 className="text-xl font-bold mb-6">Send a Message</h3>
-                
-                <form className="space-y-4">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-white/70 mb-1">Your Name</label>
-                    <input 
-                      type="text" 
-                      id="name" 
-                      className="w-full px-4 py-2 bg-black/60 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-transparent"
-                      placeholder="John Doe" 
-                    />
+              <div className="grid md:grid-cols-5 relative z-10">
+                {/* Left animated visualization */}
+                <div className="md:col-span-2 bg-gradient-to-br from-black/80 to-black/40 p-8 md:p-10 relative overflow-hidden hidden md:block">
+                  <div className="absolute inset-0 opacity-20">
+                    <svg viewBox="0 0 200 200" className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                      <path fill="rgba(239, 68, 68, 0.2)" d="M39.5,-65.3C48.3,-55.1,50.4,-39.7,55.9,-26.3C61.5,-12.9,70.5,-1.5,73.1,11.9C75.7,25.4,71.9,40.9,63.2,53.3C54.4,65.7,40.5,74.9,25.9,77.4C11.2,79.9,-4.1,75.7,-19.9,71.7C-35.7,67.7,-51.9,64,-62.2,54C-72.5,44,-76.8,27.6,-77.9,11.4C-79,-4.8,-76.9,-21,-70.3,-35.6C-63.7,-50.3,-52.6,-63.3,-39.2,-71.4C-25.9,-79.6,-9.9,-82.9,3.3,-88C16.6,-93.1,30.7,-75.5,39.5,-65.3Z" transform="translate(100 100)" />
+                </svg>
                   </div>
                   
-              <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-white/70 mb-1">Your Email</label>
-                    <input 
-                      type="email" 
-                      id="email" 
-                      className="w-full px-4 py-2 bg-black/60 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-transparent"
-                      placeholder="john@example.com" 
-                    />
+                  {/* Neural network visualization */}
+                  <div className="relative h-full flex items-center justify-center">
+                    <div className="w-full max-w-[200px] h-[200px] relative">
+                      {/* Nodes */}
+                      {Array.from({ length: 12 }).map((_, i) => {
+                        const row = Math.floor(i / 4);
+                        const col = i % 4;
+                        return (
+                          <motion.div 
+                            key={i}
+                            className="absolute w-3 h-3 rounded-full bg-red-500"
+                            style={{
+                              left: `${col * 33.33}%`,
+                              top: `${row * 50}%`,
+                            }}
+                            animate={{ 
+                              scale: [1, 1.3, 1],
+                              opacity: [0.4, 0.7, 0.4]
+                            }}
+                            transition={{ 
+                              duration: 2,
+                              repeat: Infinity,
+                              delay: i * 0.1
+                            }}
+                          />
+                        )
+                      })}
+                      
+                      {/* Connecting lines */}
+                      <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+                        {Array.from({ length: 3 }).map((_, row) => (
+                          <g key={`row-${row}`}>
+                            {Array.from({ length: 4 }).map((_, col) => (
+                              <g key={`row-${row}-col-${col}`}>
+                                {Array.from({ length: 4 }).map((_, nextCol) => (
+                                  <motion.path 
+                                    key={`${row}-${col}-${nextCol}`}
+                                    d={`M ${col * 33.33} ${row * 50} L ${nextCol * 33.33} ${(row+1) * 50}`}
+                                    stroke="rgba(239, 68, 68, 0.3)"
+                                    strokeWidth="0.5"
+                                    strokeDasharray="1 2"
+                                    animate={{ 
+                                      opacity: [0.1, 0.3, 0.1],
+                                      strokeDashoffset: [0, -10]
+                                    }}
+                                    transition={{ 
+                                      duration: 3,
+                                      repeat: Infinity,
+                                      delay: (col + nextCol) * 0.1
+                                    }}
+                                  />
+                                ))}
+                              </g>
+                            ))}
+                          </g>
+                        ))}
+                      </svg>
+                    </div>
+                  </div>
+                  
+                  {/* Inspirational quote */}
+                  <div className="absolute bottom-10 left-10 right-10">
+                    <div className="text-sm italic text-white/60">
+                      "The key to artificial intelligence has always been the representation."
+                    </div>
+                    <div className="text-xs text-white/40 mt-1">— Jeff Hawkins</div>
+                  </div>
                 </div>
+                
+                {/* Right content area */}
+                <div className="md:col-span-3 p-8 md:p-10">
+                  <Badge className="mb-4 bg-gradient-to-r from-red-500/20 to-purple-500/20 text-white px-4 py-1">GET IN TOUCH</Badge>
+                  <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Data Strategy?</h2>
+                  <p className="text-white/70 mb-6">
+                    Let's collaborate on your next data science or AI project. Whether you need expertise in machine learning, big data analytics, or custom AI solutions, I'm here to help turn your vision into reality.
+                  </p>
                   
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-white/70 mb-1">Message</label>
-                    <textarea 
-                      id="message" 
-                      rows={4} 
-                      className="w-full px-4 py-2 bg-black/60 border border-white/10 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500/50 focus:border-transparent resize-none"
-                      placeholder="How can I help you?" 
-                    ></textarea>
+                  <div className="space-y-4 mb-6">
+                    <motion.a 
+                      href="mailto:imzeeshan.ai@gmail.com"
+                      className="flex items-center gap-3 group"
+                      whileHover={{ x: 5 }}
+                    >
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-red-500/20 to-red-600/20 flex items-center justify-center">
+                        <Mail className="h-5 w-5 text-red-400" />
+                      </div>
+                      <div className="group-hover:text-red-400 transition-colors">imzeeshan.ai@gmail.com</div>
+                    </motion.a>
+                    
+                    <motion.a 
+                      href="tel:+923077367967"
+                      className="flex items-center gap-3 group"
+                      whileHover={{ x: 5 }}
+                    >
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-red-500/20 to-red-600/20 flex items-center justify-center">
+                        <Phone className="h-5 w-5 text-red-400" />
+                      </div>
+                      <div className="group-hover:text-red-400 transition-colors">+923077367967</div>
+                    </motion.a>
+                    
+                    <motion.a 
+                      href="https://linkedin.com/in/zeeshankeerio"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 group"
+                      whileHover={{ x: 5 }}
+                    >
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-red-500/20 to-red-600/20 flex items-center justify-center">
+                        <Linkedin className="h-5 w-5 text-red-400" />
               </div>
-                  
-                  <motion.button
-                    type="submit"
-                    className="w-full py-3 bg-gradient-to-r from-red-600 to-purple-700 text-white font-medium rounded-lg transition-all focus:outline-none focus:ring-2 focus:ring-red-500/50 shadow-lg shadow-red-900/20"
-                    whileHover={{ y: -3, boxShadow: "0 10px 25px rgba(220,38,38,0.3)" }}
-                    whileTap={{ y: 0, boxShadow: "0 5px 10px rgba(220,38,38,0.2)" }}
-                  >
-                    Send Message
-                  </motion.button>
-                </form>
+                      <div className="group-hover:text-red-400 transition-colors">linkedin.com/in/zeeshankeerio</div>
+                    </motion.a>
+                  </div>
+                </div>
               </div>
+            </div>
+            
+            {/* Event/Calendar availability */}
+            <div className="mt-12 bg-gradient-to-r from-black/80 to-black/60 border border-white/10 rounded-xl p-6 flex flex-col md:flex-row items-center gap-6 backdrop-blur-sm shadow-xl text-center md:text-left">
+              <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-red-500/20 to-purple-500/10 flex items-center justify-center flex-shrink-0">
+                <svg className="w-8 h-8 text-red-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+              </div>
+              <div className="flex-grow">
+                <h3 className="text-xl font-bold">Available for New Projects</h3>
+                <p className="text-white/70 mb-0">Currently accepting new clients and projects starting from July 2023</p>
+              </div>
+              <motion.button
+                className="flex-shrink-0 bg-white/10 hover:bg-white/15 text-white py-2 px-5 rounded-lg border border-white/10"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                View Calendar
+              </motion.button>
             </div>
           </div>
         </motion.section>

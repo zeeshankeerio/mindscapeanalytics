@@ -128,15 +128,17 @@ export function SystemHealthChart() {
       <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent rounded-lg" />
       <Bar ref={chartRef} options={options} data={data} />
       <div className="absolute top-2 right-2 flex flex-wrap gap-2">
-        {data.labels.map((label, index) => (
-          <div key={label} className="flex items-center gap-1 text-xs">
+        {data.labels?.map((label, index) => (
+          <div key={typeof label === 'string' ? label : `label-${index}`} className="flex items-center gap-1 text-xs">
             <div
               className="w-2 h-2 rounded-full"
               style={{
-                backgroundColor: data.datasets[0].backgroundColor[index] as string,
+                backgroundColor: data.datasets[0]?.backgroundColor && Array.isArray(data.datasets[0].backgroundColor)
+                  ? data.datasets[0].backgroundColor[index] as string
+                  : undefined,
               }}
             />
-            <span className="text-muted-foreground">{label}</span>
+            <span className="text-muted-foreground">{String(label)}</span>
           </div>
         ))}
       </div>

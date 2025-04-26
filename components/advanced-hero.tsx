@@ -101,7 +101,13 @@ function NeuralConnections() {
       linesRef.current.rotation.y = clock.getElapsedTime() * 0.08
 
       // Pulse the opacity of the lines
-      linesRef.current.material.opacity = (Math.sin(clock.getElapsedTime() * 0.5) + 1) * 0.25 + 0.2
+      if (linesRef.current.material) {
+        const material = Array.isArray(linesRef.current.material) 
+          ? linesRef.current.material[0] 
+          : linesRef.current.material
+        
+        material.opacity = (Math.sin(clock.getElapsedTime() * 0.5) + 1) * 0.25 + 0.2
+      }
     }
   })
 
@@ -134,46 +140,60 @@ function FloatingParticles({ count = 50 }) {
   const { viewport } = useThree()
 
   useEffect(() => {
-    if (mesh.current) {
-      const dummy = new THREE.Object3D()
-      const particles = []
+    // Only proceed if mesh.current exists
+    if (!mesh.current) return;
+
+    const dummy = new THREE.Object3D()
+    
+    // Define the particle type explicitly
+    interface Particle {
+      x: number;
+      y: number;
+      z: number;
+      velocity: number;
+    }
+    
+    const particles: Particle[] = []
+
+    for (let i = 0; i < count; i++) {
+      const x = (Math.random() - 0.5) * 10
+      const y = (Math.random() - 0.5) * 10
+      const z = (Math.random() - 0.5) * 10
+
+      particles.push({ x, y, z, velocity: Math.random() * 0.02 + 0.01 })
+    }
+
+    // Animation loop
+    const animate = () => {
+      // Store a reference to mesh.current to avoid null checks in the loop
+      const meshInstance = mesh.current
+      if (!meshInstance) return;
 
       for (let i = 0; i < count; i++) {
-        const x = (Math.random() - 0.5) * 10
-        const y = (Math.random() - 0.5) * 10
-        const z = (Math.random() - 0.5) * 10
+        const particle = particles[i]
 
-        particles.push({ x, y, z, velocity: Math.random() * 0.02 + 0.01 })
-      }
+        // Move particles upward with slight randomness
+        particle.y += particle.velocity
+        particle.x += (Math.random() - 0.5) * 0.01
+        particle.z += (Math.random() - 0.5) * 0.01
 
-      // Animation loop
-      const animate = () => {
-        for (let i = 0; i < count; i++) {
-          const particle = particles[i]
-
-          // Move particles upward with slight randomness
-          particle.y += particle.velocity
-          particle.x += (Math.random() - 0.5) * 0.01
-          particle.z += (Math.random() - 0.5) * 0.01
-
-          // Reset particles that go out of bounds
-          if (particle.y > 5) {
-            particle.y = -5
-            particle.x = (Math.random() - 0.5) * 10
-            particle.z = (Math.random() - 0.5) * 10
-          }
-
-          dummy.position.set(particle.x, particle.y, particle.z)
-          dummy.updateMatrix()
-          mesh.current.setMatrixAt(i, dummy.matrix)
+        // Reset particles that go out of bounds
+        if (particle.y > 5) {
+          particle.y = -5
+          particle.x = (Math.random() - 0.5) * 10
+          particle.z = (Math.random() - 0.5) * 10
         }
 
-        mesh.current.instanceMatrix.needsUpdate = true
-        requestAnimationFrame(animate)
+        dummy.position.set(particle.x, particle.y, particle.z)
+        dummy.updateMatrix()
+        meshInstance.setMatrixAt(i, dummy.matrix)
       }
 
-      animate()
+      meshInstance.instanceMatrix.needsUpdate = true
+      requestAnimationFrame(animate)
     }
+
+    animate()
   }, [count])
 
   return (

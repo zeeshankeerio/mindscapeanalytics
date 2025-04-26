@@ -14,7 +14,7 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
+  Tooltip as ChartTooltip,
   Legend,
   ResponsiveContainer,
   AreaChart,
@@ -40,7 +40,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar as CalendarComponent } from "@/components/ui/calendar"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { ChartContainer } from "@/components/ui/chart"
 
 // Generate time series data
 const generateTimeSeriesData = (days: number) => {
@@ -173,6 +173,23 @@ const generateErrorDistribution = () => {
 // Colors for charts
 const COLORS = ["#ff0000", "#ff3333", "#ff6666", "#ff9999", "#ffcccc"]
 
+// Define a custom tooltip component for recharts
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-black/90 border border-white/10 p-2 rounded-lg shadow-lg">
+        <p className="text-white/70 text-xs">{new Date(label).toLocaleDateString()}</p>
+        {payload.map((entry: any, index: number) => (
+          <p key={index} className="text-sm" style={{ color: entry.color }}>
+            {entry.name}: {entry.value}
+          </p>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
+
 export default function AnalyticsDashboard() {
   const [timeRange, setTimeRange] = useState("7d")
   const [isRefreshing, setIsRefreshing] = useState(false)
@@ -202,7 +219,7 @@ export default function AnalyticsDashboard() {
     const current = filteredData[filteredData.length - 1]
     const previous = filteredData.length > 1 ? filteredData[filteredData.length - 2] : null
 
-    const getPercentChange = (current: number, previous: number | null) => {
+    const getPercentChange = (current: number, previous: number | null | undefined) => {
       if (!previous) return 0
       return ((current - previous) / previous) * 100
     }
@@ -444,7 +461,7 @@ export default function AnalyticsDashboard() {
                           }}
                         />
                         <YAxis stroke="rgba(255,255,255,0.5)" />
-                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <ChartTooltip />
                         <Line
                           type="monotone"
                           dataKey={activeMetric}
@@ -466,7 +483,7 @@ export default function AnalyticsDashboard() {
                           }}
                         />
                         <YAxis stroke="rgba(255,255,255,0.5)" />
-                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <ChartTooltip />
                         <Area
                           type="monotone"
                           dataKey={activeMetric}
@@ -487,7 +504,7 @@ export default function AnalyticsDashboard() {
                           }}
                         />
                         <YAxis stroke="rgba(255,255,255,0.5)" />
-                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <ChartTooltip />
                         <Bar dataKey={activeMetric} fill="var(--color-requests)" radius={[4, 4, 0, 0]} />
                       </BarChart>
                     )}
@@ -519,7 +536,7 @@ export default function AnalyticsDashboard() {
                         <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                         <XAxis dataKey="hour" stroke="rgba(255,255,255,0.5)" tickFormatter={(value) => `${value}:00`} />
                         <YAxis stroke="rgba(255,255,255,0.5)" />
-                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <ChartTooltip />
                         <Bar dataKey="requests" fill="var(--color-requests)" radius={[4, 4, 0, 0]} />
                       </BarChart>
                     </ResponsiveContainer>
@@ -551,7 +568,7 @@ export default function AnalyticsDashboard() {
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
-                      <Tooltip formatter={(value) => [`${value} errors`, "Count"]} />
+                      <ChartTooltip />
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
@@ -698,7 +715,7 @@ export default function AnalyticsDashboard() {
                           <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
-                      <Tooltip formatter={(value) => [`${value} errors`, "Count"]} />
+                      <ChartTooltip />
                       <Legend />
                     </PieChart>
                   </ResponsiveContainer>
@@ -734,7 +751,7 @@ export default function AnalyticsDashboard() {
                           }}
                         />
                         <YAxis stroke="rgba(255,255,255,0.5)" />
-                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <ChartTooltip />
                         <Line
                           type="monotone"
                           dataKey="errors"

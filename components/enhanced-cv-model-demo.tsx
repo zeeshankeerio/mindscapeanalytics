@@ -1,27 +1,36 @@
 "use client"
 
-import type React from "react"
-
-import Image from "next/image";
-import { useState, useRef, useEffect } from "react"
-import { motion, AnimatePresence, useAnimation } from "framer-motion"
-import type * as THREE from "three"
+import React, { useState, useEffect, useRef } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
-import { Environment, Float, MeshDistortMaterial } from "@react-three/drei"
+import { 
+  OrbitControls, 
+  Text3D, 
+  Float, 
+  MeshDistortMaterial, 
+  Environment,
+  useAnimations
+} from "@react-three/drei"
+import * as THREE from "three"
+import { motion, useMotionValue, AnimatePresence, useAnimation } from "framer-motion"
+import { v4 as uuidv4 } from "uuid"
+import { saveAs } from "file-saver"
+
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Slider } from "@/components/ui/slider"
-import { Badge } from "@/components/ui/badge"
-import { Progress } from "@/components/ui/progress"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Progress } from "@/components/ui/progress"
+import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import { Label } from "@/components/ui/label"
+import { Badge } from "@/components/ui/badge"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Separator } from "@/components/ui/separator"
-import {
-  AlertCircle,
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { 
+  AlertCircle, 
+  Settings,
   Camera,
   Check,
   ChevronDown,
@@ -32,26 +41,63 @@ import {
   Layers,
   Percent,
   RefreshCw,
-  Settings,
   Share2,
   Upload,
   ZoomIn,
   ZoomOut,
-  PieChart,
-  LineChart,
   Brain,
   Cpu,
   Gauge,
-  BarChart,
-  Target,
+  Target
 } from "lucide-react"
-import { Bar, Line, Pie, Cell, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer } from "recharts"
+import {
+  ResponsiveContainer,
+  BarChart, 
+  Bar,
+  LineChart, 
+  Line,
+  PieChart as RechartsPieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip as RechartsTooltip,
+  Legend
+} from "recharts"
+
+// Custom tooltip component for recharts
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-black/90 backdrop-blur-md border border-white/10 p-3 rounded-lg shadow-xl">
+        {label && <p className="text-white/80 text-sm font-medium mb-2">{label}</p>}
+        {payload.map((entry: any, index: number) => (
+          <div key={index} className="flex items-center gap-2 text-sm">
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }}></div>
+            <span className="font-medium">{entry.name}:</span>
+            <span className="text-white/80">
+              {typeof entry.value === "number" 
+                ? entry.value.toLocaleString()
+                : entry.value}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
 
 // 3D Model Component
-function AIBrain({ scale = 1, position = [0, 0, 0], rotation = [0, 0, 0] }: any) {
+function AIBrain({ scale = 1, position = [0, 0, 0], rotation = [0, 0, 0] }: { 
+  scale?: number;
+  position?: [number, number, number];
+  rotation?: [number, number, number];
+}) {
   const ref = useRef<THREE.Group>(null)
 
-  useFrame((state) => {
+  useFrame((state: any) => {
     if (ref.current) {
       ref.current.rotation.y = state.clock.getElapsedTime() * 0.15
     }
@@ -94,7 +140,7 @@ function NeuralConnections() {
   const points = useRef<THREE.Points>(null)
   const linesMaterial = useRef<THREE.LineBasicMaterial>(null)
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock }: { clock: { getElapsedTime: () => number } }) => {
     if (points.current && linesMaterial.current) {
       const time = clock.getElapsedTime()
       linesMaterial.current.opacity = (Math.sin(time * 0.5) + 1) * 0.25 + 0.2
@@ -1819,7 +1865,7 @@ export default function EnhancedCVModelDemo() {
                       ) : (
                         <div className="h-[300px]">
                           <ResponsiveContainer width="100%" height="100%">
-                            <PieChart>
+                            <RechartsPieChart>
                               <Pie
                                 data={getClassDistributionData()}
                                 cx="50%"
@@ -1835,8 +1881,9 @@ export default function EnhancedCVModelDemo() {
                                   <Cell key={`cell-${index}`} fill={entry.color} />
                                 ))}
                               </Pie>
-                              <Tooltip />
-                            </PieChart>
+                              <RechartsTooltip contentStyle={{ backgroundColor: '#111', borderColor: '#333' }} />
+                              <Legend />
+                            </RechartsPieChart>
                           </ResponsiveContainer>
                         </div>
                       )}
@@ -1846,113 +1893,6 @@ export default function EnhancedCVModelDemo() {
                   <Card className="bg-black/30 border-white/10">
                     <CardHeader>
                       <CardTitle className="text-lg">Confidence Distribution</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      {filteredDetections.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center py-8 text-center">
-                          <AlertCircle className="h-8 w-8 text-white/20 mb-2" />
-                          <p className="text-white/60">No data available. Run detection first.</p>
-                        </div>
-                      ) : (
-                        <div className="h-[300px]">
-                          <ResponsiveContainer width="100%" height="100%">
-                            <BarChart data={getConfidenceDistributionData()}>
-                              <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
-                              <XAxis dataKey="name" stroke="rgba(255,255,255,0.5)" />
-                              <YAxis stroke="rgba(255,255,255,0.5)" />
-                              <Tooltip />
-                              <Bar dataKey="value" name="Count">
-                                {getConfidenceDistributionData().map((entry, index) => (
-                                  <Cell
-                                    key={`cell-${index}`}
-                                    fill={
-                                      index === 0
-                                        ? "#10b981"
-                                        : index === 1
-                                          ? "#3b82f6"
-                                          : index === 2
-                                            ? "#f59e0b"
-                                            : index === 3
-                                              ? "#f97316"
-                                              : index === 4
-                                                ? "#ef4444"
-                                                : "#dc2626"
-                                    }
-                                  />
-                                ))}
-                              </Bar>
-                            </BarChart>
-                          </ResponsiveContainer>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-
-                  <Card className="bg-black/30 border-white/10">
-                    <CardHeader>
-                      <CardTitle className="text-lg">Confusion Matrix</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      {filteredDetections.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center py-8 text-center">
-                          <AlertCircle className="h-8 w-8 text-white/20 mb-2" />
-                          <p className="text-white/60">No data available. Run detection first.</p>
-                        </div>
-                      ) : (
-                        <div className="space-y-4">
-                          <div className="grid grid-cols-2 gap-4">
-                            <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4">
-                              <div className="text-sm text-white/70 mb-1">True Positives</div>
-                              <div className="text-2xl font-bold text-green-500">{confusionMatrix.truePositives}</div>
-                              <div className="text-xs text-white/60 mt-1">Correctly identified objects</div>
-                            </div>
-                            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
-                              <div className="text-sm text-white/70 mb-1">False Positives</div>
-                              <div className="text-2xl font-bold text-red-500">{confusionMatrix.falsePositives}</div>
-                              <div className="text-xs text-white/60 mt-1">Incorrectly identified objects</div>
-                            </div>
-                            <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4">
-                              <div className="text-sm text-white/70 mb-1">False Negatives</div>
-                              <div className="text-2xl font-bold text-yellow-500">{confusionMatrix.falseNegatives}</div>
-                              <div className="text-xs text-white/60 mt-1">Missed objects</div>
-                            </div>
-                            <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
-                              <div className="text-sm text-white/70 mb-1">True Negatives</div>
-                              <div className="text-2xl font-bold text-blue-500">{confusionMatrix.trueNegatives}</div>
-                              <div className="text-xs text-white/60 mt-1">Correctly ignored non-objects</div>
-                            </div>
-                          </div>
-
-                          <div className="h-[200px]">
-                            <ResponsiveContainer width="100%" height="100%">
-                              <PieChart>
-                                <Pie
-                                  data={getConfusionMatrixData()}
-                                  cx="50%"
-                                  cy="50%"
-                                  labelLine={false}
-                                  outerRadius={80}
-                                  fill="#8884d8"
-                                  dataKey="value"
-                                  nameKey="name"
-                                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                                >
-                                  <Cell key="tp" fill="#10b981" />
-                                  <Cell key="fp" fill="#ef4444" />
-                                  <Cell key="fn" fill="#f59e0b" />
-                                  <Cell key="tn" fill="#3b82f6" />
-                                </Pie>
-                                <Tooltip />
-                              </PieChart>
-                            </ResponsiveContainer>
-                          </div>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
-
-                  <Card className="bg-black/30 border-white/10">
-                    <CardHeader>
                       <CardTitle className="text-lg">Performance Metrics</CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -2058,7 +1998,7 @@ export default function EnhancedCVModelDemo() {
                                     fill: "rgba(255,255,255,0.5)",
                                   }}
                                 />
-                                <Tooltip />
+                                <RechartsTooltip contentStyle={{ backgroundColor: '#111', borderColor: '#333' }} />
                                 <Legend />
                                 <Line type="monotone" dataKey="precision" stroke="#10b981" name="Precision" />
                                 <Line type="monotone" dataKey="recall" stroke="#3b82f6" name="Recall" />
@@ -2093,7 +2033,7 @@ export default function EnhancedCVModelDemo() {
                                   <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                                   <XAxis dataKey="name" stroke="rgba(255,255,255,0.5)" />
                                   <YAxis stroke="rgba(255,255,255,0.5)" />
-                                  <Tooltip />
+                                  <RechartsTooltip contentStyle={{ backgroundColor: '#111', borderColor: '#333' }} />
                                   <Legend />
                                   <Bar dataKey="precision" name="Precision (%)" fill="#10b981" />
                                   <Bar dataKey="recall" name="Recall (%)" fill="#3b82f6" />
@@ -2110,7 +2050,7 @@ export default function EnhancedCVModelDemo() {
                                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                                     <XAxis dataKey="name" stroke="rgba(255,255,255,0.5)" />
                                     <YAxis stroke="rgba(255,255,255,0.5)" />
-                                    <Tooltip />
+                                    <RechartsTooltip contentStyle={{ backgroundColor: '#111', borderColor: '#333' }} />
                                     <Legend />
                                     <Line type="monotone" dataKey="fps" name="Speed (FPS)" stroke="#ef4444" />
                                     <Line
@@ -2129,7 +2069,7 @@ export default function EnhancedCVModelDemo() {
                                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                                     <XAxis dataKey="name" stroke="rgba(255,255,255,0.5)" />
                                     <YAxis stroke="rgba(255,255,255,0.5)" />
-                                    <Tooltip />
+                                    <RechartsTooltip contentStyle={{ backgroundColor: '#111', borderColor: '#333' }} />
                                     <Legend />
                                     <Bar dataKey="detections" name="Objects Detected" fill="#6366f1" />
                                   </BarChart>

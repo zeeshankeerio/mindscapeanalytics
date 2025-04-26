@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, ClassAttributes, HTMLAttributes, JSX } from "react"
 import { Calculator, DollarSign, Download, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
@@ -259,7 +259,7 @@ export default function EnhancedROICalculator() {
         const netCashFlow = yearlyRevenue + yearlyCosts + yearlySavings
 
         // Calculate cumulative cash flow
-        const previousCumulativeCashFlow = cashFlows[year - 1].cumulativeCashFlow
+        const previousCumulativeCashFlow: number = cashFlows[year - 1].cumulativeCashFlow
         const cumulativeCashFlow = previousCumulativeCashFlow + netCashFlow
 
         // Calculate ROI for this year
@@ -740,7 +740,7 @@ export default function EnhancedROICalculator() {
                           <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                           <XAxis dataKey="year" stroke="rgba(255,255,255,0.5)" />
                           <YAxis stroke="rgba(255,255,255,0.5)" />
-                          <ChartTooltip content={<ChartTooltipContent />} />
+                          <Tooltip />
                           <Bar dataKey="netCashFlow" fill="var(--color-netCashFlow)" name="Net Cash Flow" />
                           <Line
                             type="monotone"

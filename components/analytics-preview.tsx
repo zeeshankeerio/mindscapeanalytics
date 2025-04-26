@@ -873,7 +873,7 @@ const OverviewTab = ({ metrics, timeSeriesData }: TabContentProps) => {
                           <div key={index} className="flex items-center gap-2 text-sm">
                             <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }} />
                             <span className="text-white/80">{entry.name}:</span>
-                            <span className="text-white/60">{entry.value.toLocaleString()}</span>
+                            <span className="text-white/60">{entry.value?.toLocaleString()}</span>
                           </div>
                         ))}
                       </div>

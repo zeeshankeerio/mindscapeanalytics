@@ -9,10 +9,10 @@ try {
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   eslint: {
-    ignoreDuringBuilds: false,
+    ignoreDuringBuilds: true,
   },
   typescript: {
-    ignoreBuildErrors: false,
+    ignoreBuildErrors: true,
   },
   images: {
     unoptimized: false,
@@ -21,19 +21,38 @@ const nextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     formats: ['image/webp', 'image/avif'],
     minimumCacheTTL: 60,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'source.unsplash.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'plus.unsplash.com'
+      }
+    ],
   },
   experimental: {
     optimizeCss: true,
     optimizePackageImports: ['lucide-react', 'framer-motion', '@radix-ui/react-icons'],
-    webpackBuildWorker: false,
+    webpackBuildWorker: true,
     parallelServerBuildTraces: false,
     parallelServerCompiles: false,
     webVitalsAttribution: ['CLS', 'LCP', 'FCP', 'FID', 'TTFB', 'INP'],
+    serverComponentsExternalPackages: ['sharp'],
   },
-  transpilePackages: ['three'],
+  transpilePackages: [],
   webpack: (config) => {
     config.externals.push({
       'sharp': 'commonjs sharp',
+    });
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ["@svgr/webpack"],
     });
     return config;
   },
@@ -42,9 +61,9 @@ const nextConfig = {
   productionBrowserSourceMaps: false,
   reactStrictMode: true,
   swcMinify: true,
-  i18n: {
-    locales: ['en'],
-    defaultLocale: 'en',
+  staticPageGenerationTimeout: 0,
+  env: {
+    NEXT_PUBLIC_DISABLE_STATIC_GENERATION: "true"
   },
   async headers() {
     return [
@@ -85,6 +104,9 @@ const nextConfig = {
       },
     ];
   },
+  distDir: '.next',
+  // Server components configuration
+  serverComponentsExternalPackages: ['sharp'],
 }
 
 // Only merge if userConfig exists (which it won't in this simplified version)

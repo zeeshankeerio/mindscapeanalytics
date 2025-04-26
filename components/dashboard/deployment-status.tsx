@@ -63,7 +63,7 @@ export function DeploymentStatus({ status, instances, region }: DeploymentStatus
             </span>
           </div>
         </TooltipTrigger>
-        <TooltipContent side="top" className="max-w-xs">
+        <TooltipContent className="max-w-xs">
           <div className="text-xs space-y-1">
             <p className="font-semibold">Deployment Information</p>
             <p><span className="opacity-70">Status:</span> {status}</p>

@@ -2284,6 +2284,9 @@ export default function IndustrySolutionsPage() {
   const renderComparisonMatrix = () => {
     if (!activeIndustry?.comparisonMatrix) return null;
     
+    // Create a local variable to avoid undefined checks everywhere
+    const matrix = activeIndustry.comparisonMatrix;
+    
     return (
       <div className="overflow-x-auto">
         <table className="w-full">
@@ -2291,13 +2294,13 @@ export default function IndustrySolutionsPage() {
             <tr>
               <th className="py-4 px-6 text-left">Feature</th>
               <th className="py-4 px-6 text-center">Our Solution</th>
-              {activeIndustry.comparisonMatrix.competitors.map((competitor, index) => (
+              {matrix.competitors.map((competitor, index) => (
                 <th key={index} className="py-4 px-6 text-center">{competitor}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {activeIndustry.comparisonMatrix.features.map((feature, index) => (
+            {matrix.features.map((feature, index) => (
               <tr key={index} className="border-t border-gray-800">
                 <td className="py-4 px-6 text-sm">
                   <div className="font-medium">{feature.name}</div>
@@ -2310,7 +2313,7 @@ export default function IndustrySolutionsPage() {
                     ))}
                   </div>
                 </td>
-                {activeIndustry.comparisonMatrix.competitors.map((competitor, i) => (
+                {matrix.competitors.map((competitor, i) => (
                   <td key={i} className="py-4 px-6 text-center">
                     <div className="inline-flex items-center justify-center">
                       {Array.from({ length: feature.competitorRatings[competitor] }).map((_, j) => (
@@ -4554,33 +4557,33 @@ export async function processTransaction(event, context) {
       
       {/* Competitive Advantage Matrix */}
       {activeIndustry.comparisonMatrix && (
-        <section className="py-16 bg-gradient-to-b from-slate-950 to-black">
+        <section className="py-16 bg-gradient-to-br from-black to-purple-950/20">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center mb-12">
               <Badge variant="outline" className="mb-3 border-purple-500/50 text-purple-400 px-3">
-                <TrendingUp className="h-3.5 w-3.5 mr-1.5" />
-                Competitive Advantage
+                <LineChart className="h-3.5 w-3.5 mr-1.5" />
+                Competitive Analysis
               </Badge>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-4">Industry Comparison</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">Solution Comparison</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                See how our solutions stack up against traditional approaches and competitors in the {activeIndustry.name.toLowerCase()} space.
+                See how our {activeIndustry.name} solution compares to traditional alternatives and competitors.
               </p>
             </div>
             
-            <div className="overflow-x-auto mb-10">
-              <table className="w-full min-w-[768px] border-collapse">
+            <div className="overflow-x-auto bg-black/40 rounded-xl border border-white/10 p-4">
+              <table className="w-full">
                 <thead>
-                  <tr className="border-b border-white/10">
-                    <th className="text-left py-4 px-6 text-muted-foreground font-medium text-sm">Features</th>
-                    <th className="text-center py-4 px-6 font-medium text-sm text-blue-400">Our Solution</th>
-                    {activeIndustry.comparisonMatrix.competitors.map((competitor, index) => (
-                      <th key={index} className="text-center py-4 px-6 text-muted-foreground font-medium text-sm">{competitor}</th>
+                  <tr>
+                    <th className="py-4 px-6 text-left">Feature</th>
+                    <th className="py-4 px-6 text-center">Our Solution</th>
+                    {activeIndustry.comparisonMatrix?.competitors.map((competitor, index) => (
+                      <th key={index} className="py-4 px-6 text-center">{competitor}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {activeIndustry.comparisonMatrix.features.map((feature, index) => (
-                    <tr key={index} className={`border-b border-white/10 ${index % 2 === 0 ? 'bg-white/[0.02]' : ''}`}>
+                  {activeIndustry.comparisonMatrix?.features.map((feature, index) => (
+                    <tr key={index} className="border-t border-gray-800">
                       <td className="py-4 px-6 text-sm">
                         <div className="font-medium">{feature.name}</div>
                         <div className="text-xs text-muted-foreground">{feature.category}</div>
@@ -4592,7 +4595,7 @@ export async function processTransaction(event, context) {
                           ))}
                         </div>
                       </td>
-                      {activeIndustry.comparisonMatrix.competitors.map((competitor, i) => (
+                      {activeIndustry.comparisonMatrix?.competitors.map((competitor, i) => (
                         <td key={i} className="py-4 px-6 text-center">
                           <div className="inline-flex items-center justify-center">
                             {Array.from({ length: feature.competitorRatings[competitor] }).map((_, j) => (
@@ -4605,13 +4608,6 @@ export async function processTransaction(event, context) {
                   ))}
                 </tbody>
               </table>
-            </div>
-            
-            <div className="text-center">
-              <Button variant="outline" className="border-purple-500/40 bg-purple-500/10 hover:bg-purple-500/20">
-                <FileText className="mr-2 h-4 w-4" />
-                Download Full Comparison Report
-              </Button>
             </div>
           </div>
         </section>

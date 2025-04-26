@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useCallback, memo } from 'react'
+import { useEffect, useState, useCallback, memo, Suspense } from 'react'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
@@ -95,7 +95,7 @@ const LoadingText = memo(() => (
 
 LoadingText.displayName = 'LoadingText'
 
-function LoadingOverlay() {
+function LoadingOverlayContent() {
   const [isLoading, setIsLoading] = useState(false)
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -147,6 +147,14 @@ function LoadingOverlay() {
         </motion.div>
       )}
     </AnimatePresence>
+  )
+}
+
+function LoadingOverlay() {
+  return (
+    <Suspense fallback={null}>
+      <LoadingOverlayContent />
+    </Suspense>
   )
 }
 

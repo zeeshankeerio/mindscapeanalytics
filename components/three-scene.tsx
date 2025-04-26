@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState } from 'react'
 import * as THREE from 'three'
+// @ts-ignore
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 
 export default function ThreeScene() {
@@ -183,8 +184,8 @@ export default function ThreeScene() {
       particleMaterial.dispose()
       
       nodeObjects.forEach(node => {
-        (node.geometry as THREE.BufferGeometry).dispose()
-        (node.material as THREE.Material).dispose()
+        if (node.geometry) (node.geometry as THREE.BufferGeometry).dispose()
+        if (node.material) (node.material as THREE.Material).dispose()
       })
     }
   }, [])

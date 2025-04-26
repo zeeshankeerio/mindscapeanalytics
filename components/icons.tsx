@@ -1,6 +1,6 @@
-import type { LightbulbIcon as LucideProps } from "lucide-react"
+import type { SVGProps } from "react"
 
-export function XCircle(props: LucideProps) {
+export function XCircle(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -21,7 +21,7 @@ export function XCircle(props: LucideProps) {
   )
 }
 
-export function Cpu(props: LucideProps) {
+export function Cpu(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +49,7 @@ export function Cpu(props: LucideProps) {
   )
 }
 
-export function Database(props: LucideProps) {
+export function Database(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

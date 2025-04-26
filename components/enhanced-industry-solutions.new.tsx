@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect, ReactNode, MouseEvent } from "react"
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion"
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -28,53 +28,31 @@ import {
   Shield,
   Users,
   FileText,
-  Code,
-  MessageSquare,
   Database,
   Check,
   Network,
-  Activity,
-  LineChart,
-  Wifi,
-  Cloud,
-  ShoppingCart,
-  Mail,
-  GitBranch,
   Package,
   ShieldCheck,
   Minus,
   ArrowUp,
   ArrowDown,
-  Server,
   Plus,
   RefreshCw,
   Rocket,
   Loader2,
-  Trophy,
   TrendingUp,
   Scale,
   Calculator,
-  BookOpen,
-  Play,
   Lock,
   Copy,
-  Leaf,
-  AlertTriangle,
   AlertCircle,
   LayoutGrid,
   LayoutList,
-  Table,
-  Route,
-  Bell,
   CheckCircle,
-  MoreHorizontal,
-  X,
   Info
 } from "lucide-react"
 import Image from "next/legacy/image"
 import "@/styles/industry-solutions.css"
-import { BarChartIcon } from "@/components/ui/bar-chart-icon"
-import { BrainIcon } from "@/components/ui/brain-icon"
 import MindscapeBrainLogo from "@/components/mindscape-brain-logo"
 
 // Define interfaces for better type safety
@@ -2784,7 +2762,7 @@ export default function EnhancedIndustrySolutions() {
                               <td key={industry.id} className="py-3 px-4">
                                 <div className="flex items-center">
                                   <span className="text-green-400 font-bold mr-2">{roi}</span>
-                                  <Progress value={parseInt(roi)} max={400} className="h-2 w-24 bg-white/10">
+                                  <Progress value={parseInt(roi)} className="h-2 w-24 bg-white/10">
                                     <div className="h-full bg-green-500 rounded-full"></div>
                                   </Progress>
                                 </div>

@@ -10,7 +10,28 @@ import { Slider } from "@/components/ui/slider"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis } from "recharts"
+import { Bar, BarChart, CartesianGrid, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts"
+
+// Custom tooltip component for the charts
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-black/90 backdrop-blur-md border border-white/10 p-3 rounded-lg shadow-xl">
+        <p className="text-white/80 text-sm font-medium mb-2">{label}</p>
+        {payload.map((entry: any, index: number) => (
+          <div key={index} className="flex items-center gap-2 text-sm">
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }}></div>
+            <span className="font-medium">{entry.name}:</span>
+            <span className="text-white/80">
+              ${typeof entry.value === "number" ? entry.value.toLocaleString() : entry.value}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
 
 export default function ROICalculator() {
   const [industry, setIndustry] = useState("technology")
@@ -26,7 +47,13 @@ export default function ROICalculator() {
     netBenefit: 0,
     roi: 0,
     paybackPeriod: 0,
-    yearlyData: [],
+    yearlyData: [] as Array<{
+      year: string;
+      investment: number;
+      savings: number;
+      revenue: number;
+      netBenefit: number;
+    }>,
   })
 
   // Calculate ROI based on inputs
@@ -356,7 +383,7 @@ export default function ROICalculator() {
                             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.1)" />
                             <XAxis dataKey="year" stroke="rgba(255,255,255,0.5)" />
                             <YAxis stroke="rgba(255,255,255,0.5)" />
-                            <ChartTooltip content={<ChartTooltipContent />} />
+                            <Tooltip content={<CustomTooltip />} />
                             <Bar dataKey="investment" fill="var(--color-investment)" name="Investment" />
                             <Bar dataKey="savings" fill="var(--color-savings)" name="Cost Savings" />
                             <Bar dataKey="revenue" fill="var(--color-revenue)" name="Revenue Growth" />

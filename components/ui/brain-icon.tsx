@@ -9,6 +9,7 @@ interface BrainIconProps {
   secondaryColor?: string
   variant?: "default" | "simple" | "animated"
   animateConnections?: boolean
+  style?: React.CSSProperties
 }
 
 export function BrainIcon({
@@ -17,13 +18,14 @@ export function BrainIcon({
   color = "#D10000",
   secondaryColor = "#B00000",
   variant = "default",
-  animateConnections = false
+  animateConnections = false,
+  style = {}
 }: BrainIconProps) {
   // Lighten primary color for the background fill
   const bgColor = `${color}1A` // 10% opacity version of the color
 
   return (
-    <div className={cn("relative flex items-center justify-center", className)}>
+    <div className={cn("relative flex items-center justify-center", className)} style={style}>
       <svg
         width={size}
         height={size}

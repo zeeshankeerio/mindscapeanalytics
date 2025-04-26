@@ -1,6 +1,7 @@
 import React from 'react';
 
 // Fix for Badge component in React 19
+/*
 declare module '@/components/ui/badge' {
   export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
     variant?: 'default' | 'secondary' | 'destructive' | 'outline';
@@ -10,8 +11,10 @@ declare module '@/components/ui/badge' {
     BadgeProps & React.RefAttributes<HTMLDivElement>
   >;
 }
+*/
 
 // Fix for Card components in React 19
+/*
 declare module '@/components/ui/card' {
   export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -39,8 +42,10 @@ declare module '@/components/ui/card' {
     React.HTMLAttributes<HTMLDivElement> & React.RefAttributes<HTMLDivElement>
   >;
 }
+*/
 
 // Fix for Tabs components in React 19
+/*
 declare module '@/components/ui/tabs' {
   export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
     defaultValue?: string;
@@ -74,8 +79,10 @@ declare module '@/components/ui/tabs' {
     TabsContentProps & React.RefAttributes<HTMLDivElement>
   >;
 }
+*/
 
 // Fix for Tooltip components in React 19
+/*
 declare module '@/components/ui/tooltip' {
   export interface TooltipProps {
     delayDuration?: number;
@@ -107,8 +114,10 @@ declare module '@/components/ui/tooltip' {
     React.HTMLAttributes<HTMLDivElement> & React.RefAttributes<HTMLDivElement>
   >;
 }
+*/
 
 // Fix for Slider component in React 19
+/*
 declare module '@/components/ui/slider' {
   export interface SliderProps extends React.HTMLAttributes<HTMLDivElement> {
     min?: number;
@@ -123,8 +132,10 @@ declare module '@/components/ui/slider' {
     SliderProps & React.RefAttributes<HTMLDivElement>
   >;
 }
+*/
 
 // Fix for Textarea component in React 19
+/*
 declare module '@/components/ui/textarea' {
   export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
@@ -132,8 +143,10 @@ declare module '@/components/ui/textarea' {
     TextareaProps & React.RefAttributes<HTMLTextAreaElement>
   >;
 }
+*/
 
 // Fix for Switch component in React 19
+/*
 declare module '@/components/ui/switch' {
   export interface SwitchProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     checked?: boolean;
@@ -145,8 +158,10 @@ declare module '@/components/ui/switch' {
     SwitchProps & React.RefAttributes<HTMLButtonElement>
   >;
 }
+*/
 
 // Fix for Label component in React 19
+/*
 declare module '@/components/ui/label' {
   export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
     htmlFor?: string;
@@ -156,8 +171,10 @@ declare module '@/components/ui/label' {
     LabelProps & React.RefAttributes<HTMLLabelElement>
   >;
 }
+*/
 
 // Fix for Progress component in React 19
+/*
 declare module '@/components/ui/progress' {
   export interface ProgressProps extends React.HTMLAttributes<HTMLDivElement> {
     value?: number;
@@ -166,4 +183,5 @@ declare module '@/components/ui/progress' {
   export const Progress: React.ForwardRefExoticComponent<
     ProgressProps & React.RefAttributes<HTMLDivElement>
   >;
-} 
+}
+*/ 

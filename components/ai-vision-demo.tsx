@@ -232,7 +232,8 @@ export default function AIVisionDemo() {
 
     if (!ctx) return
 
-    const img = new Image()
+    // Create an image element with proper type annotation
+    const img: HTMLImageElement = document.createElement('img')
     img.crossOrigin = "anonymous"
     img.onload = () => {
       canvas.width = img.width
