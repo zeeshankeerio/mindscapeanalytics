@@ -1,6 +1,5 @@
-import nextPWA from 'next-pwa'
-
-const withPWA = nextPWA
+// Let's remove next-pwa completely
+// import nextPWA from 'next-pwa'
 
 let withBundleAnalyzer = (config) => config;
 try {
@@ -10,128 +9,6 @@ try {
   });
 } catch (e) {
   console.log('Bundle analyzer not available, skipping...');
-}
-
-// PWA configuration
-const withPWAConfig = withPWA({
-  dest: 'public',
-  disable: process.env.NODE_ENV === 'development',
-  register: true,
-  skipWaiting: true,
-  fallbacks: {
-    document: '/offline',
-  },
-  runtimeCaching: [
-    {
-      urlPattern: /^https:\/\/fonts\.(?:gstatic|googleapis)\.com\/.*/i,
-      handler: 'CacheFirst',
-      options: {
-        cacheName: 'google-fonts',
-        expiration: {
-          maxEntries: 4,
-          maxAgeSeconds: 365 * 24 * 60 * 60 // 365 days
-        }
-      }
-    },
-    {
-      urlPattern: /\.(?:eot|otf|ttc|ttf|woff|woff2|font.css)$/i,
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'static-font-assets',
-        expiration: {
-          maxEntries: 4,
-          maxAgeSeconds: 7 * 24 * 60 * 60 // 7 days
-        }
-      }
-    },
-    {
-      urlPattern: /\.(?:jpg|jpeg|gif|png|svg|ico|webp)$/i,
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'static-image-assets',
-        expiration: {
-          maxEntries: 64,
-          maxAgeSeconds: 30 * 24 * 60 * 60 // 30 days
-        }
-      }
-    },
-    {
-      urlPattern: /\/_next\/image\?url=.+$/i,
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'next-image',
-        expiration: {
-          maxEntries: 64,
-          maxAgeSeconds: 24 * 60 * 60 // 24 hours
-        }
-      }
-    },
-    {
-      urlPattern: /\.(?:mp3|wav|ogg)$/i,
-      handler: 'CacheFirst',
-      options: {
-        cacheName: 'static-audio-assets',
-        expiration: {
-          maxEntries: 32,
-          maxAgeSeconds: 30 * 24 * 60 * 60 // 30 days
-        }
-      }
-    },
-    {
-      urlPattern: /\.(?:mp4|webm)$/i,
-      handler: 'CacheFirst',
-      options: {
-        cacheName: 'static-video-assets',
-        expiration: {
-          maxEntries: 32,
-          maxAgeSeconds: 30 * 24 * 60 * 60 // 30 days
-        }
-      }
-    },
-    {
-      urlPattern: /\.(?:js)$/i,
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'static-js-assets',
-        expiration: {
-          maxEntries: 32,
-          maxAgeSeconds: 24 * 60 * 60 // 24 hours
-        }
-      }
-    },
-    {
-      urlPattern: /\.(?:css|less)$/i,
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'static-style-assets',
-        expiration: {
-          maxEntries: 32,
-          maxAgeSeconds: 24 * 60 * 60 // 24 hours
-        }
-      }
-    },
-    // Add API cache strategy
-    {
-      urlPattern: /\/api\/.*$/i,
-      handler: 'NetworkFirst',
-      options: {
-        cacheName: 'api-cache',
-        expiration: {
-          maxEntries: 32,
-          maxAgeSeconds: 5 * 60 // 5 minutes
-        },
-        networkTimeoutSeconds: 10
-      }
-    }
-  ]
-})
-
-let userConfig = undefined
-try {
-  // Remove the problematic import
-  // userConfig = await import('./v0-user-next.config')
-} catch (e) {
-  // ignore error
 }
 
 /** @type {import('next').NextConfig} */
@@ -200,10 +77,11 @@ const nextConfig = {
     memoryBasedWorkersCount: true
   },
   transpilePackages: [],
-  webpack: async (config) => {
+  webpack: (config) => {
     config.externals.push({
       'sharp': 'commonjs sharp',
     });
+    
     config.module.rules.push({
       test: /\.svg$/,
       use: ["@svgr/webpack"],
@@ -212,86 +90,14 @@ const nextConfig = {
     // Add module concatenation for better tree shaking
     config.optimization.concatenateModules = true;
     
-    // Increase chunk size limit to reduce number of chunks
+    // Simplify chunk splitting configuration
     config.optimization.splitChunks = {
-      ...config.optimization.splitChunks,
       chunks: 'all',
       maxInitialRequests: 25,
       maxAsyncRequests: 25,
       minSize: 20000,
       maxSize: 244000,
-      cacheGroups: {
-        framework: {
-          test: /[\\/]node_modules[\\/](react|react-dom|next|@next)[\\/]/,
-          name: 'framework',
-          priority: 40,
-          chunks: 'all',
-          enforce: true,
-        },
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'commons',
-          chunks: 'all',
-          priority: 20,
-        },
-        three: {
-          test: /[\\/]node_modules[\\/](three|@react-three)[\\/]/,
-          name: 'three-js',
-          chunks: 'all',
-          priority: 30,
-        },
-        ui: {
-          test: /[\\/]node_modules[\\/](@radix-ui|cmdk|vaul|embla-carousel)[\\/]/,
-          name: 'ui-components',
-          chunks: 'all',
-          priority: 30,
-        },
-        // Add specific chunks for heavy components
-        analytics: {
-          test: /[\\/]components[\\/](analytics-preview|analytics-dashboard)\.tsx$/,
-          name: 'analytics-components',
-          chunks: 'async',
-          priority: 35,
-        },
-        hero: {
-          test: /[\\/]components[\\/](hyper-hero|advanced-hero)\.tsx$/,
-          name: 'hero-components',
-          chunks: 'async',
-          priority: 35,
-        },
-        industry: {
-          test: /[\\/]components[\\/]enhanced-industry-solutions\.tsx$/,
-          name: 'industry-solutions',
-          chunks: 'async',
-          priority: 35,
-        },
-      },
     };
-    
-    // Add terser compression options
-    if (config.optimization.minimizer) {
-      try {
-        const TerserPlugin = (await import('terser-webpack-plugin')).default;
-        const terserOptions = {
-          compress: {
-            drop_console: true,
-            ecma: 2020,
-            passes: 2,
-          },
-          mangle: true,
-          module: true,
-        };
-        
-        config.optimization.minimizer.push(
-          new TerserPlugin({
-            terserOptions,
-            extractComments: false,
-          })
-        );
-      } catch (e) {
-        console.log('TerserPlugin not available, skipping optimization...');
-      }
-    }
     
     return config;
   },
@@ -362,30 +168,19 @@ const nextConfig = {
     ];
   },
   distDir: '.next',
-}
+};
 
-// Only merge if userConfig exists (which it won't in this simplified version)
-mergeConfig(nextConfig, userConfig)
-
-function mergeConfig(nextConfig, userConfig) {
-  if (!userConfig) {
-    return
-  }
-
-  for (const key in userConfig) {
-    if (
-      typeof nextConfig[key] === 'object' &&
-      !Array.isArray(nextConfig[key])
-    ) {
-      nextConfig[key] = {
-        ...nextConfig[key],
-        ...userConfig[key],
-      }
-    } else {
-      nextConfig[key] = userConfig[key]
-    }
+// Check if bundle analyzer needs to be enabled
+let config = nextConfig;
+if (process.env.ANALYZE === 'true') {
+  try {
+    const withBundleAnalyzer = require('@next/bundle-analyzer')({
+      enabled: true,
+    });
+    config = withBundleAnalyzer(config);
+  } catch (e) {
+    console.log('Bundle analyzer not available, skipping...');
   }
 }
 
-// Apply the bundle analyzer and PWA wrapper
-export default withBundleAnalyzer(withPWAConfig(nextConfig))
+export default config;
