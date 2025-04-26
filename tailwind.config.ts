@@ -123,34 +123,24 @@ const config: Config = {
         },
         "logo-pulse": {
           "0%": { 
-            opacity: "1",
-            filter: "drop-shadow(0 0 2px rgba(139, 0, 0, 0.3))",
-            transform: "scale(1)"
-          },
-          "15%": { 
-            opacity: "0.8",
-            filter: "drop-shadow(0 0 8px rgba(139, 0, 0, 0.7))",
-            transform: "scale(1.12)"
+            opacity: "0.5",
+            transform: "scale(0.95)",
+            boxShadow: "0 0 0 0 rgba(139, 0, 0, 0.7)"
           },
           "30%": { 
-            opacity: "0.95",
-            filter: "drop-shadow(0 0 4px rgba(139, 0, 0, 0.5))",
-            transform: "scale(1.05)"
-          },
-          "45%": { 
             opacity: "0.85",
-            filter: "drop-shadow(0 0 6px rgba(139, 0, 0, 0.6))",
-            transform: "scale(1.08)"
+            transform: "scale(1.1)",
+            boxShadow: "0 0 0 10px rgba(139, 0, 0, 0)"
           },
-          "70%": { 
-            opacity: "1",
-            filter: "drop-shadow(0 0 3px rgba(139, 0, 0, 0.4))",
-            transform: "scale(1)"
+          "60%": { 
+            opacity: "0.5",
+            transform: "scale(0.97)",
+            boxShadow: "0 0 0 0 rgba(139, 0, 0, 0)"
           },
           "100%": { 
-            opacity: "1",
-            filter: "drop-shadow(0 0 2px rgba(139, 0, 0, 0.3))",
-            transform: "scale(1)"
+            opacity: "0.5",
+            transform: "scale(0.95)",
+            boxShadow: "0 0 0 0 rgba(139, 0, 0, 0.7)"
           }
         },
       },

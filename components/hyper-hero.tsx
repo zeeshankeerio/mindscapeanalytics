@@ -858,10 +858,14 @@ export default function HyperHero() {
                   
                   {/* Icon container */}
                   <div className="relative bg-black rounded-[20px] p-4 xs:p-5">
+                    <div className="absolute inset-0 rounded-[20px] overflow-hidden">
+                      <div className="absolute inset-0 bg-red-600/10 rounded-[20px] animate-logo-pulse"></div>
+                      <div className="absolute inset-[-10px] bg-red-500/5 blur-[10px] animate-pulse-slow"></div>
+                    </div>
                     <Image 
                       src="/images/brain.svg" 
                       alt="Mindscape Brain Logo"
-                      className="h-12 xs:h-14 w-12 xs:w-14 animate-logo-pulse"
+                      className="h-12 xs:h-14 w-12 xs:w-14 animate-heartbeat relative z-10"
                       width={56}
                       height={56}
                       priority
@@ -953,22 +957,22 @@ export default function HyperHero() {
             {/* Bottom section with CTA */}
             <div className="space-y-4 animate-fade-up-3 pb-16">
               {/* Stats row */}
-              <div className="grid grid-cols-4 gap-1 xs:gap-2 mb-4">
-                <div className="bg-black/30 backdrop-blur-sm p-1.5 xs:p-2 rounded-lg text-center border border-white/5 hover:border-white/10 transition-colors">
-                  <div className="text-base xs:text-lg font-bold text-red-500">99.9%</div>
-                  <div className="text-[8px] xs:text-[10px] text-white/70">Uptime</div>
+              <div className="grid grid-cols-2 gap-2 xs:gap-3 mb-5">
+                <div className="bg-black/40 backdrop-blur-sm p-2 xs:p-3 rounded-lg text-center border border-white/10 hover:border-red-500/30 transition-colors">
+                  <div className="text-base xs:text-xl font-bold text-red-500 mb-0.5">99.9%</div>
+                  <div className="text-[9px] xs:text-xs text-white/80">Platform Uptime</div>
                 </div>
-                <div className="bg-black/30 backdrop-blur-sm p-1.5 xs:p-2 rounded-lg text-center border border-white/5 hover:border-white/10 transition-colors">
-                  <div className="text-base xs:text-lg font-bold text-green-500">10ms</div>
-                  <div className="text-[8px] xs:text-[10px] text-white/70">Response</div>
+                <div className="bg-black/40 backdrop-blur-sm p-2 xs:p-3 rounded-lg text-center border border-white/10 hover:border-green-500/30 transition-colors">
+                  <div className="text-base xs:text-xl font-bold text-green-500 mb-0.5">10ms</div>
+                  <div className="text-[9px] xs:text-xs text-white/80">Response Time</div>
                 </div>
-                <div className="bg-black/30 backdrop-blur-sm p-1.5 xs:p-2 rounded-lg text-center border border-white/5 hover:border-white/10 transition-colors">
-                  <div className="text-base xs:text-lg font-bold text-blue-500">500+</div>
-                  <div className="text-[8px] xs:text-[10px] text-white/70">Clients</div>
+                <div className="bg-black/40 backdrop-blur-sm p-2 xs:p-3 rounded-lg text-center border border-white/10 hover:border-blue-500/30 transition-colors">
+                  <div className="text-base xs:text-xl font-bold text-blue-500 mb-0.5">500+</div>
+                  <div className="text-[9px] xs:text-xs text-white/80">Enterprise Clients</div>
                 </div>
-                <div className="bg-black/30 backdrop-blur-sm p-1.5 xs:p-2 rounded-lg text-center border border-white/5 hover:border-white/10 transition-colors">
-                  <div className="text-base xs:text-lg font-bold text-purple-500">24/7</div>
-                  <div className="text-[8px] xs:text-[10px] text-white/70">Support</div>
+                <div className="bg-black/40 backdrop-blur-sm p-2 xs:p-3 rounded-lg text-center border border-white/10 hover:border-purple-500/30 transition-colors">
+                  <div className="text-base xs:text-xl font-bold text-purple-500 mb-0.5">24/7</div>
+                  <div className="text-[9px] xs:text-xs text-white/80">Support</div>
                 </div>
               </div>
               
@@ -1181,10 +1185,14 @@ export default function HyperHero() {
                         
                         {/* Icon container */}
                         <div className="relative bg-black rounded-[20px] p-8 md:p-10 transition-transform duration-300 group-hover:scale-[0.98]">
+                          <div className="absolute inset-0 rounded-[20px] overflow-hidden">
+                            <div className="absolute inset-0 bg-red-600/20 rounded-[20px] animate-logo-pulse"></div>
+                            <div className="absolute inset-[-15px] bg-red-500/10 blur-[15px] animate-pulse-slow"></div>
+                          </div>
                           <Image 
                             src="/images/brain.svg" 
                             alt="Mindscape Brain Logo"
-                            className="h-14 w-14 md:h-24 md:w-24 transform transition-all duration-300 group-hover:scale-[0.98] animate-logo-pulse"
+                            className="h-14 w-14 md:h-24 md:w-24 transform transition-all duration-300 group-hover:scale-[0.98] animate-heartbeat relative z-10"
                             width={96}
                             height={96}
                           />
@@ -1207,24 +1215,26 @@ export default function HyperHero() {
       
       {/* Stats banner at bottom */}
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-r from-black via-black/95 to-black backdrop-blur-sm border-t border-white/5 py-4 px-4">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center space-x-10">
-            <div className="flex items-center space-x-2">
-              <div className="text-red-500 font-bold text-lg">99.9%</div>
-              <div className="text-sm text-white/70">Platform Uptime</div>
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="flex flex-col items-center sm:items-start justify-center">
+              <div className="text-red-500 font-bold text-lg mb-1">99.9%</div>
+              <div className="text-sm text-white/80">Platform Uptime</div>
             </div>
-            <div className="flex items-center space-x-2">
-              <div className="text-green-500 font-bold text-lg">10ms</div>
-              <div className="text-sm text-white/70">Response Time</div>
+            <div className="flex flex-col items-center sm:items-start justify-center">
+              <div className="text-green-500 font-bold text-lg mb-1">10ms</div>
+              <div className="text-sm text-white/80">Response Time</div>
             </div>
-            <div className="flex items-center space-x-2 hidden md:flex">
-              <div className="text-blue-500 font-bold text-lg">500+</div>
-              <div className="text-sm text-white/70">Enterprise Clients</div>
+            <div className="flex flex-col items-center sm:items-start justify-center">
+              <div className="text-blue-500 font-bold text-lg mb-1">500+</div>
+              <div className="text-sm text-white/80">Enterprise Clients</div>
             </div>
           </div>
-          <div className="text-white/70 flex items-center bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
-            <Shield className="h-4 w-4 mr-2 text-red-400" />
-            <span className="text-sm">Enterprise-grade security</span>
+          <div className="flex items-center justify-center sm:justify-end col-span-1">
+            <div className="text-white/80 flex items-center bg-white/5 px-4 py-2 rounded-full border border-white/10">
+              <Shield className="h-4 w-4 mr-2 text-red-400" />
+              <span className="text-sm whitespace-nowrap">Enterprise-grade security</span>
+            </div>
           </div>
         </div>
       </div>
@@ -1315,6 +1325,15 @@ const styles = `
   @keyframes pulse-fast {
     0%, 100% { opacity: 0.5; transform: scale(1); }
     50% { opacity: 0.8; transform: scale(1.15); }
+  }
+
+  @keyframes heartbeat {
+    0% { transform: scale(1); }
+    14% { transform: scale(1.15); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.10); }
+    70% { transform: scale(1); }
+    100% { transform: scale(1); }
   }
 
   @keyframes neural-1 {
@@ -1538,8 +1557,7 @@ const styles = `
   }
 
   .animate-heartbeat {
-    animation: heartbeat 1s ease-in-out infinite;
-    will-change: transform;
+    animation: heartbeat 1.5s ease-in-out infinite;
   }
 
   @keyframes float-slow {
