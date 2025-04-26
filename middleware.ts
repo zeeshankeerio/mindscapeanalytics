@@ -11,7 +11,9 @@ export async function middleware(request: NextRequest) {
     '/api/dashboard',
     '/api/prediction',
     '/api/nlp',
-    '/api/vision'
+    '/api/vision',
+    '/api/assistant',
+    '/api/contentforge'
   ]
   
   // Admin-only routes

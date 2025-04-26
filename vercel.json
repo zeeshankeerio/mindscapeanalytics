@@ -31,6 +31,17 @@
     { "src": "/solutions/blockchain(.*)", "dest": "/solutions/blockchain$1" },
     { "src": "/solutions/enterprise(.*)", "dest": "/solutions/enterprise$1" },
     { "src": "/solutions/industry(.*)", "dest": "/solutions/industry$1" },
+    { "src": "/solutions/real-estate(.*)", "dest": "/solutions/real-estate$1" },
+    { "src": "/solutions/industry-paas(.*)", "dest": "/solutions/industry-paas$1" },
+    { "src": "/solutions/aiops(.*)", "dest": "/solutions/aiops$1" },
+    { "src": "/solutions/genai(.*)", "dest": "/solutions/genai$1" },
+    { "src": "/solutions/cloud(.*)", "dest": "/solutions/cloud$1" },
+    { "src": "/services/(.*)", "dest": "/services/$1" },
+    { "src": "/dashboard/(.*)", "dest": "/dashboard/$1" },
+    { "src": "/auth/(.*)", "dest": "/auth/$1" },
+    { "src": "/blog/(.*)", "dest": "/blog/$1" },
+    { "src": "/projects/(.*)", "dest": "/projects/$1" },
+    { "src": "/case-studies/(.*)", "dest": "/case-studies/$1" },
     { "src": "/(.*)", "dest": "/$1" }
   ]
 } 

@@ -108,7 +108,17 @@ const nextConfig = {
       '/api/auth/**',
       '/solutions/blockchain/**',
       '/solutions/enterprise/**',
-      '/solutions/industry/**'
+      '/solutions/industry/**',
+      '/solutions/real-estate/**',
+      '/solutions/industry-paas/**',
+      '/solutions/aiops/**',
+      '/solutions/genai/**',
+      '/solutions/cloud/**',
+      '/services/**',
+      '/dashboard/**',
+      '/blog/**',
+      '/projects/**',
+      '/case-studies/**'
     ]
   },
   async headers() {
