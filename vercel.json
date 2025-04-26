@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "pnpm install --no-frozen-lockfile && pnpm add openai prisma ts-node && npx prisma generate && pnpm build",
+  "buildCommand": "pnpm install --no-frozen-lockfile && pnpm add openai prisma ts-node @next/bundle-analyzer terser-webpack-plugin && npx prisma generate && pnpm build",
   "installCommand": "pnpm install --no-frozen-lockfile",
   "framework": "nextjs",
   "devCommand": "pnpm dev"

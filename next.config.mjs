@@ -1,12 +1,17 @@
 import withBundleAnalyzer from '@next/bundle-analyzer'
 import nextPWA from 'next-pwa'
-import TerserPlugin from 'terser-webpack-plugin'
 
 const withPWA = nextPWA
 
-const withBundleAnalyzerConfig = withBundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
-})
+let withBundleAnalyzer = (config) => config;
+try {
+  const bundleAnalyzer = await import('@next/bundle-analyzer');
+  withBundleAnalyzer = bundleAnalyzer.default({
+    enabled: process.env.ANALYZE === 'true',
+  });
+} catch (e) {
+  console.log('Bundle analyzer not available, skipping...');
+}
 
 // PWA configuration
 const withPWAConfig = withPWA({
@@ -266,22 +271,27 @@ const nextConfig = {
     
     // Add terser compression options
     if (config.optimization.minimizer) {
-      const terserOptions = {
-        compress: {
-          drop_console: true,
-          ecma: 2020,
-          passes: 2,
-        },
-        mangle: true,
-        module: true,
-      };
-      
-      config.optimization.minimizer.push(
-        new TerserPlugin({
-          terserOptions,
-          extractComments: false,
-        })
-      );
+      try {
+        const TerserPlugin = (await import('terser-webpack-plugin')).default;
+        const terserOptions = {
+          compress: {
+            drop_console: true,
+            ecma: 2020,
+            passes: 2,
+          },
+          mangle: true,
+          module: true,
+        };
+        
+        config.optimization.minimizer.push(
+          new TerserPlugin({
+            terserOptions,
+            extractComments: false,
+          })
+        );
+      } catch (e) {
+        console.log('TerserPlugin not available, skipping optimization...');
+      }
     }
     
     return config;
@@ -379,4 +389,4 @@ function mergeConfig(nextConfig, userConfig) {
 }
 
 // Apply the bundle analyzer and PWA wrapper
-export default withBundleAnalyzerConfig(withPWAConfig(nextConfig))
+export default withBundleAnalyzer(withPWAConfig(nextConfig))
