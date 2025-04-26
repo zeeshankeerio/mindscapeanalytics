@@ -4,10 +4,33 @@
   "installCommand": "corepack enable && pnpm install --no-frozen-lockfile --force",
   "framework": "nextjs",
   "regions": ["iad1"],
+  "env": {
+    "PRISMA_GENERATE_DATAPROXY": "true"
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ],
   "routes": [
     { "src": "/api/auth/(.*)", "dest": "/api/auth/$1" },
     { "src": "/solutions/blockchain(.*)", "dest": "/solutions/blockchain$1" },
     { "src": "/solutions/enterprise(.*)", "dest": "/solutions/enterprise$1" },
+    { "src": "/solutions/industry(.*)", "dest": "/solutions/industry$1" },
     { "src": "/(.*)", "dest": "/$1" }
   ]
 } 

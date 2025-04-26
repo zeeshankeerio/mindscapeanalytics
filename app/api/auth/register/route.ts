@@ -1,55 +1,65 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from 'next/headers';
+import { z } from "zod";
+import bcrypt from "bcryptjs";
+import { prisma } from "@/lib/prisma";
 
-// Explicitly mark this route as dynamic since it uses cookies
+// Explicitly mark this route as dynamic
 export const dynamic = 'force-dynamic';
 
-// Mock user for development
-const mockUser = {
-  id: "mock-user-id",
-  name: "Demo User",
-  email: "demo@example.com",
-  role: "ADMIN"
-};
+// Define validation schema for registration
+const registerSchema = z.object({
+  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z.string().min(8, { message: "Password must be at least 8 characters" })
+});
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, email, password } = body;
-
-    if (!name || !email || !password) {
+    
+    // Validate input
+    const result = registerSchema.safeParse(body);
+    if (!result.success) {
       return NextResponse.json(
-        { success: false, message: 'Name, email, and password are required' },
+        { success: false, message: 'Validation failed', errors: result.error.format() },
         { status: 400 }
       );
     }
 
-    // In a real app, you would save the user to your database
-    // For now, we'll just mock a successful registration
-    const newUser = {
-      id: `user-${Date.now()}`,
-      name,
-      email,
-      role: 'USER',
-      createdAt: new Date().toISOString()
-    };
+    const { name, email, password } = result.data;
 
-    // Mock token generation - in a real app, you'd use JWT or similar
-    const token = `mock-token-${Date.now()}`;
-    
-    // Set auth cookie
-    const cookieStore = cookies();
-    cookieStore.set('token', token, { 
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 60 // 1 hour
+    // Check if user already exists
+    const existingUser = await prisma.user.findUnique({
+      where: { email }
     });
+
+    if (existingUser) {
+      return NextResponse.json(
+        { success: false, message: 'User with this email already exists' },
+        { status: 409 }
+      );
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create user in database
+    const newUser = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+        role: 'USER',
+      }
+    });
+
+    // Return success but don't include password
+    const { password: _, ...userWithoutPassword } = newUser;
 
     return NextResponse.json({
       success: true,
       message: 'Registration successful',
-      user: newUser
+      user: userWithoutPassword
     });
   } catch (error) {
     console.error('Registration error:', error);

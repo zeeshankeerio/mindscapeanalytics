@@ -1,8 +1,48 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server"
+import { getToken } from "next-auth/jwt"
 
-export function middleware(request: NextRequest) {
-  // Allow all requests to pass through without authentication checks
+export async function middleware(request: NextRequest) {
+  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET })
+  
+  // Protected routes that require authentication
+  const protectedPaths = [
+    '/dashboard',
+    '/api/dashboard',
+    '/api/prediction',
+    '/api/nlp',
+    '/api/vision'
+  ]
+  
+  // Admin-only routes
+  const adminPaths = [
+    '/admin',
+  ]
+  
+  const path = request.nextUrl.pathname
+  
+  // Check if the path requires authentication
+  const isProtectedPath = protectedPaths.some(prefix => 
+    path === prefix || path.startsWith(`${prefix}/`)
+  )
+  
+  // Check if the path requires admin access
+  const isAdminPath = adminPaths.some(prefix =>
+    path === prefix || path.startsWith(`${prefix}/`)
+  )
+  
+  // If it's a protected path and user is not authenticated, redirect to login
+  if (isProtectedPath && !token) {
+    const url = new URL('/auth/login', request.url)
+    url.searchParams.set('callbackUrl', encodeURI(request.url))
+    return NextResponse.redirect(url)
+  }
+  
+  // If it's an admin path and user is not an admin, redirect to dashboard
+  if (isAdminPath && (!token || token.role !== 'ADMIN')) {
+    return NextResponse.redirect(new URL('/dashboard', request.url))
+  }
+  
   return NextResponse.next()
 }
 
@@ -13,7 +53,8 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - public files (assets)
      */
-    "/((?!_next/static|_next/image|favicon.ico).*)",
+    "/((?!_next/static|_next/image|favicon.ico|images|assets|public).*)",
   ],
 } 

@@ -62,20 +62,9 @@ const nextConfig = {
       'zod'
     ],
     webpackBuildWorker: true,
-    parallelServerBuildTraces: true,
-    parallelServerCompiles: true,
-    webVitalsAttribution: ['CLS', 'LCP', 'FCP', 'FID', 'TTFB', 'INP'],
     serverComponentsExternalPackages: ['sharp'],
-    ppr: false,
-    optimizeServerReact: true,
-    turbo: {
-      rules: {
-        // Custom turbo pack rules
-      }
-    },
-    memoryBasedWorkersCount: true
+    ppr: false
   },
-  transpilePackages: [],
   webpack: (config) => {
     config.externals.push({
       'sharp': 'commonjs sharp',
@@ -86,15 +75,20 @@ const nextConfig = {
       use: ["@svgr/webpack"],
     });
     
-    config.optimization.concatenateModules = true;
-    
-    config.optimization.splitChunks = {
-      chunks: 'all',
-      maxInitialRequests: 25,
-      maxAsyncRequests: 25,
-      minSize: 20000,
-      maxSize: 244000,
-    };
+    // Optimize for production
+    if (process.env.NODE_ENV === 'production') {
+      // Enable module concatenation for better tree shaking
+      config.optimization.concatenateModules = true;
+      
+      // Split chunks for better caching
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        maxInitialRequests: 25,
+        maxAsyncRequests: 25,
+        minSize: 20000,
+        maxSize: 244000,
+      };
+    }
     
     return config;
   },
@@ -106,14 +100,15 @@ const nextConfig = {
   swcMinify: true,
   staticPageGenerationTimeout: 120,
   env: {
-    NEXT_PUBLIC_DISABLE_STATIC_GENERATION: "false"
+    NEXT_PUBLIC_API_URL: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}/api` : 'http://localhost:3000/api',
   },
   // Force all auth API routes to be dynamic rather than static
   serverRuntimeConfig: {
     dynamicRenderingForPaths: [
       '/api/auth/**',
       '/solutions/blockchain/**',
-      '/solutions/enterprise/**'
+      '/solutions/enterprise/**',
+      '/solutions/industry/**'
     ]
   },
   async headers() {
@@ -132,6 +127,18 @@ const nextConfig = {
           {
             key: 'Referrer-Policy',
             value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains; preload',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
           },
         ],
       },
