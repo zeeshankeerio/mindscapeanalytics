@@ -13,11 +13,5 @@
   ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index" }
-  ],
-  "functions": {
-    "app/founder/page.tsx": {
-      "memory": 1024,
-      "maxDuration": 10
-    }
-  }
+  ]
 } 
