@@ -1,16 +1,9 @@
 {
   "version": 2,
-  "buildCommand": "pnpm install --no-frozen-lockfile && pnpm update && npx prisma generate && pnpm build",
-  "installCommand": "pnpm install --no-frozen-lockfile --prefer-offline=false",
   "framework": "nextjs",
-  "devCommand": "pnpm dev",
+  "installCommand": "corepack enable && pnpm install --no-frozen-lockfile --force",
+  "buildCommand": "npx prisma generate && pnpm build",
   "regions": ["iad1"],
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index" }
   ]
