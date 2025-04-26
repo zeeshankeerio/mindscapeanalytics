@@ -112,7 +112,8 @@ const nextConfig = {
   serverRuntimeConfig: {
     dynamicRenderingForPaths: [
       '/api/auth/**',
-      '/solutions/blockchain/**'
+      '/solutions/blockchain/**',
+      '/solutions/enterprise/**'
     ]
   },
   async headers() {

@@ -7,6 +7,7 @@
   "routes": [
     { "src": "/api/auth/(.*)", "dest": "/api/auth/$1" },
     { "src": "/solutions/blockchain(.*)", "dest": "/solutions/blockchain$1" },
+    { "src": "/solutions/enterprise(.*)", "dest": "/solutions/enterprise$1" },
     { "src": "/(.*)", "dest": "/$1" }
   ]
 } 
