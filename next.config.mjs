@@ -1,4 +1,3 @@
-import withBundleAnalyzer from '@next/bundle-analyzer'
 import nextPWA from 'next-pwa'
 
 const withPWA = nextPWA
@@ -201,7 +200,7 @@ const nextConfig = {
     memoryBasedWorkersCount: true
   },
   transpilePackages: [],
-  webpack: (config) => {
+  webpack: async (config) => {
     config.externals.push({
       'sharp': 'commonjs sharp',
     });
