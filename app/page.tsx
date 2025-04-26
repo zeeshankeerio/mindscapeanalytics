@@ -1,79 +1,25 @@
 "use client"
 
-import dynamic from "next/dynamic"
+import HyperHero from "@/components/hyper-hero"
+import FeaturesSection from "@/components/features-section"
+import AICapabilitiesShowcase from "@/components/ai-capabilities-showcase"
+import ProjectsShowcase from "@/components/projects-showcase"
+import AnalyticsPreview from "@/components/analytics-preview"
+import EnhancedIndustrySolutions from "@/components/enhanced-industry-solutions"
+import TechStackShowcase from "@/components/tech-stack-showcase"
+import TestimonialCarousel from "@/components/testimonial-carousel"
+import IntegrationPartners from "@/components/integration-partners"
+import TeamSection from "@/components/team-section"
+import EnhancedCTASection from "@/components/enhanced-cta-section"
+import { SectionDivider } from "@/components/section-divider"
+import { ScrollToTop } from "@/components/scroll-to-top"
+import { FloatingChatWidget } from "@/components/floating-chat-widget"
+import { CookieConsent } from "@/components/cookie-consent"
+import InteractiveDemoSection from "@/components/interactive-demo-section"
+import NewsTicker from "@/components/news-ticker"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef } from "react"
 import { Database } from "lucide-react"
-import { ScrollToTop } from "@/components/scroll-to-top"
-import { SectionDivider } from "@/components/section-divider"
-import { FloatingChatWidget } from "@/components/floating-chat-widget"
-import { CookieConsent } from "@/components/cookie-consent"
-
-// Import only the news ticker component directly as it's visible immediately
-import NewsTicker from "@/components/news-ticker"
-
-// Dynamically import heavy components with proper loading skeletons
-const HyperHero = dynamic(() => import("@/components/hyper-hero"), { 
-  ssr: true,
-  loading: () => <div className="h-[80vh] bg-black/30 animate-pulse rounded-lg" aria-label="Loading hero section..." role="progressbar"></div>
-})
-
-// Defer below-the-fold content loading to improve core web vitals
-const FeaturesSection = dynamic(() => import("@/components/features-section"), {
-  ssr: false, // Important: Only render on client to reduce server load
-  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading features section..." role="progressbar"></div>
-})
-
-const AICapabilitiesShowcase = dynamic(() => import("@/components/ai-capabilities-showcase"), {
-  ssr: false,
-  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading AI capabilities section..." role="progressbar"></div>
-})
-
-// Add more explicit chunk names for better bundle splitting
-const ProjectsShowcase = dynamic(() => import(/* webpackChunkName: "projects-showcase" */ "@/components/projects-showcase"), {
-  ssr: false,
-  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading projects section..." role="progressbar"></div>
-})
-
-const AnalyticsPreview = dynamic(() => import(/* webpackChunkName: "analytics-preview" */ "@/components/analytics-preview"), {
-  ssr: false,
-  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading analytics preview section..." role="progressbar"></div>
-})
-
-const EnhancedIndustrySolutions = dynamic(() => import(/* webpackChunkName: "industry-solutions" */ "@/components/enhanced-industry-solutions"), {
-  ssr: false,
-  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading industry solutions section..." role="progressbar"></div>
-})
-
-const TechStackShowcase = dynamic(() => import(/* webpackChunkName: "tech-stack" */ "@/components/tech-stack-showcase"), {
-  ssr: false,
-  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading tech stack section..." role="progressbar"></div>
-})
-
-const TestimonialCarousel = dynamic(() => import(/* webpackChunkName: "testimonials" */ "@/components/testimonial-carousel"), {
-  ssr: false,
-  loading: () => <div className="h-64 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading testimonials section..." role="progressbar"></div>
-})
-
-const IntegrationPartners = dynamic(() => import(/* webpackChunkName: "integration" */ "@/components/integration-partners"), {
-  ssr: false,
-  loading: () => <div className="h-64 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading integration partners section..." role="progressbar"></div>
-})
-
-const TeamSection = dynamic(() => import(/* webpackChunkName: "team-section" */ "@/components/team-section"), {
-  ssr: false,
-  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading team section..." role="progressbar"></div>
-})
-
-const EnhancedCTASection = dynamic(() => import(/* webpackChunkName: "cta-section" */ "@/components/enhanced-cta-section"), {
-  ssr: false,
-  loading: () => <div className="h-64 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading call to action section..." role="progressbar"></div>
-})
-
-const InteractiveDemoSection = dynamic(() => import(/* webpackChunkName: "interactive-demo" */ "@/components/interactive-demo-section"), {
-  ssr: false,
-  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading interactive demo section..." role="progressbar"></div>
-})
 
 // Feature data
 const features = [
@@ -138,7 +84,7 @@ export default function Home() {
       </div>
       
       {/* Hero Section - First Impression */}
-      <header className="relative z-10 w-full overflow-hidden" role="banner" aria-labelledby="main-heading">
+      <header className="relative z-10 w-full overflow-hidden">
         <motion.div 
           style={{ y, opacity }}
           className="container mx-auto px-4 md:px-6"
@@ -153,7 +99,7 @@ export default function Home() {
       </header>
       
       {/* 1. POWERFUL FEATURES - Core Capabilities */}
-      <section id="features" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="features-heading">
+      <section id="features" className="relative z-10 w-full py-12 overflow-hidden">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -164,7 +110,7 @@ export default function Home() {
       </section>
       
       {/* 2. INDUSTRY SOLUTIONS - Vertical Focus */}
-      <section id="solutions" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="solutions-heading">
+      <section id="solutions" className="relative z-10 w-full py-12 overflow-hidden">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -175,7 +121,7 @@ export default function Home() {
       </section>
       
       {/* 3. AI CAPABILITIES - Advanced Features */}
-      <section id="ai-capabilities" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="ai-capabilities-heading">
+      <section id="ai-capabilities" className="relative z-10 w-full py-12 overflow-hidden">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -186,7 +132,7 @@ export default function Home() {
       </section>
       
       {/* 5. INTERACTIVE DEMOS - Showcase Key Features */}
-      <section id="interactive-demo" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="interactive-demo-heading">
+      <section id="interactive-demo" className="relative z-10 w-full py-12 overflow-hidden">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -197,7 +143,7 @@ export default function Home() {
       </section>
       
       {/* 6. ENTERPRISE ANALYTICS SUITE - Data Visualization */}
-      <section id="analytics" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="analytics-heading">
+      <section id="analytics" className="relative z-10 w-full py-12 overflow-hidden">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -208,7 +154,7 @@ export default function Home() {
       </section>
       
       {/* 7. OUR PROJECTS - Innovations */}
-      <section id="projects" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="projects-heading">
+      <section id="projects" className="relative z-10 w-full py-12 overflow-hidden">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -219,7 +165,7 @@ export default function Home() {
       </section>
       
       {/* 8. TECHNOLOGY STACK - Our Technology */}
-      <section id="tech-stack" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="tech-stack-heading">
+      <section id="tech-stack" className="relative z-10 w-full py-12 overflow-hidden">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -230,7 +176,7 @@ export default function Home() {
       </section>
       
       {/* Testimonials - Social Proof */}
-      <section id="testimonials" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="testimonials-heading">
+      <section id="testimonials" className="relative z-10 w-full py-12 overflow-hidden">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -241,7 +187,7 @@ export default function Home() {
       </section>
       
       {/* Partners - Integration Ecosystem */}
-      <section id="partners" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="partners-heading">
+      <section id="partners" className="relative z-10 w-full py-12 overflow-hidden">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -252,7 +198,7 @@ export default function Home() {
       </section>
       
       {/* Team Section - Who We Are */}
-      <section id="team" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="team-heading">
+      <section id="team" className="relative z-10 w-full py-12 overflow-hidden">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-red-900/20 rounded-full blur-[90px] opacity-30 animate-pulse-slow"></div>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-red-900/20 rounded-full blur-[90px] opacity-30 animate-pulse-slow"></div>
@@ -263,7 +209,7 @@ export default function Home() {
       </section>
       
       {/* Start Today - Call to Action */}
-      <section id="start-today" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="cta-heading">
+      <section id="start-today" className="relative z-10 w-full py-12 overflow-hidden">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -277,9 +223,6 @@ export default function Home() {
       <ScrollToTop />
       <FloatingChatWidget />
       <CookieConsent />
-      
-      {/* Skip to main content link for accessibility */}
-      <a href="#features" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 bg-red-900 text-white px-4 py-2 rounded">Skip to main content</a>
     </main>
   )
 } 

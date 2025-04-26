@@ -1,14 +1,9 @@
-// Let's remove next-pwa completely
-// import nextPWA from 'next-pwa'
-
-let withBundleAnalyzer = (config) => config;
+let userConfig = undefined
 try {
-  const bundleAnalyzer = await import('@next/bundle-analyzer');
-  withBundleAnalyzer = bundleAnalyzer.default({
-    enabled: process.env.ANALYZE === 'true',
-  });
+  // Remove the problematic import
+  // userConfig = await import('./v0-user-next.config')
 } catch (e) {
-  console.log('Bundle analyzer not available, skipping...');
+  // ignore error
 }
 
 /** @type {import('next').NextConfig} */
@@ -46,80 +41,32 @@ const nextConfig = {
   },
   experimental: {
     optimizeCss: true,
-    optimizePackageImports: [
-      'lucide-react', 
-      'framer-motion', 
-      '@radix-ui/react-icons', 
-      '@react-three/drei', 
-      '@react-three/fiber', 
-      'cmdk',
-      'recharts',
-      'chart.js',
-      'react-chartjs-2',
-      'date-fns',
-      'embla-carousel-react',
-      'sonner',
-      'zod'
-    ],
+    optimizePackageImports: ['lucide-react', 'framer-motion', '@radix-ui/react-icons'],
     webpackBuildWorker: true,
+    parallelServerBuildTraces: false,
+    parallelServerCompiles: false,
+    webVitalsAttribution: ['CLS', 'LCP', 'FCP', 'FID', 'TTFB', 'INP'],
     serverComponentsExternalPackages: ['sharp'],
-    ppr: false
   },
+  transpilePackages: [],
   webpack: (config) => {
     config.externals.push({
       'sharp': 'commonjs sharp',
     });
-    
     config.module.rules.push({
       test: /\.svg$/,
       use: ["@svgr/webpack"],
     });
-    
-    // Optimize for production
-    if (process.env.NODE_ENV === 'production') {
-      // Enable module concatenation for better tree shaking
-      config.optimization.concatenateModules = true;
-      
-      // Split chunks for better caching
-      config.optimization.splitChunks = {
-        chunks: 'all',
-        maxInitialRequests: 25,
-        maxAsyncRequests: 25,
-        minSize: 20000,
-        maxSize: 244000,
-      };
-    }
-    
     return config;
   },
-  output: 'standalone',
   poweredByHeader: false,
   compress: true,
   productionBrowserSourceMaps: false,
   reactStrictMode: true,
   swcMinify: true,
-  staticPageGenerationTimeout: 120,
+  staticPageGenerationTimeout: 0,
   env: {
-    NEXT_PUBLIC_API_URL: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}/api` : 'http://localhost:3000/api',
-  },
-  // Force all auth API routes to be dynamic rather than static
-  serverRuntimeConfig: {
-    dynamicRenderingForPaths: [
-      '/api/auth/**',
-      '/solutions/blockchain/**',
-      '/solutions/enterprise/**',
-      '/solutions/industry/**',
-      '/solutions/real-estate/**',
-      '/solutions/industry-paas/**',
-      '/solutions/aiops/**',
-      '/solutions/genai/**',
-      '/solutions/cloud/**',
-      '/services/**',
-      '/dashboard/**',
-      '/blog/**',
-      '/projects/**',
-      '/case-studies/**'
-    ]
+    NEXT_PUBLIC_DISABLE_STATIC_GENERATION: "true"
   },
   async headers() {
     return [
@@ -137,18 +84,6 @@ const nextConfig = {
           {
             key: 'Referrer-Policy',
             value: 'strict-origin-when-cross-origin',
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'Strict-Transport-Security',
-            value: 'max-age=31536000; includeSubDomains; preload',
-          },
-          {
-            key: 'Permissions-Policy',
-            value: 'camera=(), microphone=(), geolocation=()',
           },
         ],
       },
@@ -170,39 +105,32 @@ const nextConfig = {
           },
         ],
       },
-      {
-        source: '/_next/static/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
-        source: '/assets/(.*)',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
     ];
   },
   distDir: '.next',
-};
+}
 
-let config = nextConfig;
-if (process.env.ANALYZE === 'true') {
-  try {
-    const withBundleAnalyzer = require('@next/bundle-analyzer')({
-      enabled: true,
-    });
-    config = withBundleAnalyzer(config);
-  } catch (e) {
-    console.log('Bundle analyzer not available, skipping...');
+// Only merge if userConfig exists (which it won't in this simplified version)
+mergeConfig(nextConfig, userConfig)
+
+function mergeConfig(nextConfig, userConfig) {
+  if (!userConfig) {
+    return
+  }
+
+  for (const key in userConfig) {
+    if (
+      typeof nextConfig[key] === 'object' &&
+      !Array.isArray(nextConfig[key])
+    ) {
+      nextConfig[key] = {
+        ...nextConfig[key],
+        ...userConfig[key],
+      }
+    } else {
+      nextConfig[key] = userConfig[key]
+    }
   }
 }
 
-export default config;
+export default nextConfig

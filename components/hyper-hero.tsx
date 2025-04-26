@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback, useMemo, lazy, Suspense } from "react"
+import { useState, useEffect, useRef, useCallback, useMemo } from "react"
 import { motion, useAnimation, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import {
   ArrowRight,
@@ -70,65 +70,18 @@ import { TypeAnimation } from 'react-type-animation'
 import Link from "next/link"
 import Image from "next/image"
 
-// Dynamically import more icons only when needed
-const IconPack = dynamic(() => 
-  import("@/components/icons").then(mod => {
-    return () => <>{Object.values(mod).map((Icon, i) => <Icon key={i} className="hidden" />)}</>
-  }), 
-  {
-    ssr: false,
-  }
-);
-
 // Dynamically import Three.js components to avoid SSR issues
 const ThreeScene = dynamic(() => import("@/components/three-scene"), {
   ssr: false,
   loading: () => (
-    <div className="flex items-center justify-center h-full w-full bg-black/50 rounded-xl border border-white/10" aria-label="Loading 3D visualization" role="progressbar">
+    <div className="flex items-center justify-center h-full w-full bg-black/50 rounded-xl border border-white/10">
       <div className="flex flex-col items-center">
-        <div role="progressbar" aria-valuemin={0} aria-valuemax={100} className="w-12 h-12 rounded-full border-2 border-white/20 border-t-white animate-spin mb-4"></div>
+        <div className="w-12 h-12 rounded-full border-2 border-white/20 border-t-white animate-spin mb-4"></div>
         <p className="text-white/70">Loading 3D visualization...</p>
       </div>
     </div>
   ),
 })
-
-// Lazy load card components with better loading indicators and explicit chunkNames
-const FeatureCard = dynamic(() => 
-  import(/* webpackChunkName: "hero-feature-card" */ './hyper-hero-components').then(mod => mod.FeatureCard), 
-  { ssr: true, loading: () => <div className="w-full h-[200px] bg-black/30 animate-pulse rounded-lg"></div> }
-);
-
-const StatCard = dynamic(() => 
-  import(/* webpackChunkName: "hero-stat-card" */ './hyper-hero-components').then(mod => mod.StatCard), 
-  { ssr: true, loading: () => <div className="w-full h-[120px] bg-black/30 animate-pulse rounded-lg"></div> }
-);
-
-// Only load interactive components when they're actually going to be visible
-const InteractiveDemoCard = dynamic(() => 
-  import(/* webpackChunkName: "hero-interactive-card" */ './hyper-hero-components').then(mod => mod.InteractiveDemoCard), 
-  { ssr: false, loading: () => <div className="w-full h-[300px] bg-black/30 animate-pulse rounded-lg"></div> }
-);
-
-const AIFeatureCard = dynamic(() => 
-  import('./hyper-hero-components').then(mod => mod.AIFeatureCard), 
-  { ssr: false }
-);
-
-const AICodeCard = dynamic(() => 
-  import('./hyper-hero-components').then(mod => mod.AICodeCard), 
-  { ssr: false }
-);
-
-const AITerminalCard = dynamic(() => 
-  import('./hyper-hero-components').then(mod => mod.AITerminalCard), 
-  { ssr: false }
-);
-
-const EnhancedFeatureCard = dynamic(() => 
-  import('./hyper-hero-components').then(mod => mod.EnhancedFeatureCard), 
-  { ssr: false }
-);
 
 // Animated Text Component
 function AnimatedText({ text, className }: { text: string; className?: string }) {
@@ -190,19 +143,513 @@ function AnimatedText({ text, className }: { text: string; className?: string })
   )
 }
 
-// First Target component - keep this one (line 188)
-const Target = ({ className }: { className?: string }) => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className={className}
-  >
-    <circle cx="12" cy="12" r="8.5" stroke="currentColor" />
-    <circle cx="12" cy="12" r="4.5" stroke="currentColor" />
-    <path d="M15 12H22M12 15V22M12 2V9M2 12H9" stroke="currentColor" strokeLinecap="round" />
-  </svg>
-)
+// Feature Card Component
+function FeatureCard({
+  icon,
+  title,
+  description,
+  delay = 0,
+}: {
+  icon: React.ReactNode
+  title: string
+  description: string
+  delay?: number
+}) {
+  const controls = useAnimation()
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, amount: 0.2 })
+
+  useEffect(() => {
+    if (isInView) {
+      controls.start("visible")
+    }
+  }, [controls, isInView])
+
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            duration: 0.6,
+            delay,
+            ease: [0.22, 1, 0.36, 1],
+          },
+        },
+      }}
+      className="bg-black/40 backdrop-blur-md border border-white/10 rounded-xl p-6 hover:border-red-500/50 transition-colors duration-300 group hover-lift"
+    >
+      <div className="p-3 bg-red-500/10 rounded-lg w-fit mb-4 group-hover:bg-red-500/20 transition-colors">{icon}</div>
+      <h3 className="text-xl font-bold mb-2">{title}</h3>
+      <p className="text-white/70">{description}</p>
+    </motion.div>
+  )
+}
+
+// Stat Card Component
+function StatCard({
+  value,
+  label,
+  icon,
+  delay = 0,
+}: { value: string; label: string; icon: React.ReactNode; delay?: number }) {
+  const controls = useAnimation()
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, amount: 0.2 })
+
+  useEffect(() => {
+    if (isInView) {
+      controls.start("visible")
+    }
+  }, [controls, isInView])
+
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={{
+        hidden: { opacity: 0, scale: 0.9 },
+        visible: {
+          opacity: 1,
+          scale: 1,
+          transition: {
+            duration: 0.5,
+            delay,
+            ease: [0.22, 1, 0.36, 1],
+          },
+        },
+      }}
+      className="bg-black/30 backdrop-blur-md border border-white/10 rounded-xl p-6 flex flex-col items-center text-center hover-lift"
+    >
+      <div className="p-3 bg-red-500/10 rounded-full w-fit mb-4">{icon}</div>
+      <div className="text-3xl md:text-4xl font-bold mb-1">{value}</div>
+      <div className="text-white/70">{label}</div>
+    </motion.div>
+  )
+}
+
+// Interactive Demo Card
+function InteractiveDemoCard({
+  title,
+  description,
+  icon,
+  delay = 0,
+}: { title: string; description: string; icon: React.ReactNode; delay?: number }) {
+  const controls = useAnimation()
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, amount: 0.2 })
+  const [isHovered, setIsHovered] = useState(false)
+  const [isActive, setIsActive] = useState(false)
+
+  useEffect(() => {
+    if (isInView) {
+      controls.start("visible")
+    }
+  }, [controls, isInView])
+
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            duration: 0.6,
+            delay,
+            ease: [0.22, 1, 0.36, 1],
+          },
+        },
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={() => setIsActive(!isActive)}
+      className={cn(
+        "bg-black/40 backdrop-blur-md border border-white/10 rounded-xl p-6 transition-all duration-300 cursor-pointer overflow-hidden",
+        isHovered ? "border-red-500/50" : "",
+        isActive ? "border-red-500 glow-effect" : "",
+      )}
+    >
+      <div className="flex items-start gap-4">
+        <div
+          className={cn(
+            "p-3 rounded-lg transition-colors",
+            isActive ? "bg-red-500 text-white" : "bg-red-500/10 text-red-500",
+          )}
+        >
+          {icon}
+        </div>
+        <div>
+          <h3 className="text-xl font-bold mb-2 flex items-center gap-2">
+            {title}
+            {isActive && <span className="text-xs bg-red-500 text-white px-2 py-0.5 rounded-full">Active</span>}
+          </h3>
+          <p className="text-white/70">{description}</p>
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {isActive && (
+          <motion.div
+            key="active-indicator"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2 }}
+            className="absolute inset-0 border border-red-500/50 rounded-lg"
+          />
+        )}
+      </AnimatePresence>
+    </motion.div>
+  )
+}
+
+// AI Feature Card
+function AIFeatureCard({
+  icon,
+  title,
+  description,
+  color = "red",
+  delay = 0,
+}: {
+  icon: React.ReactNode
+  title: string
+  description: string
+  color?: "red" | "blue" | "green" | "purple" | "orange"
+  delay?: number
+}) {
+  const controls = useAnimation()
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, amount: 0.2 })
+
+  const colorMap = {
+    red: "bg-red-500/10 text-red-500 border-red-500/20 hover:bg-red-500/20 hover:border-red-500/30",
+    blue: "bg-blue-500/10 text-blue-500 border-blue-500/20 hover:bg-blue-500/20 hover:border-blue-500/30",
+    green: "bg-green-500/10 text-green-500 border-green-500/20 hover:bg-green-500/20 hover:border-green-500/30",
+    purple: "bg-purple-500/10 text-purple-500 border-purple-500/20 hover:bg-purple-500/20 hover:border-purple-500/30",
+    orange: "bg-orange-500/10 text-orange-500 border-orange-500/20 hover:bg-orange-500/20 hover:border-orange-500/30",
+  }
+
+  useEffect(() => {
+    if (isInView) {
+      controls.start("visible")
+    }
+  }, [controls, isInView])
+
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            duration: 0.6,
+            delay,
+            ease: [0.22, 1, 0.36, 1],
+          },
+        },
+      }}
+      className={`bg-black/40 backdrop-blur-md border border-white/10 rounded-xl p-6 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-${color}-500/10`}
+    >
+      <div className={`p-3 rounded-lg w-fit mb-4 ${colorMap[color]}`}>{icon}</div>
+      <h3 className="text-xl font-bold mb-2">{title}</h3>
+      <p className="text-white/70">{description}</p>
+
+      <div className="mt-4 pt-4 border-t border-white/10">
+        <Button variant="ghost" className="p-0 h-auto text-sm hover:bg-transparent hover:text-white group">
+          <span>Learn more</span>
+          <ArrowRight className="ml-1 h-3 w-3 transition-transform group-hover:translate-x-1" />
+        </Button>
+      </div>
+    </motion.div>
+  )
+}
+
+// AI Code Card
+function AICodeCard({ delay = 0 }) {
+  const controls = useAnimation()
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, amount: 0.2 })
+  const [isTyping, setIsTyping] = useState(true)
+  const [codeProgress, setCodeProgress] = useState(0)
+  const { toast } = useToast()
+
+  useEffect(() => {
+    if (isInView) {
+      controls.start("visible")
+
+      // Simulate code typing
+      const interval = setInterval(() => {
+        setCodeProgress((prev) => {
+          if (prev >= 100) {
+            clearInterval(interval)
+            setIsTyping(false)
+            return 100
+          }
+          return prev + 2
+        })
+      }, 100)
+
+      return () => clearInterval(interval)
+    }
+  }, [controls, isInView])
+
+  const codeSnippet = `// AI-powered image recognition
+import { analyzeImage } from '@mindscape/vision';
+
+async function detectObjects(imageUrl) {
+  const result = await analyzeImage(imageUrl, {
+    confidence: 0.85,
+    models: ['general-v2', 'face-detection']
+  });
+  
+  return result.objects.map(obj => ({
+    label: obj.label,
+    confidence: obj.confidence,
+    boundingBox: obj.boundingBox
+  }));
+}`
+
+  // Calculate how much of the code to show based on progress
+  const displayedCode = codeSnippet.substring(0, Math.floor((codeProgress / 100) * codeSnippet.length))
+
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(codeSnippet)
+    toast({
+      title: "Code copied to clipboard",
+      description: "You can now paste the code in your project",
+    })
+  }
+
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            duration: 0.6,
+            delay,
+            ease: [0.22, 1, 0.36, 1],
+          },
+        },
+      }}
+      className="bg-black/40 backdrop-blur-md border border-white/10 rounded-xl p-6 transition-all duration-300 hover:border-blue-500/30"
+    >
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <div className="p-2 bg-blue-500/10 rounded-lg">
+            <Code className="h-5 w-5 text-blue-500" />
+          </div>
+          <h3 className="text-lg font-semibold">AI Vision API</h3>
+        </div>
+        <Badge variant="outline" className="bg-blue-500/10 text-blue-400 border-blue-500/20">
+          TypeScript
+        </Badge>
+      </div>
+
+      <div className="bg-black/50 rounded-lg p-4 font-mono text-sm overflow-hidden">
+        <pre className="text-white/90">
+          <code>{displayedCode}</code>
+          {isTyping && <span className="inline-block w-2 h-4 bg-blue-500 animate-pulse ml-1"></span>}
+        </pre>
+      </div>
+
+      {!isTyping && (
+        <div className="mt-4 flex justify-between items-center">
+          <div className="flex items-center gap-2">
+            <div className="flex space-x-1">
+              <div className="w-2 h-2 rounded-full bg-green-500"></div>
+              <div className="w-2 h-2 rounded-full bg-green-500"></div>
+              <div className="w-2 h-2 rounded-full bg-green-500"></div>
+            </div>
+            <span className="text-xs text-white/60">Ready to deploy</span>
+          </div>
+          <Button
+            size="sm"
+            variant="ghost"
+            className="text-blue-400 hover:text-blue-300 p-0 h-auto"
+            onClick={handleCopyCode}
+          >
+            <FileCode2 className="h-4 w-4 mr-1" />
+            <span>Copy code</span>
+          </Button>
+        </div>
+      )}
+    </motion.div>
+  )
+}
+
+// AI Terminal Card
+function AITerminalCard({ delay = 0 }) {
+  const controls = useAnimation()
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, amount: 0.2 })
+  const [commandIndex, setCommandIndex] = useState(0)
+  const [isTyping, setIsTyping] = useState(true)
+
+  const commands = useMemo(() => [
+    { text: "$ mindscape init my-ai-project", delay: 1000 },
+    { text: "Initializing new AI project...", delay: 1500, output: true },
+    { text: "Setting up project structure...", delay: 1000, output: true },
+    { text: "Installing dependencies...", delay: 2000, output: true },
+    { text: "Project created successfully! 🚀", delay: 1000, output: true },
+    { text: "$ cd my-ai-project", delay: 1000 },
+    { text: "$ mindscape models list", delay: 1500 },
+    { text: "Available models:", delay: 800, output: true },
+    { text: "  • gpt-4o (text generation)", delay: 500, output: true },
+    { text: "  • vision-v2 (image recognition)", delay: 500, output: true },
+    { text: "  • audio-transcription-v1 (speech to text)", delay: 500, output: true },
+    { text: "  • embedding-v3 (vector embeddings)", delay: 500, output: true },
+    { text: "$ mindscape deploy --production", delay: 1500 },
+    { text: "Deploying to production...", delay: 2000, output: true },
+    { text: "Deployment complete! Your AI is now live at:", delay: 1000, output: true },
+    { text: "https://my-ai-project.mindscape.ai", delay: 500, output: true },
+  ], [])
+
+  useEffect(() => {
+    if (isInView) {
+      controls.start("visible")
+
+      // Simulate terminal typing
+      if (commandIndex < commands.length) {
+        const timer = setTimeout(() => {
+          setCommandIndex((prev) => prev + 1)
+          if (commandIndex === commands.length - 1) {
+            setIsTyping(false)
+          }
+        }, commands[commandIndex].delay)
+
+        return () => clearTimeout(timer)
+      }
+    }
+  }, [controls, isInView, commandIndex, commands.length, commands]);
+
+  return (
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={controls}
+      variants={{
+        hidden: { opacity: 0, y: 20 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          transition: {
+            duration: 0.6,
+            delay,
+            ease: [0.22, 1, 0.36, 1],
+          },
+        },
+      }}
+      className="bg-black/40 backdrop-blur-md border border-white/10 rounded-xl p-6 transition-all duration-300 hover:border-green-500/30"
+    >
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-2">
+          <div className="p-2 bg-green-500/10 rounded-lg">
+            <Terminal className="h-5 w-5 text-green-500" />
+          </div>
+          <h3 className="text-lg font-semibold">Mindscape CLI</h3>
+        </div>
+        <div className="flex space-x-2">
+          <div className="w-3 h-3 rounded-full bg-red-500"></div>
+          <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+          <div className="w-3 h-3 rounded-full bg-green-500"></div>
+        </div>
+      </div>
+
+      <div className="bg-black/70 rounded-lg p-4 font-mono text-sm h-[250px] overflow-y-auto code-scroll">
+        {commands.slice(0, commandIndex + 1).map((cmd, index) => (
+          <div key={index} className={`mb-1 ${cmd.output ? "text-green-400 pl-4" : "text-white"}`}>
+            {cmd.text}
+          </div>
+        ))}
+        {isTyping && <span className="inline-block w-2 h-4 bg-white animate-typing-cursor ml-1"></span>}
+      </div>
+    </motion.div>
+  )
+}
+
+// EnhancedFeatureCard component for improved feature presentation
+function EnhancedFeatureCard({
+  icon,
+  title,
+  description,
+  color = "red",
+  index = 0,
+}: {
+  icon: React.ReactNode
+  title: string
+  description: string
+  color: "red" | "blue" | "green" | "purple"
+  index: number
+}) {
+  const colorMap = {
+    red: "from-red-600/20 to-red-900/10 border-red-800/30 group-hover:border-red-600/50 text-red-500",
+    blue: "from-blue-600/20 to-blue-900/10 border-blue-800/30 group-hover:border-blue-600/50 text-blue-500",
+    green: "from-green-600/20 to-green-900/10 border-green-800/30 group-hover:border-green-600/50 text-green-500",
+    purple: "from-purple-600/20 to-purple-900/10 border-purple-800/30 group-hover:border-purple-600/50 text-purple-500",
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ 
+        duration: 0.5, 
+        delay: 0.2 + (index * 0.1),
+        ease: [0.22, 1, 0.36, 1]
+      }}
+      className={`group relative p-5 rounded-xl backdrop-blur-md border border-white/10 hover:shadow-lg transition-all duration-300 overflow-hidden bg-gradient-to-br ${colorMap[color]}`}
+    >
+      {/* Subtle background pattern */}
+      <div className="absolute inset-0 bg-grid-white/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      
+      {/* Decorative corner accent */}
+      <div className="absolute top-0 right-0 h-10 w-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        <div className="absolute top-0 right-0 h-px w-6 bg-gradient-to-l from-current to-transparent"></div>
+        <div className="absolute top-0 right-0 h-6 w-px bg-gradient-to-b from-current to-transparent"></div>
+      </div>
+      
+      <div className="space-y-4">
+        {/* Icon with glowing effect */}
+        <div className="relative flex">
+          <div className={`p-2.5 rounded-lg bg-black/30 backdrop-blur-sm text-current flex items-center justify-center relative z-10 group-hover:scale-110 transform transition-transform duration-300`}>
+            <div className="absolute inset-0 rounded-lg bg-current opacity-10 group-hover:opacity-20 transition-opacity"></div>
+            {icon}
+          </div>
+          <div className="absolute -inset-1 bg-current opacity-0 blur-xl group-hover:opacity-10 transition-opacity duration-300 rounded-full" />
+        </div>
+        
+        {/* Content */}
+        <div>
+          <h3 className="text-base font-semibold text-white mb-1 group-hover:text-current transition-colors duration-300">
+            {title}
+          </h3>
+          <p className="text-sm text-white/70 group-hover:text-white/90 transition-colors duration-300 leading-relaxed">
+            {description}
+          </p>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
 
 // Main Hero Component
 export default function HyperHero() {
@@ -237,8 +684,6 @@ export default function HyperHero() {
       yMovement: number;
     }>;
   } | null>(null)
-  // Add state for detecting low-bandwidth connection
-  const [isLowBandwidth, setIsLowBandwidth] = useState(false)
 
   // Handle contact form navigation
   const handleGetStartedClick = (e: React.MouseEvent) => {
@@ -251,40 +696,6 @@ export default function HyperHero() {
   const y = useTransform(scrollYProgress, [0, 0.5], [0, -50])
   const isMobile = useMobile()
   const { toast } = useToast()
-
-  // Check for low bandwidth connection
-  useEffect(() => {
-    const checkConnection = () => {
-      // Use the Connection API if available
-      if ('connection' in navigator && navigator.connection) {
-        const connection = navigator.connection as any;
-        if (connection.saveData || 
-           (connection.effectiveType && ['slow-2g', '2g', '3g'].includes(connection.effectiveType)) ||
-           (connection.downlink && connection.downlink < 1.5)) {
-          setIsLowBandwidth(true);
-          // Disable 3D and complex animations for low bandwidth
-          setUse3D(false);
-          setComplexity(0.5);
-        }
-      }
-      
-      // Additional fallback for older browsers - basic performance check
-      const startTime = performance.now();
-      const checkLoadTime = () => {
-        const loadTime = performance.now() - startTime;
-        if (loadTime > 3000) { // If initial load takes more than 3 seconds
-          setIsLowBandwidth(true);
-          setUse3D(false);
-          setComplexity(0.5);
-        }
-      };
-      
-      // Check after a short delay
-      setTimeout(checkLoadTime, 3000);
-    };
-    
-    checkConnection();
-  }, []);
 
   // Generate random values only on client-side
   useEffect(() => {
@@ -414,9 +825,12 @@ export default function HyperHero() {
                     <Image 
                       src="/images/brain.svg" 
                       alt="Mindscape Brain Logo"
-                      className="h-14 w-14 animate-brain-pulse"
+                      className="h-14 w-14 animate-blink-pulse"
                       width={56}
                       height={56}
+                      style={{
+                        animation: 'pulse 2s infinite'
+                      }}
                     />
                   </div>
                 </div>
@@ -486,22 +900,10 @@ export default function HyperHero() {
                     
                     <div className="space-y-1.5">
                       <div className="flex items-center space-x-1.5">
-                        <div className={cn(
-                          "p-1.5 rounded-lg", 
-                          feature.color === "red" ? "bg-red-500/20 text-red-500" : 
-                          feature.color === "blue" ? "bg-blue-500/20 text-blue-500" : 
-                          feature.color === "green" ? "bg-green-500/20 text-green-500" : 
-                          "bg-purple-500/20 text-purple-500"
-                        )}>
+                        <div className={`p-1.5 rounded-lg bg-${feature.color}-500/20 text-${feature.color}-500`}>
                           <div className="w-4 h-4">{feature.icon}</div>
                         </div>
-                        <h3 className={cn(
-                          "text-xs font-medium text-white group-hover:text-white transition-colors",
-                          feature.color === "red" ? "group-hover:text-red-400" : 
-                          feature.color === "blue" ? "group-hover:text-blue-400" : 
-                          feature.color === "green" ? "group-hover:text-green-400" : 
-                          "group-hover:text-purple-400"
-                        )}>
+                        <h3 className="text-xs font-medium text-white group-hover:text-${feature.color}-400 transition-colors">
                           {feature.title}
                         </h3>
                       </div>
@@ -517,7 +919,7 @@ export default function HyperHero() {
             {/* Bottom section with CTA */}
             <div className="space-y-3 animate-fade-up-3">
               {/* Stats row */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-4">
+              <div className="grid grid-cols-4 gap-2 mb-4">
                 <div className="bg-black/30 p-2 rounded-lg text-center">
                   <div className="text-lg font-bold text-red-500">99.9%</div>
                   <div className="text-[10px] text-white/60">Uptime</div>
@@ -737,9 +1139,12 @@ export default function HyperHero() {
                           <Image 
                             src="/images/brain.svg" 
                             alt="Mindscape Brain Logo"
-                            className="h-14 w-14 md:h-24 md:w-24 transform transition-all duration-300 group-hover:scale-[0.98] animate-brain-pulse"
+                            className="h-14 w-14 md:h-24 md:w-24 transform transition-all duration-300 group-hover:scale-[0.98]"
                             width={96}
                             height={96}
+                            style={{
+                              animation: 'pulse 2s infinite'
+                            }}
                           />
                         </div>
                       </div>
@@ -762,6 +1167,25 @@ export default function HyperHero() {
 }
 
 // Icon Components
+const Target = (props: React.SVGProps<SVGSVGElement>) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
+      <circle cx="12" cy="12" r="10" />
+      <circle cx="12" cy="12" r="6" />
+      <circle cx="12" cy="12" r="2" />
+    </svg>
+  )
+
 const Building = (props: React.SVGProps<SVGSVGElement>) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -1157,32 +1581,6 @@ const styles = `
       filter: invert(1) sepia(1) saturate(3000%) hue-rotate(0deg) brightness(0.3) contrast(1);
     }
   }
-
-  @keyframes brain-pulse {
-    0% {
-      transform: scale(1);
-      filter: drop-shadow(0 0 2px rgba(239, 68, 68, 0.6)) brightness(0.85);
-    }
-    25% {
-      transform: scale(1.12);
-      filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.9)) brightness(1.3);
-    }
-    50% {
-      transform: scale(1);
-      filter: drop-shadow(0 0 2px rgba(239, 68, 68, 0.6)) brightness(0.85);
-    }
-    75% {
-      transform: scale(1.08);
-      filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.8)) brightness(1.2);
-    }
-    100% {
-      transform: scale(1);
-      filter: drop-shadow(0 0 2px rgba(239, 68, 68, 0.6)) brightness(0.85);
-    }
-  }
-
-  .animate-brain-pulse {
-    animation: brain-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    will-change: transform, filter;
-  }
 `
+
+

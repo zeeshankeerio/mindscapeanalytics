@@ -42,11 +42,7 @@ const testimonials = [
   }
 ]
 
-function TestimonialCard({ testimonial, index, isVisible }: { 
-  testimonial: typeof testimonials[0], 
-  index: number,
-  isVisible: boolean 
-}) {
+function TestimonialCard({ testimonial, index }: { testimonial: typeof testimonials[0], index: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -80,11 +76,7 @@ function TestimonialCard({ testimonial, index, isVisible }: {
               src={testimonial.image}
               alt={testimonial.author}
               fill
-              sizes="48px"
               className="object-cover"
-              loading={index <= 1 ? "eager" : "lazy"}
-              fetchPriority={index <= 1 ? "high" : "auto"}
-              priority={index === 0}
             />
           </div>
           <div>
@@ -102,7 +94,6 @@ export default function TestimonialCarousel() {
   const [showLeftArrow, setShowLeftArrow] = useState(true)
   const [showRightArrow, setShowRightArrow] = useState(false)
   const [isAutoScrolling, setIsAutoScrolling] = useState(true)
-  const [visibleIndices, setVisibleIndices] = useState<number[]>([0, 1, 2])
 
   // Auto-scroll functionality (reverse direction)
   useEffect(() => {
@@ -130,26 +121,11 @@ export default function TestimonialCarousel() {
         // Update arrow visibility
         setShowLeftArrow(scrollLeft > 0)
         setShowRightArrow(scrollLeft < maxScroll)
-        
-        // Update visible testimonials
-        updateVisibleIndices(scrollLeft, clientWidth);
       }
     }, 50)
 
     return () => clearInterval(interval)
   }, [isAutoScrolling])
-  
-  const updateVisibleIndices = (scrollLeft: number, clientWidth: number) => {
-    const itemWidth = 300 + 24; // width + gap
-    const startIndex = Math.floor(scrollLeft / itemWidth);
-    const endIndex = Math.ceil((scrollLeft + clientWidth) / itemWidth);
-    const newIndices = Array.from(
-      { length: endIndex - startIndex },
-      (_, i) => startIndex + i
-    ).filter(idx => idx >= 0 && idx < testimonials.length);
-    
-    setVisibleIndices(newIndices);
-  };
 
   const scroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
@@ -169,9 +145,6 @@ export default function TestimonialCarousel() {
       setShowRightArrow(
         newScroll < (scrollContainerRef.current.scrollWidth - scrollContainerRef.current.clientWidth)
       )
-      
-      // Update visible indices
-      updateVisibleIndices(newScroll, scrollContainerRef.current.clientWidth);
 
       // Resume auto-scroll after manual scroll
       setTimeout(() => setIsAutoScrolling(true), 5000)
@@ -219,17 +192,12 @@ export default function TestimonialCarousel() {
               setShowRightArrow(
                 target.scrollLeft < (target.scrollWidth - target.clientWidth)
               )
-              updateVisibleIndices(target.scrollLeft, target.clientWidth);
             }}
           >
             {testimonials.map((testimonial, index) => (
               <div key={testimonial.id} className="flex-none w-[300px]">
-                <TestimonialCard 
-                  testimonial={testimonial} 
-                  index={index} 
-                  isVisible={visibleIndices.includes(index)}
-                />
-              </div>
+                <TestimonialCard testimonial={testimonial} index={index} />
+                    </div>
             ))}
           </div>
           
