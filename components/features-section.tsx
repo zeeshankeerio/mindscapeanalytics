@@ -400,7 +400,7 @@ export default function FeaturesSection() {
                     transition={{ duration: 0.5 }}
                     className="mt-6"
                   >
-                    <div className="flex justify-center gap-2 mb-4">
+                    <div className="flex flex-wrap justify-center gap-2 mb-4">
                       {(["performance", "reliability", "scalability", "costEfficiency"] as const).map(metric => (
                         <Button 
                           key={metric}
@@ -488,7 +488,7 @@ export default function FeaturesSection() {
         </AnimatePresence>
 
         {/* Compact Feature Cards - Grid Layout */}
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
@@ -604,7 +604,7 @@ export default function FeaturesSection() {
           </div>
 
           {/* Compact grid for capabilities */}
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
             {capabilities.map((capability, index) => (
               <motion.div
                 key={capability.title}
@@ -646,7 +646,7 @@ export default function FeaturesSection() {
       <AnimatePresence>
         {isDetailModalOpen && activeFeature && (
           <motion.div
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

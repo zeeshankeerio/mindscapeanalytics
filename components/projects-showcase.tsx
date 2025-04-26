@@ -468,19 +468,19 @@ export default function ProjectsShowcase() {
                       initial="hidden"
                       animate="visible"
                       whileHover="hover"
-                      className="flex-shrink-0 w-[calc(100%/3-1.5rem)] md:w-[calc(100%/3-1.5rem)] lg:w-[calc(100%/3-1.5rem)]"
+                      className="flex-shrink-0 w-[calc(100%-2rem)] sm:w-[calc(50%-2rem)] md:w-[calc(33.333%-2rem)] lg:w-[calc(33.333%-2rem)]"
                       style={{ pointerEvents: 'auto' }}
                     >
                       <Card className="bg-black/40 backdrop-blur-md border border-white/10 hover:border-red-500/50 transition-colors duration-300 h-full group overflow-hidden flex flex-col shadow-lg">
-                        <CardHeader className="relative">
+                        <CardHeader className="relative p-4 sm:p-6">
                           <div className="absolute top-0 right-0 z-10">
-                            <Badge className="bg-red-500/20 text-red-400 rounded-br-none rounded-tl-none">{project.category}</Badge>
+                            <Badge className="bg-red-500/20 text-red-400 rounded-br-none rounded-tl-none text-xs">{project.category}</Badge>
                           </div>
                           <div className="flex items-center gap-2 mb-3">
                             <div className="p-2 bg-red-500/10 rounded-md">
-                              <project.icon className="h-6 w-6 text-red-500" />
+                              <project.icon className="h-5 w-5 sm:h-6 sm:w-6 text-red-500" />
                             </div>
-                            <Badge variant="outline" className={`${
+                            <Badge variant="outline" className={`text-xs ${
                               project.status === "Live" 
                                 ? "bg-green-500/10 text-green-400 border-green-500/20" 
                                 : project.status === "Beta" 
@@ -490,8 +490,8 @@ export default function ProjectsShowcase() {
                               {project.status}
                             </Badge>
                           </div>
-                          <CardTitle className="text-xl mt-2 group-hover:text-red-400 transition-colors duration-300 text-white">{project.title}</CardTitle>
-                          <CardDescription className="text-white/70">
+                          <CardTitle className="text-lg sm:text-xl mt-2 group-hover:text-red-400 transition-colors duration-300 text-white">{project.title}</CardTitle>
+                          <CardDescription className="text-white/70 text-sm sm:text-base">
                             {project.description}
                           </CardDescription>
                         </CardHeader>
@@ -688,24 +688,24 @@ export default function ProjectsShowcase() {
                         initial="hidden"
                         animate="visible"
                         whileHover="hover"
-                        className="flex-shrink-0 w-[calc(100%/3-1.5rem)] md:w-[calc(100%/3-1.5rem)] lg:w-[calc(100%/3-1.5rem)]"
+                        className="flex-shrink-0 w-[calc(100%-2rem)] sm:w-[calc(50%-2rem)] md:w-[calc(33.333%-2rem)] lg:w-[calc(33.333%-2rem)]"
                         style={{ pointerEvents: 'auto' }}
                       >
-                        <Card className="bg-black/40 backdrop-blur-md border border-white/10 hover:border-red-500/50 transition-colors duration-300 h-full group overflow-hidden flex flex-col shadow-lg">
-                          <CardHeader className="relative pb-2">
+                        <Card className="bg-black/40 backdrop-blur-md border border-white/10 hover:border-blue-500/50 transition-colors duration-300 h-full group overflow-hidden flex flex-col">
+                          <CardHeader className="relative p-4 sm:p-6">
                             <div className="absolute top-0 right-0 z-10">
-                              <Badge className="bg-red-500/20 text-red-400 rounded-br-none rounded-tl-none">{project.category}</Badge>
+                              <Badge className="bg-blue-500/20 text-blue-400 rounded-br-none rounded-tl-none text-xs">{project.category}</Badge>
                             </div>
                             <div className="flex items-center gap-2 mb-3">
-                              <div className="p-2 bg-red-500/10 rounded-md">
-                                <project.icon className="h-6 w-6 text-red-500" />
+                              <div className="p-2 bg-blue-500/10 rounded-md">
+                                <project.icon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-500" />
                               </div>
-                              <Badge variant="outline" className="bg-yellow-500/10 text-yellow-400 border-yellow-500/20">
-                                {project.status}
+                              <Badge variant="outline" className="bg-purple-500/10 text-purple-400 border-purple-500/20 text-xs">
+                                {project.status} - {project.releaseDate}
                               </Badge>
                             </div>
-                            <CardTitle className="text-xl mt-2 group-hover:text-red-400 transition-colors duration-300 text-white">{project.title}</CardTitle>
-                            <CardDescription className="text-white/70">
+                            <CardTitle className="text-lg sm:text-xl mt-2 group-hover:text-blue-400 transition-colors duration-300">{project.title}</CardTitle>
+                            <CardDescription className="text-white/70 text-sm sm:text-base">
                               {project.description}
                             </CardDescription>
                           </CardHeader>
@@ -724,12 +724,6 @@ export default function ProjectsShowcase() {
                               </div>
                             </div>
                             
-                            {/* Release date */}
-                            <div className="flex items-center gap-2 mb-4 text-sm text-white/60">
-                              <Clock className="h-4 w-4 text-red-400" />
-                              <span>Expected Release: {project.releaseDate}</span>
-                            </div>
-
                             {/* Video Preview */}
                             {project.videoLink && (
                               <div className="relative w-full mb-6 pt-[56.25%] rounded-lg overflow-hidden shadow-xl ring-1 ring-white/10 transition-all duration-300 group-hover:ring-red-500/30">

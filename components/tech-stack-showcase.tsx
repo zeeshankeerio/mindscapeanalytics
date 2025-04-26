@@ -212,16 +212,16 @@ export default function TechStackShowcase() {
                 </div>
 
             <Tabs defaultValue="all" value={activeCategory} onValueChange={setActiveCategory} className="w-full sm:w-auto">
-              <TabsList className="bg-black/40 border border-white/10 h-9 grid grid-cols-4 md:flex md:flex-row gap-0.5">
+              <TabsList className="bg-black/40 border border-white/10 h-9 grid grid-cols-3 sm:grid-cols-4 md:flex md:flex-row gap-0.5 overflow-x-auto scrollbar-hide">
                 <TabsTrigger value="all" className="data-[state=active]:bg-white/10 px-2 text-xs h-full">All</TabsTrigger>
                 <TabsTrigger value="ai-ml" className="data-[state=active]:bg-red-500/20 px-2 text-xs h-full">AI/ML</TabsTrigger>
                 <TabsTrigger value="data" className="data-[state=active]:bg-blue-500/20 px-2 text-xs h-full">Data</TabsTrigger>
                 <TabsTrigger value="cloud" className="data-[state=active]:bg-green-500/20 px-2 text-xs h-full">Cloud</TabsTrigger>
-                <TabsTrigger value="security" className="data-[state=active]:bg-purple-500/20 px-2 text-xs h-full md:inline-flex">Security</TabsTrigger>
-                <TabsTrigger value="ui-ux" className="data-[state=active]:bg-amber-500/20 px-2 text-xs h-full md:inline-flex">UI/UX</TabsTrigger>
-                <TabsTrigger value="api" className="data-[state=active]:bg-indigo-500/20 px-2 text-xs h-full md:inline-flex">APIs</TabsTrigger>
-                <TabsTrigger value="analytics" className="data-[state=active]:bg-pink-500/20 px-2 text-xs h-full md:inline-flex">Analytics</TabsTrigger>
-                <TabsTrigger value="web-dev" className="data-[state=active]:bg-cyan-500/20 px-2 text-xs h-full md:inline-flex">Web Development</TabsTrigger>
+                <TabsTrigger value="security" className="data-[state=active]:bg-purple-500/20 px-2 text-xs h-full">Security</TabsTrigger>
+                <TabsTrigger value="ui-ux" className="data-[state=active]:bg-amber-500/20 px-2 text-xs h-full">UI/UX</TabsTrigger>
+                <TabsTrigger value="api" className="data-[state=active]:bg-indigo-500/20 px-2 text-xs h-full">APIs</TabsTrigger>
+                <TabsTrigger value="analytics" className="data-[state=active]:bg-pink-500/20 px-2 text-xs h-full">Analytics</TabsTrigger>
+                <TabsTrigger value="web-dev" className="data-[state=active]:bg-cyan-500/20 px-2 text-xs h-full">Web Dev</TabsTrigger>
               </TabsList>
             </Tabs>
               </div>
@@ -242,7 +242,7 @@ export default function TechStackShowcase() {
                 {filteredCategories.map((category) => (
                   <Card 
                     key={category.id} 
-                    className="group min-w-[280px] h-full border border-white/10 bg-black/40 hover:bg-black/60 transition-all duration-300 overflow-hidden backdrop-blur-sm hover:shadow-lg hover:shadow-white/5 hover:scale-[1.01] hover:border-white/20"
+                    className="group min-w-[260px] sm:min-w-[280px] h-full border border-white/10 bg-black/40 hover:bg-black/60 transition-all duration-300 overflow-hidden backdrop-blur-sm hover:shadow-lg hover:shadow-white/5 hover:scale-[1.01] hover:border-white/20"
                   >
                     <CardHeader className={`py-2 px-3 flex flex-row items-center justify-between border-b border-white/10 ${category.colorClass} bg-opacity-10 group-hover:bg-opacity-20 transition-all duration-300`}>
                       <div className="flex items-center gap-2">
@@ -317,7 +317,7 @@ export default function TechStackShowcase() {
                 {filteredCategories.map((category) => (
                 <Card 
                     key={`${category.id}-duplicate`} 
-                    className="group min-w-[280px] h-full border border-white/10 bg-black/40 hover:bg-black/60 transition-all duration-300 overflow-hidden backdrop-blur-sm hover:shadow-lg hover:shadow-white/5 hover:scale-[1.01] hover:border-white/20"
+                    className="group min-w-[260px] sm:min-w-[280px] h-full border border-white/10 bg-black/40 hover:bg-black/60 transition-all duration-300 overflow-hidden backdrop-blur-sm hover:shadow-lg hover:shadow-white/5 hover:scale-[1.01] hover:border-white/20"
                   >
                     <CardHeader className={`py-2 px-3 flex flex-row items-center justify-between border-b border-white/10 ${category.colorClass} bg-opacity-10 group-hover:bg-opacity-20 transition-all duration-300`}>
                       <div className="flex items-center gap-2">
@@ -408,6 +408,13 @@ export default function TechStackShowcase() {
           }
           .animate-scroll:hover {
             animation-play-state: paused;
+          }
+          
+          /* Add responsive styles for mobile */
+          @media (max-width: 640px) {
+            .animate-scroll {
+              animation-duration: 40s;
+            }
           }
         `}</style>
       </div>

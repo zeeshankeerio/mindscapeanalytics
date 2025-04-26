@@ -7,13 +7,17 @@ interface MindscapeBrainLogoProps {
   size?: "sm" | "md" | "lg" | "xl"
   variant?: "default" | "icon-only"
   showTagline?: boolean
+  width?: number
+  height?: number
 }
 
 export default function MindscapeBrainLogo({ 
   className = "", 
   size = "md",
   variant = "default",
-  showTagline = true 
+  showTagline = true,
+  width,
+  height
 }: MindscapeBrainLogoProps) {
   // Define sizing variations
   const sizes = {
@@ -49,13 +53,17 @@ export default function MindscapeBrainLogo({
 
   const currentSize = sizes[size]
   
+  // If width and height are provided, use them instead of pre-defined sizes
+  const iconWidth = width || currentSize.iconSize
+  const iconHeight = height || currentSize.iconSize
+  
   const iconOnly = (
     <div 
       className="relative flex items-center justify-center overflow-hidden bg-black"
       style={{ 
-        width: currentSize.iconSize, 
-        height: currentSize.iconSize,
-        borderRadius: 8,
+        width: iconWidth, 
+        height: iconHeight,
+        borderRadius: Math.max(8, iconWidth * 0.1), // Scale border radius with size
       }}
     >
       {/* Brain Icon */}

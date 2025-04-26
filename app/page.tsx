@@ -1,25 +1,79 @@
 "use client"
 
-import HyperHero from "@/components/hyper-hero"
-import FeaturesSection from "@/components/features-section"
-import AICapabilitiesShowcase from "@/components/ai-capabilities-showcase"
-import ProjectsShowcase from "@/components/projects-showcase"
-import AnalyticsPreview from "@/components/analytics-preview"
-import EnhancedIndustrySolutions from "@/components/enhanced-industry-solutions"
-import TechStackShowcase from "@/components/tech-stack-showcase"
-import TestimonialCarousel from "@/components/testimonial-carousel"
-import IntegrationPartners from "@/components/integration-partners"
-import TeamSection from "@/components/team-section"
-import EnhancedCTASection from "@/components/enhanced-cta-section"
-import { SectionDivider } from "@/components/section-divider"
-import { ScrollToTop } from "@/components/scroll-to-top"
-import { FloatingChatWidget } from "@/components/floating-chat-widget"
-import { CookieConsent } from "@/components/cookie-consent"
-import InteractiveDemoSection from "@/components/interactive-demo-section"
-import NewsTicker from "@/components/news-ticker"
+import dynamic from "next/dynamic"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { useRef } from "react"
 import { Database } from "lucide-react"
+import { ScrollToTop } from "@/components/scroll-to-top"
+import { SectionDivider } from "@/components/section-divider"
+import { FloatingChatWidget } from "@/components/floating-chat-widget"
+import { CookieConsent } from "@/components/cookie-consent"
+
+// Import only the news ticker component directly as it's visible immediately
+import NewsTicker from "@/components/news-ticker"
+
+// Dynamically import heavy components with proper loading skeletons
+const HyperHero = dynamic(() => import("@/components/hyper-hero"), { 
+  ssr: true,
+  loading: () => <div className="h-[80vh] bg-black/30 animate-pulse rounded-lg"></div>
+})
+
+// Defer below-the-fold content loading to improve core web vitals
+const FeaturesSection = dynamic(() => import("@/components/features-section"), {
+  ssr: false, // Important: Only render on client to reduce server load
+  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+})
+
+const AICapabilitiesShowcase = dynamic(() => import("@/components/ai-capabilities-showcase"), {
+  ssr: false,
+  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+})
+
+// Add more explicit chunk names for better bundle splitting
+const ProjectsShowcase = dynamic(() => import(/* webpackChunkName: "projects-showcase" */ "@/components/projects-showcase"), {
+  ssr: false,
+  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+})
+
+const AnalyticsPreview = dynamic(() => import(/* webpackChunkName: "analytics-preview" */ "@/components/analytics-preview"), {
+  ssr: false,
+  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+})
+
+const EnhancedIndustrySolutions = dynamic(() => import(/* webpackChunkName: "industry-solutions" */ "@/components/enhanced-industry-solutions"), {
+  ssr: false,
+  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+})
+
+const TechStackShowcase = dynamic(() => import(/* webpackChunkName: "tech-stack" */ "@/components/tech-stack-showcase"), {
+  ssr: false,
+  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+})
+
+const TestimonialCarousel = dynamic(() => import(/* webpackChunkName: "testimonials" */ "@/components/testimonial-carousel"), {
+  ssr: false,
+  loading: () => <div className="h-64 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+})
+
+const IntegrationPartners = dynamic(() => import(/* webpackChunkName: "integration" */ "@/components/integration-partners"), {
+  ssr: false,
+  loading: () => <div className="h-64 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+})
+
+const TeamSection = dynamic(() => import(/* webpackChunkName: "team-section" */ "@/components/team-section"), {
+  ssr: false,
+  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+})
+
+const EnhancedCTASection = dynamic(() => import(/* webpackChunkName: "cta-section" */ "@/components/enhanced-cta-section"), {
+  ssr: false,
+  loading: () => <div className="h-64 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+})
+
+const InteractiveDemoSection = dynamic(() => import(/* webpackChunkName: "interactive-demo" */ "@/components/interactive-demo-section"), {
+  ssr: false,
+  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+})
 
 // Feature data
 const features = [

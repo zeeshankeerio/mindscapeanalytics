@@ -295,13 +295,13 @@ export default function MainNavigation() {
           <NavigationMenuLink asChild>
             <Link
               href={menuItem.href}
-              className="flex p-4 select-none space-y-1 rounded-lg hover:bg-red-900/20 transition-colors group"
+              className="flex p-4 select-none rounded-lg hover:bg-red-900/20 transition-all duration-300 group"
             >
               <div className="flex items-start gap-4">
-                <div className="bg-black/30 p-2 rounded-lg shadow-md group-hover:bg-red-500/10 group-hover:shadow-red-500/20 transition-all duration-300">
+                <div className="bg-black/20 p-2.5 rounded-xl backdrop-blur-lg group-hover:bg-red-500/10 group-hover:scale-110 transition-all duration-300">
                   {menuItem.icon}
                 </div>
-                <div className="space-y-1">
+                <div className="space-y-1.5">
                   <div className="text-sm font-medium text-white group-hover:text-red-400 transition-colors">
                     {menuItem.title}
                   </div>
@@ -316,13 +316,13 @@ export default function MainNavigation() {
           <NavigationMenuLink asChild>
             <Link
               href={menuItem.href}
-              className="flex p-4 select-none space-y-1 rounded-lg hover:bg-red-900/20 transition-colors group"
+              className="flex p-4 select-none rounded-lg hover:bg-red-900/20 transition-all duration-300 group"
             >
               <div className="flex items-start gap-4">
-                <div className="bg-black/30 p-2 rounded-lg shadow-md group-hover:bg-red-500/10 group-hover:shadow-red-500/20 transition-all duration-300">
+                <div className="bg-black/20 p-2.5 rounded-xl backdrop-blur-lg group-hover:bg-red-500/10 group-hover:scale-110 transition-all duration-300">
                   {menuItem.icon}
                 </div>
-                <div className="space-y-1">
+                <div className="space-y-1.5">
                   <div className="text-sm font-medium text-white group-hover:text-red-400 transition-colors">
                     {menuItem.title}
                   </div>
@@ -351,11 +351,15 @@ export default function MainNavigation() {
     if (item.hasMegaMenu) {
       return (
         <NavigationMenuItem key={`${item.title}-${index}`} className="mx-0.5">
-          <NavigationMenuTrigger className="bg-transparent hover:bg-red-900/20 text-white rounded-full text-sm px-3 py-1.5 font-medium">
+          <NavigationMenuTrigger className="bg-transparent hover:bg-red-900/20 text-white rounded-full text-sm px-3.5 py-1.5 font-medium group">
             {item.title}
+            <ChevronDown className="h-4 w-4 ml-0.5 text-white/70 group-hover:text-red-400 transition-transform duration-300 ease-in-out group-data-[state=open]:rotate-180" />
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid w-[500px] gap-4 p-6 md:w-[600px] md:grid-cols-2 bg-black/90 backdrop-blur-xl shadow-xl shadow-black/20 rounded-xl">
+            <ul className="grid w-[500px] gap-4 p-6 md:w-[600px] md:grid-cols-2 bg-black/80 backdrop-blur-2xl rounded-2xl overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-transparent to-red-500/5 pointer-events-none"></div>
+              <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-red-500/20 to-transparent"></div>
+              <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-red-500/10 to-transparent"></div>
               {renderMegaMenu(item.title)}
             </ul>
           </NavigationMenuContent>
@@ -367,7 +371,7 @@ export default function MainNavigation() {
           <Link href={item.href || "/"} legacyBehavior passHref>
             <NavigationMenuLink
               className={cn(
-                "flex items-center text-sm px-3 py-1.5 rounded-full bg-transparent hover:bg-red-900/20 text-white font-medium",
+                "flex items-center text-sm px-3.5 py-1.5 rounded-full bg-transparent hover:bg-red-900/20 text-white font-medium transition-colors duration-300 ease-in-out",
                 pathname === item.href && "bg-red-900/30",
                 item.highlight && "bg-gradient-to-r from-red-700/80 to-red-600/80 hover:from-red-600 hover:to-red-500",
               )}
