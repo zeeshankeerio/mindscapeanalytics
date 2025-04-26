@@ -103,7 +103,7 @@ const config: Config = {
           "0%, 100%": { boxShadow: "0 0 20px rgba(185, 28, 28, 0.4)" },
           "50%": { boxShadow: "0 0 30px rgba(185, 28, 28, 0.7)" },
         },
-        wave: {
+        "wave": {
           '0%, 100%': { transform: 'translateX(-100%)' },
           '50%': { transform: 'translateX(100%)' },
         },
@@ -121,6 +121,38 @@ const config: Config = {
             transform: "scale(1)"
           }
         },
+        "logo-pulse": {
+          "0%": { 
+            opacity: "1",
+            filter: "drop-shadow(0 0 2px rgba(139, 0, 0, 0.3))",
+            transform: "scale(1)"
+          },
+          "15%": { 
+            opacity: "0.8",
+            filter: "drop-shadow(0 0 8px rgba(139, 0, 0, 0.7))",
+            transform: "scale(1.12)"
+          },
+          "30%": { 
+            opacity: "0.95",
+            filter: "drop-shadow(0 0 4px rgba(139, 0, 0, 0.5))",
+            transform: "scale(1.05)"
+          },
+          "45%": { 
+            opacity: "0.85",
+            filter: "drop-shadow(0 0 6px rgba(139, 0, 0, 0.6))",
+            transform: "scale(1.08)"
+          },
+          "70%": { 
+            opacity: "1",
+            filter: "drop-shadow(0 0 3px rgba(139, 0, 0, 0.4))",
+            transform: "scale(1)"
+          },
+          "100%": { 
+            opacity: "1",
+            filter: "drop-shadow(0 0 2px rgba(139, 0, 0, 0.3))",
+            transform: "scale(1)"
+          }
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -134,6 +166,7 @@ const config: Config = {
         "pulse-slow": "pulse 6s ease-in-out infinite",
         "wave-slow": "wave 6s ease-in-out infinite",
         "enhanced-pulse": "enhanced-pulse 1.5s ease-in-out infinite",
+        "logo-pulse": "logo-pulse 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite",
       },
     },
   },

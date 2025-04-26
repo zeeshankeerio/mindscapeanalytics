@@ -807,7 +807,7 @@ export default function HyperHero() {
   // For mobile view
   if (isMobile) {
     return (
-      <section className="relative min-h-[100vh] flex flex-col justify-start overflow-hidden">
+      <section className="relative min-h-[105vh] flex flex-col justify-start overflow-hidden">
         {/* Enhanced Mobile Background */}
         <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]" />
         <div className="absolute inset-0 bg-gradient-to-br from-black via-black/90 to-black/80" />
@@ -817,6 +817,7 @@ export default function HyperHero() {
           {/* Animated gradient orbs */}
           <div className="absolute top-[10%] left-[15%] w-[120px] sm:w-[150px] h-[120px] sm:h-[150px] rounded-full bg-gradient-to-r from-red-900/20 to-transparent blur-[60px] animate-float-slow" />
           <div className="absolute top-[40%] right-[10%] w-[80px] sm:w-[100px] h-[80px] sm:h-[100px] rounded-full bg-gradient-to-r from-red-800/10 to-transparent blur-[40px] animate-float-medium" />
+          <div className="absolute bottom-[30%] left-[25%] w-[70px] sm:w-[85px] h-[70px] sm:h-[85px] rounded-full bg-gradient-to-r from-red-700/15 to-transparent blur-[35px] animate-float-fast" />
           
           {/* Neural dots */}
           <div className="absolute inset-0">
@@ -830,6 +831,7 @@ export default function HyperHero() {
           <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 bg-red-600/50 rounded-full animate-float-slow absolute top-[15%] left-[25%]" />
           <div className="w-1 sm:w-1.5 h-1 sm:h-1.5 bg-red-700/40 rounded-full animate-float-medium absolute top-[55%] right-[15%]" />
           <div className="w-0.5 sm:w-1 h-0.5 sm:h-1 bg-red-500/60 rounded-full animate-float-fast absolute bottom-[20%] left-[10%]" />
+          <div className="w-1 sm:w-1.5 h-1 sm:h-1.5 bg-red-600/50 rounded-full animate-float-medium absolute bottom-[40%] right-[20%]" />
         </div>
         
         {/* Main content container with safer top padding for different device heights */}
@@ -859,7 +861,7 @@ export default function HyperHero() {
                     <Image 
                       src="/images/brain.svg" 
                       alt="Mindscape Brain Logo"
-                      className="h-12 xs:h-14 w-12 xs:w-14 animate-enhanced-pulse"
+                      className="h-12 xs:h-14 w-12 xs:w-14 animate-logo-pulse"
                       width={56}
                       height={56}
                       priority
@@ -949,24 +951,24 @@ export default function HyperHero() {
             </div>
             
             {/* Bottom section with CTA */}
-            <div className="space-y-3 animate-fade-up-3">
+            <div className="space-y-4 animate-fade-up-3 pb-16">
               {/* Stats row */}
               <div className="grid grid-cols-4 gap-1 xs:gap-2 mb-4">
-                <div className="bg-black/30 p-1.5 xs:p-2 rounded-lg text-center">
+                <div className="bg-black/30 backdrop-blur-sm p-1.5 xs:p-2 rounded-lg text-center border border-white/5 hover:border-white/10 transition-colors">
                   <div className="text-base xs:text-lg font-bold text-red-500">99.9%</div>
-                  <div className="text-[8px] xs:text-[10px] text-white/60">Uptime</div>
+                  <div className="text-[8px] xs:text-[10px] text-white/70">Uptime</div>
                 </div>
-                <div className="bg-black/30 p-1.5 xs:p-2 rounded-lg text-center">
+                <div className="bg-black/30 backdrop-blur-sm p-1.5 xs:p-2 rounded-lg text-center border border-white/5 hover:border-white/10 transition-colors">
                   <div className="text-base xs:text-lg font-bold text-green-500">10ms</div>
-                  <div className="text-[8px] xs:text-[10px] text-white/60">Response</div>
+                  <div className="text-[8px] xs:text-[10px] text-white/70">Response</div>
                 </div>
-                <div className="bg-black/30 p-1.5 xs:p-2 rounded-lg text-center">
+                <div className="bg-black/30 backdrop-blur-sm p-1.5 xs:p-2 rounded-lg text-center border border-white/5 hover:border-white/10 transition-colors">
                   <div className="text-base xs:text-lg font-bold text-blue-500">500+</div>
-                  <div className="text-[8px] xs:text-[10px] text-white/60">Clients</div>
+                  <div className="text-[8px] xs:text-[10px] text-white/70">Clients</div>
                 </div>
-                <div className="bg-black/30 p-1.5 xs:p-2 rounded-lg text-center">
+                <div className="bg-black/30 backdrop-blur-sm p-1.5 xs:p-2 rounded-lg text-center border border-white/5 hover:border-white/10 transition-colors">
                   <div className="text-base xs:text-lg font-bold text-purple-500">24/7</div>
-                  <div className="text-[8px] xs:text-[10px] text-white/60">Support</div>
+                  <div className="text-[8px] xs:text-[10px] text-white/70">Support</div>
                 </div>
               </div>
               
@@ -1004,7 +1006,7 @@ export default function HyperHero() {
 
   // Desktop view
   return (
-    <section className="relative h-[90vh] flex flex-col justify-center overflow-hidden pt-[max(120px,15vh)] md:pt-[170px] pb-8 md:pb-16">
+    <section className="relative h-[95vh] flex flex-col justify-center overflow-hidden pt-[max(120px,15vh)] md:pt-[170px] pb-10 md:pb-20">
       {/* Enhanced Background */}
       <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]" />
       <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black/80" />
@@ -1014,11 +1016,15 @@ export default function HyperHero() {
         <div className="absolute top-[15%] left-[20%] w-[150px] md:w-[200px] h-[150px] md:h-[200px] rounded-full bg-gradient-to-r from-red-900/20 to-transparent blur-[60px] md:blur-[80px] animate-float-slow" />
         <div className="absolute bottom-[25%] right-[15%] w-[120px] md:w-[150px] h-[120px] md:h-[150px] rounded-full bg-gradient-to-r from-red-800/10 to-transparent blur-[40px] md:blur-[60px] animate-float-medium" />
         <div className="absolute top-[60%] left-[15%] w-[80px] md:w-[100px] h-[80px] md:h-[100px] rounded-full bg-gradient-to-r from-red-700/15 to-transparent blur-[30px] md:blur-[40px] animate-float-fast" />
+        
+        {/* Additional floating elements */}
+        <div className="absolute bottom-[42%] left-[35%] w-[60px] h-[60px] rounded-full bg-gradient-to-r from-red-600/10 to-transparent blur-[25px] animate-float-medium" />
+        <div className="absolute top-[35%] right-[28%] w-[50px] h-[50px] rounded-full bg-gradient-to-r from-red-500/15 to-transparent blur-[20px] animate-float-fast" />
       </div>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-6 md:gap-8">
+        <div className="flex flex-col lg:flex-row items-center gap-6 md:gap-10">
           {/* Left Column - Content */}
           <motion.div
             className="flex-1 space-y-4 md:space-y-6 relative w-full"
@@ -1178,7 +1184,7 @@ export default function HyperHero() {
                           <Image 
                             src="/images/brain.svg" 
                             alt="Mindscape Brain Logo"
-                            className="h-14 w-14 md:h-24 md:w-24 transform transition-all duration-300 group-hover:scale-[0.98] animate-enhanced-pulse"
+                            className="h-14 w-14 md:h-24 md:w-24 transform transition-all duration-300 group-hover:scale-[0.98] animate-logo-pulse"
                             width={96}
                             height={96}
                           />
@@ -1200,25 +1206,25 @@ export default function HyperHero() {
       </div>
       
       {/* Stats banner at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-r from-black via-black/95 to-black backdrop-blur-sm border-t border-white/5 py-2 px-4">
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-r from-black via-black/95 to-black backdrop-blur-sm border-t border-white/5 py-4 px-4">
         <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center space-x-8">
+          <div className="flex items-center space-x-10">
             <div className="flex items-center space-x-2">
-              <div className="text-red-500 font-bold">99.9%</div>
-              <div className="text-xs text-white/60">Platform Uptime</div>
+              <div className="text-red-500 font-bold text-lg">99.9%</div>
+              <div className="text-sm text-white/70">Platform Uptime</div>
             </div>
             <div className="flex items-center space-x-2">
-              <div className="text-green-500 font-bold">10ms</div>
-              <div className="text-xs text-white/60">Response Time</div>
+              <div className="text-green-500 font-bold text-lg">10ms</div>
+              <div className="text-sm text-white/70">Response Time</div>
             </div>
             <div className="flex items-center space-x-2 hidden md:flex">
-              <div className="text-blue-500 font-bold">500+</div>
-              <div className="text-xs text-white/60">Enterprise Clients</div>
+              <div className="text-blue-500 font-bold text-lg">500+</div>
+              <div className="text-sm text-white/70">Enterprise Clients</div>
             </div>
           </div>
-          <div className="text-xs text-white/60 flex items-center">
-            <Shield className="h-3 w-3 mr-1 text-white/40" />
-            Enterprise-grade security
+          <div className="text-white/70 flex items-center bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
+            <Shield className="h-4 w-4 mr-2 text-red-400" />
+            <span className="text-sm">Enterprise-grade security</span>
           </div>
         </div>
       </div>

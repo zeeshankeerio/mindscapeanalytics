@@ -7,13 +7,15 @@ interface MindscapeLogoProps {
   variant?: "default" | "white" | "dark" | "light"
   size?: "sm" | "md" | "lg"
   showText?: boolean
+  pulseEffect?: boolean
 }
 
 export default function MindscapeLogo({ 
   className = "", 
   variant = "default", 
   size = "md",
-  showText = true 
+  showText = true,
+  pulseEffect = true
 }: MindscapeLogoProps) {
   // Define color variations
   const colors = {
@@ -69,7 +71,7 @@ export default function MindscapeLogo({
         viewBox="0 0 32 32" 
         fill="none" 
         xmlns="http://www.w3.org/2000/svg" 
-        className={showText ? "mr-2" : ""} 
+        className={`${showText ? "mr-2" : ""} ${pulseEffect ? "animate-logo-pulse" : ""}`}
         aria-hidden="true"
       >
         {/* Brain-inspired logo with connections */}
@@ -93,8 +95,24 @@ export default function MindscapeLogo({
           strokeLinejoin="round"
         />
 
-        {/* Central node */}
-        <circle cx="16" cy="15" r="2" fill={currentColors.primary} />
+        {/* Central node with pulse effect */}
+        <circle 
+          cx="16" 
+          cy="15" 
+          r="2" 
+          fill={currentColors.primary} 
+          className={pulseEffect ? "animate-ping opacity-75" : ""}
+          style={pulseEffect ? { transformOrigin: 'center', transformBox: 'fill-box', animationDuration: '3s' } : undefined}
+        >
+          {pulseEffect && (
+            <animate 
+              attributeName="opacity" 
+              values="1;0.4;1" 
+              dur="2s" 
+              repeatCount="indefinite" 
+            />
+          )}
+        </circle>
 
         {/* Outer nodes */}
         <circle cx="10" cy="15" r="1.5" fill={currentColors.secondary} />
