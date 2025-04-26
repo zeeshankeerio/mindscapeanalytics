@@ -379,7 +379,7 @@ export default function NewsTicker() {
 
   return (
     <div 
-      className="w-full h-12 md:h-[2.5rem] overflow-hidden relative z-20 bg-gradient-to-r from-red-950/60 via-black/70 to-red-950/60 will-change-transform mt-[10px]"
+      className="w-full h-12 md:h-[2.5rem] overflow-hidden relative z-20 bg-gradient-to-r from-red-950/60 via-black/70 to-red-950/60 will-change-transform mt-[20px]"
       ref={setTickerRef}
       id="ticker"
       onMouseEnter={togglePause}
