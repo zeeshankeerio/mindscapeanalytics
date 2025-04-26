@@ -378,12 +378,9 @@ export default function HyperHero() {
                     <Image 
                       src="/images/brain.svg" 
                       alt="Mindscape Brain Logo"
-                      className="h-14 w-14 animate-blink-pulse"
+                      className="h-14 w-14 animate-brain-pulse"
                       width={56}
                       height={56}
-                      style={{
-                        animation: 'pulse 2s infinite'
-                      }}
                     />
                   </div>
                 </div>
@@ -704,12 +701,9 @@ export default function HyperHero() {
                           <Image 
                             src="/images/brain.svg" 
                             alt="Mindscape Brain Logo"
-                            className="h-14 w-14 md:h-24 md:w-24 transform transition-all duration-300 group-hover:scale-[0.98]"
+                            className="h-14 w-14 md:h-24 md:w-24 transform transition-all duration-300 group-hover:scale-[0.98] animate-brain-pulse"
                             width={96}
                             height={96}
-                            style={{
-                              animation: 'pulse 2s infinite'
-                            }}
                           />
                         </div>
                       </div>
@@ -1126,6 +1120,34 @@ const styles = `
     100% {
       filter: invert(1) sepia(1) saturate(3000%) hue-rotate(0deg) brightness(0.3) contrast(1);
     }
+  }
+
+  @keyframes brain-pulse {
+    0% {
+      transform: scale(1);
+      filter: drop-shadow(0 0 1px rgba(220, 38, 38, 0.5)) brightness(0.8);
+    }
+    25% {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 5px rgba(220, 38, 38, 0.7)) brightness(1.2);
+    }
+    50% {
+      transform: scale(1);
+      filter: drop-shadow(0 0 1px rgba(220, 38, 38, 0.5)) brightness(0.8);
+    }
+    75% {
+      transform: scale(1.05);
+      filter: drop-shadow(0 0 3px rgba(220, 38, 38, 0.6)) brightness(1);
+    }
+    100% {
+      transform: scale(1);
+      filter: drop-shadow(0 0 1px rgba(220, 38, 38, 0.5)) brightness(0.8);
+    }
+  }
+
+  .animate-brain-pulse {
+    animation: brain-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    will-change: transform, filter;
   }
 `
 
