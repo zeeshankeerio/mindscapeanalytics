@@ -1,7 +1,26 @@
 {
   "version": 2,
-  "buildCommand": "pnpm install --no-frozen-lockfile && pnpm add openai prisma ts-node @next/bundle-analyzer terser-webpack-plugin && npx prisma generate && pnpm build",
+  "buildCommand": "pnpm install --no-frozen-lockfile && npx prisma generate && pnpm build",
   "installCommand": "pnpm install --no-frozen-lockfile",
-  "framework": "nextjs",
-  "devCommand": "pnpm dev"
+  "framework": {
+    "name": "nextjs",
+    "version": "14.2.28"
+  },
+  "devCommand": "pnpm dev",
+  "regions": ["iad1"],
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index" }
+  ],
+  "functions": {
+    "app/founder/page.tsx": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  }
 } 

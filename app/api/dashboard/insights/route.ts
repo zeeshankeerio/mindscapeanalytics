@@ -141,20 +141,87 @@ export async function OPTIONS() {
 
 export async function GET(request: NextRequest) {
   try {
-    // Simulate a network delay
-    await new Promise(resolve => setTimeout(resolve, 800));
-    
-    return NextResponse.json(mockInsightsData);
-  } catch (error) {
-    console.error("Error fetching insights:", error)
+    // In a real app, you would fetch this data from a database
+    // Here we're returning mock insights data
+    const insights = {
+      summary: {
+        totalUsers: 14782,
+        activeUsers: 8935,
+        conversionRate: 4.3,
+        revenue: 83259.42,
+        growthRate: 18.7
+      },
+      trends: {
+        userGrowth: [1323, 1422, 1567, 1689, 1755, 1832, 1920],
+        revenue: [15420, 16830, 18290, 19560, 21340, 22980, 25340],
+        engagement: [68, 72, 74, 71, 75, 79, 82],
+        conversion: [3.2, 3.4, 3.7, 3.9, 4.1, 4.2, 4.3]
+      },
+      recommendations: [
+        {
+          id: 'rec1',
+          title: 'Optimize User Onboarding',
+          description: 'Users are dropping off during the payment flow. Consider simplifying the checkout process.',
+          impact: 'high',
+          effort: 'medium',
+          category: 'conversion'
+        },
+        {
+          id: 'rec2',
+          title: 'Expand Social Media Presence',
+          description: 'Traffic from social channels has increased by 24%. Consider investing more in these channels.',
+          impact: 'medium',
+          effort: 'low',
+          category: 'marketing'
+        },
+        {
+          id: 'rec3',
+          title: 'Personalize User Dashboard',
+          description: 'Users who customize their dashboard have 37% higher retention. Promote this feature more prominently.',
+          impact: 'high',
+          effort: 'high',
+          category: 'engagement'
+        }
+      ],
+      recentActivity: [
+        {
+          id: 'act1',
+          type: 'new_signup',
+          user: 'Enterprise Corp',
+          plan: 'Enterprise',
+          value: 7500,
+          date: '2023-04-12T14:32:00Z'
+        },
+        {
+          id: 'act2',
+          type: 'upgrade',
+          user: 'TechStart Inc',
+          plan: 'Professional',
+          value: 1200,
+          date: '2023-04-11T09:15:00Z'
+        },
+        {
+          id: 'act3',
+          type: 'renewal',
+          user: 'InnovateLabs',
+          plan: 'Team',
+          value: 3600,
+          date: '2023-04-10T16:45:00Z'
+        }
+      ]
+    };
+
     return NextResponse.json({
-      success: false,
-      error: "Failed to fetch insights",
-      message: error instanceof Error ? error.message : "Unknown error"
-    }, { 
-      status: 500,
-      headers: corsHeaders
-    })
+      success: true,
+      data: insights,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Dashboard insights error:', error);
+    return NextResponse.json(
+      { success: false, message: 'Failed to fetch insights' },
+      { status: 500 }
+    );
   }
 }
 

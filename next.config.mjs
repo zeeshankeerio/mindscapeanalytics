@@ -61,19 +61,18 @@ const nextConfig = {
       'sonner',
       'zod'
     ],
-    webpackBuildWorker: true,
+    webpackBuildWorker: false,
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
     webVitalsAttribution: ['CLS', 'LCP', 'FCP', 'FID', 'TTFB', 'INP'],
     serverComponentsExternalPackages: ['sharp'],
-    ppr: false, // Disabled PPR since it requires a canary version of Next.js
+    ppr: false,
     optimizeServerReact: true,
     turbo: {
       rules: {
         // Custom turbo pack rules
       }
     },
-    // Add memory cache
     memoryBasedWorkersCount: true
   },
   transpilePackages: [],
@@ -87,10 +86,8 @@ const nextConfig = {
       use: ["@svgr/webpack"],
     });
     
-    // Add module concatenation for better tree shaking
     config.optimization.concatenateModules = true;
     
-    // Simplify chunk splitting configuration
     config.optimization.splitChunks = {
       chunks: 'all',
       maxInitialRequests: 25,
@@ -101,14 +98,15 @@ const nextConfig = {
     
     return config;
   },
+  output: 'standalone',
   poweredByHeader: false,
   compress: true,
   productionBrowserSourceMaps: false,
   reactStrictMode: true,
   swcMinify: true,
-  staticPageGenerationTimeout: 0,
+  staticPageGenerationTimeout: 120,
   env: {
-    NEXT_PUBLIC_DISABLE_STATIC_GENERATION: "true"
+    NEXT_PUBLIC_DISABLE_STATIC_GENERATION: "false"
   },
   async headers() {
     return [
@@ -170,7 +168,6 @@ const nextConfig = {
   distDir: '.next',
 };
 
-// Check if bundle analyzer needs to be enabled
 let config = nextConfig;
 if (process.env.ANALYZE === 'true') {
   try {
