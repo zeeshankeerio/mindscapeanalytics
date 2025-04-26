@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
+// Explicitly mark this route as dynamic since it uses cookies
+export const dynamic = 'force-dynamic';
+
 // Mock user validation - replace with actual database logic in production
 const validateUser = async (email: string, password: string) => {
   // This is a mock - in a real app, you would verify against your database

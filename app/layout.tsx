@@ -35,10 +35,10 @@ export const viewport: Viewport = {
 }
 
 export const metadata: Metadata = {
-  title: "Mindscape - AI Analytics Platform",
-  description: "Enterprise-grade AI analytics platform for data-driven decision making",
+  title: "Mindscape - Enterprise AI Analytics Platform",
+  description: "Enterprise-grade AI analytics platform with real-time processing, advanced machine learning, and secure data visualization for data-driven decision making",
   metadataBase: new URL("https://mindscape-analytics.com"),
-  keywords: "AI, machine learning, analytics, data visualization, enterprise AI, computer vision, NLP",
+  keywords: "AI, machine learning, analytics, data visualization, enterprise AI, computer vision, NLP, real-time analytics, business intelligence, predictive analytics, data processing, secure analytics",
   authors: [{ name: "Mindscape Analytics" }],
   creator: "Mindscape Analytics",
   publisher: "Mindscape Analytics",
@@ -71,7 +71,7 @@ export const metadata: Metadata = {
     url: "https://mindscape-analytics.com",
     title: "Mindscape Analytics | Advanced AI Solutions for Enterprise",
     description:
-      "Transform your business with our AI-powered analytics platform. Harness the power of machine learning, computer vision, and natural language processing.",
+      "Transform your business with our enterprise-grade AI-powered analytics platform. Harness the power of machine learning, computer vision, and natural language processing for real-time insights.",
     siteName: "Mindscape Analytics",
     images: [
       {
@@ -86,11 +86,21 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Mindscape Analytics | Advanced AI Solutions for Enterprise",
     description:
-      "Transform your business with our AI-powered analytics platform. Harness the power of machine learning, computer vision, and natural language processing.",
+      "Transform your business with our enterprise-grade AI-powered analytics platform. Harness the power of machine learning, computer vision, and natural language processing for real-time insights.",
     creator: "@mindscapeai",
     images: ["/images/twitter-image.jpg"]
   },
-  robots: "index, follow",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   generator: "v0.dev"
 }
 
@@ -112,10 +122,14 @@ export default function RootLayout({
         <link rel="canonical" href="https://mindscape-analytics.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="theme-color" content="#D10000" />
+        <meta name="color-scheme" content="dark light" />
         
         {/* Remove preload for missing resources */}
         

@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "framework": "nextjs",
+  "buildCommand": "corepack enable && pnpm install --no-frozen-lockfile && npx prisma generate && pnpm build",
   "installCommand": "corepack enable && pnpm install --no-frozen-lockfile --force",
-  "buildCommand": "npx prisma generate && pnpm build",
+  "framework": "nextjs",
   "regions": ["iad1"],
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index" }
+  "routes": [
+    { "src": "/api/auth/(.*)", "dest": "/api/auth/$1" },
+    { "src": "/solutions/blockchain(.*)", "dest": "/solutions/blockchain$1" },
+    { "src": "/(.*)", "dest": "/$1" }
   ]
 } 

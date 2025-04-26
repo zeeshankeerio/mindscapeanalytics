@@ -15,64 +15,64 @@ import NewsTicker from "@/components/news-ticker"
 // Dynamically import heavy components with proper loading skeletons
 const HyperHero = dynamic(() => import("@/components/hyper-hero"), { 
   ssr: true,
-  loading: () => <div className="h-[80vh] bg-black/30 animate-pulse rounded-lg"></div>
+  loading: () => <div className="h-[80vh] bg-black/30 animate-pulse rounded-lg" aria-label="Loading hero section..." role="progressbar"></div>
 })
 
 // Defer below-the-fold content loading to improve core web vitals
 const FeaturesSection = dynamic(() => import("@/components/features-section"), {
   ssr: false, // Important: Only render on client to reduce server load
-  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading features section..." role="progressbar"></div>
 })
 
 const AICapabilitiesShowcase = dynamic(() => import("@/components/ai-capabilities-showcase"), {
   ssr: false,
-  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading AI capabilities section..." role="progressbar"></div>
 })
 
 // Add more explicit chunk names for better bundle splitting
 const ProjectsShowcase = dynamic(() => import(/* webpackChunkName: "projects-showcase" */ "@/components/projects-showcase"), {
   ssr: false,
-  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading projects section..." role="progressbar"></div>
 })
 
 const AnalyticsPreview = dynamic(() => import(/* webpackChunkName: "analytics-preview" */ "@/components/analytics-preview"), {
   ssr: false,
-  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading analytics preview section..." role="progressbar"></div>
 })
 
 const EnhancedIndustrySolutions = dynamic(() => import(/* webpackChunkName: "industry-solutions" */ "@/components/enhanced-industry-solutions"), {
   ssr: false,
-  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading industry solutions section..." role="progressbar"></div>
 })
 
 const TechStackShowcase = dynamic(() => import(/* webpackChunkName: "tech-stack" */ "@/components/tech-stack-showcase"), {
   ssr: false,
-  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading tech stack section..." role="progressbar"></div>
 })
 
 const TestimonialCarousel = dynamic(() => import(/* webpackChunkName: "testimonials" */ "@/components/testimonial-carousel"), {
   ssr: false,
-  loading: () => <div className="h-64 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+  loading: () => <div className="h-64 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading testimonials section..." role="progressbar"></div>
 })
 
 const IntegrationPartners = dynamic(() => import(/* webpackChunkName: "integration" */ "@/components/integration-partners"), {
   ssr: false,
-  loading: () => <div className="h-64 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+  loading: () => <div className="h-64 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading integration partners section..." role="progressbar"></div>
 })
 
 const TeamSection = dynamic(() => import(/* webpackChunkName: "team-section" */ "@/components/team-section"), {
   ssr: false,
-  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading team section..." role="progressbar"></div>
 })
 
 const EnhancedCTASection = dynamic(() => import(/* webpackChunkName: "cta-section" */ "@/components/enhanced-cta-section"), {
   ssr: false,
-  loading: () => <div className="h-64 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+  loading: () => <div className="h-64 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading call to action section..." role="progressbar"></div>
 })
 
 const InteractiveDemoSection = dynamic(() => import(/* webpackChunkName: "interactive-demo" */ "@/components/interactive-demo-section"), {
   ssr: false,
-  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10"></div>
+  loading: () => <div className="h-96 bg-black/30 animate-pulse rounded-lg mt-10" aria-label="Loading interactive demo section..." role="progressbar"></div>
 })
 
 // Feature data
@@ -138,7 +138,7 @@ export default function Home() {
       </div>
       
       {/* Hero Section - First Impression */}
-      <header className="relative z-10 w-full overflow-hidden">
+      <header className="relative z-10 w-full overflow-hidden" role="banner" aria-labelledby="main-heading">
         <motion.div 
           style={{ y, opacity }}
           className="container mx-auto px-4 md:px-6"
@@ -153,7 +153,7 @@ export default function Home() {
       </header>
       
       {/* 1. POWERFUL FEATURES - Core Capabilities */}
-      <section id="features" className="relative z-10 w-full py-12 overflow-hidden">
+      <section id="features" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="features-heading">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -164,7 +164,7 @@ export default function Home() {
       </section>
       
       {/* 2. INDUSTRY SOLUTIONS - Vertical Focus */}
-      <section id="solutions" className="relative z-10 w-full py-12 overflow-hidden">
+      <section id="solutions" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="solutions-heading">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -175,7 +175,7 @@ export default function Home() {
       </section>
       
       {/* 3. AI CAPABILITIES - Advanced Features */}
-      <section id="ai-capabilities" className="relative z-10 w-full py-12 overflow-hidden">
+      <section id="ai-capabilities" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="ai-capabilities-heading">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -186,7 +186,7 @@ export default function Home() {
       </section>
       
       {/* 5. INTERACTIVE DEMOS - Showcase Key Features */}
-      <section id="interactive-demo" className="relative z-10 w-full py-12 overflow-hidden">
+      <section id="interactive-demo" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="interactive-demo-heading">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -197,7 +197,7 @@ export default function Home() {
       </section>
       
       {/* 6. ENTERPRISE ANALYTICS SUITE - Data Visualization */}
-      <section id="analytics" className="relative z-10 w-full py-12 overflow-hidden">
+      <section id="analytics" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="analytics-heading">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -208,7 +208,7 @@ export default function Home() {
       </section>
       
       {/* 7. OUR PROJECTS - Innovations */}
-      <section id="projects" className="relative z-10 w-full py-12 overflow-hidden">
+      <section id="projects" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="projects-heading">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -219,7 +219,7 @@ export default function Home() {
       </section>
       
       {/* 8. TECHNOLOGY STACK - Our Technology */}
-      <section id="tech-stack" className="relative z-10 w-full py-12 overflow-hidden">
+      <section id="tech-stack" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="tech-stack-heading">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -230,7 +230,7 @@ export default function Home() {
       </section>
       
       {/* Testimonials - Social Proof */}
-      <section id="testimonials" className="relative z-10 w-full py-12 overflow-hidden">
+      <section id="testimonials" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="testimonials-heading">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -241,7 +241,7 @@ export default function Home() {
       </section>
       
       {/* Partners - Integration Ecosystem */}
-      <section id="partners" className="relative z-10 w-full py-12 overflow-hidden">
+      <section id="partners" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="partners-heading">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -252,7 +252,7 @@ export default function Home() {
       </section>
       
       {/* Team Section - Who We Are */}
-      <section id="team" className="relative z-10 w-full py-12 overflow-hidden">
+      <section id="team" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="team-heading">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-red-900/20 rounded-full blur-[90px] opacity-30 animate-pulse-slow"></div>
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-red-900/20 rounded-full blur-[90px] opacity-30 animate-pulse-slow"></div>
@@ -263,7 +263,7 @@ export default function Home() {
       </section>
       
       {/* Start Today - Call to Action */}
-      <section id="start-today" className="relative z-10 w-full py-12 overflow-hidden">
+      <section id="start-today" className="relative z-10 w-full py-12 overflow-hidden" aria-labelledby="cta-heading">
         <div className={sectionBackgroundStyles.container} aria-hidden="true">
           <div className={sectionBackgroundStyles.glow}></div>
           <div className={sectionBackgroundStyles.glow}></div>
@@ -277,6 +277,9 @@ export default function Home() {
       <ScrollToTop />
       <FloatingChatWidget />
       <CookieConsent />
+      
+      {/* Skip to main content link for accessibility */}
+      <a href="#features" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-50 bg-red-900 text-white px-4 py-2 rounded">Skip to main content</a>
     </main>
   )
 } 

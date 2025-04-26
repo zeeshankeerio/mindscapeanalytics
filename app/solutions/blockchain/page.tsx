@@ -35,6 +35,9 @@ import { SmartContractPlayground } from "@/components/smart-contract-playground"
 import { BlockchainVisualizer } from "@/components/blockchain-visualizer";
 import { motion } from "framer-motion";
 
+// Set dynamic rendering for this page
+export const dynamic = 'force-dynamic';
+
 export default function BlockchainSolutionsPage() {
   return (
     <div className="flex flex-col min-h-screen">

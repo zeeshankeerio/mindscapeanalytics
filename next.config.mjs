@@ -108,6 +108,13 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_DISABLE_STATIC_GENERATION: "false"
   },
+  // Force all auth API routes to be dynamic rather than static
+  serverRuntimeConfig: {
+    dynamicRenderingForPaths: [
+      '/api/auth/**',
+      '/solutions/blockchain/**'
+    ]
+  },
   async headers() {
     return [
       {

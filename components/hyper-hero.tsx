@@ -84,9 +84,9 @@ const IconPack = dynamic(() =>
 const ThreeScene = dynamic(() => import("@/components/three-scene"), {
   ssr: false,
   loading: () => (
-    <div className="flex items-center justify-center h-full w-full bg-black/50 rounded-xl border border-white/10" aria-label="Loading 3D visualization">
+    <div className="flex items-center justify-center h-full w-full bg-black/50 rounded-xl border border-white/10" aria-label="Loading 3D visualization" role="progressbar">
       <div className="flex flex-col items-center">
-        <div role="progressbar" className="w-12 h-12 rounded-full border-2 border-white/20 border-t-white animate-spin mb-4"></div>
+        <div role="progressbar" aria-valuemin={0} aria-valuemax={100} className="w-12 h-12 rounded-full border-2 border-white/20 border-t-white animate-spin mb-4"></div>
         <p className="text-white/70">Loading 3D visualization...</p>
       </div>
     </div>
@@ -237,6 +237,8 @@ export default function HyperHero() {
       yMovement: number;
     }>;
   } | null>(null)
+  // Add state for detecting low-bandwidth connection
+  const [isLowBandwidth, setIsLowBandwidth] = useState(false)
 
   // Handle contact form navigation
   const handleGetStartedClick = (e: React.MouseEvent) => {
@@ -249,6 +251,40 @@ export default function HyperHero() {
   const y = useTransform(scrollYProgress, [0, 0.5], [0, -50])
   const isMobile = useMobile()
   const { toast } = useToast()
+
+  // Check for low bandwidth connection
+  useEffect(() => {
+    const checkConnection = () => {
+      // Use the Connection API if available
+      if ('connection' in navigator && navigator.connection) {
+        const connection = navigator.connection as any;
+        if (connection.saveData || 
+           (connection.effectiveType && ['slow-2g', '2g', '3g'].includes(connection.effectiveType)) ||
+           (connection.downlink && connection.downlink < 1.5)) {
+          setIsLowBandwidth(true);
+          // Disable 3D and complex animations for low bandwidth
+          setUse3D(false);
+          setComplexity(0.5);
+        }
+      }
+      
+      // Additional fallback for older browsers - basic performance check
+      const startTime = performance.now();
+      const checkLoadTime = () => {
+        const loadTime = performance.now() - startTime;
+        if (loadTime > 3000) { // If initial load takes more than 3 seconds
+          setIsLowBandwidth(true);
+          setUse3D(false);
+          setComplexity(0.5);
+        }
+      };
+      
+      // Check after a short delay
+      setTimeout(checkLoadTime, 3000);
+    };
+    
+    checkConnection();
+  }, []);
 
   // Generate random values only on client-side
   useEffect(() => {

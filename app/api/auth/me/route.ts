@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
+// Explicitly mark this route as dynamic since it uses cookies
+export const dynamic = 'force-dynamic';
+
 // Mock function to get user from token - replace with real implementation
 const getUserFromToken = async (token: string) => {
   // In a real app, you would verify the token and fetch user from database
