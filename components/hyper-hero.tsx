@@ -1161,30 +1161,28 @@ const styles = `
   @keyframes brain-pulse {
     0% {
       transform: scale(1);
-      filter: drop-shadow(0 0 1px rgba(220, 38, 38, 0.5)) brightness(0.8);
+      filter: drop-shadow(0 0 2px rgba(239, 68, 68, 0.6)) brightness(0.85);
     }
     25% {
-      transform: scale(1.1);
-      filter: drop-shadow(0 0 5px rgba(220, 38, 38, 0.7)) brightness(1.2);
+      transform: scale(1.12);
+      filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.9)) brightness(1.3);
     }
     50% {
       transform: scale(1);
-      filter: drop-shadow(0 0 1px rgba(220, 38, 38, 0.5)) brightness(0.8);
+      filter: drop-shadow(0 0 2px rgba(239, 68, 68, 0.6)) brightness(0.85);
     }
     75% {
-      transform: scale(1.05);
-      filter: drop-shadow(0 0 3px rgba(220, 38, 38, 0.6)) brightness(1);
+      transform: scale(1.08);
+      filter: drop-shadow(0 0 6px rgba(239, 68, 68, 0.8)) brightness(1.2);
     }
     100% {
       transform: scale(1);
-      filter: drop-shadow(0 0 1px rgba(220, 38, 38, 0.5)) brightness(0.8);
+      filter: drop-shadow(0 0 2px rgba(239, 68, 68, 0.6)) brightness(0.85);
     }
   }
 
   .animate-brain-pulse {
-    animation: brain-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation: brain-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     will-change: transform, filter;
   }
 `
-
-
