@@ -26,22 +26,21 @@
       ]
     }
   ],
-  "routes": [
-    { "src": "/api/auth/(.*)", "dest": "/api/auth/$1" },
-    { "src": "/solutions/blockchain(.*)", "dest": "/solutions/blockchain$1" },
-    { "src": "/solutions/enterprise(.*)", "dest": "/solutions/enterprise$1" },
-    { "src": "/solutions/industry(.*)", "dest": "/solutions/industry$1" },
-    { "src": "/solutions/real-estate(.*)", "dest": "/solutions/real-estate$1" },
-    { "src": "/solutions/industry-paas(.*)", "dest": "/solutions/industry-paas$1" },
-    { "src": "/solutions/aiops(.*)", "dest": "/solutions/aiops$1" },
-    { "src": "/solutions/genai(.*)", "dest": "/solutions/genai$1" },
-    { "src": "/solutions/cloud(.*)", "dest": "/solutions/cloud$1" },
-    { "src": "/services/(.*)", "dest": "/services/$1" },
-    { "src": "/dashboard/(.*)", "dest": "/dashboard/$1" },
-    { "src": "/auth/(.*)", "dest": "/auth/$1" },
-    { "src": "/blog/(.*)", "dest": "/blog/$1" },
-    { "src": "/projects/(.*)", "dest": "/projects/$1" },
-    { "src": "/case-studies/(.*)", "dest": "/case-studies/$1" },
-    { "src": "/(.*)", "dest": "/$1" }
+  "rewrites": [
+    { "source": "/api/auth/:path*", "destination": "/api/auth/:path*" },
+    { "source": "/solutions/blockchain:path*", "destination": "/solutions/blockchain:path*" },
+    { "source": "/solutions/enterprise:path*", "destination": "/solutions/enterprise:path*" },
+    { "source": "/solutions/industry:path*", "destination": "/solutions/industry:path*" },
+    { "source": "/solutions/real-estate:path*", "destination": "/solutions/real-estate:path*" },
+    { "source": "/solutions/industry-paas:path*", "destination": "/solutions/industry-paas:path*" },
+    { "source": "/solutions/aiops:path*", "destination": "/solutions/aiops:path*" },
+    { "source": "/solutions/genai:path*", "destination": "/solutions/genai:path*" },
+    { "source": "/solutions/cloud:path*", "destination": "/solutions/cloud:path*" },
+    { "source": "/services/:path*", "destination": "/services/:path*" },
+    { "source": "/dashboard/:path*", "destination": "/dashboard/:path*" },
+    { "source": "/auth/:path*", "destination": "/auth/:path*" },
+    { "source": "/blog/:path*", "destination": "/blog/:path*" },
+    { "source": "/projects/:path*", "destination": "/projects/:path*" },
+    { "source": "/case-studies/:path*", "destination": "/case-studies/:path*" }
   ]
 } 
