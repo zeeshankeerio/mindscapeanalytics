@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "buildCommand": "pnpm install --no-frozen-lockfile && npx prisma generate && pnpm build",
-  "installCommand": "pnpm install --no-frozen-lockfile",
+  "buildCommand": "pnpm install --no-frozen-lockfile && pnpm update && npx prisma generate && pnpm build",
+  "installCommand": "pnpm install --no-frozen-lockfile --prefer-offline=false",
   "framework": "nextjs",
   "devCommand": "pnpm dev",
   "regions": ["iad1"],
