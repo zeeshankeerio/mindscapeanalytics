@@ -123,24 +123,45 @@ const config: Config = {
         },
         "logo-pulse": {
           "0%": { 
-            opacity: "0.5",
-            transform: "scale(0.95)",
-            boxShadow: "0 0 0 0 rgba(139, 0, 0, 0.7)"
+            opacity: "1",
+            filter: "drop-shadow(0 0 2px rgba(139, 0, 0, 0.3))",
+            transform: "scale(1)"
+          },
+          "15%": { 
+            opacity: "0.8",
+            filter: "drop-shadow(0 0 8px rgba(139, 0, 0, 0.7))",
+            transform: "scale(1.12)"
           },
           "30%": { 
-            opacity: "0.85",
-            transform: "scale(1.1)",
-            boxShadow: "0 0 0 10px rgba(139, 0, 0, 0)"
+            opacity: "0.95",
+            filter: "drop-shadow(0 0 4px rgba(139, 0, 0, 0.5))",
+            transform: "scale(1.05)"
           },
-          "60%": { 
-            opacity: "0.5",
-            transform: "scale(0.97)",
-            boxShadow: "0 0 0 0 rgba(139, 0, 0, 0)"
+          "45%": { 
+            opacity: "0.85",
+            filter: "drop-shadow(0 0 6px rgba(139, 0, 0, 0.6))",
+            transform: "scale(1.08)"
+          },
+          "70%": { 
+            opacity: "1",
+            filter: "drop-shadow(0 0 3px rgba(139, 0, 0, 0.4))",
+            transform: "scale(1)"
           },
           "100%": { 
-            opacity: "0.5",
-            transform: "scale(0.95)",
-            boxShadow: "0 0 0 0 rgba(139, 0, 0, 0.7)"
+            opacity: "1",
+            filter: "drop-shadow(0 0 2px rgba(139, 0, 0, 0.3))",
+            transform: "scale(1)"
+          }
+        },
+        "svg-blink": {
+          "0%": { 
+            filter: "brightness(1) drop-shadow(0 0 5px rgba(220, 38, 38, 0.7))",
+          },
+          "50%": { 
+            filter: "brightness(1.6) drop-shadow(0 0 15px rgba(220, 38, 38, 0.9))",
+          },
+          "100%": { 
+            filter: "brightness(1) drop-shadow(0 0 5px rgba(220, 38, 38, 0.7))",
           }
         },
       },
@@ -157,6 +178,7 @@ const config: Config = {
         "wave-slow": "wave 6s ease-in-out infinite",
         "enhanced-pulse": "enhanced-pulse 1.5s ease-in-out infinite",
         "logo-pulse": "logo-pulse 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite",
+        "svg-blink": "svg-blink 2s ease-in-out infinite",
       },
     },
   },

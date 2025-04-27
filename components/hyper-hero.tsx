@@ -48,6 +48,12 @@ import {
   Maximize,
   Minimize,
   RefreshCw,
+  TrendingUp,
+  BrainCircuit,
+  MessageCircle,
+  FileText,
+  Shapes,
+  Lock,
 } from "lucide-react"
 import dynamic from "next/dynamic"
 import { Button } from "@/components/ui/button"
@@ -63,12 +69,35 @@ import { Label } from "@/components/ui/label"
 import { Progress } from "@/components/ui/progress"
 import { useMobile } from "@/hooks/use-mobile"
 import { ErrorBoundary } from "@/components/error-boundary"
-import { useToast } from "@/hooks/use-toast"
 import MindscapeLogo from "@/components/mindscape-logo"
 import { Input } from "@/components/ui/input"
 import { TypeAnimation } from 'react-type-animation'
 import Link from "next/link"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
+
+// Custom hook for responsive device detection
+const useResponsiveDevice = () => {
+  const [isMobile, setIsMobile] = useState(false)
+  
+  useEffect(() => {
+    // Function to check if device is mobile based on screen width
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    
+    // Check on initial render
+    checkMobile()
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', checkMobile)
+    
+    // Clean up
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+  
+  return { isMobile }
+}
 
 // Dynamically import Three.js components to avoid SSR issues
 const ThreeScene = dynamic(() => import("@/components/three-scene"), {
@@ -384,8 +413,8 @@ function AICodeCard({ delay = 0 }) {
   const isInView = useInView(ref, { once: true, amount: 0.2 })
   const [isTyping, setIsTyping] = useState(true)
   const [codeProgress, setCodeProgress] = useState(0)
-  const { toast } = useToast()
-
+  const [copied, setCopied] = useState(false)
+  
   useEffect(() => {
     if (isInView) {
       controls.start("visible")
@@ -405,6 +434,14 @@ function AICodeCard({ delay = 0 }) {
       return () => clearInterval(interval)
     }
   }, [controls, isInView])
+
+  // Reset copied state after 2 seconds
+  useEffect(() => {
+    if (copied) {
+      const timeout = setTimeout(() => setCopied(false), 2000)
+      return () => clearTimeout(timeout)
+    }
+  }, [copied])
 
   const codeSnippet = `// AI-powered image recognition
 import { analyzeImage } from '@mindscape/vision';
@@ -427,10 +464,7 @@ async function detectObjects(imageUrl) {
 
   const handleCopyCode = () => {
     navigator.clipboard.writeText(codeSnippet)
-    toast({
-      title: "Code copied to clipboard",
-      description: "You can now paste the code in your project",
-    })
+    setCopied(true)
   }
 
   return (
@@ -487,8 +521,17 @@ async function detectObjects(imageUrl) {
             className="text-blue-400 hover:text-blue-300 p-0 h-auto"
             onClick={handleCopyCode}
           >
-            <FileCode2 className="h-4 w-4 mr-1" />
-            <span>Copy code</span>
+            {copied ? (
+              <>
+                <CheckCircle2 className="h-4 w-4 mr-1 text-green-500" />
+                <span>Copied!</span>
+              </>
+            ) : (
+              <>
+                <FileCode2 className="h-4 w-4 mr-1" />
+                <span>Copy code</span>
+              </>
+            )}
           </Button>
         </div>
       )}
@@ -654,6 +697,208 @@ const EnhancedFeatureCard = ({
   )
 }
 
+// Desktop section for better code organization
+function DesktopHeroContent({ 
+  y, 
+  optimizedFeatures, 
+  handleGetStartedClick 
+}: { 
+  y: any, 
+  optimizedFeatures: any[], 
+  handleGetStartedClick: (e: React.MouseEvent) => void 
+}) {
+  return (
+    <div className="container mx-auto px-4 md:px-6 relative z-10">
+      <div className="flex flex-col lg:flex-row items-center gap-6 md:gap-10">
+        {/* Left Column - Content */}
+        <motion.div
+          className="flex-1 space-y-4 md:space-y-6 relative w-full"
+          style={{ y }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          {/* Enhanced Badge Section */}
+          <motion.div 
+            className="flex flex-wrap gap-2 justify-center md:justify-start"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <Badge className="bg-gradient-to-r from-red-800/30 to-red-800/10 text-red-400 border-red-800/30 hover:bg-red-800/20 transition-colors duration-300">
+              <Sparkles className="h-3 w-3 mr-1 animate-[pulse_2s_ease-in-out_infinite]" aria-hidden="true" />
+              <span>Enterprise AI Platform</span>
+            </Badge>
+            <Badge className="bg-gradient-to-r from-blue-500/30 to-blue-500/10 text-blue-400 border-blue-500/30 hover:bg-blue-500/20 transition-colors duration-300">
+              <Shield className="h-3 w-3 mr-1 animate-[pulse_2.5s_ease-in-out_infinite]" aria-hidden="true" />
+              <span>SOC 2 Certified</span>
+            </Badge>
+            <Badge className="bg-gradient-to-r from-green-500/30 to-green-500/10 text-green-400 border-green-500/30 hover:bg-green-500/20 transition-colors duration-300">
+              <Zap className="h-3 w-3 mr-1 animate-[pulse_3s_ease-in-out_infinite]" aria-hidden="true" />
+              <span>Real-time AI</span>
+            </Badge>
+          </motion.div>
+
+          {/* Title Section */}
+          <motion.div
+            className="space-y-2 max-w-2xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
+              <span className="text-white relative z-10">Unlock Next-Gen Intelligence with</span>
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600 relative">
+                Enterprise AI Solutions
+              </span>
+            </h1>
+            <p className="text-lg text-white/80 mt-4 max-w-xl">
+              Accelerate innovation with our end-to-end AI platform that delivers powerful insights, automates workflows, and drives tangible business outcomes.
+            </p>
+          </motion.div>
+
+          {/* CTA Buttons */}
+          <motion.div
+            className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.8 }}
+          >
+            <Button 
+              size="lg" 
+              className="group relative px-6 py-4 text-base font-semibold text-white rounded-full hover:brightness-110 transition-all duration-300 overflow-hidden w-full sm:w-auto"
+              onClick={handleGetStartedClick}
+              aria-label="Get Started with Mindscape AI"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-red-700 via-red-600 to-red-700 group-hover:from-red-600 group-hover:via-red-500 group-hover:to-red-600 transition-all duration-500 rounded-full"></div>
+              <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" aria-hidden="true" />
+              <span className="relative z-10 flex items-center justify-center">
+                Get Started
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+              </span>
+            </Button>
+            <Link 
+              href="/services" 
+              className="w-full sm:w-auto"
+              aria-label="Explore Solutions"
+            >
+              <Button
+                size="lg"
+                variant="outline"
+                className="group relative px-6 py-4 text-base font-semibold text-white border border-white/30 hover:border-white/50 hover:bg-white/5 rounded-full backdrop-blur-sm transition-all duration-300 overflow-hidden w-full sm:w-auto"
+              >
+                <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 transition-opacity duration-300" aria-hidden="true"></div>
+                <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" aria-hidden="true" />
+                <span className="relative z-10 flex items-center justify-center">Explore Solutions
+                  <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                </span>
+              </Button>
+            </Link>
+          </motion.div>
+
+          {/* Enhanced Features display */}
+          <motion.div 
+            className="mt-12 w-full"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+              {optimizedFeatures.map((feature, index) => (
+                <EnhancedFeatureCard
+                  key={feature.title}
+                  icon={feature.icon}
+                  title={feature.title}
+                  description={feature.description}
+                  color={feature.color as "red" | "blue" | "green" | "purple"}
+                  index={index}
+                />
+              ))}
+            </div>
+          </motion.div>
+        </motion.div>
+
+        {/* Right Column - Logo */}
+        <motion.div
+          className="flex-1 h-[300px] w-full flex items-center justify-center mt-8 lg:mt-0"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.7, delay: 0.2 }}
+        >
+          <div className="relative h-full w-full max-w-lg">
+            {/* Logo Container with RGB Effects */}
+            <div className="h-full flex flex-col items-center justify-center relative">
+              <motion.div
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                className="relative"
+              >
+                {/* Outer glow effect */}
+                <div className="absolute inset-0 bg-black/20 blur-[180px] rounded-full transform scale-[2]" aria-hidden="true" />
+                
+                {/* Logo and text container */}
+                <div className="relative flex flex-col items-center">
+                  {/* Brain icon with glow */}
+                  <div className="relative scale-[1.3] md:scale-[1.6]">
+                    {/* Multiple layered glows */}
+                    <div className="absolute inset-0 bg-red-900/10 blur-[40px] rounded-[20px] animate-pulse-slow" aria-hidden="true" />
+                    <div className="absolute inset-0 bg-red-800/20 blur-[30px] rounded-[20px] animate-pulse-medium" aria-hidden="true" />
+                    <div className="absolute inset-0 bg-red-700/30 blur-[20px] rounded-[20px] animate-pulse-fast" aria-hidden="true" />
+                    
+                    {/* Neural network lines */}
+                    <div className="absolute inset-0 opacity-50 scale-[1.2]" aria-hidden="true">
+                      <div className="absolute h-[1px] w-8 bg-gradient-to-r from-transparent via-red-800 to-transparent top-1/4 -left-3 animate-neural-1" />
+                      <div className="absolute h-[1px] w-8 bg-gradient-to-r from-transparent via-red-800 to-transparent bottom-1/4 -right-3 animate-neural-2" />
+                      <div className="absolute w-[1px] h-8 bg-gradient-to-b from-transparent via-red-800 to-transparent -top-3 left-1/4 animate-neural-3" />
+                      <div className="absolute w-[1px] h-8 bg-gradient-to-b from-transparent via-red-800 to-transparent -bottom-3 right-1/4 animate-neural-4" />
+                    </div>
+
+                    {/* Enhanced Brain icon with RGB border */}
+                    <div className="relative z-10 group animate-heartbeat">
+                      {/* RGB Border Container */}
+                      <div className="absolute -inset-[2px] rounded-[20px]" aria-hidden="true">
+                        {/* Moving RGB gradient border */}
+                        <div className="absolute inset-[-2px] rounded-[20px] animate-rgb-spin group-hover:animate-rgb-spin-fast">
+                          <div className="absolute inset-0 bg-[conic-gradient(from_0deg,#8B0000,#420000,#690000,#8B0000)] rounded-[20px] group-hover:bg-[conic-gradient(from_0deg,#8B0000,#420000,#690000,#8B0000)]" />
+                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent rounded-[20px] animate-border-flow group-hover:animate-border-flow-fast" />
+                        <div className="absolute inset-0 rounded-[20px] bg-black">
+                          <div className="absolute inset-0 rounded-[20px] bg-gradient-to-r from-[#8B000030] via-[#42000030] to-[#69000030] animate-rgb-spin-reverse group-hover:animate-rgb-spin-reverse-fast group-hover:from-[#8B000050] group-hover:via-[#42000050] group-hover:to-[#69000050]" />
+                        </div>
+                      </div>
+                      
+                      {/* Icon container */}
+                      <div className="relative bg-black rounded-[20px] p-8 md:p-10 transition-transform duration-300 group-hover:scale-[0.98]">
+                        <Image 
+                          src="/images/brain.svg" 
+                          alt="Mindscape Brain Logo"
+                          className="h-14 w-14 md:h-24 md:w-24 transform transition-all duration-300 group-hover:scale-[0.98] animate-logo-pulse"
+                          width={96}
+                          height={96}
+                          loading="eager"
+                          priority
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Floating particles */}
+                  <div className="absolute inset-0 overflow-hidden rounded-[20px] pointer-events-none scale-[1.3]" aria-hidden="true">
+                    <div className="w-1.5 h-1.5 bg-red-600 rounded-full animate-particle-2 bottom-[20%] right-[20%]" />
+                    <div className="w-1 h-1 bg-red-500 rounded-full animate-particle-3 top-[50%] right-[30%]" />
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  )
+}
+
 // Main Hero Component
 export default function HyperHero() {
   const [complexity, setComplexity] = useState(1)
@@ -665,358 +910,258 @@ export default function HyperHero() {
   const [use3D, setUse3D] = useState(true)
   const [activeTab, setActiveTab] = useState("overview")
   const [hoveredFeature, setHoveredFeature] = useState<string | null>(null)
-  // Add state for storing random values
-  const [randomValues, setRandomValues] = useState<{
-    particles: Array<{
-      width: number;
-      height: number;
-      left: string;
-      top: string;
-      opacity: number;
-      blur: number;
-      xMovement: number;
-      yMovement: number;
-      duration: number;
-      delay: number;
-    }>;
-    microDots: Array<{
-      left: string;
-      animationDelay: number;
-      animationDuration: number;
-      size: number;
-      yMovement: number;
-    }>;
-  } | null>(null)
+  const [randomValues, setRandomValues] = useState<number[] | null>(null)
+  const [triggerAnimation, setTriggerAnimation] = useState(false)
 
-  // Handle contact form navigation
-  const handleGetStartedClick = (e: React.MouseEvent) => {
+  const router = useRouter()
+  const { isMobile } = useResponsiveDevice()
+  const { scrollYProgress } = useScroll()
+  const y = useTransform(scrollYProgress, [0, 1], [0, 200])
+  
+  // Handle contact form navigation - memoized to prevent recreating on every render
+  const handleGetStartedClick = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
     navigateToContactForm("ai-analytics", "Main Hero Get Started Request")
-  }
-  
-  // Animation controls
-  const { scrollYProgress } = useScroll()
-  const y = useTransform(scrollYProgress, [0, 0.5], [0, -50])
-  const isMobile = useMobile()
-  const { toast } = useToast()
+  }, [])
 
-  // Generate random values only on client-side
+  // Define optimized features for mobile view - memoized to prevent recreating on every render
+  const optimizedFeatures = useMemo(() => [
+    {
+      title: "Natural Language",
+      description: "Advanced NLP for text analysis and generation",
+      color: "blue",
+      icon: <FileText className="h-4 w-4" />,
+    },
+    {
+      title: "Computer Vision",
+      description: "Image and video analysis with deep learning",
+      color: "purple",
+      icon: <Shapes className="h-4 w-4" />,
+    },
+    {
+      title: "Predictive Models",
+      description: "Data-driven forecasting and analytics",
+      color: "indigo",
+      icon: <TrendingUp className="h-4 w-4" />,
+    },
+    {
+      title: "Knowledge Base",
+      description: "Enterprise data integration and context",
+      color: "cyan",
+      icon: <Database className="h-4 w-4" />,
+    },
+  ], [])
+
+  // Generate random values for the grid - implemented
   useEffect(() => {
-    // Generate random values for particles
-    const particles = Array.from({ length: 8 }).map(() => ({
-      width: Math.random() * 180 + 50,
-      height: Math.random() * 180 + 50,
-      left: `${Math.random() * 100}%`,
-      top: `${Math.random() * 100}%`,
-      opacity: Math.random() * 0.3 + 0.2,
-      blur: Math.random() * 30 + 40,
-      xMovement: Math.random() * 30 - 15,
-      yMovement: Math.random() * 30 - 15,
-      duration: Math.random() * 10 + 10,
-      delay: Math.random() * 5,
-    }));
-
-    // Generate random values for microDots
-    const microDots = Array.from({ length: 6 }).map((_, i) => ({
-      left: `${10 + i * 15 + Math.random() * 5}%`,
-      animationDelay: Math.random() * 2,
-      animationDuration: Math.random() * 2 + 2,
-      size: Math.random() * 1 + 2,
-      yMovement: Math.random() * 12 + 3,
-    }));
-
-    setRandomValues({ particles, microDots });
-  }, []);
-
-  // Add features data
-  const features = [
-    {
-      id: "ai",
-      title: "Advanced AI",
-      description: "State-of-the-art machine learning models",
-      icon: <Brain className="h-6 w-6" />,
-      color: "red",
-    },
-    {
-      id: "security",
-      title: "Enterprise Security",
-      description: "SOC 2 & GDPR compliant",
-      icon: <Shield className="h-6 w-6" />,
-      color: "blue",
-    },
-    {
-      id: "speed",
-      title: "Real-time Processing",
-      description: "Sub-millisecond inference",
-      icon: <Zap className="h-6 w-6" />,
-      color: "green",
-    },
-    {
-      id: "integration",
-      title: "Easy Integration",
-      description: "Connect with any system",
-      icon: <Workflow className="h-6 w-6" />,
-      color: "purple",
-    },
-  ]
-
-  const optimizedFeatures = [
-    {
-      id: "ai",
-      title: "Advanced AI",
-      description: "Enterprise LLMs with multimodal capabilities and real-time predictions",
-      icon: <Brain className="h-6 w-6" />,
-      color: "red",
-    },
-    {
-      id: "security",
-      title: "Enterprise Security",
-      description: "End-to-end encryption with SOC 2 & GDPR compliance built-in",
-      icon: <Shield className="h-6 w-6" />,
-      color: "blue",
-    },
-    {
-      id: "speed",
-      title: "Real-time Processing",
-      description: "Sub-millisecond inference with optimized GPU acceleration",
-      icon: <Zap className="h-6 w-6" />,
-      color: "green",
-    },
-    {
-      id: "integration",
-      title: "Seamless Integration",
-      description: "Connect with any tech stack via REST API or custom SDKs",
-      icon: <Workflow className="h-6 w-6" />,
-      color: "purple",
-    },
-  ]
-
-  const handle3DError = useCallback(() => {
-    setHas3DError(true)
-    setUse3D(false)
-    toast({
-      variant: "destructive",
-      title: "3D Visualization Error",
-      description: "Failed to initialize 3D scene. Falling back to 2D view.",
+    // Generate random grid values for visual effect
+    const values = Array.from({ length: 16 }, () => Math.random())
+    setRandomValues(values)
+    
+    // Handle 3D rendering error recovery
+    const handleError = () => {
+      console.warn('Error in 3D rendering, falling back to non-3D mode')
+      setHas3DError(true)
+      setUse3D(false)
+    }
+    
+    // Add event listeners for 3D errors
+    window.addEventListener('webglcontextlost', handleError)
+    window.addEventListener('error', (e) => {
+      if (e.message?.includes('WebGL') || e.message?.includes('three')) {
+        handleError()
+      }
     })
-  }, [toast])
+    
+    return () => {
+      window.removeEventListener('webglcontextlost', handleError)
+    }
+  }, [])
 
-  // Only render particles and micro-dots if randomValues have been generated (client-side only)
-  const isClient = typeof window !== 'undefined' && randomValues !== null;
-  
-  // For mobile view
-  if (isMobile) {
+  // Add intersection observer to trigger animations when in view
+  useEffect(() => {
+    if (isMobile) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const [entry] = entries
+          if (entry.isIntersecting) {
+            setTriggerAnimation(true)
+            observer.disconnect()
+          }
+        },
+        { threshold: 0.1 }
+      )
+
+      const heroElement = document.getElementById("mobile-hero")
+      if (heroElement) observer.observe(heroElement)
+
+      return () => {
+        if (heroElement) observer.unobserve(heroElement)
+      }
+    }
+  }, [isMobile])
+
+  // Mobile view component with additional error handling
+  const MobileView = useMemo(() => {
+    if (!isMobile) return null
+    
+    // Create special grid for mobile performance
+    const gridElements = Array.from({ length: 15 }).map((_, i) => (
+      <div
+        key={i}
+        className="absolute rounded-full bg-gradient-to-r from-white/10 to-transparent"
+        style={{
+          width: `${5 + Math.random() * 10}px`,
+          height: `${5 + Math.random() * 10}px`,
+          top: `${Math.random() * 100}%`,
+          left: `${Math.random() * 100}%`,
+          opacity: 0.1 + Math.random() * 0.2,
+          transform: `scale(${0.5 + Math.random()})`,
+        }}
+      />
+    ))
+    
     return (
-      <section className="relative min-h-[105vh] flex flex-col justify-start overflow-hidden">
-        {/* Enhanced Mobile Background */}
-        <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]" />
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-black/90 to-black/80" />
-        
-        {/* Dynamic background elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          {/* Animated gradient orbs */}
-          <div className="absolute top-[10%] left-[15%] w-[120px] sm:w-[150px] h-[120px] sm:h-[150px] rounded-full bg-gradient-to-r from-red-900/20 to-transparent blur-[60px] animate-float-slow" />
-          <div className="absolute top-[40%] right-[10%] w-[80px] sm:w-[100px] h-[80px] sm:h-[100px] rounded-full bg-gradient-to-r from-red-800/10 to-transparent blur-[40px] animate-float-medium" />
-          <div className="absolute bottom-[30%] left-[25%] w-[70px] sm:w-[85px] h-[70px] sm:h-[85px] rounded-full bg-gradient-to-r from-red-700/15 to-transparent blur-[35px] animate-float-fast" />
+      <section 
+        id="mobile-hero"
+        className="relative w-full overflow-hidden bg-gradient-to-b from-background via-background to-background/80 pt-16 pb-20"
+      >
+        {/* Animated background elements */}
+        <div className="absolute inset-0 opacity-20">
+          {/* Performance optimized background for mobile */}
+          <div className="absolute top-1/4 left-1/4 h-40 w-40 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 blur-3xl" />
+          <div className="absolute top-1/2 right-1/4 h-56 w-56 rounded-full bg-gradient-to-r from-pink-500 to-indigo-500 blur-3xl" />
+          <div className="absolute bottom-1/4 left-1/3 h-48 w-48 rounded-full bg-gradient-to-r from-cyan-500 to-teal-500 blur-3xl" />
           
-          {/* Neural dots */}
-          <div className="absolute inset-0">
-            <div className="absolute top-[25%] left-[20%] h-[1px] w-6 sm:w-8 bg-gradient-to-r from-transparent via-red-700/40 to-transparent animate-pulse-slow" />
-            <div className="absolute bottom-[35%] right-[25%] h-[1px] w-8 sm:w-10 bg-gradient-to-r from-transparent via-red-700/30 to-transparent animate-pulse-medium" />
-            <div className="absolute top-[65%] left-[30%] w-[1px] h-5 sm:h-6 bg-gradient-to-b from-transparent via-red-700/30 to-transparent animate-pulse-fast" />
-            <div className="absolute top-[15%] right-[15%] w-[1px] h-6 sm:h-8 bg-gradient-to-b from-transparent via-red-700/40 to-transparent animate-pulse-medium" />
-          </div>
-          
-          {/* Floating particles */}
-          <div className="w-1.5 sm:w-2 h-1.5 sm:h-2 bg-red-600/50 rounded-full animate-float-slow absolute top-[15%] left-[25%]" />
-          <div className="w-1 sm:w-1.5 h-1 sm:h-1.5 bg-red-700/40 rounded-full animate-float-medium absolute top-[55%] right-[15%]" />
-          <div className="w-0.5 sm:w-1 h-0.5 sm:h-1 bg-red-500/60 rounded-full animate-float-fast absolute bottom-[20%] left-[10%]" />
-          <div className="w-1 sm:w-1.5 h-1 sm:h-1.5 bg-red-600/50 rounded-full animate-float-medium absolute bottom-[40%] right-[20%]" />
+          {/* Static grid pattern instead of animated elements for better performance */}
+          {gridElements}
         </div>
-        
-        {/* Main content container with safer top padding for different device heights */}
-        <div className="flex-1 flex flex-col justify-start pt-[max(60px,10vh)] relative z-10">
-          {/* Header section with logo */}
-          <div className="px-4 pb-2">
-            <div className="flex justify-center">
-              <div className="relative animate-heartbeat">
-                {/* Logo glow effect */}
-                <div className="absolute inset-0 bg-red-900/20 blur-[60px] rounded-full" />
-                
-                {/* RGB Border Container */}
-                <div className="relative">
-                  <div className="absolute -inset-[2px] rounded-[20px]">
-                    {/* Moving RGB gradient border */}
-                    <div className="absolute inset-[-2px] rounded-[20px] animate-rgb-spin">
-                      <div className="absolute inset-0 bg-[conic-gradient(from_0deg,#8B0000,#420000,#690000,#8B0000)] rounded-[20px]" />
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent rounded-[20px] animate-border-flow" />
-                    <div className="absolute inset-0 rounded-[20px] bg-black/95">
-                      <div className="absolute inset-0 rounded-[20px] bg-gradient-to-r from-[#8B000030] via-[#42000030] to-[#69000030] animate-rgb-spin-reverse" />
-                    </div>
-                  </div>
-                  
-                  {/* Icon container */}
-                  <div className="relative bg-black rounded-[20px] p-4 xs:p-5">
-                    <div className="absolute inset-0 rounded-[20px] overflow-hidden">
-                      <div className="absolute inset-0 bg-red-600/10 rounded-[20px] animate-logo-pulse"></div>
-                      <div className="absolute inset-[-10px] bg-red-500/5 blur-[10px] animate-pulse-slow"></div>
-                    </div>
-                    <Image 
-                      src="/images/brain.svg" 
-                      alt="Mindscape Brain Logo"
-                      className="h-12 xs:h-14 w-12 xs:w-14 animate-heartbeat relative z-10"
-                      width={56}
-                      height={56}
-                      priority
-                    />
-                  </div>
-                </div>
-              </div>
+
+        {/* Rest of the mobile content */}
+        <div className="relative z-10 mx-auto max-w-screen-sm px-6">
+          {/* Logo section */}
+          <motion.div 
+            className="mb-6 flex justify-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={triggerAnimation ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="flex items-center justify-center rounded-full bg-background/90 p-2 shadow-lg ring-1 ring-white/10">
+              <BrainCircuit className="h-6 w-6 text-primary" />
             </div>
-          </div>
-          
-          {/* Content sections */}
-          <div className="flex-1 flex flex-col justify-between px-4 pb-8">
-            {/* Top section with title and badges */}
-            <div className="text-center space-y-2 sm:space-y-3">
-              {/* Enterprise Platform Section */}
-              <div className="mb-2 sm:mb-3 animate-fade-in-1">
-                <div className="inline-block px-2 xs:px-3 py-1 bg-gradient-to-r from-red-900/30 to-red-800/20 rounded-full backdrop-blur-sm border border-red-900/30">
-                  <p className="text-[10px] xs:text-xs font-medium text-red-400">
-                    <Sparkles className="h-2.5 xs:h-3 w-2.5 xs:w-3 mr-1 inline-block animate-[pulse_2s_ease-in-out_infinite]" />
-                    Enterprise-Grade AI Platform
-                  </p>
-                </div>
-              </div>
-              
-              {/* Badges */}
-              <div className="flex flex-wrap justify-center gap-1.5 xs:gap-2 mb-1">
-                <Badge className="bg-gradient-to-r from-blue-500/30 to-blue-500/10 text-blue-400 border-blue-500/30 animate-fade-in-2 text-[10px] xs:text-xs py-0.5">
-                  <Shield className="h-2.5 xs:h-3 w-2.5 xs:w-3 mr-1 animate-[pulse_2.5s_ease-in-out_infinite]" />
-                  SOC 2 Certified
-                </Badge>
-                <Badge className="bg-gradient-to-r from-green-500/30 to-green-500/10 text-green-400 border-green-500/30 animate-fade-in-3 text-[10px] xs:text-xs py-0.5">
-                  <Zap className="h-2.5 xs:h-3 w-2.5 xs:w-3 mr-1 animate-[pulse_3s_ease-in-out_infinite]" />
-                  Real-time Inference
-                </Badge>
-              </div>
-              
-              {/* Title and description */}
-              <div className="animate-fade-up">
-                <h1 className="text-3xl xs:text-4xl font-bold tracking-tight leading-tight mb-2">
-                  <span className="text-white backdrop-blur-[0.5px] relative z-10">Transform Your Business with</span>
-                  <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/20 before:to-transparent before:opacity-40 before:blur-[0.5px] before:-z-10">
-                    Advanced AI Solutions
-                  </span>
-                </h1>
-                <p className="text-sm xs:text-base text-white/70 max-w-xs mx-auto mt-2">
-                  Harness the power of AI to drive innovation and growth in your organization.
-                </p>
-              </div>
-            </div>
-            
-            {/* Middle section with feature cards */}
-            <div className="my-4 sm:my-6">
-              <h2 className="text-base xs:text-lg font-medium text-white/90 mb-2 sm:mb-3 text-center animate-fade-up-2">
-                Key Capabilities
-              </h2>
-              
-              {/* Feature cards in grid instead of scrolling */}
-              <div className="grid grid-cols-2 gap-2 xs:gap-3 px-1">
-                {features.map((feature, index) => (
-                  <div
-                    key={feature.title}
-                    className={`group relative p-2 xs:p-3 rounded-xl bg-gradient-to-br from-black/40 to-black/20 backdrop-blur-sm border border-white/10 animate-slide-up-${index + 1} hover:border-${feature.color}-500/30 transition-all duration-300`}
-                  >
-                    {/* Corner accent */}
-                    <div className="absolute top-0 right-0 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="absolute top-0 right-0 h-px w-4 bg-gradient-to-l from-current to-transparent"></div>
-                      <div className="absolute top-0 right-0 h-4 w-px bg-gradient-to-b from-current to-transparent"></div>
-                    </div>
-                    
-                    <div className="space-y-1 xs:space-y-1.5">
-                      <div className="flex items-center space-x-1.5">
-                        <div className={`p-1 xs:p-1.5 rounded-lg bg-${feature.color}-500/20 text-${feature.color}-500`}>
-                          <div className="w-3 h-3 xs:w-4 xs:h-4">{feature.icon}</div>
-                        </div>
-                        <h3 className="text-[10px] xs:text-xs font-medium text-white group-hover:text-${feature.color}-400 transition-colors">
-                          {feature.title}
-                        </h3>
-                      </div>
-                      <p className="text-[8px] xs:text-[10px] leading-tight text-white/70 group-hover:text-white/90 transition-colors">
-                        {feature.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            {/* Bottom section with CTA */}
-            <div className="space-y-4 animate-fade-up-3 pb-16">
-              {/* Stats row */}
-              <div className="grid grid-cols-2 gap-2 xs:gap-3 mb-5">
-                <div className="bg-black/40 backdrop-blur-sm p-2 xs:p-3 rounded-lg text-center border border-white/10 hover:border-red-500/30 transition-colors">
-                  <div className="text-base xs:text-xl font-bold text-red-500 mb-0.5">99.9%</div>
-                  <div className="text-[9px] xs:text-xs text-white/80">Platform Uptime</div>
-                </div>
-                <div className="bg-black/40 backdrop-blur-sm p-2 xs:p-3 rounded-lg text-center border border-white/10 hover:border-green-500/30 transition-colors">
-                  <div className="text-base xs:text-xl font-bold text-green-500 mb-0.5">10ms</div>
-                  <div className="text-[9px] xs:text-xs text-white/80">Response Time</div>
-                </div>
-                <div className="bg-black/40 backdrop-blur-sm p-2 xs:p-3 rounded-lg text-center border border-white/10 hover:border-blue-500/30 transition-colors">
-                  <div className="text-base xs:text-xl font-bold text-blue-500 mb-0.5">500+</div>
-                  <div className="text-[9px] xs:text-xs text-white/80">Enterprise Clients</div>
-                </div>
-                <div className="bg-black/40 backdrop-blur-sm p-2 xs:p-3 rounded-lg text-center border border-white/10 hover:border-purple-500/30 transition-colors">
-                  <div className="text-base xs:text-xl font-bold text-purple-500 mb-0.5">24/7</div>
-                  <div className="text-[9px] xs:text-xs text-white/80">Support</div>
-                </div>
-              </div>
-              
-              {/* CTA buttons */}
-              <Button 
-                size="lg" 
-                className="group relative px-4 xs:px-6 py-3 xs:py-4 text-sm xs:text-base font-semibold text-white rounded-full hover:brightness-110 transition-all duration-300 w-full mb-2 overflow-hidden"
-                onClick={handleGetStartedClick}
+          </motion.div>
+
+          {/* Title */}
+          <motion.h1
+            className="text-center text-3xl font-bold leading-tight tracking-tighter md:text-4xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={triggerAnimation ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            Enterprise AI Platform for <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Every Industry</span>
+          </motion.h1>
+
+          {/* Badges */}
+          <motion.div 
+            className="mt-4 flex flex-wrap justify-center gap-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={triggerAnimation ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <Badge variant="secondary" className="border-0 bg-white/5 backdrop-blur-sm">
+              <Sparkles className="mr-1 h-3 w-3 text-yellow-500" /> AI-Powered
+            </Badge>
+            <Badge variant="secondary" className="border-0 bg-white/5 backdrop-blur-sm">
+              <Lock className="mr-1 h-3 w-3 text-green-500" /> Enterprise Ready
+            </Badge>
+            <Badge variant="secondary" className="border-0 bg-white/5 backdrop-blur-sm">
+              <Shield className="mr-1 h-3 w-3 text-blue-500" /> Secure
+            </Badge>
+          </motion.div>
+
+          {/* Feature cards */}
+          <motion.div 
+            className="mt-8 grid grid-cols-2 gap-3"
+            initial={{ opacity: 0, y: 20 }}
+            animate={triggerAnimation ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            {optimizedFeatures.map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                className="flex flex-col rounded-lg border border-border/40 bg-background/50 p-3 shadow-sm backdrop-blur-sm transition-all hover:border-primary/20 hover:bg-background/60 hover:shadow-md"
+                initial={{ opacity: 0, y: 20 }}
+                animate={triggerAnimation ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-red-700 via-red-600 to-red-700 group-hover:from-red-600 group-hover:via-red-500 group-hover:to-red-600 transition-all duration-500 rounded-full"></div>
-                <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
-                <span className="relative z-10 flex items-center justify-center">
-                  Get Started
-                  <ArrowRight className="ml-2 h-3 xs:h-4 w-3 xs:w-4 transition-transform group-hover:translate-x-1" />
-                </span>
-              </Button>
-              <Link href="/services" className="w-full">
-                <Button
-                  variant="outline"
-                  className="group relative px-4 xs:px-6 py-2.5 xs:py-3 text-xs xs:text-sm font-medium text-white/90 border border-white/20 hover:border-white/40 hover:bg-white/5 rounded-full backdrop-blur-sm w-full transition-all duration-300 overflow-hidden"
-                >
-                  <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 transition-opacity duration-300"></div>
-                  <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
-                  <span className="relative z-10 flex items-center justify-center">Learn More
-                    <ArrowRight className="ml-1.5 h-3 xs:h-4 w-3 xs:w-4 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </Button>
+                <div className={`mb-2 self-start rounded-full bg-${feature.color}-500/10 p-1.5 text-${feature.color}-500`}>
+                  {feature.icon}
+                </div>
+                <h3 className="text-sm font-medium">{feature.title}</h3>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {feature.description}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {/* CTA section */}
+          <motion.div 
+            className="mt-8 flex flex-col gap-3"
+            initial={{ opacity: 0, y: 20 }}
+            animate={triggerAnimation ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 0.6 }}
+          >
+            <Button 
+              size="lg" 
+              className="relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700"
+              asChild
+            >
+              <Link href="/dashboard" className="relative z-10">
+                Get Started
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
-            </div>
-          </div>
+            </Button>
+            <Button 
+              variant="outline" 
+              size="lg"
+              className="border-white/10 bg-white/5 backdrop-blur-sm hover:bg-white/10"
+              asChild
+            >
+              <Link href="/contact">
+                Contact Sales
+              </Link>
+            </Button>
+          </motion.div>
         </div>
       </section>
     )
+  }, [isMobile, triggerAnimation, optimizedFeatures])
+
+  // Log component render for debugging
+  useEffect(() => {
+    console.log('HyperHero rendered, mobile view:', isMobile)
+  }, [isMobile])
+
+  // If mobile view, render mobile component
+  if (isMobile) {
+    return MobileView
   }
 
-  // Desktop view
+  // Desktop view rendered only when needed
   return (
-    <section className="relative h-[95vh] flex flex-col justify-center overflow-hidden pt-[max(120px,15vh)] md:pt-[170px] pb-10 md:pb-20">
+    <motion.section
+      id="hyper-hero"
+      style={{ y: useTransform(scrollYProgress, [0, 0.5], [0, -50]) }}
+      className="relative w-full overflow-hidden bg-background pb-32 pt-20"
+      aria-label="Enterprise AI Platform Hero Section"
+    >
       {/* Enhanced Background */}
-      <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black/80" />
+      <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black/80" aria-hidden="true" />
       
       {/* Animated particles for added depth */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
         <div className="absolute top-[15%] left-[20%] w-[150px] md:w-[200px] h-[150px] md:h-[200px] rounded-full bg-gradient-to-r from-red-900/20 to-transparent blur-[60px] md:blur-[80px] animate-float-slow" />
         <div className="absolute bottom-[25%] right-[15%] w-[120px] md:w-[150px] h-[120px] md:h-[150px] rounded-full bg-gradient-to-r from-red-800/10 to-transparent blur-[40px] md:blur-[60px] animate-float-medium" />
         <div className="absolute top-[60%] left-[15%] w-[80px] md:w-[100px] h-[80px] md:h-[100px] rounded-full bg-gradient-to-r from-red-700/15 to-transparent blur-[30px] md:blur-[40px] animate-float-fast" />
@@ -1027,218 +1172,36 @@ export default function HyperHero() {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-6 md:gap-10">
-          {/* Left Column - Content */}
-          <motion.div
-            className="flex-1 space-y-4 md:space-y-6 relative w-full"
-            style={{ y }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            {/* Enhanced Badge Section */}
-            <motion.div 
-              className="flex flex-wrap gap-2 justify-center md:justify-start"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <Badge className="bg-gradient-to-r from-red-800/30 to-red-800/10 text-red-400 border-red-800/30 hover:bg-red-800/20 transition-colors duration-300">
-                <Sparkles className="h-3 w-3 mr-1 animate-[pulse_2s_ease-in-out_infinite]" />
-                Enterprise AI Platform
-              </Badge>
-              <Badge className="bg-gradient-to-r from-blue-500/30 to-blue-500/10 text-blue-400 border-blue-500/30 hover:bg-blue-500/20 transition-colors duration-300">
-                <Shield className="h-3 w-3 mr-1 animate-[pulse_2.5s_ease-in-out_infinite]" />
-                SOC 2 Certified
-              </Badge>
-              <Badge className="bg-gradient-to-r from-green-500/30 to-green-500/10 text-green-400 border-green-500/30 hover:bg-green-500/20 transition-colors duration-300">
-                <Zap className="h-3 w-3 mr-1 animate-[pulse_3s_ease-in-out_infinite]" />
-                Real-time AI
-              </Badge>
-            </motion.div>
-
-            {/* Title Section */}
-            <motion.div
-              className="space-y-2 max-w-2xl"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-            >
-              <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
-                <span className="text-white relative z-10">Unlock Next-Gen Intelligence with</span>
-                <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600 relative">
-                  Enterprise AI Solutions
-                </span>
-              </h1>
-              <p className="text-lg text-white/80 mt-4 max-w-xl">
-                Accelerate innovation with our end-to-end AI platform that delivers powerful insights, automates workflows, and drives tangible business outcomes.
-              </p>
-            </motion.div>
-
-            {/* CTA Buttons */}
-            <motion.div
-              className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.8 }}
-            >
-              <Button 
-                size="lg" 
-                className="group relative px-6 py-4 text-base font-semibold text-white rounded-full hover:brightness-110 transition-all duration-300 overflow-hidden w-full sm:w-auto"
-                onClick={handleGetStartedClick}
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-red-700 via-red-600 to-red-700 group-hover:from-red-600 group-hover:via-red-500 group-hover:to-red-600 transition-all duration-500 rounded-full"></div>
-                <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
-                <span className="relative z-10 flex items-center justify-center">
-                  Get Started
-                  <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </span>
-              </Button>
-              <Link href="/services" className="w-full sm:w-auto">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="group relative px-6 py-4 text-base font-semibold text-white border border-white/30 hover:border-white/50 hover:bg-white/5 rounded-full backdrop-blur-sm transition-all duration-300 overflow-hidden w-full sm:w-auto"
-                >
-                  <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 transition-opacity duration-300"></div>
-                  <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
-                  <span className="relative z-10 flex items-center justify-center">Explore Solutions
-                    <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </span>
-                </Button>
-              </Link>
-            </motion.div>
-
-            {/* Enhanced Features display */}
-            <motion.div 
-              className="mt-12 w-full"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-                {optimizedFeatures.map((feature, index) => (
-                  <EnhancedFeatureCard
-                    key={feature.id}
-                    icon={feature.icon}
-                    title={feature.title}
-                    description={feature.description}
-                    color={feature.color as "red" | "blue" | "green" | "purple"}
-                    index={index}
-                  />
-                ))}
-              </div>
-            </motion.div>
-          </motion.div>
-
-          {/* Right Column - Logo */}
-          <motion.div
-            className="flex-1 h-[300px] w-full flex items-center justify-center mt-8 lg:mt-0"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-          >
-            <div className="relative h-full w-full max-w-lg">
-              {/* Logo Container with RGB Effects */}
-              <div className="h-full flex flex-col items-center justify-center relative">
-                <motion.div
-                  initial={{ scale: 0.95, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.5 }}
-                  className="relative"
-                >
-                  {/* Outer glow effect */}
-                  <div className="absolute inset-0 bg-black/20 blur-[180px] rounded-full transform scale-[2]" />
-                  
-                  {/* Logo and text container */}
-                  <div className="relative flex flex-col items-center">
-                    {/* Brain icon with glow */}
-                    <div className="relative scale-[1.3] md:scale-[1.6]">
-                      {/* Multiple layered glows */}
-                      <div className="absolute inset-0 bg-red-900/10 blur-[40px] rounded-[20px] animate-pulse-slow" />
-                      <div className="absolute inset-0 bg-red-800/20 blur-[30px] rounded-[20px] animate-pulse-medium" />
-                      <div className="absolute inset-0 bg-red-700/30 blur-[20px] rounded-[20px] animate-pulse-fast" />
-                      
-                      {/* Neural network lines */}
-                      <div className="absolute inset-0 opacity-50 scale-[1.2]">
-                        <div className="absolute h-[1px] w-8 bg-gradient-to-r from-transparent via-red-800 to-transparent top-1/4 -left-3 animate-neural-1" />
-                        <div className="absolute h-[1px] w-8 bg-gradient-to-r from-transparent via-red-800 to-transparent bottom-1/4 -right-3 animate-neural-2" />
-                        <div className="absolute w-[1px] h-8 bg-gradient-to-b from-transparent via-red-800 to-transparent -top-3 left-1/4 animate-neural-3" />
-                        <div className="absolute w-[1px] h-8 bg-gradient-to-b from-transparent via-red-800 to-transparent -bottom-3 right-1/4 animate-neural-4" />
-                      </div>
-
-                      {/* Enhanced Brain icon with RGB border */}
-                      <div className="relative z-10 group animate-heartbeat">
-                        {/* RGB Border Container */}
-                        <div className="absolute -inset-[2px] rounded-[20px]">
-                          {/* Moving RGB gradient border */}
-                          <div className="absolute inset-[-2px] rounded-[20px] animate-rgb-spin group-hover:animate-rgb-spin-fast">
-                            <div className="absolute inset-0 bg-[conic-gradient(from_0deg,#8B0000,#420000,#690000,#8B0000)] rounded-[20px] group-hover:bg-[conic-gradient(from_0deg,#8B0000,#420000,#690000,#8B0000)]" />
-                          </div>
-                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent rounded-[20px] animate-border-flow group-hover:animate-border-flow-fast" />
-                          <div className="absolute inset-0 rounded-[20px] bg-black">
-                            <div className="absolute inset-0 rounded-[20px] bg-gradient-to-r from-[#8B000030] via-[#42000030] to-[#69000030] animate-rgb-spin-reverse group-hover:animate-rgb-spin-reverse-fast group-hover:from-[#8B000050] group-hover:via-[#42000050] group-hover:to-[#69000050]" />
-                          </div>
-                        </div>
-                        
-                        {/* Icon container */}
-                        <div className="relative bg-black rounded-[20px] p-8 md:p-10 transition-transform duration-300 group-hover:scale-[0.98]">
-                          <div className="absolute inset-0 rounded-[20px] overflow-hidden">
-                            <div className="absolute inset-0 bg-red-600/20 rounded-[20px] animate-logo-pulse"></div>
-                            <div className="absolute inset-[-15px] bg-red-500/10 blur-[15px] animate-pulse-slow"></div>
-                          </div>
-                          <Image 
-                            src="/images/brain.svg" 
-                            alt="Mindscape Brain Logo"
-                            className="h-14 w-14 md:h-24 md:w-24 transform transition-all duration-300 group-hover:scale-[0.98] animate-heartbeat relative z-10"
-                            width={96}
-                            height={96}
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Floating particles */}
-                    <div className="absolute inset-0 overflow-hidden rounded-[20px] pointer-events-none scale-[1.3]">
-                      <div className="w-1.5 h-1.5 bg-red-600 rounded-full animate-particle-2 bottom-[20%] right-[20%]" />
-                      <div className="w-1 h-1 bg-red-500 rounded-full animate-particle-3 top-[50%] right-[30%]" />
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </div>
+      <DesktopHeroContent 
+        y={y} 
+        optimizedFeatures={optimizedFeatures} 
+        handleGetStartedClick={handleGetStartedClick}
+      />
       
       {/* Stats banner at bottom */}
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-r from-black via-black/95 to-black backdrop-blur-sm border-t border-white/5 py-4 px-4">
-        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div className="flex flex-col items-center sm:items-start justify-center">
-              <div className="text-red-500 font-bold text-lg mb-1">99.9%</div>
-              <div className="text-sm text-white/80">Platform Uptime</div>
+        <div className="container mx-auto flex justify-between items-center">
+          <div className="flex items-center space-x-10">
+            <div className="flex items-center space-x-2">
+              <div className="text-red-500 font-bold text-lg">99.9%</div>
+              <div className="text-sm text-white/70">Platform Uptime</div>
             </div>
-            <div className="flex flex-col items-center sm:items-start justify-center">
-              <div className="text-green-500 font-bold text-lg mb-1">10ms</div>
-              <div className="text-sm text-white/80">Response Time</div>
+            <div className="flex items-center space-x-2">
+              <div className="text-green-500 font-bold text-lg">10ms</div>
+              <div className="text-sm text-white/70">Response Time</div>
             </div>
-            <div className="flex flex-col items-center sm:items-start justify-center">
-              <div className="text-blue-500 font-bold text-lg mb-1">500+</div>
-              <div className="text-sm text-white/80">Enterprise Clients</div>
+            <div className="flex items-center space-x-2 hidden md:flex">
+              <div className="text-blue-500 font-bold text-lg">500+</div>
+              <div className="text-sm text-white/70">Enterprise Clients</div>
             </div>
           </div>
-          <div className="flex items-center justify-center sm:justify-end col-span-1">
-            <div className="text-white/80 flex items-center bg-white/5 px-4 py-2 rounded-full border border-white/10">
-              <Shield className="h-4 w-4 mr-2 text-red-400" />
-              <span className="text-sm whitespace-nowrap">Enterprise-grade security</span>
-            </div>
+          <div className="text-white/70 flex items-center bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
+            <Shield className="h-4 w-4 mr-2 text-red-400" aria-hidden="true" />
+            <span className="text-sm">Enterprise-grade security</span>
           </div>
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 
@@ -1325,15 +1288,6 @@ const styles = `
   @keyframes pulse-fast {
     0%, 100% { opacity: 0.5; transform: scale(1); }
     50% { opacity: 0.8; transform: scale(1.15); }
-  }
-
-  @keyframes heartbeat {
-    0% { transform: scale(1); }
-    14% { transform: scale(1.15); }
-    28% { transform: scale(1); }
-    42% { transform: scale(1.10); }
-    70% { transform: scale(1); }
-    100% { transform: scale(1); }
   }
 
   @keyframes neural-1 {
@@ -1557,7 +1511,8 @@ const styles = `
   }
 
   .animate-heartbeat {
-    animation: heartbeat 1.5s ease-in-out infinite;
+    animation: heartbeat 1s ease-in-out infinite;
+    will-change: transform;
   }
 
   @keyframes float-slow {

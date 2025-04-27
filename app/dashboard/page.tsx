@@ -90,7 +90,7 @@ export default function DashboardPage() {
   const handleRefreshData = useCallback(() => {
     setIsLoaded(false)
     
-    toast({
+        toast({
       title: "Refreshing dashboard data",
       description: "Please wait while we fetch the latest information."
     })
@@ -125,7 +125,7 @@ export default function DashboardPage() {
           <p className="text-sm text-muted-foreground">
             Platform overview and key performance indicators
           </p>
-        </div>
+              </div>
         <Button 
           variant="outline" 
           size="sm" 
@@ -135,11 +135,11 @@ export default function DashboardPage() {
           <RefreshCw className="mr-2 h-4 w-4" />
           Refresh Data
         </Button>
-      </div>
-
+            </div>
+            
       <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         <DashboardStatsCards stats={stats} />
-      </div>
+            </div>
 
       <Tabs defaultValue="overview" value={activeTab} onValueChange={setActiveTab} className="space-y-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
@@ -161,11 +161,11 @@ export default function DashboardPage() {
             </Button>
           </div>
         </div>
-
+        
         <TabsContent value="overview" className="space-y-4">
           <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
             <Card className="col-span-1 md:col-span-2">
-              <CardHeader>
+            <CardHeader>
                 <div className="flex items-center justify-between">
                   <div>
                     <CardTitle>API Usage</CardTitle>
@@ -176,7 +176,7 @@ export default function DashboardPage() {
                   <Badge variant="secondary" className="hidden sm:flex">
                     +12.5% from last month
                   </Badge>
-                </div>
+              </div>
               </CardHeader>
               <CardContent>
                 <ScrollArea className="h-[350px]">
@@ -187,7 +187,7 @@ export default function DashboardPage() {
                 </ScrollArea>
               </CardContent>
             </Card>
-
+            
             <Card className="col-span-1">
               <CardHeader>
                 <CardTitle>System Health</CardTitle>
@@ -213,7 +213,7 @@ export default function DashboardPage() {
                 <ActivityFeed />
               </CardContent>
             </Card>
-
+            
             {/* Quick Actions Card */}
             <Card className="col-span-1">
               <CardHeader>
@@ -253,19 +253,19 @@ export default function DashboardPage() {
         <TabsContent value="models">
           <div className="grid gap-4 grid-cols-1">
             <ModelSection />
-          </div>
+                    </div>
         </TabsContent>
         
         <TabsContent value="insights">
           <div className="grid gap-4 grid-cols-1">
             <BusinessInsights />
-          </div>
+                    </div>
         </TabsContent>
         
         <TabsContent value="projects">
           <div className="grid gap-4 grid-cols-1">
             <ProjectsSection />
-          </div>
+                    </div>
         </TabsContent>
       </Tabs>
     </div>

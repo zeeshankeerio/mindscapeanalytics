@@ -361,8 +361,8 @@ export default function FeaturesSection() {
         {/* Section Header */}
         <div className="text-center mb-8 md:mb-16">
           <Badge className="mb-3 bg-gradient-to-r from-red-500/80 to-red-600/80 text-white hover:from-red-600/80 hover:to-red-700/80 border-none shadow-lg shadow-red-900/20 px-2 py-1 md:px-3 md:py-1.5 text-xs">
-            POWERFUL FEATURES
-          </Badge>
+                  POWERFUL FEATURES
+                </Badge>
           <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight mb-2 md:mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white/95 to-white/90">
             Core Capabilities
           </h2>
@@ -401,25 +401,25 @@ export default function FeaturesSection() {
               <div className="flex items-center justify-between text-xs md:text-sm">
                 <span className="text-white/60">{feature.stats.label}</span>
                 <span className={`text-${feature.color}-500 font-bold`}>{feature.stats.value}</span>
-              </div>
-              
+                    </div>
+                    
               {/* Animated progress bar */}
               <div className="mt-1.5 h-1 w-full bg-white/10 rounded-full overflow-hidden">
-                <motion.div
+                          <motion.div 
                   className={`h-full bg-gradient-to-r from-${feature.color}-500 to-${feature.color}-600 rounded-full`}
-                  initial={{ width: "0%" }}
+                            initial={{ width: "0%" }}
                   animate={{ 
                     width: animatedStats[feature.title] ? `${animatedStats[feature.title]}%` : "0%" 
                   }}
                   transition={{ duration: 1, ease: "easeOut", delay: index * 0.1 }}
                 ></motion.div>
-              </div>
-            </div>
+                        </div>
+                      </div>
           ))}
         </div>
-        
+
         {/* Feature Details Modal */}
-        <AnimatePresence>
+      <AnimatePresence>
           {isDetailModalOpen && activeFeature && featureDetails[activeFeature] && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -454,7 +454,7 @@ export default function FeaturesSection() {
                         <h4 className="text-sm md:text-base font-semibold text-white flex items-center">
                           <Target className="h-4 w-4 mr-2 text-red-500" />
                           Use Cases
-                        </h4>
+                      </h4>
                         <ul className="space-y-2">
                           {featureDetails[activeFeature].useCases.map((useCase, index) => (
                             <li key={index} className="flex items-start gap-2 text-white/70 text-sm">
@@ -462,13 +462,13 @@ export default function FeaturesSection() {
                                 <div className="w-3 h-3 rounded-full bg-red-500/20 flex items-center justify-center">
                                   <div className="w-1.5 h-1.5 rounded-full bg-red-500"></div>
                                 </div>
-                              </div>
+                            </div>
                               <span>{useCase}</span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
                       {/* Metrics */}
                       <div className="space-y-3">
                         <h4 className="text-sm md:text-base font-semibold text-white flex items-center">
@@ -480,7 +480,7 @@ export default function FeaturesSection() {
                             <div key={key} className="space-y-1">
                               <div className="flex justify-between items-center text-xs">
                                 <span className="text-white/60 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
-                                <span className="text-white font-medium">
+                              <span className="text-white font-medium">
                                   {typeof value === 'number' 
                                     ? key.toLowerCase().includes('level') 
                                       ? value
@@ -489,36 +489,36 @@ export default function FeaturesSection() {
                                       ? value.join(', ')
                                       : value.toString()
                                   }
-                                </span>
-                              </div>
+                              </span>
+                            </div>
                               {typeof value === 'number' && !key.toLowerCase().includes('level') && (
-                                <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                                  <div 
+                              <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                                <div 
                                     className="h-full bg-gradient-to-r from-red-500 to-red-600 rounded-full" 
                                     style={{ width: `${typeof value === 'number' ? Math.min(value, 100) : 50}%` }}
                                   ></div>
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
+                              </div>
+                            )}
+                          </div>
+                        ))}
                       </div>
                     </div>
-                    
+                  </div>
+                  
                     {/* Technical Specifications */}
                     <div className="mt-6 p-3 md:p-4 rounded-lg bg-white/5 border border-white/10">
                       <h4 className="text-sm md:text-base font-semibold text-white flex items-center mb-2">
                         <Code className="h-4 w-4 mr-2 text-red-500" />
-                        Technical Specifications
-                      </h4>
+                      Technical Specifications
+                    </h4>
                       <p className="text-white/70 text-xs md:text-sm">{featureDetails[activeFeature].techSpecs}</p>
                     </div>
                   </div>
                 </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+          </motion.div>
+        )}
+      </AnimatePresence>
         
         {/* Rest of the component remains largely unchanged but with responsive adjustments */}
         {/* ... */}

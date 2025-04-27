@@ -37,8 +37,8 @@ export default function DashboardLayoutContent({ children, inter }: DashboardLay
         <meta name="description" content="AI-powered analytics and insights dashboard" />
       </Head>
       <div className={inter.className}>
-        {children}
-      </div>
+            {children}
+          </div>
     </>
   )
 } 

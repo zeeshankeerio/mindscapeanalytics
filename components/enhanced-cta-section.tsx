@@ -252,7 +252,7 @@ export default function EnhancedCTASection({
           ease: "easeInOut"
         }}
       />
-      
+
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         {/* Enhanced variant uses 3D-ish card layout */}
         {variant === "enhanced" && (
@@ -276,7 +276,7 @@ export default function EnhancedCTASection({
               </p>
               
               <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
-                <Button 
+                <Button
                   size="lg"
                   className="group relative px-6 py-4 text-base font-semibold text-white rounded-full hover:brightness-110 transition-all duration-300 overflow-hidden w-full sm:w-auto"
                   onClick={handlePrimaryButtonClick}
@@ -284,11 +284,11 @@ export default function EnhancedCTASection({
                   <div className="absolute inset-0 bg-gradient-to-r from-red-700 via-red-600 to-red-700 group-hover:from-red-600 group-hover:via-red-500 group-hover:to-red-600 transition-all duration-500 rounded-full"></div>
                   <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
                   <span className="relative z-10 flex items-center justify-center">
-                    {primaryButtonText}
+                  {primaryButtonText}
                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </span>
                 </Button>
-                
+              
                 <Button
                   variant="outline"
                   size="lg"
@@ -298,7 +298,7 @@ export default function EnhancedCTASection({
                   <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 transition-opacity duration-300"></div>
                   <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
                   <span className="relative z-10 flex items-center justify-center">
-                    {secondaryButtonText}
+                  {secondaryButtonText}
                     <ArrowRight className="ml-1.5 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </span>
                 </Button>
@@ -321,18 +321,18 @@ export default function EnhancedCTASection({
                   </div>
                 ))}
               </div>
-            </motion.div>
-            
+          </motion.div>
+
             {/* Right Column - Social Proof & Testimonial */}
-            <motion.div 
+          <motion.div
               ref={cardRef}
               className="flex-1 w-full max-w-md"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={controls}
-              style={{
-                transform: `perspective(1000px) rotateX(${calculateTransform.rotateX}deg) rotateY(${calculateTransform.rotateY}deg)`,
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={controls}
+                style={{
+                  transform: `perspective(1000px) rotateX(${calculateTransform.rotateX}deg) rotateY(${calculateTransform.rotateY}deg)`,
                 transition: "transform 0.2s ease-out",
-              }}
+                }}
             >
               <div className="bg-gradient-to-b from-black/60 to-black/40 backdrop-blur-sm rounded-2xl border border-white/10 overflow-hidden shadow-2xl shadow-black/50 p-4 md:p-6">
                 {/* Testimonial */}
@@ -349,12 +349,12 @@ export default function EnhancedCTASection({
                     </div>
                   </div>
                   
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={testimonialIndex}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={testimonialIndex}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
                       transition={{ duration: 0.5 }}
                     >
                       <blockquote className="text-sm md:text-base text-white/80 italic mb-4">
@@ -370,16 +370,16 @@ export default function EnhancedCTASection({
                               className="w-full h-full object-cover"
                             />
                           )}
-                        </div>
+                      </div>
                         <div>
                           <div className="text-sm md:text-base font-medium">{testimonials[testimonialIndex].author}</div>
                           <div className="text-xs md:text-sm text-white/60">{testimonials[testimonialIndex].role}</div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  </AnimatePresence>
+                    </div>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
                 </div>
-                
+
                 {/* Client logos */}
                 <div className="border-t border-white/10 pt-4 md:pt-6">
                   <div className="text-xs md:text-sm text-white/60 mb-3">Trusted by industry leaders:</div>
@@ -389,9 +389,9 @@ export default function EnhancedCTASection({
                         {client}
                       </div>
                     ))}
-                  </div>
                 </div>
-                
+                </div>
+
                 {/* Stats */}
                 <div className="grid grid-cols-3 gap-2 md:gap-4 mt-6 border-t border-white/10 pt-4 md:pt-6">
                   <div className="text-center">
@@ -407,9 +407,9 @@ export default function EnhancedCTASection({
                     <div className="text-xs text-white/60">Clients</div>
                   </div>
                 </div>
-              </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
+        </div>
         )}
         
         {/* Centered variant */}

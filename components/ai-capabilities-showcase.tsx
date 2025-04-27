@@ -447,11 +447,11 @@ export default function AICapabilitiesShowcase() {
               className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight mb-2 md:mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white/95 to-white/90"
             >
               AI Capabilities Showcase
-            </h2>
+          </h2>
             <p className="text-base md:text-xl text-white/70 max-w-2xl">
               Explore our cutting-edge AI technologies powering next-generation solutions
-            </p>
-          </div>
+          </p>
+        </div>
 
           <div className="mt-6 md:mt-0 flex items-center gap-3">
             <TooltipProvider>
@@ -513,16 +513,16 @@ export default function AICapabilitiesShowcase() {
                 <div className="flex flex-col items-center gap-1 md:gap-1.5">
                   {capability.icon}
                   <span className="text-[10px] md:text-xs font-medium">{capability.shortTitle || capability.title}</span>
-                </div>
-              </TabsTrigger>
+              </div>
+                  </TabsTrigger>
             ))}
           </TabsList>
 
-          <motion.div
+                    <motion.div
             key={activeTab as string}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4 }}
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8">
@@ -531,51 +531,51 @@ export default function AICapabilitiesShowcase() {
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500 to-red-600"></div>
                   <CardContent className="p-4 sm:p-6 md:p-8">
                     {activeCapability && (
-                      <motion.div
-                        variants={containerVariants}
-                        initial="hidden"
-                        animate="visible"
-                      >
+                    <motion.div
+                      variants={containerVariants}
+                      initial="hidden"
+                      animate="visible"
+                    >
                         <motion.div variants={itemVariants} className="flex items-center gap-3 md:gap-4 mb-4 md:mb-6">
                           <div className="p-2 md:p-3 bg-gradient-to-br from-red-500/20 to-red-600/20 rounded-lg text-red-500 border border-red-500/10">
                             {activeCapability.icon}
-                          </div>
+                        </div>
                           <h3 className="text-xl md:text-2xl font-semibold">
                             {activeCapability.title}
-                          </h3>
-                        </motion.div>
+                        </h3>
+                      </motion.div>
 
                         <motion.p variants={itemVariants} className="text-white/70 mb-6 md:mb-8 text-base md:text-lg leading-relaxed">
                           {activeCapability.description}
-                        </motion.p>
+                      </motion.p>
 
                         <motion.div variants={itemVariants} className="space-y-2 md:space-y-3">
                           <h4 className="text-sm md:text-base font-medium text-white/90">Key Features:</h4>
                           <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-1 md:gap-y-2">
                             {activeCapability.features.map((feature, index) => (
-                              <motion.li
+                            <motion.li
                                 key={feature}
-                                variants={itemVariants}
+                              variants={itemVariants}
                                 className="flex items-center gap-2 text-white/80 text-sm md:text-base"
-                              >
+                            >
                                 <div className="flex-shrink-0 w-5 h-5 rounded-full bg-red-500/10 flex items-center justify-center">
                                   <Check className="w-3 h-3 text-red-500" />
                                 </div>
                                 <span>{feature}</span>
-                              </motion.li>
-                            ))}
-                          </ul>
-                        </motion.div>
+                            </motion.li>
+                          ))}
+                        </ul>
+                      </motion.div>
 
                         <motion.div variants={itemVariants} className="mt-6 md:mt-8">
                           <div className="flex flex-wrap items-center gap-2 md:gap-3">
-                            <Button
+                        <Button 
                               size="sm"
                               className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white border-none rounded-full text-xs md:text-sm"
-                              onClick={() => toggleCapabilityComparison(activeTab)}
+                          onClick={() => toggleCapabilityComparison(activeTab)}
                             >
                               Performance Metrics
-                            </Button>
+                        </Button>
                             <Button
                               size="sm"
                               variant="outline"
@@ -583,10 +583,10 @@ export default function AICapabilitiesShowcase() {
                             >
                               Documentation
                               <ArrowRight className="ml-1 h-3 w-3" />
-                            </Button>
+                        </Button>
                           </div>
-                        </motion.div>
                       </motion.div>
+                    </motion.div>
                     )}
                   </CardContent>
                 </Card>
@@ -596,12 +596,12 @@ export default function AICapabilitiesShowcase() {
                   <CardContent className="p-4 sm:p-6 md:p-8">
                     <h3 className="text-base md:text-lg font-semibold mb-4 md:mb-6 flex items-center">
                       <BarChart3 className="mr-2 h-4 w-4 text-red-500" />
-                      Performance Metrics
-                    </h3>
-                    <PerformanceComparison metrics={performanceMetrics[activeTab]} />
-                  </CardContent>
-                </Card>
-              </div>
+                            Performance Metrics
+                          </h3>
+                          <PerformanceComparison metrics={performanceMetrics[activeTab]} />
+                        </CardContent>
+                      </Card>
+            </div>
 
               <div className="space-y-4 md:space-y-8">
                 <Card className="border-white/10 bg-black/40 backdrop-blur-md h-full shadow-xl shadow-black/10 hover:shadow-black/20 transition-all duration-300">
@@ -636,7 +636,7 @@ export default function AICapabilitiesShowcase() {
                     )}
                   </CardContent>
                 </Card>
-              </div>
+        </div>
             </div>
           </motion.div>
         </Tabs>

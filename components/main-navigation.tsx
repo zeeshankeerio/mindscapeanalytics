@@ -138,7 +138,7 @@ export default function MainNavigation() {
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
-
+  
   // Track scroll progress for animation effects
   useEffect(() => {
     const handleScrollProgress = () => {
@@ -459,7 +459,7 @@ export default function MainNavigation() {
             {expandedSections.solutions && (
               <div className="pl-10 space-y-1 mt-1 border-l-2 border-red-900/20 ml-5">
                 {solutionsItems.slice(1).map((item, index) => (
-                  <Link
+            <Link
                     key={`mobile-solutions-${index}`}
                     href={item.href || "#"}
                     className={cn(

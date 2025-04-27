@@ -29,12 +29,12 @@ export function LoadingScreen() {
   return (
     <div className="fixed inset-0 flex flex-col items-center justify-center bg-black/90 backdrop-blur-md z-50">
       <div className="flex flex-col items-center max-w-md text-center px-4">
-        <motion.div
+    <motion.div
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.5 }}
+      transition={{ duration: 0.5 }}
           className="mb-8"
-        >
+    >
           <div className="flex items-center justify-center">
             <svg 
               width="60" 
@@ -102,20 +102,20 @@ export function LoadingScreen() {
           </p>
         </motion.div>
         
-        <motion.div
+          <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.4, duration: 0.5 }}
           className="w-full mt-8"
         >
           <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
-            <motion.div
+          <motion.div
               className="h-full bg-blue-500"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
               transition={{ duration: 0.1 }}
-            />
-          </div>
+          />
+        </div>
           <div className="flex justify-between mt-2 text-xs text-white/60">
             <span>Initializing</span>
             <span>{progress}%</span>

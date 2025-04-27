@@ -75,7 +75,7 @@ function DashboardLayoutWithContext({
                 <div className="mx-auto w-full max-w-7xl pb-12">
                   <NotificationsProvider>
                     {isLoading && <LoadingIndicator />}
-                    {children}
+                  {children}
                   </NotificationsProvider>
                 </div>
               </ErrorBoundary>
