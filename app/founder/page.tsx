@@ -149,6 +149,7 @@ export default function ZeeshanKeerioPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
+  const [activeTab, setActiveTab] = useState("experience");
   
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -194,13 +195,17 @@ export default function ZeeshanKeerioPage() {
     return particles;
   };
   
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+  };
+  
   return (
     <main className="relative min-h-screen bg-gradient-to-b from-black via-black/95 to-black text-white overflow-x-hidden">
       {/* Advanced dynamic background elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-red-600/5 blur-[120px] animate-pulse-slow" />
-        <div className="absolute bottom-1/3 right-1/3 w-[600px] h-[600px] rounded-full bg-purple-600/5 blur-[150px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
-        <div className="absolute top-2/3 left-1/3 w-[400px] h-[400px] rounded-full bg-blue-600/5 blur-[100px] animate-pulse-slow" style={{ animationDelay: '3s' }} />
+        <div className="absolute top-1/4 left-1/4 w-[300px] sm:w-[400px] md:w-[500px] h-[300px] sm:h-[400px] md:h-[500px] rounded-full bg-red-600/5 blur-[80px] sm:blur-[120px] animate-pulse-slow" />
+        <div className="absolute bottom-1/3 right-1/3 w-[250px] sm:w-[400px] md:w-[600px] h-[250px] sm:h-[400px] md:h-[600px] rounded-full bg-purple-600/5 blur-[100px] sm:blur-[150px] animate-pulse-slow" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-2/3 left-1/3 w-[200px] sm:w-[300px] md:w-[400px] h-[200px] sm:h-[300px] md:h-[400px] rounded-full bg-blue-600/5 blur-[60px] sm:blur-[100px] animate-pulse-slow" style={{ animationDelay: '3s' }} />
         
         {/* AI Neural Network Background Effect */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(120,50,250,0.03)_0,rgba(255,30,86,0.03)_25%,rgba(0,0,0,0)_50%)]"></div>
@@ -211,29 +216,29 @@ export default function ZeeshanKeerioPage() {
 
       <StandardBackground />
 
-      <div className="container mx-auto px-4 py-24">
+      <div className="container mx-auto px-4 py-12 md:py-24">
         {/* Hero Section with Advanced Effects */}
         <motion.section 
           initial="hidden"
           animate="visible"
           variants={fadeIn}
           transition={{ duration: 0.8 }}
-          className="pt-20 pb-16 relative overflow-hidden"
+          className="pt-10 sm:pt-16 md:pt-20 pb-8 sm:pb-12 md:pb-16 relative overflow-hidden"
         >
           {/* AI Theme Decorative Elements */}
           <div className="absolute top-0 left-0 w-full h-full">
-            <svg className="absolute top-20 right-10 w-32 h-32 text-red-500/10" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <svg className="absolute top-20 right-10 w-24 sm:w-32 text-red-500/10" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
               <path fill="currentColor" d="M45.4,-51.3C58.3,-39.2,68,-24.1,70.9,-7.8C73.8,8.6,70,26.1,59.7,38.9C49.4,51.7,32.5,59.8,14.9,63.5C-2.8,67.1,-21.1,66.3,-36.9,58.9C-52.7,51.5,-66,37.5,-70.9,21.1C-75.8,4.7,-72.3,-14.2,-63.3,-29.4C-54.2,-44.7,-39.6,-56.5,-24.1,-67.4C-8.7,-78.2,7.6,-88.1,22,-83.8C36.3,-79.4,48.8,-60.8,50.8,-47.8"/>
             </svg>
-            <svg className="absolute bottom-10 left-10 w-24 h-24 text-purple-500/10" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <svg className="absolute bottom-10 left-10 w-20 sm:w-24 text-purple-500/10" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
               <path fill="currentColor" d="M37.7,-47.4C50.9,-35.9,65.2,-26.2,72.5,-11.6C79.8,3,80.1,22.5,72.1,38.3C64.2,54.1,48,66.1,30.4,71.8C12.9,77.5,-6,76.8,-23.5,71C-41,65.1,-57.1,54.1,-68.3,38.1C-79.5,22.1,-85.8,1.1,-81.5,-17.4C-77.2,-35.9,-62.2,-51.9,-45.9,-63.1C-29.6,-74.3,-12,-79.8,-0.2,-79.5C11.6,-79.3,24.5,-58.9,37.7,-47.4Z"/>
             </svg>
           </div>
           
-          <div className="grid lg:grid-cols-[1fr,2fr] gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr,2fr] gap-8 md:gap-16 items-center">
             {/* Image Column - Advanced Circular Profile Picture with AI Effects */}
             <motion.div 
-              className="relative mx-auto lg:mx-0 order-2 lg:order-1"
+              className="relative mx-auto lg:mx-0 order-1 lg:order-1 max-w-[300px] sm:max-w-[350px] md:max-w-[400px]"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -285,7 +290,7 @@ export default function ZeeshanKeerioPage() {
               
               {/* Circular profile container with animated border and 3D tilt effect */}
               <motion.div 
-                className="relative w-[300px] h-[300px] mx-auto lg:mx-0 rounded-full overflow-hidden border-4 border-white/10 shadow-[0_0_40px_rgba(255,0,0,0.3)] group"
+                className="relative w-[220px] h-[220px] sm:w-[260px] sm:h-[260px] md:w-[300px] md:h-[300px] mx-auto lg:mx-0 rounded-full overflow-hidden border-4 border-white/10 shadow-[0_0_40px_rgba(255,0,0,0.3)] group"
                 style={{
                   transformStyle: "preserve-3d",
                   transform: isHovering ? `perspective(1000px) rotateY(${mousePosition.x * 0.01}deg) rotateX(${-mousePosition.y * 0.01}deg)` : "perspective(1000px)"
@@ -350,9 +355,9 @@ export default function ZeeshanKeerioPage() {
                 </div>
               </motion.div>
               
-              {/* Advanced achievement badges with AI theme */}
+              {/* Advanced achievement badges with AI theme - made responsive */}
               <motion.div 
-                className="absolute -right-6 top-0 bg-gradient-to-r from-red-600/90 to-red-700/90 px-3 py-2 rounded-full text-xs font-semibold shadow-lg flex items-center gap-2"
+                className="absolute -right-2 sm:-right-6 top-0 bg-gradient-to-r from-red-600/90 to-red-700/90 px-2 sm:px-3 py-1 sm:py-2 rounded-full text-xs font-semibold shadow-lg flex items-center gap-1 sm:gap-2"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.2 }}
@@ -363,7 +368,7 @@ export default function ZeeshanKeerioPage() {
               </motion.div>
               
               <motion.div 
-                className="absolute -left-4 bottom-10 bg-gradient-to-r from-purple-600/90 to-purple-700/90 px-3 py-2 rounded-full text-xs font-semibold shadow-lg flex items-center gap-2"
+                className="absolute -left-2 sm:-left-4 bottom-10 bg-gradient-to-r from-purple-600/90 to-purple-700/90 px-2 sm:px-3 py-1 sm:py-2 rounded-full text-xs font-semibold shadow-lg flex items-center gap-1 sm:gap-2"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.5 }}
@@ -374,7 +379,7 @@ export default function ZeeshanKeerioPage() {
               </motion.div>
               
               <motion.div 
-                className="absolute -right-10 bottom-1/3 bg-gradient-to-r from-blue-600/90 to-blue-700/90 px-3 py-2 rounded-full text-xs font-semibold shadow-lg flex items-center gap-2"
+                className="absolute -right-4 sm:-right-10 bottom-1/3 bg-gradient-to-r from-blue-600/90 to-blue-700/90 px-2 sm:px-3 py-1 sm:py-2 rounded-full text-xs font-semibold shadow-lg flex items-center gap-1 sm:gap-2"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.8 }}
@@ -387,7 +392,7 @@ export default function ZeeshanKeerioPage() {
 
             {/* Content Column with AI-themed enhancements */}
             <motion.div 
-              className="order-1 lg:order-2"
+              className="order-2 lg:order-2 mt-6 lg:mt-0"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
@@ -398,8 +403,8 @@ export default function ZeeshanKeerioPage() {
                 whileTap={{ scale: 0.95 }}
                 className="relative inline-block"
               >
-                <Badge className="mb-4 bg-gradient-to-r from-red-500/30 to-purple-500/30 text-white hover:from-red-500/40 hover:to-purple-500/40 backdrop-blur-sm px-4 py-2 text-sm shadow-lg relative z-10">
-                  <BrainCircuit className="inline-block mr-2 h-4 w-4" />
+                <Badge className="mb-4 bg-gradient-to-r from-red-500/30 to-purple-500/30 text-white hover:from-red-500/40 hover:to-purple-500/40 backdrop-blur-sm px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm shadow-lg relative z-10">
+                  <BrainCircuit className="inline-block mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                   AI INNOVATOR
                 </Badge>
                 {/* Badge highlight effect */}
@@ -431,7 +436,7 @@ export default function ZeeshanKeerioPage() {
                   transition={{ duration: 10, repeat: Infinity }}
                 />
                 <motion.h1 
-                  className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-purple-500 relative"
+                  className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-red-500 to-purple-500 relative"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
@@ -449,37 +454,37 @@ export default function ZeeshanKeerioPage() {
               >
                 <motion.div 
                   variants={fadeIn}
-                  className="bg-red-500/10 border border-red-500/30 px-3 py-1.5 rounded-full backdrop-blur-sm"
+                  className="bg-red-500/10 border border-red-500/30 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full backdrop-blur-sm"
                 >
-                  <span className="flex items-center text-red-400">
-                    <BrainCircuit className="w-4 h-4 mr-2" />
+                  <span className="flex items-center text-red-400 text-xs sm:text-sm">
+                    <BrainCircuit className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                     AI & Data Science Expert
                   </span>
                 </motion.div>
                 
                 <motion.div 
                   variants={fadeIn}
-                  className="bg-purple-500/10 border border-purple-500/30 px-3 py-1.5 rounded-full backdrop-blur-sm"
+                  className="bg-purple-500/10 border border-purple-500/30 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full backdrop-blur-sm"
                 >
-                  <span className="flex items-center text-purple-400">
-                    <Network className="w-4 h-4 mr-2" />
+                  <span className="flex items-center text-purple-400 text-xs sm:text-sm">
+                    <Network className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                     Big Data Architect
                   </span>
                 </motion.div>
                 
                 <motion.div 
                   variants={fadeIn}
-                  className="bg-blue-500/10 border border-blue-500/30 px-3 py-1.5 rounded-full backdrop-blur-sm"
+                  className="bg-blue-500/10 border border-blue-500/30 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full backdrop-blur-sm"
                 >
-                  <span className="flex items-center text-blue-400">
-                    <Cpu className="w-4 h-4 mr-2" />
+                  <span className="flex items-center text-blue-400 text-xs sm:text-sm">
+                    <Cpu className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                     Machine Learning Engineer
                   </span>
                 </motion.div>
               </motion.div>
               
               {/* Advanced metrics and stats - AI themed */}
-              <div className="grid grid-cols-3 gap-3 mb-6">
+              <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-6">
                 {[
                   { label: "Years Experience", value: "7+", icon: Briefcase, color: "text-red-400" },
                   { label: "AI Projects", value: "25+", icon: BrainCircuit, color: "text-purple-400" },
@@ -487,15 +492,15 @@ export default function ZeeshanKeerioPage() {
                 ].map((stat, index) => (
                   <motion.div 
                     key={index}
-                    className="bg-gradient-to-br from-black/50 to-black/30 border border-white/10 p-3 rounded-lg text-center"
+                    className="bg-gradient-to-br from-black/50 to-black/30 border border-white/10 p-2 sm:p-3 rounded-lg text-center"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.1 + 0.6 }}
                     whileHover={{ y: -5, boxShadow: "0 10px 25px rgba(0,0,0,0.2)" }}
                   >
-                    <stat.icon className={`h-5 w-5 mx-auto mb-2 ${stat.color}`} />
-                    <div className={`text-2xl font-bold ${stat.color}`}>{stat.value}</div>
-                    <div className="text-xs text-white/60">{stat.label}</div>
+                    <stat.icon className={`h-4 w-4 sm:h-5 sm:w-5 mx-auto mb-1 sm:mb-2 ${stat.color}`} />
+                    <div className={`text-xl sm:text-2xl font-bold ${stat.color}`}>{stat.value}</div>
+                    <div className="text-[10px] sm:text-xs text-white/60">{stat.label}</div>
                   </motion.div>
                 ))}
               </div>
@@ -534,9 +539,9 @@ export default function ZeeshanKeerioPage() {
                 </div>
                 
                 {/* Main content - Enhanced AI Expert Profile */}
-                <div className="text-lg text-white/80 leading-relaxed p-4 rounded-lg border-l-2 border-red-500/50 relative z-10">
+                <div className="text-sm sm:text-base md:text-lg text-white/80 leading-relaxed p-3 sm:p-4 rounded-lg border-l-2 border-red-500/50 relative z-10">
                   <div className="flex items-center mb-2">
-                    <BrainCircuit className="h-5 w-5 text-red-400 mr-2" />
+                    <BrainCircuit className="h-4 w-4 sm:h-5 sm:w-5 text-red-400 mr-2" />
                     <span className="text-red-400 font-semibold">AI Expert Profile</span>
                   </div>
                   
@@ -551,7 +556,7 @@ export default function ZeeshanKeerioPage() {
               </motion.div>
               
               {/* Enhanced buttons with advanced AI-themed animations */}
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-3 sm:gap-4">
                 <motion.div 
                   whileHover={{ scale: 1.05, y: -5 }} 
                   whileTap={{ scale: 0.95 }}
@@ -567,8 +572,8 @@ export default function ZeeshanKeerioPage() {
                     transition={{ duration: 2, repeat: Infinity }}
                   />
                   
-                  <Button className="bg-gradient-to-r from-red-600 to-purple-700 hover:from-red-700 hover:to-purple-800 text-white transition-all duration-300 shadow-lg shadow-red-900/30 px-6 py-2 relative z-10">
-                    <Linkedin className="mr-2 h-4 w-4" />
+                  <Button className="bg-gradient-to-r from-red-600 to-purple-700 hover:from-red-700 hover:to-purple-800 text-white transition-all duration-300 shadow-lg shadow-red-900/30 px-4 sm:px-6 py-1.5 sm:py-2 text-xs sm:text-sm relative z-10">
+                    <Linkedin className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                     Connect on LinkedIn
                   </Button>
                 </motion.div>
@@ -579,8 +584,8 @@ export default function ZeeshanKeerioPage() {
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
                   className="relative"
                 >
-                  <Button variant="outline" className="border-white/20 hover:bg-white/10 backdrop-blur-sm shadow-lg px-6 py-2 relative z-10">
-                    <Mail className="mr-2 h-4 w-4" />
+                  <Button variant="outline" className="border-white/20 hover:bg-white/10 backdrop-blur-sm shadow-lg px-4 sm:px-6 py-1.5 sm:py-2 text-xs sm:text-sm relative z-10">
+                    <Mail className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                     Contact
                   </Button>
                 </motion.div>
@@ -591,8 +596,8 @@ export default function ZeeshanKeerioPage() {
                   transition={{ type: "spring", stiffness: 400, damping: 10 }}
                   className="relative"
                 >
-                  <Button variant="ghost" className="hover:bg-white/5 backdrop-blur-sm shadow-lg px-6 py-2 relative z-10 group">
-                    <FileText className="mr-2 h-4 w-4 text-red-400" />
+                  <Button variant="ghost" className="hover:bg-white/5 backdrop-blur-sm shadow-lg px-4 sm:px-6 py-1.5 sm:py-2 text-xs sm:text-sm relative z-10 group">
+                    <FileText className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 text-red-400" />
                     Download CV
                     
                     {/* Download animation */}
@@ -605,7 +610,7 @@ export default function ZeeshanKeerioPage() {
                         repeatType: "mirror" 
                       }}
                     >
-                      <svg className="h-4 w-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg className="h-3 w-3 sm:h-4 sm:w-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
                       </svg>
                     </motion.div>
@@ -617,49 +622,51 @@ export default function ZeeshanKeerioPage() {
         </motion.section>
 
         {/* Detailed Information Section with enhanced AI styling */}
-        <section className="py-16 relative">
+        <section className="py-8 sm:py-12 md:py-16 relative">
           {/* AI-themed background elements */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <svg className="absolute top-10 right-5 w-72 h-72 text-red-500/5" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <svg className="absolute top-10 right-5 w-48 sm:w-72 text-red-500/5" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
               <path fill="currentColor" d="M39.5,-65.3C48.3,-55.1,50.4,-39.7,55.9,-26.3C61.5,-12.9,70.5,-1.5,73.1,11.9C75.7,25.4,71.9,40.9,63.2,53.3C54.4,65.7,40.5,74.9,25.9,77.4C11.2,79.9,-4.1,75.7,-19.9,71.7C-35.7,67.7,-51.9,64,-62.2,54C-72.5,44,-76.8,27.6,-77.9,11.4C-79,-4.8,-76.9,-21,-70.3,-35.6C-63.7,-50.3,-52.6,-63.3,-39.2,-71.4C-25.9,-79.6,-9.9,-82.9,3.3,-88C16.6,-93.1,30.7,-75.5,39.5,-65.3Z" transform="translate(100 100)" />
             </svg>
-            <svg className="absolute bottom-10 left-5 w-64 h-64 text-purple-500/5" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <svg className="absolute bottom-10 left-5 w-40 sm:w-64 text-purple-500/5" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
               <path fill="currentColor" d="M47.7,-73.6C62.1,-67.5,74.7,-55.1,79.1,-40.5C83.6,-25.9,79.9,-9.1,76.3,6.5C72.8,22.2,69.4,36.7,60.9,47.9C52.5,59.1,38.9,67,24.8,70.8C10.8,74.6,-3.7,74.3,-17,70.1C-30.2,65.9,-42.1,57.8,-49.7,47C-57.2,36.2,-60.4,22.7,-64.2,8.2C-68,-6.3,-72.5,-21.8,-69.3,-35.9C-66.1,-50,-55.2,-62.7,-41.8,-69C-28.4,-75.3,-12.5,-75.2,2.4,-79C17.4,-82.8,33.3,-79.7,47.7,-73.6Z" transform="translate(100 100)" />
             </svg>
           </div>
           
-          <Tabs defaultValue="experience" className="w-full relative z-10">
-            <TabsList className="grid grid-cols-2 md:grid-cols-6 mb-8 bg-gradient-to-r from-black/60 to-black/40 border border-white/10 p-1 rounded-lg backdrop-blur-sm shadow-lg overflow-x-auto">
-              <TabsTrigger value="experience" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/20 data-[state=active]:to-purple-600/20 data-[state=active]:text-white group">
-                <Briefcase className="mr-2 h-4 w-4 group-data-[state=active]:text-red-400 transition-colors" />
-                Experience
-              </TabsTrigger>
-              <TabsTrigger value="education" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/20 data-[state=active]:to-purple-600/20 data-[state=active]:text-white group">
-                <GraduationCap className="mr-2 h-4 w-4 group-data-[state=active]:text-red-400 transition-colors" />
-                Education
-              </TabsTrigger>
-              <TabsTrigger value="skills" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/20 data-[state=active]:to-purple-600/20 data-[state=active]:text-white group">
-                <Code className="mr-2 h-4 w-4 group-data-[state=active]:text-red-400 transition-colors" />
-                Skills
-              </TabsTrigger>
-              <TabsTrigger value="projects" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/20 data-[state=active]:to-purple-600/20 data-[state=active]:text-white group">
-                <FileText className="mr-2 h-4 w-4 group-data-[state=active]:text-red-400 transition-colors" />
-                Projects
-              </TabsTrigger>
-              <TabsTrigger value="ai-projects" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/20 data-[state=active]:to-purple-600/20 data-[state=active]:text-white group relative">
-                <BrainCircuit className="mr-2 h-4 w-4 group-data-[state=active]:text-red-400 transition-colors" />
-                AI Projects
-                <motion.div 
-                  className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"
-                  animate={{ scale: [0.8, 1.2, 0.8], opacity: [0.7, 1, 0.7] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                />
-              </TabsTrigger>
-              <TabsTrigger value="achievements" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/20 data-[state=active]:to-purple-600/20 data-[state=active]:text-white group">
-                <Award className="mr-2 h-4 w-4 group-data-[state=active]:text-red-400 transition-colors" />
-                Achievements
-              </TabsTrigger>
-            </TabsList>
+          <Tabs defaultValue={activeTab} className="w-full relative z-10" onValueChange={handleTabChange}>
+            <div className="overflow-x-auto scrollbar-hide pb-2">
+              <TabsList className="grid grid-flow-col auto-cols-auto min-w-max md:grid-cols-6 mb-6 sm:mb-8 bg-gradient-to-r from-black/60 to-black/40 border border-white/10 p-1 rounded-lg backdrop-blur-sm shadow-lg">
+                <TabsTrigger value="experience" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/20 data-[state=active]:to-purple-600/20 data-[state=active]:text-white group">
+                  <Briefcase className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 group-data-[state=active]:text-red-400 transition-colors" />
+                  <span className="text-xs sm:text-sm">Experience</span>
+                </TabsTrigger>
+                <TabsTrigger value="education" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/20 data-[state=active]:to-purple-600/20 data-[state=active]:text-white group">
+                  <GraduationCap className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 group-data-[state=active]:text-red-400 transition-colors" />
+                  <span className="text-xs sm:text-sm">Education</span>
+                </TabsTrigger>
+                <TabsTrigger value="skills" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/20 data-[state=active]:to-purple-600/20 data-[state=active]:text-white group">
+                  <Code className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 group-data-[state=active]:text-red-400 transition-colors" />
+                  <span className="text-xs sm:text-sm">Skills</span>
+                </TabsTrigger>
+                <TabsTrigger value="projects" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/20 data-[state=active]:to-purple-600/20 data-[state=active]:text-white group">
+                  <FileText className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 group-data-[state=active]:text-red-400 transition-colors" />
+                  <span className="text-xs sm:text-sm">Projects</span>
+                </TabsTrigger>
+                <TabsTrigger value="ai-projects" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/20 data-[state=active]:to-purple-600/20 data-[state=active]:text-white group relative">
+                  <BrainCircuit className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 group-data-[state=active]:text-red-400 transition-colors" />
+                  <span className="text-xs sm:text-sm">AI Projects</span>
+                  <motion.div 
+                    className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"
+                    animate={{ scale: [0.8, 1.2, 0.8], opacity: [0.7, 1, 0.7] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                </TabsTrigger>
+                <TabsTrigger value="achievements" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500/20 data-[state=active]:to-purple-600/20 data-[state=active]:text-white group">
+                  <Award className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 group-data-[state=active]:text-red-400 transition-colors" />
+                  <span className="text-xs sm:text-sm">Achievements</span>
+                </TabsTrigger>
+              </TabsList>
+            </div>
             
             {/* Experience Tab - Keep existing content but add some AI themes */}
             <TabsContent value="experience" className="mt-0">
@@ -677,7 +684,7 @@ export default function ZeeshanKeerioPage() {
                   </div>
                 </h3>
                 
-                <div className="space-y-8">
+                <div className="space-y-8 overflow-y-auto scrollbar-hide">
                   {EXPERIENCE.map((job, index) => (
                   <motion.div 
                     key={index}
@@ -733,7 +740,7 @@ export default function ZeeshanKeerioPage() {
             </TabsContent>
             
             {/* AI Projects Tab - Enhanced Structure */}
-            <TabsContent value="ai-projects" className="mt-0">
+            <TabsContent value="ai-projects" className="mt-0 overflow-hidden">
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -2148,6 +2155,30 @@ export default function ZeeshanKeerioPage() {
           </div>
         </motion.section>
       </div>
+
+      {/* Add a style tag for global scrollbar hiding */}
+      <style jsx global>{`
+        /* Hide scrollbar for all scrollable elements */
+        ::-webkit-scrollbar {
+          display: none;
+        }
+        
+        * {
+          -ms-overflow-style: none;  /* IE and Edge */
+          scrollbar-width: none;  /* Firefox */
+        }
+        
+        /* Custom styling for the scrollable areas */
+        .scrollable-content {
+          overflow-y: auto;
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        
+        .scrollable-content::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </main>
   )
 }
@@ -2176,3 +2207,17 @@ function Trophy({ className }: { className?: string }) {
     </svg>
   )
 } 
+
+const styles = `
+  /* Add these styles to the end of your existing styles */
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+`

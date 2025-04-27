@@ -1,45 +1,60 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
+"use client"
 
-export default function Loading() {
+import { motion } from "framer-motion"
+import { DashboardSkeleton } from "@/components/dashboard/dashboard-skeleton"
+import { Icons } from "@/components/icons"
+
+export default function DashboardLoading() {
   return (
-    <div className="container mx-auto py-6">
-      <div className="mb-6">
-        <Skeleton className="h-9 w-48" />
-        <Skeleton className="mt-2 h-5 w-72" />
+    <div className="relative w-full h-full min-h-[600px] flex flex-col items-center justify-center">
+      <div className="absolute inset-0 z-0">
+        <DashboardSkeleton />
       </div>
-
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <Card key={i}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <Skeleton className="h-5 w-24" />
-              <Skeleton className="h-4 w-4" />
-            </CardHeader>
-            <CardContent>
-              <Skeleton className="h-8 w-16" />
-              <Skeleton className="mt-2 h-4 w-32" />
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      <div className="mt-6 grid gap-4 md:grid-cols-2">
-        {Array.from({ length: 2 }).map((_, i) => (
-          <Card key={i}>
-            <CardHeader>
-              <Skeleton className="h-6 w-32" />
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {Array.from({ length: 3 }).map((_, j) => (
-                <div key={j} className="flex items-center justify-between">
-                  <Skeleton className="h-4 w-24" />
-                  <Skeleton className="h-4 w-16" />
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        ))}
+      
+      <div className="relative z-10 flex flex-col items-center justify-center px-10 py-16 backdrop-blur-sm bg-black/40 rounded-lg border border-white/5">
+        <motion.div
+          animate={{
+            scale: [1, 1.1, 1],
+            opacity: [0.5, 1, 0.5]
+          }}
+          transition={{
+            duration: 2,
+            repeat: Infinity,
+            repeatType: "loop"
+          }}
+          className="mb-6"
+        >
+          <Icons.logo className="h-12 w-12 text-primary" />
+        </motion.div>
+        
+        <h2 className="text-2xl font-bold mb-2">Loading Dashboard</h2>
+        <p className="text-muted-foreground text-center mb-6 max-w-md">
+          Preparing your AI-powered analytics and insights...
+        </p>
+        
+        <div className="w-full max-w-md">
+          <div className="space-y-3">
+            {[0, 1, 2].map((i) => (
+              <motion.div
+                key={i}
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{
+                  delay: i * 0.2,
+                  duration: 1,
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  repeatDelay: 0.5
+                }}
+                className="h-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"
+                style={{ 
+                  transformOrigin: "0% 50%",
+                  width: `${100 - i * 15}%`
+                }}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   )

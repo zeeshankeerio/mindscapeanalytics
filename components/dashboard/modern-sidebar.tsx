@@ -23,7 +23,6 @@ import {
   Braces,
   LogOut,
   Bell,
-  PanelRight,
   Clock,
   Activity,
   Sun,
@@ -52,7 +51,6 @@ import {
 } from "@/components/ui/tooltip"
 import { Input } from "../ui/input"
 import { Badge } from "../ui/badge"
-import { Icons } from "../icons"
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -208,13 +206,12 @@ class SidebarErrorBoundary extends React.Component<
   }
 }
 
-export function DashboardSidebar() {
+export function ModernSidebar() {
   const { sidebarOpen, setSidebarOpen, toggleSidebar, notifications, unreadNotificationsCount, theme, setTheme } = useDashboard()
   const pathname = usePathname()
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
   const [isMobile, setIsMobile] = useState(false)
-  const [menuOpen, setMenuOpen] = useState(false)
   
   // Check if on mobile device for responsive behavior
   useEffect(() => {
@@ -564,20 +561,6 @@ export function DashboardSidebar() {
   // Search drawer component when opened
   const SearchDrawer = () => {
     const [searchResults, setSearchResults] = useState<any[]>([])
-    
-    // Handle keyboard navigation in search results
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowDown') {
-        // Navigate down in search results
-        e.preventDefault()
-      } else if (e.key === 'ArrowUp') {
-        // Navigate up in search results
-        e.preventDefault()
-      } else if (e.key === 'Enter') {
-        // Select current result
-        e.preventDefault()
-      }
-    }
     
     useEffect(() => {
       // Simulated search function

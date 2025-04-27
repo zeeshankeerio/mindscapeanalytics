@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss"
+import type { Config } from "tailwindcss";
 
 const config: Config = {
   darkMode: ["class"],
@@ -75,11 +75,11 @@ const config: Config = {
         "gradient-x": {
           "0%, 100%": {
             "background-size": "200% 200%",
-            "background-position": "left center"
+            "background-position": "left center",
           },
           "50%": {
             "background-size": "200% 200%",
-            "background-position": "right center"
+            "background-position": "right center",
           },
         },
         "typing-cursor": {
@@ -100,69 +100,73 @@ const config: Config = {
           "100%": { backgroundPosition: "0% 50%" },
         },
         "glow-pulse": {
-          "0%, 100%": { boxShadow: "0 0 20px rgba(185, 28, 28, 0.4)" },
-          "50%": { boxShadow: "0 0 30px rgba(185, 28, 28, 0.7)" },
+          "0%, 100%": {
+            boxShadow: "0 0 20px rgba(185, 28, 28, 0.4)",
+          },
+          "50%": {
+            boxShadow: "0 0 30px rgba(185, 28, 28, 0.7)",
+          },
         },
-        "wave": {
-          '0%, 100%': { transform: 'translateX(-100%)' },
-          '50%': { transform: 'translateX(100%)' },
+        wave: {
+          "0%, 100%": { transform: "translateX(-100%)" },
+          "50%": { transform: "translateX(100%)" },
         },
         "enhanced-pulse": {
-          "0%": { 
+          "0%": {
             filter: "drop-shadow(0 0 2px rgba(255, 0, 0, 0.5)) brightness(0.9)",
-            transform: "scale(1)"
+            transform: "scale(1)",
           },
-          "50%": { 
+          "50%": {
             filter: "drop-shadow(0 0 10px rgba(255, 0, 0, 0.8)) brightness(1.2)",
-            transform: "scale(1.05)"
+            transform: "scale(1.05)",
           },
-          "100%": { 
+          "100%": {
             filter: "drop-shadow(0 0 2px rgba(255, 0, 0, 0.5)) brightness(0.9)",
-            transform: "scale(1)"
-          }
+            transform: "scale(1)",
+          },
         },
         "logo-pulse": {
-          "0%": { 
+          "0%": {
             opacity: "1",
             filter: "drop-shadow(0 0 2px rgba(139, 0, 0, 0.3))",
-            transform: "scale(1)"
+            transform: "scale(1)",
           },
-          "15%": { 
+          "15%": {
             opacity: "0.8",
             filter: "drop-shadow(0 0 8px rgba(139, 0, 0, 0.7))",
-            transform: "scale(1.12)"
+            transform: "scale(1.12)",
           },
-          "30%": { 
+          "30%": {
             opacity: "0.95",
             filter: "drop-shadow(0 0 4px rgba(139, 0, 0, 0.5))",
-            transform: "scale(1.05)"
+            transform: "scale(1.05)",
           },
-          "45%": { 
+          "45%": {
             opacity: "0.85",
             filter: "drop-shadow(0 0 6px rgba(139, 0, 0, 0.6))",
-            transform: "scale(1.08)"
+            transform: "scale(1.08)",
           },
-          "70%": { 
+          "70%": {
             opacity: "1",
             filter: "drop-shadow(0 0 3px rgba(139, 0, 0, 0.4))",
-            transform: "scale(1)"
+            transform: "scale(1)",
           },
-          "100%": { 
+          "100%": {
             opacity: "1",
             filter: "drop-shadow(0 0 2px rgba(139, 0, 0, 0.3))",
-            transform: "scale(1)"
-          }
+            transform: "scale(1)",
+          },
         },
         "svg-blink": {
-          "0%": { 
+          "0%": {
             filter: "brightness(1) drop-shadow(0 0 5px rgba(220, 38, 38, 0.7))",
           },
-          "50%": { 
+          "50%": {
             filter: "brightness(1.6) drop-shadow(0 0 15px rgba(220, 38, 38, 0.9))",
           },
-          "100%": { 
+          "100%": {
             filter: "brightness(1) drop-shadow(0 0 5px rgba(220, 38, 38, 0.7))",
-          }
+          },
         },
       },
       animation: {
@@ -183,7 +187,6 @@ const config: Config = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};
 
-export default config
-
+export default config;

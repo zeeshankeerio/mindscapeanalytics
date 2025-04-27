@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect } from "react"
-import Head from "next/head"
 import { NextFont } from "next/dist/compiled/@next/font"
 import { useDashboard } from "@/providers/dashboard-context"
 
@@ -22,23 +21,29 @@ export default function DashboardLayoutContent({ children, inter }: DashboardLay
     
     // Apply selected theme
     if (theme === 'system') {
-      // Check system preference
-      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-      root.classList.add(systemTheme)
+      // Check system preference and set up listener for changes
+      const systemPreference = window.matchMedia('(prefers-color-scheme: dark)')
+      const applySystemTheme = (e: MediaQueryListEvent | MediaQueryList) => {
+        const systemTheme = e.matches ? 'dark' : 'light'
+        root.classList.add(systemTheme)
+      }
+      
+      // Apply initial system theme
+      applySystemTheme(systemPreference)
+      
+      // Listen for system theme changes
+      systemPreference.addEventListener('change', applySystemTheme)
+      
+      // Cleanup listener
+      return () => systemPreference.removeEventListener('change', applySystemTheme)
     } else {
       root.classList.add(theme)
     }
   }, [theme])
 
   return (
-    <>
-      <Head>
-        <title>Mindscape Dashboard</title>
-        <meta name="description" content="AI-powered analytics and insights dashboard" />
-      </Head>
-      <div className={inter.className}>
-            {children}
-          </div>
-    </>
+    <div className={inter.className}>
+      {children}
+    </div>
   )
 } 

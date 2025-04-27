@@ -14,10 +14,31 @@ export interface Notification {
   read: boolean
 }
 
+// Mock user for development without authentication
+export const mockUser = {
+  id: "dev-user",
+  name: "Developer",
+  email: "dev@example.com",
+  role: "ADMIN"
+}
+
+// Add the avatar property to the User type
+export interface User {
+  id: string
+  name: string
+  email: string
+  role: string
+  avatar?: string
+}
+
 interface DashboardContextType {
+  // User Auth
+  user: User
+  
   // UI State
   sidebarOpen: boolean
   setSidebarOpen: (open: boolean) => void
+  sidebarAnimating: boolean
   toggleSidebar: () => void
   theme: DashboardTheme
   setTheme: (theme: DashboardTheme) => void
@@ -47,10 +68,16 @@ const DashboardContext = createContext<DashboardContextType | undefined>(undefin
 export function DashboardProvider({ children }: { children: ReactNode }) {
   // UI State
   const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [sidebarAnimating, setSidebarAnimating] = useState(false)
   const [theme, setTheme] = useState<DashboardTheme>('dark')
   
-  // Toggle sidebar function
-  const toggleSidebar = () => setSidebarOpen(prev => !prev)
+  // Toggle sidebar function with animation state
+  const toggleSidebar = () => {
+    setSidebarAnimating(true)
+    setSidebarOpen(prev => !prev)
+    // Reset animation state after animation completes
+    setTimeout(() => setSidebarAnimating(false), 300)
+  }
   
   // User Preferences
   const [viewLayout, setViewLayout] = useState<ViewLayout>('grid')
@@ -66,50 +93,70 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
   
   // Load saved preferences from localStorage on mount
   useEffect(() => {
-    // Get sidebar state from localStorage
-    const savedSidebarState = localStorage.getItem('dashboardSidebarOpen')
-    if (savedSidebarState !== null) {
-      setSidebarOpen(savedSidebarState === 'true')
-    }
-    
-    // Get theme from localStorage
-    const savedTheme = localStorage.getItem('dashboardTheme') as DashboardTheme
-    if (savedTheme) {
-      setTheme(savedTheme)
-    }
-    
-    // Get layout from localStorage
-    const savedLayout = localStorage.getItem('dashboardViewLayout') as ViewLayout
-    if (savedLayout) {
-      setViewLayout(savedLayout)
-    }
-    
-    // Load saved notifications
-    const savedNotifications = localStorage.getItem('dashboardNotifications')
-    if (savedNotifications) {
-      try {
-        setNotifications(JSON.parse(savedNotifications))
-      } catch (error) {
-        console.error('Failed to parse saved notifications', error)
+    try {
+      // Get sidebar state from localStorage
+      const savedSidebarState = localStorage.getItem('dashboardSidebarOpen')
+      if (savedSidebarState !== null) {
+        setSidebarOpen(savedSidebarState === 'true')
       }
+      
+      // Get theme from localStorage
+      const savedTheme = localStorage.getItem('dashboardTheme') as DashboardTheme
+      if (savedTheme) {
+        setTheme(savedTheme)
+      }
+      
+      // Get layout from localStorage
+      const savedLayout = localStorage.getItem('dashboardViewLayout') as ViewLayout
+      if (savedLayout) {
+        setViewLayout(savedLayout)
+      }
+      
+      // Load saved notifications
+      const savedNotifications = localStorage.getItem('dashboardNotifications')
+      if (savedNotifications) {
+        try {
+          setNotifications(JSON.parse(savedNotifications))
+        } catch (error) {
+          console.error('Failed to parse saved notifications', error)
+        }
+      }
+    } catch (error) {
+      console.error('Error accessing localStorage', error)
     }
   }, [])
   
   // Save preferences to localStorage when they change
   useEffect(() => {
-    localStorage.setItem('dashboardSidebarOpen', String(sidebarOpen))
+    try {
+      localStorage.setItem('dashboardSidebarOpen', String(sidebarOpen))
+    } catch (error) {
+      console.error('Error saving sidebar state to localStorage', error)
+    }
   }, [sidebarOpen])
   
   useEffect(() => {
-    localStorage.setItem('dashboardTheme', theme)
+    try {
+      localStorage.setItem('dashboardTheme', theme)
+    } catch (error) {
+      console.error('Error saving theme to localStorage', error)
+    }
   }, [theme])
   
   useEffect(() => {
-    localStorage.setItem('dashboardViewLayout', viewLayout)
+    try {
+      localStorage.setItem('dashboardViewLayout', viewLayout)
+    } catch (error) {
+      console.error('Error saving view layout to localStorage', error)
+    }
   }, [viewLayout])
   
   useEffect(() => {
-    localStorage.setItem('dashboardNotifications', JSON.stringify(notifications))
+    try {
+      localStorage.setItem('dashboardNotifications', JSON.stringify(notifications))
+    } catch (error) {
+      console.error('Error saving notifications to localStorage', error)
+    }
   }, [notifications])
   
   // Add a new notification
@@ -152,11 +199,22 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
     return Promise.resolve()
   }
   
+  // Update the default user with the avatar property
+  const [user, setUser] = useState<User>({
+    id: "1",
+    name: "Admin User",
+    email: "admin@mindscape.ai",
+    role: "ADMIN",
+    avatar: "/images/avatars/default.png"
+  })
+  
   return (
     <DashboardContext.Provider
       value={{
+        user,
         sidebarOpen,
         setSidebarOpen,
+        sidebarAnimating,
         toggleSidebar,
         theme,
         setTheme,
@@ -181,7 +239,7 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
 export function useDashboard() {
   const context = useContext(DashboardContext)
   if (context === undefined) {
-    throw new Error('useDashboard must be used within a DashboardProvider')
+    throw new Error('useDashboard must be used within a DashboardProvider. Make sure you have wrapped your component with DashboardProvider.')
   }
   return context
 } 

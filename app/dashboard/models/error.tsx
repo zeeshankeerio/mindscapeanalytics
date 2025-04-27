@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { AlertTriangle, RefreshCcw } from "lucide-react"
 
-export default function DashboardError({
+export default function ModelsError({
   error,
   reset,
 }: {
@@ -15,7 +15,7 @@ export default function DashboardError({
 }) {
   useEffect(() => {
     // Log the error to an error reporting service
-    console.error("Dashboard error:", error)
+    console.error("Models error:", error)
   }, [error])
 
   return (
@@ -25,11 +25,11 @@ export default function DashboardError({
           <div className="flex justify-center mb-4">
             <AlertTriangle className="h-12 w-12 text-destructive" />
           </div>
-          <CardTitle className="text-xl sm:text-2xl">Something went wrong</CardTitle>
+          <CardTitle className="text-xl sm:text-2xl">Models Error</CardTitle>
         </CardHeader>
         <CardContent className="text-center text-sm text-muted-foreground pb-2">
           <p className="mb-2">
-            {error?.message || "An unexpected error occurred while loading the dashboard."}
+            {error?.message || "An unexpected error occurred while loading models."}
           </p>
           <p className="text-xs text-muted-foreground/70">
             {error?.digest ? `Error ID: ${error.digest}` : ""}
@@ -53,5 +53,4 @@ export default function DashboardError({
       </Card>
     </div>
   )
-}
-
+} 

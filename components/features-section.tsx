@@ -45,8 +45,8 @@ import "@/styles/glow-effects.css"
 
 const features = [
   {
-    title: "Advanced AI Models",
-    description: "State-of-the-art machine learning models trained on vast datasets for superior accuracy and performance.",
+    title: "AI-Powered Analytics",
+    description: "Leverage state-of-the-art neural networks and machine learning models trained on vast datasets for superior insights with 99.9% accuracy.",
     icon: <Brain className="h-6 w-6" />,
     color: "red",
     stats: {
@@ -57,20 +57,20 @@ const features = [
     glow: "shadow-[0_0_20px_rgba(239,68,68,0.3)]",
   },
   {
-    title: "Real-time Processing",
-    description: "Lightning-fast data processing with our distributed computing infrastructure for instant insights.",
+    title: "Edge Computing",
+    description: "Process data at unprecedented speeds with our distributed edge computing infrastructure for real-time decision making.",
     icon: <Zap className="h-6 w-6" />,
     color: "yellow",
     stats: {
       label: "Processing Speed",
-      value: "2.4 TB/s",
+      value: "3.2 TB/s",
     },
     gradient: "from-yellow-500/20 to-yellow-600/20",
     glow: "shadow-[0_0_20px_rgba(234,179,8,0.3)]",
   },
   {
-    title: "Enterprise Security",
-    description: "Bank-grade security with end-to-end encryption and compliance with global data protection standards.",
+    title: "Zero-Trust Security",
+    description: "Military-grade encryption with zero-trust architecture, end-to-end encryption, and full compliance with global standards.",
     icon: <Shield className="h-6 w-6" />,
     color: "blue",
     stats: {
@@ -81,13 +81,13 @@ const features = [
     glow: "shadow-[0_0_20px_rgba(59,130,246,0.3)]",
   },
   {
-    title: "Advanced Analytics",
-    description: "Comprehensive analytics dashboard with customizable reports and interactive visualizations.",
-    icon: <BarChart2 className="h-6 w-6" />,
+    title: "Adaptive Insights",
+    description: "Self-optimizing analytics that adapt to your data patterns and user behavior, providing increasingly relevant insights over time.",
+    icon: <Sparkles className="h-6 w-6" />,
     color: "green",
     stats: {
       label: "Data Points",
-      value: "1M+",
+      value: "5M+",
     },
     gradient: "from-green-500/20 to-green-600/20",
     glow: "shadow-[0_0_20px_rgba(34,197,94,0.3)]",
@@ -140,28 +140,28 @@ type MetricKey = 'performance' | 'reliability' | 'scalability' | 'costEfficiency
 // Add feature comparison data with proper typing
 const featureComparison: Record<MetricKey, Record<string, number>> = {
   performance: {
-    "Advanced AI Models": 95,
-    "Real-time Processing": 90,
-    "Enterprise Security": 98,
-    "Advanced Analytics": 92
+    "AI-Powered Analytics": 95,
+    "Edge Computing": 90,
+    "Zero-Trust Security": 98,
+    "Adaptive Insights": 92
   },
   reliability: {
-    "Advanced AI Models": 93,
-    "Real-time Processing": 97,
-    "Enterprise Security": 99,
-    "Advanced Analytics": 95
+    "AI-Powered Analytics": 93,
+    "Edge Computing": 97,
+    "Zero-Trust Security": 99,
+    "Adaptive Insights": 95
   },
   scalability: {
-    "Advanced AI Models": 97,
-    "Real-time Processing": 95,
-    "Enterprise Security": 96,
-    "Advanced Analytics": 90
+    "AI-Powered Analytics": 97,
+    "Edge Computing": 95,
+    "Zero-Trust Security": 96,
+    "Adaptive Insights": 90
   },
   costEfficiency: {
-    "Advanced AI Models": 85,
-    "Real-time Processing": 82,
-    "Enterprise Security": 89,
-    "Advanced Analytics": 93
+    "AI-Powered Analytics": 85,
+    "Edge Computing": 82,
+    "Zero-Trust Security": 89,
+    "Adaptive Insights": 93
   }
 };
 
@@ -223,67 +223,67 @@ const statistics: Statistics = {
   }
 };
 
-// Cast featureDetails with proper type
+// Update feature details to match the new features
 const featureDetails: FeatureDetails = {
-  "Advanced AI Models": {
-    description: "Our advanced AI models are built on cutting-edge neural network architectures including transformers, graph neural networks, and reinforcement learning systems.",
+  "AI-Powered Analytics": {
+    description: "Our AI models utilize a hybrid architecture combining transformers, graph neural networks, and reinforcement learning systems to deliver insights that continuously improve with more data.",
     useCases: [
-      "Predictive analytics for financial forecasting",
-      "Automated customer support routing",
-      "Content personalization and recommendation",
-      "Business intelligence and data analysis"
+      "Predictive market trend forecasting",
+      "Behavioral pattern recognition",
+      "Anomaly detection in complex systems",
+      "Content personalization at scale"
     ],
     metrics: {
       accuracy: 99.9,
-      latency: 12, // in ms
-      throughput: 25000 // requests per second
+      latency: 8, // in ms
+      throughput: 45000 // requests per second
     },
-    techSpecs: "Built on distributed tensor processing units (TPUs) with over 120 billion parameters and trained on 4.2 petabytes of curated data."
+    techSpecs: "Powered by custom TPUs with 250+ billion parameters, trained on 8.5 petabytes of curated data with transformer-based architecture and continuous learning capabilities."
   },
-  "Real-time Processing": {
-    description: "Our distributed compute infrastructure processes data across thousands of nodes in real-time, enabling instant insights and decisions.",
+  "Edge Computing": {
+    description: "Our distributed edge computing framework processes data directly where it's generated, reducing latency and increasing reliability while ensuring privacy.",
     useCases: [
-      "Financial fraud detection",
-      "Real-time supply chain optimization",
-      "Dynamic pricing systems",
-      "Live event monitoring and analytics"
+      "Real-time fraud detection systems",
+      "Autonomous device operations",
+      "Smart city infrastructure monitoring",
+      "Global supply chain optimization"
     ],
     metrics: {
-      throughput: 2.4, // terabytes per second
-      scalability: 99.99, // percentage uptime
-      concurrency: 50000 // concurrent requests
+      throughput: 3.2, // terabytes per second
+      scalability: 99.999, // percentage uptime
+      concurrency: 120000 // concurrent requests
     },
-    techSpecs: "Kubernetes-orchestrated microservices architecture with Redis-powered in-memory caching and custom distributed message queuing."
+    techSpecs: "Leverages a serverless compute mesh with 5000+ global nodes, using WebAssembly for near-native performance and encrypted data tunneling for security."
   },
-  "Enterprise Security": {
-    description: "Our platform implements military-grade encryption and comprehensive security protocols, ensuring data privacy and regulatory compliance.",
+  "Zero-Trust Security": {
+    description: "Our security framework operates on a zero-trust model where every access request is fully authenticated, authorized, and encrypted regardless of origin.",
     useCases: [
-      "Healthcare data protection",
-      "Financial services compliance",
-      "Government and defense applications",
-      "Secure data sharing between organizations"
+      "Protected health information management",
+      "Financial transaction processing",
+      "Intellectual property protection",
+      "Cross-organizational secure collaboration"
     ],
     metrics: {
-      encryptionLevel: "AES-256",
-      complianceCertifications: ["HIPAA", "GDPR", "SOC 2", "ISO 27001"],
-      threatDetection: 99.99 // percentage
+      encryptionLevel: "AES-256 / Quantum-resistant",
+      complianceCertifications: ["HIPAA", "GDPR", "SOC 2", "ISO 27001", "FedRAMP"],
+      threatDetection: 99.997 // percentage
     },
-    techSpecs: "End-to-end encryption with automated key rotation, anomaly detection systems, and continuous penetration testing protocols."
+    techSpecs: "Multi-layer encryption with quantum-resistant algorithms, continuous threat monitoring with AI-powered anomaly detection, and automatic key rotation every 60 minutes."
   },
-  "Advanced Analytics": {
-    description: "Our analytics engine provides deep insights through customizable dashboards, interactive visualizations, and automated reporting.",
+  "Adaptive Insights": {
+    description: "Our analytics engine continuously evolves through machine learning, becoming more effective with each interaction and dataset it processes.",
     useCases: [
-      "Business performance monitoring",
-      "Marketing campaign optimization",
-      "Product usage analysis",
-      "Customer journey tracking"
+      "Customer journey optimization",
+      "Product development roadmapping",
+      "Predictive maintenance scheduling",
+      "Dynamic resource allocation"
     ],
     metrics: {
-      dataPoints: "1M+",
-      visualizationTypes: 34,
-      reportAutomation: 100, // percentage
+      dataPoints: "5M+",
+      visualizationTypes: 56,
+      adaptationRate: 99.7, // percentage
     },
-    techSpecs: "Powered by our distributed query engine capable of processing petabytes of data with SQL-like queries and real-time aggregations."
+    techSpecs: "Built on a neural learning analytics engine that adapts to user behavior patterns, featuring multi-dimensional visualization capabilities and automated insight generation."
   }
 };
 
@@ -352,69 +352,96 @@ export default function FeaturesSection() {
 
   return (
     <section id="features" ref={containerRef} className="relative w-full py-16 md:py-24 bg-black overflow-hidden">
-      {/* Background Elements */}
+      {/* Enhanced Background Elements */}
       <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]"></div>
-      <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-red-500/10 blur-[100px]"></div>
-      <div className="absolute bottom-1/3 left-1/3 w-80 h-80 rounded-full bg-blue-500/10 blur-[120px]"></div>
+      <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-red-500/10 blur-[100px] animate-pulse-slow"></div>
+      <div className="absolute bottom-1/3 left-1/3 w-80 h-80 rounded-full bg-blue-500/10 blur-[120px] animate-pulse-slow"></div>
+      <div className="absolute top-1/3 left-1/4 w-40 h-40 rounded-full bg-green-500/10 blur-[80px] animate-pulse-slow"></div>
       
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        {/* Section Header */}
-        <div className="text-center mb-8 md:mb-16">
-          <Badge className="mb-3 bg-gradient-to-r from-red-500/80 to-red-600/80 text-white hover:from-red-600/80 hover:to-red-700/80 border-none shadow-lg shadow-red-900/20 px-2 py-1 md:px-3 md:py-1.5 text-xs">
-                  POWERFUL FEATURES
-                </Badge>
-          <h2 className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight mb-2 md:mb-3 bg-clip-text text-transparent bg-gradient-to-r from-white via-white/95 to-white/90">
+        {/* Modern Section Header with 3D text effect */}
+        <div className="text-center mb-12 md:mb-20">
+          <Badge className="mb-3 bg-gradient-to-r from-red-500 to-purple-600 text-white hover:from-red-600 hover:to-purple-700 border-none shadow-lg shadow-red-900/20 px-3 py-1.5 text-xs uppercase tracking-wider">
+            POWERFUL FEATURES
+          </Badge>
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-3 md:mb-4 
+                      bg-clip-text text-transparent bg-gradient-to-r from-white via-white/95 to-white/80
+                      [text-shadow:0_4px_8px_rgba(0,0,0,0.12)]">
             Core Capabilities
           </h2>
-          <p className="text-base md:text-xl text-white/70 max-w-2xl mx-auto">
-            Our platform combines advanced technologies to deliver powerful, secure, and scalable AI solutions.
+          <p className="text-base md:text-xl text-white/70 max-w-3xl mx-auto leading-relaxed">
+            Our platform harnesses cutting-edge technologies to deliver intelligent, secure, and 
+            highly scalable solutions for the most demanding enterprise environments.
           </p>
         </div>
         
-        {/* Feature Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-12">
+        {/* Enhanced Feature Cards Grid with hover effects */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-7 mb-16">
           {features.map((feature, index) => (
-            <div
+            <motion.div
               key={feature.title}
               ref={feature.title === activeFeature ? ref : undefined}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
               className={`${
                 feature.title === activeFeature ? feature.glow : ""
-              } group relative p-4 md:p-6 rounded-xl border border-white/10 bg-black/40 backdrop-blur-sm hover:bg-black/50 transition-all duration-300 cursor-pointer overflow-hidden`}
+              } group relative p-5 md:p-7 rounded-xl border border-white/10 
+                backdrop-blur-md bg-gradient-to-b from-black/60 to-black/80
+                hover:bg-gradient-to-b hover:from-black/70 hover:to-black/90
+                transition-all duration-300 cursor-pointer overflow-hidden transform hover:-translate-y-1`}
               onClick={() => handleFeatureClick(feature.title)}
             >
-              {/* Corner accents */}
-              <div className="absolute top-0 left-0 h-[40%] w-[40%] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                <div className="absolute top-0 left-0 h-px w-8 bg-gradient-to-r from-transparent to-current"></div>
-                <div className="absolute top-0 left-0 h-8 w-px bg-gradient-to-b from-transparent to-current"></div>
+              {/* Animated corner accents */}
+              <div className="absolute top-0 left-0 h-[40%] w-[40%] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                <div className="absolute top-0 left-0 h-px w-12 bg-gradient-to-r from-transparent to-current"></div>
+                <div className="absolute top-0 left-0 h-12 w-px bg-gradient-to-b from-transparent to-current"></div>
               </div>
-              <div className="absolute bottom-0 right-0 h-[40%] w-[40%] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                <div className="absolute bottom-0 right-0 h-px w-8 bg-gradient-to-l from-transparent to-current"></div>
-                <div className="absolute bottom-0 right-0 h-8 w-px bg-gradient-to-t from-transparent to-current"></div>
+              <div className="absolute bottom-0 right-0 h-[40%] w-[40%] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                <div className="absolute bottom-0 right-0 h-px w-12 bg-gradient-to-l from-transparent to-current"></div>
+                <div className="absolute bottom-0 right-0 h-12 w-px bg-gradient-to-t from-transparent to-current"></div>
               </div>
               
-              {/* Feature content */}
-              <div className={`p-2.5 md:p-3 bg-${feature.color}-500/10 text-${feature.color}-500 rounded-lg w-fit mb-3 md:mb-4`}>{feature.icon}</div>
-              <h3 className={`text-lg md:text-xl font-bold mb-1.5 md:mb-2 text-white group-hover:text-${feature.color}-400 transition-colors`}>{feature.title}</h3>
-              <p className="text-sm md:text-base text-white/70 group-hover:text-white/90 transition-colors mb-3 md:mb-4">{feature.description}</p>
+              {/* Enhanced feature icon with glow effect */}
+              <div className={`p-3 md:p-4 rounded-xl bg-gradient-to-br from-${feature.color}-500/20 to-${feature.color}-600/10 
+                          text-${feature.color}-500 w-fit mb-4 md:mb-5 ring-1 ring-${feature.color}-500/20
+                          group-hover:shadow-[0_0_15px_rgba(0,0,0,0.2)] group-hover:from-${feature.color}-500/30 
+                          group-hover:to-${feature.color}-600/20 transition-all duration-300`}>
+                {feature.icon}
+              </div>
               
-              {/* Stats indicator */}
+              {/* Feature content with improved typography */}
+              <h3 className={`text-xl md:text-2xl font-bold mb-2 md:mb-3 text-white 
+                          group-hover:text-${feature.color}-400 transition-colors`}>
+                {feature.title}
+              </h3>
+              <p className="text-sm md:text-base text-white/70 group-hover:text-white/90 
+                          transition-colors mb-4 md:mb-5 leading-relaxed">
+                {feature.description}
+              </p>
+              
+              {/* Enhanced stats indicator with animated values */}
               <div className="flex items-center justify-between text-xs md:text-sm">
-                <span className="text-white/60">{feature.stats.label}</span>
-                <span className={`text-${feature.color}-500 font-bold`}>{feature.stats.value}</span>
-                    </div>
+                <span className="text-white/60 font-medium">{feature.stats.label}</span>
+                <span className={`text-${feature.color}-500 font-bold 
+                              group-hover:text-${feature.color}-400 transition-colors`}>
+                  {feature.stats.value}
+                </span>
+              </div>
                     
-              {/* Animated progress bar */}
-              <div className="mt-1.5 h-1 w-full bg-white/10 rounded-full overflow-hidden">
-                          <motion.div 
-                  className={`h-full bg-gradient-to-r from-${feature.color}-500 to-${feature.color}-600 rounded-full`}
-                            initial={{ width: "0%" }}
+              {/* Enhanced animated progress bar with glow */}
+              <div className="mt-2 h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                <motion.div 
+                  className={`h-full bg-gradient-to-r from-${feature.color}-500 to-${feature.color}-600 
+                            rounded-full group-hover:shadow-[0_0_8px_rgba(var(--${feature.color}-rgb),0.5)]`}
+                  initial={{ width: "0%" }}
                   animate={{ 
                     width: animatedStats[feature.title] ? `${animatedStats[feature.title]}%` : "0%" 
                   }}
-                  transition={{ duration: 1, ease: "easeOut", delay: index * 0.1 }}
+                  transition={{ duration: 1.2, ease: "easeOut", delay: index * 0.15 }}
                 ></motion.div>
-                        </div>
-                      </div>
+              </div>
+            </motion.div>
           ))}
         </div>
 

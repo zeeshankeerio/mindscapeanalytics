@@ -104,9 +104,52 @@ const initialData: ChartData<"line"> = {
   ],
 }
 
-export function ApiUsageChart() {
+interface ApiUsageChartProps {
+  data?: {
+    labels: string[];
+    datasets: {
+      name: string;
+      data: number[];
+    }[];
+    total: number;
+  }
+}
+
+export function ApiUsageChart({ data: externalData }: ApiUsageChartProps) {
   const chartRef = useRef<ChartJS<"line">>(null)
-  const [data, setData] = useState<ChartData<"line">>(initialData)
+  
+  // Transform external data to Chart.js format if provided
+  const transformedData = useMemo(() => {
+    if (!externalData) return initialData;
+    
+    return {
+      labels: externalData.labels,
+      datasets: externalData.datasets.map((dataset, index) => {
+        const colors = [
+          "rgb(59, 130, 246)", // blue
+          "rgb(16, 185, 129)", // green
+          "rgb(245, 158, 11)", // amber
+          "rgb(239, 68, 68)"   // red
+        ];
+        
+        return {
+          label: dataset.name,
+          data: dataset.data,
+          borderColor: colors[index % colors.length],
+          backgroundColor: colors[index % colors.length].replace("rgb", "rgba").replace(")", ", 0.1)"),
+          fill: true,
+          tension: 0.4,
+          pointBackgroundColor: colors[index % colors.length],
+          pointBorderColor: "#fff",
+          pointBorderWidth: 2,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+        };
+      })
+    };
+  }, [externalData]);
+  
+  const [data, setData] = useState<ChartData<"line">>(transformedData);
 
   // Memoize options to prevent unnecessary re-renders
   const memoizedOptions = useMemo(() => options, []);
@@ -118,6 +161,8 @@ export function ApiUsageChart() {
       const gradient = ctx.createLinearGradient(0, 0, 0, chart.height)
       gradient.addColorStop(0, "rgba(59, 130, 246, 0.2)")
       gradient.addColorStop(1, "rgba(59, 130, 246, 0)")
+      
+      // Only update the first dataset with the gradient
       setData(prevData => ({
         ...prevData,
         datasets: prevData.datasets.map((dataset, index) => ({
@@ -126,10 +171,13 @@ export function ApiUsageChart() {
         })),
       }))
     }
-  }, [])
+  }, [transformedData])
 
   // Optimize real-time updates with throttling
   useEffect(() => {
+    // Skip realtime updates if external data is provided
+    if (externalData) return;
+    
     let animationFrameId: number;
     let lastUpdateTime = 0;
     const updateInterval = 5000; // 5 seconds between updates
@@ -168,7 +216,7 @@ export function ApiUsageChart() {
     return () => {
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [externalData]);
 
   return (
     <motion.div

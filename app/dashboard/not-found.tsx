@@ -1,28 +1,41 @@
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { FileQuestion } from "lucide-react"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { FileQuestion, Home, ArrowLeft } from "lucide-react"
 import Link from "next/link"
 
 export default function NotFound() {
   return (
-    <div className="container flex h-screen items-center justify-center">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-red-600">
-            <FileQuestion className="h-5 w-5" />
-            Page Not Found
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-sm text-muted-foreground">
-            The page you are looking for does not exist or has been moved.
-          </p>
-          <div className="flex justify-end">
-            <Button asChild>
-              <Link href="/">Back to Dashboard</Link>
-            </Button>
+    <div className="flex flex-col items-center justify-center h-full min-h-[50vh] px-4">
+      <Card className="w-full max-w-md border-muted">
+        <CardHeader className="text-center pb-2">
+          <div className="flex justify-center mb-4">
+            <FileQuestion className="h-12 w-12 text-muted-foreground" />
           </div>
+          <CardTitle className="text-xl sm:text-2xl">Page Not Found</CardTitle>
+        </CardHeader>
+        <CardContent className="text-center text-sm text-muted-foreground pb-2">
+          <p>
+            The dashboard page you are looking for doesn't exist or may have been moved.
+          </p>
         </CardContent>
+        <CardFooter className="flex flex-col sm:flex-row items-center justify-center gap-2 pt-2">
+          <Button 
+            variant="outline" 
+            asChild 
+            className="w-full sm:w-auto"
+          >
+            <Link href="/dashboard">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Back to Dashboard
+            </Link>
+          </Button>
+          <Button asChild className="w-full sm:w-auto">
+            <Link href="/">
+              <Home className="mr-2 h-4 w-4" />
+              Go to Home
+            </Link>
+          </Button>
+        </CardFooter>
       </Card>
     </div>
   )

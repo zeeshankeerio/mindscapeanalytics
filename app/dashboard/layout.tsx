@@ -2,10 +2,8 @@
 
 import { useState, useEffect } from "react"
 import { Inter } from "next/font/google"
-import { cookies } from "next/headers"
-import { unstable_noStore } from "next/cache"
 import { DashboardHeader } from "@/components/dashboard/dashboard-header"
-import { DashboardSidebar } from "@/components/dashboard/sidebar"
+import { ModernSidebar } from "@/components/dashboard/modern-sidebar"
 import { ErrorBoundary } from "@/components/error-boundary"
 import { LoadingScreen } from "@/components/loading-screen"
 import DashboardLayoutContent from "@/components/dashboard-layout-content"
@@ -15,7 +13,7 @@ import { NotificationsPanel } from "@/components/dashboard/notifications-panel"
 import { cn } from "@/lib/utils"
 import { LoadingIndicator } from "@/components/loading-indicator"
 import { NotificationsProvider } from "@/providers/notifications-provider"
-import { NotificationsContainer } from "@/components/ui/notifications"
+import { CommandMenu } from "@/components/dashboard/command-menu"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -61,7 +59,7 @@ function DashboardLayoutWithContext({
     <DashboardLayoutContent inter={inter}>
       <div className="flex h-screen bg-gradient-to-br from-black to-zinc-900 overflow-hidden">
         <ErrorBoundary>
-          <DashboardSidebar />
+          <ModernSidebar />
           
           <div className={cn(
             "flex flex-1 flex-col overflow-hidden transition-all duration-300 ease-in-out",
@@ -72,10 +70,10 @@ function DashboardLayoutWithContext({
             />
             <main className="flex-1 overflow-y-auto scrollbar-hide bg-black/40 backdrop-blur-sm supports-[backdrop-filter]:bg-black/40 p-2 sm:p-4 md:p-6 scroll-smooth">
               <ErrorBoundary>
-                <div className="mx-auto w-full max-w-7xl pb-12">
+                <div className="mx-auto w-full max-w-8xl pb-12">
                   <NotificationsProvider>
                     {isLoading && <LoadingIndicator />}
-                  {children}
+                    {children}
                   </NotificationsProvider>
                 </div>
               </ErrorBoundary>
@@ -86,6 +84,9 @@ function DashboardLayoutWithContext({
         {/* Global notifications panel */}
         <NotificationsPanel />
       </div>
+      
+      {/* Command Menu */}
+      <CommandMenu />
       
       {/* Toast notifications */}
       <Toaster />

@@ -7,8 +7,8 @@ export async function middleware(request: NextRequest) {
   
   // Protected routes that require authentication
   const protectedPaths = [
-    '/dashboard',
-    '/api/dashboard',
+    // '/dashboard', // Dashboard is not protected
+    // '/api/dashboard', // Dashboard API is not protected
     '/api/prediction',
     '/api/nlp',
     '/api/vision',

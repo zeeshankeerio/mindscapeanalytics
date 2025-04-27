@@ -590,12 +590,12 @@ function AITerminalCard({ delay = 0 }) {
 type FeatureColors = "red" | "blue" | "green" | "purple"
 
 const EnhancedFeatureCard = ({ 
-  icon, 
-  title, 
-  description, 
+  icon,
+  title,
+  description,
   color,
   index 
-}: { 
+}: {
   icon: React.ReactNode; 
   title: string; 
   description: string; 
@@ -626,7 +626,7 @@ const EnhancedFeatureCard = ({
       border: "border-purple-900/30",
       iconBg: "bg-gradient-to-b from-purple-800/30 to-purple-900/20",
       text: "text-purple-400"
-    }
+  }
   }
 
   const styles = colorMap[color]
@@ -641,9 +641,9 @@ const EnhancedFeatureCard = ({
       <div className="absolute inset-0 bg-gradient-to-t from-black/0 via-black/0 to-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
       
       <div className={`p-2 rounded-lg inline-flex ${styles.iconBg} ${styles.text} mb-3`}>
-        {icon}
-      </div>
-      
+            {icon}
+        </div>
+        
       <h3 className="text-white text-lg font-semibold mb-1">{title}</h3>
       <p className="text-white/70 text-sm">{description}</p>
       
@@ -806,10 +806,10 @@ export default function HyperHero() {
   
   // For mobile view
   if (isMobile) {
-    return (
+  return (
       <section className="relative min-h-[105vh] flex flex-col justify-start overflow-hidden">
         {/* Enhanced Mobile Background */}
-        <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]" />
+      <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]" />
         <div className="absolute inset-0 bg-gradient-to-br from-black via-black/90 to-black/80" />
         
         {/* Dynamic background elements */}
@@ -820,7 +820,7 @@ export default function HyperHero() {
           <div className="absolute bottom-[30%] left-[25%] w-[70px] sm:w-[85px] h-[70px] sm:h-[85px] rounded-full bg-gradient-to-r from-red-700/15 to-transparent blur-[35px] animate-float-fast" />
           
           {/* Neural dots */}
-          <div className="absolute inset-0">
+      <div className="absolute inset-0">
             <div className="absolute top-[25%] left-[20%] h-[1px] w-6 sm:w-8 bg-gradient-to-r from-transparent via-red-700/40 to-transparent animate-pulse-slow" />
             <div className="absolute bottom-[35%] right-[25%] h-[1px] w-8 sm:w-10 bg-gradient-to-r from-transparent via-red-700/30 to-transparent animate-pulse-medium" />
             <div className="absolute top-[65%] left-[30%] w-[1px] h-5 sm:h-6 bg-gradient-to-b from-transparent via-red-700/30 to-transparent animate-pulse-fast" />
@@ -858,19 +858,20 @@ export default function HyperHero() {
                   
                   {/* Icon container */}
                   <div className="relative bg-black rounded-[20px] p-4 xs:p-5">
-                    <Image 
-                      src="/images/brain.svg" 
-                      alt="Mindscape Brain Logo"
-                      className="h-12 xs:h-14 w-12 xs:w-14 animate-svg-blink"
-                      width={56}
-                      height={56}
-                      priority
-                    />
+                  <Image 
+                        src="/images/brain.svg" 
+                        alt="Mindscape Brain Logo"
+                        className="h-12 xs:h-14 w-12 xs:w-14 animate-svgBlink"
+                        width={56}
+                        height={56}
+                        priority
+                      />
+
                   </div>
                 </div>
               </div>
             </div>
-          </div>
+      </div>
           
           {/* Content sections */}
           <div className="flex-1 flex flex-col justify-between px-4 pb-8">
@@ -1026,11 +1027,11 @@ export default function HyperHero() {
       <div className="container mx-auto px-4 md:px-6 relative z-10">
         <div className="flex flex-col lg:flex-row items-center gap-6 md:gap-10">
           {/* Left Column - Content */}
-          <motion.div
+            <motion.div
             className="flex-1 space-y-4 md:space-y-6 relative w-full"
             style={{ y }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
             {/* Enhanced Badge Section */}
@@ -1127,7 +1128,7 @@ export default function HyperHero() {
                 ))}
               </div>
             </motion.div>
-          </motion.div>
+            </motion.div>
 
           {/* Right Column - Logo */}
           <motion.div
@@ -1184,7 +1185,7 @@ export default function HyperHero() {
                           <Image 
                             src="/images/brain.svg" 
                             alt="Mindscape Brain Logo"
-                            className="h-14 w-14 md:h-24 md:w-24 transform transition-all duration-300 group-hover:scale-[0.98] animate-svg-blink"
+                            className="h-14 w-14 md:h-24 md:w-24 transform transition-all duration-300 group-hover:scale-[0.98] animate-brain-pulse"
                             width={96}
                             height={96}
                           />
@@ -1207,27 +1208,13 @@ export default function HyperHero() {
       
       {/* Stats banner at bottom */}
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-r from-black via-black/95 to-black backdrop-blur-sm border-t border-white/5 py-4 px-4">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center space-x-10">
-            <div className="flex items-center space-x-2">
-              <div className="text-red-500 font-bold text-lg">99.9%</div>
-              <div className="text-sm text-white/70">Platform Uptime</div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <div className="text-green-500 font-bold text-lg">10ms</div>
-              <div className="text-sm text-white/70">Response Time</div>
-            </div>
-            <div className="flex items-center space-x-2 hidden md:flex">
-              <div className="text-blue-500 font-bold text-lg">500+</div>
-              <div className="text-sm text-white/70">Enterprise Clients</div>
-            </div>
-          </div>
-          <div className="text-white/70 flex items-center bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
-            <Shield className="h-4 w-4 mr-2 text-red-400" />
-            <span className="text-sm">Enterprise-grade security</span>
-          </div>
+      <div className="container mx-auto flex justify-end items-center">
+        <div className="text-white/70 flex items-center bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
+          <Shield className="h-4 w-4 mr-2 text-red-400" />
+          <span className="text-sm">Enterprise-grade security</span>
         </div>
       </div>
+    </div>
     </section>
   )
 }
@@ -1684,6 +1671,34 @@ const styles = `
   
   .animate-svg-blink {
     animation: svg-blink 1.5s ease-in-out infinite;
+  }
+
+  @keyframes brain-pulse {
+    0% { 
+      filter: brightness(1) drop-shadow(0 0 3px rgba(255, 0, 0, 0.7));
+      transform: scale(1);
+    }
+    25% {
+      filter: brightness(1.3) drop-shadow(0 0 8px rgba(255, 0, 0, 0.8));
+      transform: scale(1.04);
+    }
+    50% { 
+      filter: brightness(1.5) drop-shadow(0 0 12px rgba(255, 0, 0, 0.9));
+      transform: scale(1.08);
+    }
+    75% {
+      filter: brightness(1.3) drop-shadow(0 0 8px rgba(255, 0, 0, 0.8));
+      transform: scale(1.04);
+    }
+    100% { 
+      filter: brightness(1) drop-shadow(0 0 3px rgba(255, 0, 0, 0.7));
+      transform: scale(1);
+    }
+  }
+  
+  .animate-brain-pulse {
+    animation: brain-pulse 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    will-change: filter, transform;
   }
 `
 
