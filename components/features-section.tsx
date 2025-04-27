@@ -31,22 +31,19 @@ import {
   Check,
   Clock,
   Fingerprint,
-  Code,
-  Users,
 } from "lucide-react"
 import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
 import { AnimatePresence } from "framer-motion"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
-import { cn } from "@/lib/utils"
 
 // Import CSS for glow effects
 import "@/styles/glow-effects.css"
 
 const features = [
   {
-    title: "AI-Powered Analytics",
-    description: "Leverage state-of-the-art neural networks and machine learning models trained on vast datasets for superior insights with 99.9% accuracy.",
+    title: "Advanced AI Models",
+    description: "State-of-the-art machine learning models trained on vast datasets for superior accuracy and performance.",
     icon: <Brain className="h-6 w-6" />,
     color: "red",
     stats: {
@@ -57,20 +54,20 @@ const features = [
     glow: "shadow-[0_0_20px_rgba(239,68,68,0.3)]",
   },
   {
-    title: "Edge Computing",
-    description: "Process data at unprecedented speeds with our distributed edge computing infrastructure for real-time decision making.",
+    title: "Real-time Processing",
+    description: "Lightning-fast data processing with our distributed computing infrastructure for instant insights.",
     icon: <Zap className="h-6 w-6" />,
     color: "yellow",
     stats: {
       label: "Processing Speed",
-      value: "3.2 TB/s",
+      value: "2.4 TB/s",
     },
     gradient: "from-yellow-500/20 to-yellow-600/20",
     glow: "shadow-[0_0_20px_rgba(234,179,8,0.3)]",
   },
   {
-    title: "Zero-Trust Security",
-    description: "Military-grade encryption with zero-trust architecture, end-to-end encryption, and full compliance with global standards.",
+    title: "Enterprise Security",
+    description: "Bank-grade security with end-to-end encryption and compliance with global data protection standards.",
     icon: <Shield className="h-6 w-6" />,
     color: "blue",
     stats: {
@@ -81,13 +78,13 @@ const features = [
     glow: "shadow-[0_0_20px_rgba(59,130,246,0.3)]",
   },
   {
-    title: "Adaptive Insights",
-    description: "Self-optimizing analytics that adapt to your data patterns and user behavior, providing increasingly relevant insights over time.",
-    icon: <Sparkles className="h-6 w-6" />,
+    title: "Advanced Analytics",
+    description: "Comprehensive analytics dashboard with customizable reports and interactive visualizations.",
+    icon: <BarChart2 className="h-6 w-6" />,
     color: "green",
     stats: {
       label: "Data Points",
-      value: "5M+",
+      value: "1M+",
     },
     gradient: "from-green-500/20 to-green-600/20",
     glow: "shadow-[0_0_20px_rgba(34,197,94,0.3)]",
@@ -118,20 +115,68 @@ const capabilities = [
   },
 ]
 
-// Add type definition for feature details
-type FeatureDetailMetrics = {
-  [key: string]: number | string | string[];
-};
-
-type FeatureDetailItem = {
-  description: string;
-  useCases: string[];
-  metrics: FeatureDetailMetrics;
-  techSpecs: string;
-};
-
-type FeatureDetails = {
-  [key: string]: FeatureDetailItem;
+// Add feature detail modal data
+const featureDetails = {
+  "Advanced AI Models": {
+    description: "Our advanced AI models are built on cutting-edge neural network architectures including transformers, graph neural networks, and reinforcement learning systems.",
+    useCases: [
+      "Predictive analytics for financial forecasting",
+      "Automated customer support routing",
+      "Content personalization and recommendation",
+      "Business intelligence and data analysis"
+    ],
+    metrics: {
+      accuracy: 99.9,
+      latency: 12, // in ms
+      throughput: 25000 // requests per second
+    },
+    techSpecs: "Built on distributed tensor processing units (TPUs) with over 120 billion parameters and trained on 4.2 petabytes of curated data."
+  },
+  "Real-time Processing": {
+    description: "Our distributed compute infrastructure processes data across thousands of nodes in real-time, enabling instant insights and decisions.",
+    useCases: [
+      "Financial fraud detection",
+      "Real-time supply chain optimization",
+      "Dynamic pricing systems",
+      "Live event monitoring and analytics"
+    ],
+    metrics: {
+      throughput: 2.4, // terabytes per second
+      scalability: 99.99, // percentage uptime
+      concurrency: 50000 // concurrent requests
+    },
+    techSpecs: "Kubernetes-orchestrated microservices architecture with Redis-powered in-memory caching and custom distributed message queuing."
+  },
+  "Enterprise Security": {
+    description: "Our platform implements military-grade encryption and comprehensive security protocols, ensuring data privacy and regulatory compliance.",
+    useCases: [
+      "Healthcare data protection",
+      "Financial services compliance",
+      "Government and defense applications",
+      "Secure data sharing between organizations"
+    ],
+    metrics: {
+      encryptionLevel: "AES-256",
+      complianceCertifications: ["HIPAA", "GDPR", "SOC 2", "ISO 27001"],
+      threatDetection: 99.99 // percentage
+    },
+    techSpecs: "End-to-end encryption with automated key rotation, anomaly detection systems, and continuous penetration testing protocols."
+  },
+  "Advanced Analytics": {
+    description: "Our analytics engine provides deep insights through customizable dashboards, interactive visualizations, and automated reporting.",
+    useCases: [
+      "Business performance monitoring",
+      "Marketing campaign optimization",
+      "Product usage analysis",
+      "Customer journey tracking"
+    ],
+    metrics: {
+      dataPoints: "1M+",
+      visualizationTypes: 34,
+      reportAutomation: 100, // percentage
+    },
+    techSpecs: "Powered by our distributed query engine capable of processing petabytes of data with SQL-like queries and real-time aggregations."
+  }
 };
 
 // Type for metrics
@@ -140,28 +185,28 @@ type MetricKey = 'performance' | 'reliability' | 'scalability' | 'costEfficiency
 // Add feature comparison data with proper typing
 const featureComparison: Record<MetricKey, Record<string, number>> = {
   performance: {
-    "AI-Powered Analytics": 95,
-    "Edge Computing": 90,
-    "Zero-Trust Security": 98,
-    "Adaptive Insights": 92
+    "Advanced AI Models": 95,
+    "Real-time Processing": 90,
+    "Enterprise Security": 98,
+    "Advanced Analytics": 92
   },
   reliability: {
-    "AI-Powered Analytics": 93,
-    "Edge Computing": 97,
-    "Zero-Trust Security": 99,
-    "Adaptive Insights": 95
+    "Advanced AI Models": 93,
+    "Real-time Processing": 97,
+    "Enterprise Security": 99,
+    "Advanced Analytics": 95
   },
   scalability: {
-    "AI-Powered Analytics": 97,
-    "Edge Computing": 95,
-    "Zero-Trust Security": 96,
-    "Adaptive Insights": 90
+    "Advanced AI Models": 97,
+    "Real-time Processing": 95,
+    "Enterprise Security": 96,
+    "Advanced Analytics": 90
   },
   costEfficiency: {
-    "AI-Powered Analytics": 85,
-    "Edge Computing": 82,
-    "Zero-Trust Security": 89,
-    "Adaptive Insights": 93
+    "Advanced AI Models": 85,
+    "Real-time Processing": 82,
+    "Enterprise Security": 89,
+    "Advanced Analytics": 93
   }
 };
 
@@ -171,120 +216,6 @@ const industryBenchmarks: Record<MetricKey, number> = {
   reliability: 82,
   scalability: 78,
   costEfficiency: 75
-};
-
-// Add proper type definition for statistics
-type StatisticItem = {
-  value: string;
-  label: string;
-  icon: React.ReactNode;
-  color: string;
-};
-
-type Statistics = {
-  [key: string]: StatisticItem;
-};
-
-// Define proper types for feature objects
-type FeatureItem = {
-  title: string;
-  description: string;
-  icon: React.ReactNode;
-  link?: string;
-  badge?: string;
-  [key: string]: any; // Add index signature for any additional properties
-};
-
-// Add complete statistics object with proper typing
-const statistics: Statistics = {
-  users: {
-    value: "10M+",
-    label: "Active Users",
-    icon: <Users className="h-4 w-4" />,
-    color: "text-blue-500"
-  },
-  accuracy: {
-    value: "99.8%",
-    label: "Model Accuracy",
-    icon: <Target className="h-4 w-4" />,
-    color: "text-green-500"
-  },
-  processing: {
-    value: "0.5ms",
-    label: "Processing Time",
-    icon: <Zap className="h-4 w-4" />,
-    color: "text-yellow-500"
-  },
-  security: {
-    value: "Enterprise",
-    label: "Security Level",
-    icon: <Shield className="h-4 w-4" />,
-    color: "text-red-500"
-  }
-};
-
-// Update feature details to match the new features
-const featureDetails: FeatureDetails = {
-  "AI-Powered Analytics": {
-    description: "Our AI models utilize a hybrid architecture combining transformers, graph neural networks, and reinforcement learning systems to deliver insights that continuously improve with more data.",
-    useCases: [
-      "Predictive market trend forecasting",
-      "Behavioral pattern recognition",
-      "Anomaly detection in complex systems",
-      "Content personalization at scale"
-    ],
-    metrics: {
-      accuracy: 99.9,
-      latency: 8, // in ms
-      throughput: 45000 // requests per second
-    },
-    techSpecs: "Powered by custom TPUs with 250+ billion parameters, trained on 8.5 petabytes of curated data with transformer-based architecture and continuous learning capabilities."
-  },
-  "Edge Computing": {
-    description: "Our distributed edge computing framework processes data directly where it's generated, reducing latency and increasing reliability while ensuring privacy.",
-    useCases: [
-      "Real-time fraud detection systems",
-      "Autonomous device operations",
-      "Smart city infrastructure monitoring",
-      "Global supply chain optimization"
-    ],
-    metrics: {
-      throughput: 3.2, // terabytes per second
-      scalability: 99.999, // percentage uptime
-      concurrency: 120000 // concurrent requests
-    },
-    techSpecs: "Leverages a serverless compute mesh with 5000+ global nodes, using WebAssembly for near-native performance and encrypted data tunneling for security."
-  },
-  "Zero-Trust Security": {
-    description: "Our security framework operates on a zero-trust model where every access request is fully authenticated, authorized, and encrypted regardless of origin.",
-    useCases: [
-      "Protected health information management",
-      "Financial transaction processing",
-      "Intellectual property protection",
-      "Cross-organizational secure collaboration"
-    ],
-    metrics: {
-      encryptionLevel: "AES-256 / Quantum-resistant",
-      complianceCertifications: ["HIPAA", "GDPR", "SOC 2", "ISO 27001", "FedRAMP"],
-      threatDetection: 99.997 // percentage
-    },
-    techSpecs: "Multi-layer encryption with quantum-resistant algorithms, continuous threat monitoring with AI-powered anomaly detection, and automatic key rotation every 60 minutes."
-  },
-  "Adaptive Insights": {
-    description: "Our analytics engine continuously evolves through machine learning, becoming more effective with each interaction and dataset it processes.",
-    useCases: [
-      "Customer journey optimization",
-      "Product development roadmapping",
-      "Predictive maintenance scheduling",
-      "Dynamic resource allocation"
-    ],
-    metrics: {
-      dataPoints: "5M+",
-      visualizationTypes: 56,
-      adaptationRate: 99.7, // percentage
-    },
-    techSpecs: "Built on a neural learning analytics engine that adapts to user behavior patterns, featuring multi-dimensional visualization capabilities and automated insight generation."
-  }
 };
 
 export default function FeaturesSection() {
@@ -351,179 +282,443 @@ export default function FeaturesSection() {
   };
 
   return (
-    <section id="features" ref={containerRef} className="relative w-full py-16 md:py-24 bg-black overflow-hidden">
+    <section ref={containerRef} className="relative overflow-hidden py-12">
       {/* Enhanced Background Elements */}
       <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]"></div>
       <div className="absolute top-1/4 right-1/4 w-64 h-64 rounded-full bg-red-500/10 blur-[100px] animate-pulse-slow"></div>
-      <div className="absolute bottom-1/3 left-1/3 w-80 h-80 rounded-full bg-blue-500/10 blur-[120px] animate-pulse-slow"></div>
-      <div className="absolute top-1/3 left-1/4 w-40 h-40 rounded-full bg-green-500/10 blur-[80px] animate-pulse-slow"></div>
+      <div className="absolute bottom-1/4 left-1/4 w-80 h-80 rounded-full bg-red-500/10 blur-[120px] animate-pulse-slow"></div>
       
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
-        {/* Modern Section Header with 3D text effect */}
-        <div className="text-center mb-12 md:mb-20">
-          <Badge className="mb-3 bg-gradient-to-r from-red-500 to-purple-600 text-white hover:from-red-600 hover:to-purple-700 border-none shadow-lg shadow-red-900/20 px-3 py-1.5 text-xs uppercase tracking-wider">
-            POWERFUL FEATURES
-          </Badge>
-          <h2 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tight mb-3 md:mb-4 
-                      bg-clip-text text-transparent bg-gradient-to-r from-white via-white/95 to-white/80
-                      [text-shadow:0_4px_8px_rgba(0,0,0,0.12)]">
-            Core Capabilities
-          </h2>
-          <p className="text-base md:text-xl text-white/70 max-w-3xl mx-auto leading-relaxed">
-            Our platform harnesses cutting-edge technologies to deliver intelligent, secure, and 
-            highly scalable solutions for the most demanding enterprise environments.
-          </p>
+      <motion.div
+        style={{ y, opacity }}
+        className="absolute inset-0 bg-gradient-to-b from-black/50 to-transparent pointer-events-none"
+      />
+      
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {/* Compact Feature Header - Two-column layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 items-center">
+          {/* Left column: Title and description */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+          >
+            <div className="mb-4 inline-flex items-center">
+              <motion.div
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <Badge 
+                  variant="outline" 
+                  className="text-sm font-medium bg-red-500/10 backdrop-blur-sm border-red-500/30 text-red-400 shadow-glow-sm shadow-red-500/20 px-4 py-1.5"
+                >
+                  POWERFUL FEATURES
+                </Badge>
+              </motion.div>
+            </div>
+            
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.4 }}
+              className="text-3xl md:text-4xl font-bold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70"
+            >
+              Enterprise-Grade <span className="text-red-500">AI Platform</span>
+            </motion.h2>
+            
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.7, delay: 0.5 }}
+              className="text-base md:text-lg text-white/70"
+            >
+              Built for scale and performance, our platform delivers cutting-edge AI capabilities with enterprise-grade reliability.
+            </motion.p>
+          </motion.div>
+
+          {/* Right column: Compare Features button */}
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+            className="flex justify-start md:justify-end"
+          >
+            <Button 
+              variant="outline" 
+              className={`flex items-center gap-2 ${comparisonMode ? 'bg-red-500/20 text-red-300 border-red-500/40' : 'border-white/20 hover:border-red-500/40'} backdrop-blur-sm transition-all duration-300 hover:shadow-glow-sm hover:shadow-red-500/20 px-5 py-2.5`}
+              onClick={() => setComparisonMode(!comparisonMode)}
+            >
+              <Sliders className="h-4 w-4 mr-2" />
+              {comparisonMode ? "Exit Comparison" : "Compare Features"}
+              <motion.span
+                animate={{ rotate: comparisonMode ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+                className="ml-2"
+              >
+                <ChevronDown className="h-4 w-4" />
+              </motion.span>
+            </Button>
+          </motion.div>
         </div>
         
-        {/* Enhanced Feature Cards Grid with hover effects */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-7 mb-16">
+        {/* Comparison Mode Panel - Enhanced */}
+        <AnimatePresence>
+          {comparisonMode && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0, y: -20 }}
+              animate={{ opacity: 1, height: 'auto', y: 0 }}
+              exit={{ opacity: 0, height: 0, y: -20 }}
+              transition={{ duration: 0.4 }}
+              className="mb-10 overflow-hidden"
+            >
+              <div className="rounded-xl bg-black/30 backdrop-blur-md border border-white/10 p-4 max-w-3xl mx-auto">
+                <p className="text-sm text-white/60 mb-2">Select up to 3 features to compare</p>
+                <div className="flex justify-center gap-2 flex-wrap">
+                  {features.map(feature => (
+                    <Badge 
+                      key={feature.title}
+                      variant={selectedFeatures.includes(feature.title) ? "default" : "outline"}
+                      className={`cursor-pointer backdrop-blur-sm transition-all duration-300 ${
+                        selectedFeatures.includes(feature.title) 
+                          ? `bg-${feature.color}-500/20 text-${feature.color}-300 border-${feature.color}-500/40` 
+                          : 'hover:bg-white/10 border-white/20'
+                      }`}
+                      onClick={() => toggleFeatureSelection(feature.title)}
+                    >
+                      {feature.title}
+                      {selectedFeatures.includes(feature.title) && (
+                        <Check className="ml-1 h-3 w-3" />
+                      )}
+                    </Badge>
+                  ))}
+                </div>
+                
+                {selectedFeatures.length > 0 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="mt-6"
+                  >
+                    <div className="flex justify-center gap-2 mb-4">
+                      {(["performance", "reliability", "scalability", "costEfficiency"] as const).map(metric => (
+                        <Button 
+                          key={metric}
+                          variant={selectedMetric === metric ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => setSelectedMetric(metric)}
+                          className={`text-xs backdrop-blur-sm transition-all duration-300 ${
+                            selectedMetric === metric 
+                              ? 'bg-red-500/20 text-red-300 border-red-500/40 shadow-glow-sm shadow-red-500/20' 
+                              : 'border-white/20 hover:border-red-500/30'
+                          }`}
+                        >
+                          {metric.replace(/([A-Z])/g, ' $1').trim().split(' ').map(word => 
+                            word.charAt(0).toUpperCase() + word.slice(1)
+                          ).join(' ')}
+                        </Button>
+                      ))}
+                    </div>
+                    
+                    <div className="flex-1 flex flex-col justify-end gap-4 max-w-2xl mx-auto">
+                      {selectedFeatures.map(featureTitle => {
+                        const feature = features.find(f => f.title === featureTitle);
+                        if (!feature) return null;  // Safety check
+                        const value = featureComparison[selectedMetric as MetricKey][featureTitle];
+                        const color = feature?.color === 'red' ? 'bg-red-500' : 
+                                    feature?.color === 'blue' ? 'bg-blue-500' : 
+                                    feature?.color === 'green' ? 'bg-green-500' : 'bg-yellow-500';
+                        const glowColor = feature?.color === 'red' ? 'shadow-red-500/30' : 
+                                        feature?.color === 'blue' ? 'shadow-blue-500/30' : 
+                                        feature?.color === 'green' ? 'shadow-green-500/30' : 'shadow-yellow-500/30';
+                        
+                        return (
+                          <motion.div 
+                            key={featureTitle} 
+                            className="space-y-1"
+                            initial={{ width: 0 }}
+                            animate={{ width: "100%" }}
+                            transition={{ duration: 0.7 }}
+                          >
+                            <div className="flex justify-between text-sm">
+                              <div className="flex items-center gap-2">
+                                <div className={`w-2 h-2 rounded-full ${color}`}></div>
+                                {featureTitle}
+                              </div>
+                              <span className="text-white/70">{value}%</span>
+                            </div>
+                            <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
+                              <motion.div
+                                className={`h-full ${color} shadow-glow-sm ${glowColor}`}
+                                initial={{ width: 0 }}
+                                animate={{ width: `${value}%` }}
+                                transition={{ duration: 1.5, ease: "easeOut" }}
+                              />
+                            </div>
+                          </motion.div>
+                        );
+                      })}
+                      
+                      {/* Show industry benchmark */}
+                      {showBenchmark && (
+                        <div className="mt-2 pt-2 border-t border-white/10">
+                          <div className="flex justify-between text-sm mb-1">
+                            <div className="flex items-center gap-2">
+                              <div className="w-2 h-2 rounded-full bg-white/50"></div>
+                              Industry Average
+                            </div>
+                            <span className="text-white/70">{industryBenchmarks[selectedMetric as MetricKey]}%</span>
+                          </div>
+                          <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden backdrop-blur-sm">
+                            <motion.div
+                              className="h-full bg-white/30"
+                              initial={{ width: 0 }}
+                              animate={{ width: `${industryBenchmarks[selectedMetric as MetricKey]}%` }}
+                              transition={{ duration: 1.5, ease: "easeOut" }}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Compact Feature Cards - Grid Layout */}
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
-              ref={feature.title === activeFeature ? ref : undefined}
+              ref={ref}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className={`${
-                feature.title === activeFeature ? feature.glow : ""
-              } group relative p-5 md:p-7 rounded-xl border border-white/10 
-                backdrop-blur-md bg-gradient-to-b from-black/60 to-black/80
-                hover:bg-gradient-to-b hover:from-black/70 hover:to-black/90
-                transition-all duration-300 cursor-pointer overflow-hidden transform hover:-translate-y-1`}
-              onClick={() => handleFeatureClick(feature.title)}
+              transition={{ 
+                duration: 0.5, 
+                delay: index * 0.1,
+                type: "spring",
+                stiffness: 100
+              }}
+              whileHover={{ 
+                y: -5, 
+                transition: { duration: 0.2 },
+                scale: 1.01
+              }}
+              onClick={() => comparisonMode ? toggleFeatureSelection(feature.title) : handleFeatureClick(feature.title)}
+              className="cursor-pointer relative"
             >
-              {/* Animated corner accents */}
-              <div className="absolute top-0 left-0 h-[40%] w-[40%] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                <div className="absolute top-0 left-0 h-px w-12 bg-gradient-to-r from-transparent to-current"></div>
-                <div className="absolute top-0 left-0 h-12 w-px bg-gradient-to-b from-transparent to-current"></div>
-              </div>
-              <div className="absolute bottom-0 right-0 h-[40%] w-[40%] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                <div className="absolute bottom-0 right-0 h-px w-12 bg-gradient-to-l from-transparent to-current"></div>
-                <div className="absolute bottom-0 right-0 h-12 w-px bg-gradient-to-t from-transparent to-current"></div>
-              </div>
-              
-              {/* Enhanced feature icon with glow effect */}
-              <div className={`p-3 md:p-4 rounded-xl bg-gradient-to-br from-${feature.color}-500/20 to-${feature.color}-600/10 
-                          text-${feature.color}-500 w-fit mb-4 md:mb-5 ring-1 ring-${feature.color}-500/20
-                          group-hover:shadow-[0_0_15px_rgba(0,0,0,0.2)] group-hover:from-${feature.color}-500/30 
-                          group-hover:to-${feature.color}-600/20 transition-all duration-300`}>
-                {feature.icon}
-              </div>
-              
-              {/* Feature content with improved typography */}
-              <h3 className={`text-xl md:text-2xl font-bold mb-2 md:mb-3 text-white 
-                          group-hover:text-${feature.color}-400 transition-colors`}>
-                {feature.title}
-              </h3>
-              <p className="text-sm md:text-base text-white/70 group-hover:text-white/90 
-                          transition-colors mb-4 md:mb-5 leading-relaxed">
-                {feature.description}
-              </p>
-              
-              {/* Enhanced stats indicator with animated values */}
-              <div className="flex items-center justify-between text-xs md:text-sm">
-                <span className="text-white/60 font-medium">{feature.stats.label}</span>
-                <span className={`text-${feature.color}-500 font-bold 
-                              group-hover:text-${feature.color}-400 transition-colors`}>
-                  {feature.stats.value}
-                </span>
-              </div>
-                    
-              {/* Enhanced animated progress bar with glow */}
-              <div className="mt-2 h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+              {comparisonMode && (
                 <motion.div 
-                  className={`h-full bg-gradient-to-r from-${feature.color}-500 to-${feature.color}-600 
-                            rounded-full group-hover:shadow-[0_0_8px_rgba(var(--${feature.color}-rgb),0.5)]`}
-                  initial={{ width: "0%" }}
-                  animate={{ 
-                    width: animatedStats[feature.title] ? `${animatedStats[feature.title]}%` : "0%" 
-                  }}
-                  transition={{ duration: 1.2, ease: "easeOut", delay: index * 0.15 }}
-                ></motion.div>
-              </div>
+                  initial={{ scale: 0.5, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className={`absolute top-2 right-2 z-10 rounded-full p-1 ${
+                    selectedFeatures.includes(feature.title) 
+                      ? `bg-${feature.color}-500/30 text-${feature.color}-300 shadow-glow-sm shadow-${feature.color}-500/30` 
+                      : 'bg-white/10'
+                  }`}
+                >
+                  {selectedFeatures.includes(feature.title) ? (
+                    <Check className="h-3 w-3" />
+                  ) : (
+                    <Plus className="h-3 w-3" />
+                  )}
+                </motion.div>
+              )}
+              
+              <Card className={`h-full bg-black/40 backdrop-blur-md border-white/10 hover:border-${feature.color}-500/50 transition-all duration-300 transform-gpu group`}>
+                <CardContent className="p-4 relative overflow-hidden">
+                  {/* Animated gradient background */}
+                  <div className={`absolute -inset-[1px] bg-gradient-to-r ${feature.gradient} rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0`} />
+                  
+                  <div className="relative z-10">
+                    <div className="flex items-center mb-3">
+                      <motion.div 
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.5, delay: index * 0.1 + 0.2 }}
+                        className={`w-10 h-10 rounded-lg ${feature.gradient} flex items-center justify-center mr-3 shadow-glow-sm shadow-${feature.color}-500/30 group-hover:shadow-glow-md group-hover:shadow-${feature.color}-500/40 transition-all duration-500`}
+                      >
+                        {feature.icon}
+                      </motion.div>
+                      
+                      <h3 className="text-lg font-bold group-hover:text-white/90 transition-colors">
+                        {feature.title}
+                      </h3>
+                    </div>
+                    
+                    <p className="text-white/70 mb-4 text-sm">{feature.description}</p>
+                    
+                    <div className="flex items-center justify-between pt-2 border-t border-white/10">
+                      <span className="text-xs text-white/60">{feature.stats.label}</span>
+                      <motion.span 
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        transition={{ duration: 0.5, delay: index * 0.1 + 0.3 }}
+                        className={`text-base font-bold text-${feature.color}-400`}
+                      >
+                        {feature.stats.value}
+                      </motion.span>
+                    </div>
+                    
+                    {animatedStats[feature.title] && (
+                      <div className="mt-2">
+                        <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                          <motion.div 
+                            className={`h-full rounded-full ${feature.color === 'red' ? 'bg-red-500' : feature.color === 'blue' ? 'bg-blue-500' : feature.color === 'green' ? 'bg-green-500' : 'bg-yellow-500'} shadow-glow-sm shadow-${feature.color}-500/30`}
+                            initial={{ width: "0%" }}
+                            animate={{ width: `${animatedStats[feature.title]}%` }}
+                            transition={{ duration: 1.5, ease: "easeOut" }}
+                          />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
             </motion.div>
           ))}
         </div>
 
-        {/* Feature Details Modal */}
+        <div className="mt-10">
+          {/* Two-column layout for AI CAPABILITIES header - Reversed order */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 items-center">
+            <div className="flex justify-start md:justify-start">
+              <Button variant="outline" size="sm" className="text-sm border-white/20 hover:border-blue-500/40">
+                View All Capabilities
+                <ArrowRight className="ml-2 h-3.5 w-3.5" />
+              </Button>
+            </div>
+            <div className="text-right">
+              <Badge variant="outline" className="mb-2 text-sm font-medium bg-blue-500/10 border-blue-500/30 text-blue-400">
+                AI CAPABILITIES
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
+                Advanced AI Technologies
+              </h2>
+              <p className="text-lg text-white/70">
+                Harness the power of multiple AI technologies working together to solve complex business challenges.
+              </p>
+            </div>
+          </div>
+
+          {/* Compact grid for capabilities */}
+          <div className="grid gap-4 md:grid-cols-3">
+            {capabilities.map((capability, index) => (
+              <motion.div
+                key={capability.title}
+                ref={ref}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ 
+                  y: -5,
+                  scale: 1.01,
+                  transition: { duration: 0.2 } 
+                }}
+                className="cursor-pointer"
+              >
+                <Card className="h-full bg-black/40 backdrop-blur-md border-white/10 hover:border-blue-500/50 transition-all duration-300">
+                  <CardContent className="p-4">
+                    <div className="flex items-center mb-3">
+                      <div className={`w-10 h-10 rounded-lg ${capability.gradient} flex items-center justify-center mr-3`}>
+                        {capability.icon}
+                      </div>
+                      <h3 className="text-lg font-semibold">{capability.title}</h3>
+                    </div>
+                    <p className="text-white/70 text-sm mb-3">{capability.description}</p>
+                    <div className="flex justify-end">
+                      <Button variant="ghost" size="sm" className="px-0 py-0 h-auto hover:bg-transparent hover:text-blue-400 text-white/70">
+                        <span className="text-xs">Explore</span>
+                        <ArrowRight className="ml-1 h-3 w-3" />
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Feature Detail Modal */}
       <AnimatePresence>
-          {isDetailModalOpen && activeFeature && featureDetails[activeFeature] && (
+        {isDetailModalOpen && activeFeature && (
+          <motion.div
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsDetailModalOpen(false)}
+          >
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="fixed inset-0 z-50 flex items-center justify-center px-4 backdrop-blur-sm"
+              className="bg-black/90 border border-white/20 rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto"
+              initial={{ scale: 0.9, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.9, y: 20, opacity: 0 }}
+              transition={{ type: "spring", damping: 25 }}
+              onClick={(e) => e.stopPropagation()}
             >
-              <div className="absolute inset-0 bg-black/70" onClick={() => setIsDetailModalOpen(false)}></div>
-              <div className="relative max-w-3xl w-full max-h-[80vh] overflow-y-auto bg-black/90 border border-white/10 rounded-xl shadow-xl shadow-red-900/10">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-red-500 to-red-600"></div>
-                <div className="p-4 md:p-6">
-                  <button 
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-2xl font-bold">{activeFeature}</h3>
+                  <Button 
+                    variant="ghost" 
+                    size="icon"
                     onClick={() => setIsDetailModalOpen(false)}
-                    className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full bg-white/5 hover:bg-white/10 text-white/70 hover:text-white transition-colors"
+                    className="rounded-full h-8 w-8 hover:bg-white/10"
                   >
-                    <span className="sr-only">Close</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="18" y1="6" x2="6" y2="18"></line>
-                      <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                  </button>
+                    ✕
+                  </Button>
+                </div>
+                
+                <div className="space-y-6">
+                  <div>
+                    <p className="text-white/80 mb-4">{featureDetails[activeFeature as keyof typeof featureDetails]?.description}</p>
+                  </div>
                   
-                  {/* Feature Detail Content */}
-                  <div className="pt-2">
-                    <h3 className="text-xl md:text-2xl font-bold mb-2">{activeFeature}</h3>
-                    <p className="text-white/80 text-sm md:text-base mb-6">{featureDetails[activeFeature].description}</p>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {/* Use Cases */}
-                      <div className="space-y-3">
-                        <h4 className="text-sm md:text-base font-semibold text-white flex items-center">
-                          <Target className="h-4 w-4 mr-2 text-red-500" />
-                          Use Cases
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                      <h4 className="text-lg font-semibold mb-2 flex items-center">
+                        <Lightbulb className="mr-2 h-5 w-5 text-yellow-500" />
+                        Key Use Cases
                       </h4>
-                        <ul className="space-y-2">
-                          {featureDetails[activeFeature].useCases.map((useCase, index) => (
-                            <li key={index} className="flex items-start gap-2 text-white/70 text-sm">
-                              <div className="flex-shrink-0 mt-1">
-                                <div className="w-3 h-3 rounded-full bg-red-500/20 flex items-center justify-center">
-                                  <div className="w-1.5 h-1.5 rounded-full bg-red-500"></div>
-                                </div>
+                      <ul className="space-y-1">
+                        {featureDetails[activeFeature as keyof typeof featureDetails]?.useCases.map((useCase, idx) => (
+                          <li key={idx} className="flex items-start gap-2">
+                            <div className="rounded-full bg-white/10 p-1 mt-0.5">
+                              <div className="h-1.5 w-1.5 rounded-full bg-white" />
                             </div>
-                              <span>{useCase}</span>
+                            <span className="text-white/70">{useCase}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
                     
-                      {/* Metrics */}
+                    <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                      <h4 className="text-lg font-semibold mb-2 flex items-center">
+                        <Activity className="mr-2 h-5 w-5 text-green-500" />
+                        Performance Metrics
+                      </h4>
                       <div className="space-y-3">
-                        <h4 className="text-sm md:text-base font-semibold text-white flex items-center">
-                          <Activity className="h-4 w-4 mr-2 text-red-500" />
-                          Performance Metrics
-                        </h4>
-                        <div className="space-y-2.5">
-                          {Object.entries(featureDetails[activeFeature].metrics).map(([key, value]) => (
-                            <div key={key} className="space-y-1">
-                              <div className="flex justify-between items-center text-xs">
-                                <span className="text-white/60 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
+                        {Object.entries(featureDetails[activeFeature as keyof typeof featureDetails]?.metrics || {}).map(([key, value], idx) => (
+                          <div key={idx}>
+                            <div className="flex justify-between items-center mb-1">
+                              <span className="text-white/70 capitalize">{key.replace(/([A-Z])/g, ' $1').trim()}</span>
                               <span className="text-white font-medium">
-                                  {typeof value === 'number' 
-                                    ? key.toLowerCase().includes('level') 
-                                      ? value
-                                      : `${value}${key.toLowerCase().includes('percentage') ? '%' : ''}`
-                                    : Array.isArray(value) 
-                                      ? value.join(', ')
-                                      : value.toString()
-                                  }
+                                {Array.isArray(value) ? value.join(', ') : value}
+                                {key === 'accuracy' || key === 'scalability' || key === 'threatDetection' ? '%' : 
+                                 key === 'latency' ? 'ms' : 
+                                 key === 'throughput' && !String(value).includes('TB') ? 'TB/s' : ''}
                               </span>
                             </div>
-                              {typeof value === 'number' && !key.toLowerCase().includes('level') && (
+                            {typeof value === 'number' && !Array.isArray(value) && (
                               <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
                                 <div 
-                                    className="h-full bg-gradient-to-r from-red-500 to-red-600 rounded-full" 
-                                    style={{ width: `${typeof value === 'number' ? Math.min(value, 100) : 50}%` }}
-                                  ></div>
+                                  className="h-full rounded-full bg-blue-500" 
+                                  style={{ width: `${Math.min(100, value)}%` }} 
+                                />
                               </div>
                             )}
                           </div>
@@ -532,25 +727,91 @@ export default function FeaturesSection() {
                     </div>
                   </div>
                   
-                    {/* Technical Specifications */}
-                    <div className="mt-6 p-3 md:p-4 rounded-lg bg-white/5 border border-white/10">
-                      <h4 className="text-sm md:text-base font-semibold text-white flex items-center mb-2">
-                        <Code className="h-4 w-4 mr-2 text-red-500" />
+                  <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                    <h4 className="text-lg font-semibold mb-2 flex items-center">
+                      <BarChart2 className="mr-2 h-5 w-5 text-blue-500" />
                       Technical Specifications
                     </h4>
-                      <p className="text-white/70 text-xs md:text-sm">{featureDetails[activeFeature].techSpecs}</p>
+                    <p className="text-white/70">{featureDetails[activeFeature as keyof typeof featureDetails]?.techSpecs}</p>
+                  </div>
+
+                  {/* New Benchmark Comparison Section */}
+                  <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                    <h4 className="text-lg font-semibold mb-4 flex items-center">
+                      <Clock className="mr-2 h-5 w-5 text-purple-500" />
+                      Industry Benchmark Comparison
+                    </h4>
+                    
+                    <div className="space-y-4">
+                      {(["performance", "reliability", "scalability", "costEfficiency"] as const).map(metric => {
+                        const value = featureComparison[metric as MetricKey][activeFeature];
+                        const benchmark = industryBenchmarks[metric as MetricKey];
+                        const difference = value - benchmark;
+                        
+                        return (
+                          <div key={metric} className="space-y-1">
+                            <div className="flex justify-between text-sm mb-1">
+                              <span className="text-white/70 capitalize">
+                                {metric.replace(/([A-Z])/g, ' $1').trim()}
+                              </span>
+                              <div className="flex items-center gap-2">
+                                <span className={difference > 0 ? "text-green-500" : "text-red-500"}>
+                                  {difference > 0 ? "+" : ""}{difference}%
+                                </span>
+                                <span className="text-white/70">vs. industry</span>
+                              </div>
+                            </div>
+                            
+                            <div className="h-2.5 w-full bg-white/10 rounded-full overflow-hidden relative">
+                              {/* Industry benchmark line */}
+                              <div 
+                                className="absolute h-full w-px bg-yellow-500 z-10"
+                                style={{ left: `${benchmark}%` }}
+                              >
+                                <div className="w-2 h-2 rounded-full bg-yellow-500 absolute -top-0.5 -left-1"></div>
+                              </div>
+                              
+                              {/* Feature value */}
+                              <div 
+                                className="h-full rounded-full bg-blue-500" 
+                                style={{ width: `${value}%` }}
+                              />
+                            </div>
+                            
+                            <div className="flex justify-between text-xs text-white/50 mt-1">
+                              <span>0%</span>
+                              <span>Industry: {benchmark}%</span>
+                              <span>100%</span>
+                            </div>
+                          </div>
+                        );
+                      })}
                     </div>
+                  </div>
+                  
+                  <div className="flex justify-between mt-4">
+                    <div className="flex items-center">
+                      <Badge variant="outline" className="mr-2 bg-white/5">
+                        <Fingerprint className="h-3 w-3 mr-1" />
+                        Enterprise-grade
+                      </Badge>
+                      <Badge variant="outline" className="bg-white/5">
+                        <Shield className="h-3 w-3 mr-1" />
+                        SOC 2 Compliant
+                      </Badge>
+                    </div>
+                    
+                    <Button className="bg-white/10 hover:bg-white/20 text-white border-0">
+                      Request Demo
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
                   </div>
                 </div>
               </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-        
-        {/* Rest of the component remains largely unchanged but with responsive adjustments */}
-        {/* ... */}
-      </div>
     </section>
   )
 }
-

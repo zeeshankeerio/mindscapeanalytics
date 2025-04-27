@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, MouseEvent as ReactMouseEvent, useMemo } from "react"
 import { 
   Award, 
   BookOpen, 
@@ -145,14 +145,81 @@ const PROJECTS = [
   }
 ]
 
+// Add image sources array for fallbacks
+const founderImageSources = [
+  '/founder.jpg',
+  '/images/founder.jpg',
+  '/images/team/founder.jpg',
+  'https://via.placeholder.com/300x300.png?text=Founder'
+];
+
+// Reusable Founder Image component
+const FounderImage = ({
+  width = 300,
+  height = 300,
+  className = "",
+  priority = false,
+  fill = false,
+  onLoad,
+  onError,
+  style
+}: {
+  width?: number;
+  height?: number;
+  className?: string;
+  priority?: boolean;
+  fill?: boolean;
+  onLoad?: () => void;
+  onError?: () => void;
+  style?: React.CSSProperties;
+}) => {
+  const [imgSrc, setImgSrc] = useState(founderImageSources[0]);
+  const [imgError, setImgError] = useState(false);
+  
+  return (
+    <Image
+      src={imgSrc}
+      alt="Zeeshan Keerio"
+      width={!fill ? width : undefined}
+      height={!fill ? height : undefined}
+      fill={fill}
+      className={`${className} ${imgError ? 'opacity-0' : 'opacity-100'}`}
+      priority={priority}
+      placeholder="blur"
+      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAAJAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQYI/8QAIxAAAQMEAgIDAQAAAAAAAAAAAQIDBQAEBhESIQcTCDFRYf/EABUBAQEAAAAAAAAAAAAAAAAAAAUG/8QAHBEAAwACAwEAAAAAAAAAAAAAAAECAxEhQTEE/9oADAMBAAIRAxEAPwDWOQZ7iEJ91h8zhOVt1b9jK+5htIBUaUAo6BJoXnPk54q0wvNMSd8l2LV1KMqjmDbtqcLZQ6wsFO1JA3sAjfWtVWGjXOfRLCjlMVfXS7Z9JLLKmyFBSvxJPQGtfnvwxDZtl2Y5NlMPFBaZSl9xDrxTtSFBKCVjf1vfXdZc9xoWrT3PYKYRTIvkN//Z"
+      onError={() => {
+        // Try the next image source if available
+        const nextIndex = founderImageSources.indexOf(imgSrc) + 1;
+        if (nextIndex < founderImageSources.length) {
+          setImgSrc(founderImageSources[nextIndex]);
+        } else {
+          setImgError(true);
+        }
+        // Call the provided onError callback if any
+        if (onError) onError();
+      }}
+      onLoad={() => {
+        // Call the provided onLoad callback if any
+        if (onLoad) onLoad();
+      }}
+      style={{
+        objectFit: 'cover',
+        ...style
+      }}
+    />
+  );
+};
+
 export default function ZeeshanKeerioPage() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const profileRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState("experience");
+  const [imageLoadingState, setImageLoadingState] = useState<'loading' | 'loaded' | 'error'>('loading');
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleMouseMove = (e: ReactMouseEvent<HTMLElement, MouseEvent> | MouseEvent) => {
       if (profileRef.current) {
         const rect = profileRef.current.getBoundingClientRect();
         const x = e.clientX - rect.left - rect.width / 2;
@@ -161,11 +228,12 @@ export default function ZeeshanKeerioPage() {
       }
     };
     
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove as unknown as EventListener);
+    return () => window.removeEventListener('mousemove', handleMouseMove as unknown as EventListener);
   }, []);
   
-  const generateAIParticles = () => {
+  // Generate AI particles with useMemo for better performance
+  const aiParticles = useMemo(() => {
     const particles = [];
     for (let i = 0; i < 12; i++) {
       particles.push(
@@ -193,11 +261,22 @@ export default function ZeeshanKeerioPage() {
       );
     }
     return particles;
-  };
+  }, []);
   
   const handleTabChange = (value: string) => {
     setActiveTab(value);
   };
+  
+  // Add image preloading effect
+  useEffect(() => {
+    // Preload all possible founder images to improve user experience
+    founderImageSources.forEach(src => {
+      if (src.startsWith('http') || src.startsWith('/')) {
+        const img = new window.Image();
+        img.src = src;
+      }
+    });
+  }, []);
   
   return (
     <main className="relative min-h-screen bg-gradient-to-b from-black via-black/95 to-black text-white overflow-x-hidden">
@@ -235,8 +314,8 @@ export default function ZeeshanKeerioPage() {
             </svg>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr,2fr] gap-8 md:gap-16 items-center">
-            {/* Image Column - Advanced Circular Profile Picture with AI Effects */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr,2fr] gap-6 sm:gap-8 md:gap-12 lg:gap-16 items-center">
+            {/* SVG Hero Section with AI Effects */}
             <motion.div 
               className="relative mx-auto lg:mx-0 order-1 lg:order-1 max-w-[300px] sm:max-w-[350px] md:max-w-[400px]"
               initial={{ opacity: 0, scale: 0.8 }}
@@ -248,7 +327,7 @@ export default function ZeeshanKeerioPage() {
             >
               {/* AI Particles animation */}
               <div className="absolute inset-0 z-10 pointer-events-none">
-                {generateAIParticles()}
+                {aiParticles}
               </div>
               
               {/* Neural network connection lines */}
@@ -276,7 +355,7 @@ export default function ZeeshanKeerioPage() {
                 ))}
               </div>
               
-              {/* Advanced animated glow effect behind image */}
+              {/* Advanced animated glow effect behind SVG */}
               <motion.div 
                 className="absolute -inset-4 bg-gradient-to-r from-red-500/30 to-purple-500/30 rounded-full blur-3xl opacity-40"
                 animate={{ 
@@ -288,9 +367,12 @@ export default function ZeeshanKeerioPage() {
                 aria-hidden="true"
               />
               
-              {/* Circular profile container with animated border and 3D tilt effect */}
+              {/* Enhanced Profile Image with 3D effects and fallback handling */}
               <motion.div 
-                className="relative w-[220px] h-[220px] sm:w-[260px] sm:h-[260px] md:w-[300px] md:h-[300px] mx-auto lg:mx-0 rounded-full overflow-hidden border-4 border-white/10 shadow-[0_0_40px_rgba(255,0,0,0.3)] group"
+                className="relative w-[200px] h-[200px] sm:w-[260px] sm:h-[260px] md:w-[300px] md:h-[300px] mx-auto lg:mx-0 rounded-full overflow-hidden border-4 border-white/10 shadow-[0_0_40px_rgba(255,0,0,0.3)] group"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
                 style={{
                   transformStyle: "preserve-3d",
                   transform: isHovering ? `perspective(1000px) rotateY(${mousePosition.x * 0.01}deg) rotateX(${-mousePosition.y * 0.01}deg)` : "perspective(1000px)"
@@ -317,14 +399,42 @@ export default function ZeeshanKeerioPage() {
                   transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                 />
                 
-                {/* Profile image with advanced hover effects */}
-                <div className="absolute inset-[4px] rounded-full overflow-hidden z-10">
-                  <Image
-                    src="/founder.jpg"
-                    alt="Zeeshan Keerio"
-                    fill
-                    className="object-cover transition-transform duration-500 scale-110 group-hover:scale-125"
+                {/* Profile image with advanced hover effects and error handling */}
+                <div className="absolute inset-[4px] rounded-full overflow-hidden z-10 bg-gradient-to-b from-gray-900 to-black flex items-center justify-center">
+                  {imageLoadingState === 'error' && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-black z-20">
+                      <User className="h-16 w-16 text-red-500/50 mb-2" />
+                      <p className="text-xs text-red-500/80">Image unavailable</p>
+                    </div>
+                  )}
+                  
+                  {imageLoadingState === 'loading' && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-b from-gray-900 to-black z-20">
+                      <motion.div
+                        className="h-16 w-16 border-4 border-t-red-500 border-r-transparent border-b-transparent border-l-transparent rounded-full"
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                      />
+                    </div>
+                  )}
+                  
+                  <FounderImage
+                    width={200}
+                    height={200}
+                    className={`object-cover transition-transform duration-500 scale-110 group-hover:scale-125 ${imageLoadingState === 'error' ? 'opacity-0' : 'opacity-100'}`}
                     priority
+                    onError={() => {
+                      // Try the next image source if available
+                      if (currentImageIndex < founderImageSources.length - 1) {
+                        setCurrentImageIndex(currentImageIndex + 1);
+                      } else {
+                        // If we've tried all sources, show the error state
+                        setImageLoadingState('error');
+                      }
+                    }}
+                    onLoad={() => {
+                      setImageLoadingState('loaded');
+                    }}
                     style={{
                       filter: "contrast(1.1) saturate(1.15)"
                     }}
@@ -355,13 +465,13 @@ export default function ZeeshanKeerioPage() {
                 </div>
               </motion.div>
               
-              {/* Advanced achievement badges with AI theme - made responsive */}
+              {/* Achievement badges with clean styling */}
               <motion.div 
                 className="absolute -right-2 sm:-right-6 top-0 bg-gradient-to-r from-red-600/90 to-red-700/90 px-2 sm:px-3 py-1 sm:py-2 rounded-full text-xs font-semibold shadow-lg flex items-center gap-1 sm:gap-2"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.2 }}
-                whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(220,38,38,0.4)" }}
+                whileHover={{ scale: 1.05 }}
               >
                 <BrainCircuit className="h-3 w-3 text-yellow-300" />
                 <span>AI Expert</span>
@@ -372,7 +482,7 @@ export default function ZeeshanKeerioPage() {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 1.5 }}
-                whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(124,58,237,0.4)" }}
+                whileHover={{ scale: 1.05 }}
               >
                 <Cpu className="h-3 w-3 text-yellow-300" />
                 <span>Data Scientist</span>
@@ -383,7 +493,7 @@ export default function ZeeshanKeerioPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.8 }}
-                whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59,130,246,0.4)" }}
+                whileHover={{ scale: 1.05 }}
               >
                 <Network className="h-3 w-3 text-yellow-300" />
                 <span>Big Data Specialist</span>
@@ -2139,13 +2249,7 @@ export default function ZeeshanKeerioPage() {
             </blockquote>
             <div className="flex justify-center items-center gap-3">
               <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white/10">
-                  <Image
-                  src="/founder.jpg" 
-                  alt="Zeeshan Keerio" 
-                  width={50} 
-                  height={50}
-                  className="w-full h-full object-cover" 
-                />
+                  <FounderImage width={50} height={50} className="w-full h-full object-cover" />
               </div>
               <div className="text-left">
                 <div className="font-semibold">Zeeshan Keerio</div>

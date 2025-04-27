@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useRef, useEffect, ReactNode, MouseEvent } from "react"
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform, useScroll, useAnimation } from "framer-motion"
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -28,48 +28,29 @@ import {
   Shield,
   Users,
   FileText,
-  Code,
-  MessageSquare,
   Database,
   Check,
   Network,
-  Activity,
-  LineChart,
-  Wifi,
-  Cloud,
-  ShoppingCart,
-  Mail,
-  GitBranch,
   Package,
   ShieldCheck,
   Minus,
   ArrowUp,
   ArrowDown,
-  Server,
   Plus,
   RefreshCw,
   Rocket,
   Loader2,
-  Trophy,
   TrendingUp,
   Scale,
   Calculator,
-  BookOpen,
-  Play,
   Lock,
   Copy,
-  Leaf,
-  AlertTriangle,
   AlertCircle,
   LayoutGrid,
   LayoutList,
-  Table,
-  Route,
-  Bell,
   CheckCircle,
-  MoreHorizontal,
-  X,
-  Info
+  Info,
+  Trophy
 } from "lucide-react"
 import Image from "next/legacy/image"
 import "@/styles/industry-solutions.css"
@@ -128,14 +109,7 @@ interface Industry {
   stats: Stat[];
   technologies: string[];
   color: string;
-  image: {
-    src: string;
-    alt: string;
-    sizes: string;
-    priority: boolean;
-    placeholder: string;
-    blurDataURL: string;
-  };
+  image: string;
   particleColor: string;
   solutions?: string[];
   metrics?: {
@@ -316,14 +290,7 @@ const industries: Industry[] = [
     ],
     technologies: ["Machine Learning", "NLP", "Predictive Analytics", "Pattern Recognition"],
     color: "from-blue-600 via-blue-500 to-blue-700",
-    image: {
-      src: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?q=80&w=2070&auto=format&fit=crop",
-      alt: "Financial Services AI Solutions",
-      sizes: "(max-width: 768px) 100vw, 50vw",
-      priority: true,
-      placeholder: "blur",
-      blurDataURL: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDcwIDE1MDAiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMzYjgyZjY0MCIvPjwvc3ZnPg=="
-    },
+    image: "https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?q=80&w=2070&auto=format&fit=crop",
     particleColor: "#3b82f6",
     solutions: [
       "Risk Assessment & Fraud Detection",
@@ -639,14 +606,7 @@ const industries: Industry[] = [
     ],
     technologies: ["Recommendation Systems", "Demand Forecasting", "Customer Segmentation", "Dynamic Pricing"],
     color: "from-purple-500 to-purple-700",
-    image: {
-      src: "https://images.unsplash.com/photo-1481437156560-3205f6a55735?q=80&w=2095&auto=format&fit=crop",
-      alt: "Retail & E-commerce AI Solutions",
-      sizes: "(max-width: 768px) 100vw, 50vw",
-      priority: false,
-      placeholder: "blur",
-      blurDataURL: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDcwIDE1MDAiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNhODU1Zjc0MCIvPjwvc3ZnPg=="
-    },
+    image: "https://images.unsplash.com/photo-1481437156560-3205f6a55735?q=80&w=2095&auto=format&fit=crop",
     particleColor: "#a855f7",
     solutions: [
       "Demand Forecasting",
@@ -737,14 +697,7 @@ const industries: Industry[] = [
     ],
     technologies: ["IoT Integration", "Predictive Maintenance", "Computer Vision", "Digital Twin"],
     color: "from-yellow-500 to-yellow-700",
-    image: {
-      src: "https://images.unsplash.com/photo-1581093450021-4a7360e9a6b5?q=80&w=2070&auto=format&fit=crop",
-      alt: "Manufacturing AI Solutions",
-      sizes: "(max-width: 768px) 100vw, 50vw",
-      priority: false,
-      placeholder: "blur",
-      blurDataURL: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDcwIDE1MDAiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlYWIzMDg0MCIvPjwvc3ZnPg=="
-    },
+    image: "https://images.unsplash.com/photo-1581093450021-4a7360e9a6b5?q=80&w=2070&auto=format&fit=crop",
     particleColor: "#eab308",
     solutions: [
       "Predictive Maintenance",
@@ -866,14 +819,7 @@ const industries: Industry[] = [
     ],
     technologies: ["Document Processing", "Anomaly Detection", "Risk Modeling", "Auto Classification"],
     color: "from-red-500 to-red-700",
-    image: {
-      src: "https://images.unsplash.com/photo-1556742031-c6961e8560b0?q=80&w=2070&auto=format&fit=crop",
-      alt: "Insurance AI Solutions",
-      sizes: "(max-width: 768px) 100vw, 50vw",
-      priority: false,
-      placeholder: "blur",
-      blurDataURL: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDcwIDE1MDAiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiNlZjQ0NDQ0MCIvPjwvc3ZnPg=="
-    },
+    image: "https://images.unsplash.com/photo-1556742031-c6961e8560b0?q=80&w=2070&auto=format&fit=crop",
     particleColor: "#ef4444",
     aiSolutions: [
       {
@@ -924,14 +870,7 @@ const industries: Industry[] = [
     ],
     technologies: ["Dynamic Pricing", "Personalization", "Sentiment Analysis", "Demand Forecasting"],
     color: "from-cyan-500 to-cyan-700",
-    image: {
-      src: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070&auto=format&fit=crop",
-      alt: "Travel & Hospitality AI Solutions",
-      sizes: "(max-width: 768px) 100vw, 50vw",
-      priority: false,
-      placeholder: "blur",
-      blurDataURL: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDcwIDE1MDAiPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9IiMwNmI2ZDQ0MCIvPjwvc3ZnPg=="
-    },
+    image: "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?q=80&w=2070&auto=format&fit=crop",
     particleColor: "#06b6d4",
     solutions: [
       "Route Optimization",
@@ -1602,7 +1541,9 @@ export default function EnhancedIndustrySolutions() {
             
             <Button 
               variant="outline" 
-              onClick={() => setShowRoiCalculator(!showRoiCalculator)}
+              onClick={() => {
+                setShowRoiCalculator(!showRoiCalculator);
+              }}
               className={`${showRoiCalculator ? 
                 'bg-gradient-to-r from-blue-500/20 to-blue-600/10 border-blue-500/40 text-white' : 
                 'bg-black/40 border-white/10'}`}
@@ -1882,8 +1823,8 @@ export default function EnhancedIndustrySolutions() {
                           className="rounded-full p-0 w-5 h-5 flex items-center justify-center"
                         >
                           <ArrowRight className="h-2.5 w-2.5 text-green-400 group-hover:translate-x-0.5 transition-transform" />
-            </Button>
-          </div>
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2003,15 +1944,11 @@ export default function EnhancedIndustrySolutions() {
           <Card className="w-full border border-white/10 bg-black/30 backdrop-blur-sm overflow-hidden h-auto">
             <div className="relative h-48">
               <Image 
-                src={activeIndustry.image.src} 
-                alt={activeIndustry.image.alt} 
+                src={activeIndustry.image} 
+                alt={activeIndustry.title} 
                 className="w-full h-full object-cover"
                 width={300}
                 height={200}
-                sizes={activeIndustry.image.sizes}
-                priority={activeIndustry.image.priority}
-                placeholder={activeIndustry.image.placeholder as "blur" | "empty" | undefined}
-                blurDataURL={activeIndustry.image.blurDataURL}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent" />
               <div className="absolute bottom-4 left-4 right-4">
@@ -2392,385 +2329,6 @@ export default function EnhancedIndustrySolutions() {
           </Card>
         </div>
       </div>
-      
-      {/* ROI Calculator - full width */}
-      {showRoiCalculator && (
-        <div className="w-full mb-12">
-          <Card className="w-full border border-white/10 bg-black/40 backdrop-blur-sm overflow-hidden">
-            <CardHeader className="border-b border-white/5 pb-4">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-4">
-                <div>
-                  <CardTitle className="flex items-center gap-2 mb-1">
-                    <Calculator className="h-5 w-5 text-blue-400" />
-                    ROI Calculator for {activeIndustry.title}
-                  </CardTitle>
-                  <CardDescription>
-                    Estimate your potential return on investment based on your organization's specifics
-                  </CardDescription>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="bg-white/5 border-white/10 hover:bg-white/10"
-                    onClick={() => {
-                      // Reset ROI inputs to defaults
-                      setRoiInputs({
-                        employees: 100,
-                        currentCost: 10000,
-                        efficiency: 30
-                      });
-                    }}
-                  >
-                    <RefreshCw className="h-3.5 w-3.5 mr-1.5" />
-                    Reset
-                  </Button>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="bg-white/5 border-white/10 hover:bg-white/10"
-                    onClick={generateRoiReport}
-                    disabled={isGeneratingReport}
-                  >
-                    {isGeneratingReport ? (
-                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    ) : (
-                      <FileText className="h-4 w-4 mr-2" />
-                    )}
-                    Save Report
-                  </Button>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="pt-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {/* Input section */}
-                <div className="space-y-4">
-                  <h3 className="font-medium mb-3 flex items-center gap-2">
-                    <Users className="h-4 w-4 text-blue-400" />
-                    Your Organization
-                  </h3>
-                  
-                  <div className="space-y-6">
-                    <div className="space-y-2">
-                      <label className="text-sm text-white/70 flex justify-between">
-                        <span>Number of Employees</span>
-                        <span className="text-white/50">{roiInputs.employees.toLocaleString()}</span>
-                      </label>
-                      <input 
-                        type="range" 
-                        name="employees" 
-                        min="10" 
-                        max="10000" 
-                        step="10"
-                        value={roiInputs.employees} 
-                        onChange={handleRoiInputChange}
-                        className="w-full h-2 bg-white/10 rounded-full appearance-none cursor-pointer
-                          [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 
-                          [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-blue-500 [&::-webkit-slider-thumb]:cursor-pointer
-                          [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 
-                          [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-blue-500 [&::-moz-range-thumb]:cursor-pointer"
-                      />
-                      <div className="flex justify-between text-xs text-white/40">
-                        <span>10</span>
-                        <span>10,000+</span>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <label className="text-sm text-white/70 flex justify-between">
-                        <span>Current Monthly Cost ($)</span>
-                        <span className="text-white/50">${roiInputs.currentCost.toLocaleString()}</span>
-                      </label>
-                      <input 
-                        type="range" 
-                        name="currentCost" 
-                        min="1000" 
-                        max="100000" 
-                        step="1000"
-                        value={roiInputs.currentCost} 
-                        onChange={handleRoiInputChange}
-                        className="w-full h-2 bg-white/10 rounded-full appearance-none cursor-pointer
-                          [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 
-                          [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-blue-500 [&::-webkit-slider-thumb]:cursor-pointer
-                          [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 
-                          [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-blue-500 [&::-moz-range-thumb]:cursor-pointer"
-                      />
-                      <div className="flex justify-between text-xs text-white/40">
-                        <span>$1,000</span>
-                        <span>$100,000+</span>
-                      </div>
-                    </div>
-                    
-                    <div className="space-y-2">
-                      <label className="text-sm text-white/70 flex justify-between">
-                        <span>Expected Efficiency Gain (%)</span>
-                        <span className="text-white/50">{roiInputs.efficiency}%</span>
-                      </label>
-                      <input 
-                        type="range" 
-                        name="efficiency" 
-                        min="5" 
-                        max="80" 
-                        step="5"
-                        value={roiInputs.efficiency} 
-                        onChange={handleRoiInputChange}
-                        className="w-full h-2 bg-white/10 rounded-full appearance-none cursor-pointer
-                          [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 
-                          [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-blue-500 [&::-webkit-slider-thumb]:cursor-pointer
-                          [&::-moz-range-thumb]:appearance-none [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:w-4 
-                          [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-blue-500 [&::-moz-range-thumb]:cursor-pointer"
-                      />
-                      <div className="flex justify-between text-xs text-white/40">
-                        <span>5%</span>
-                        <span>80%</span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="pt-4 mt-6 border-t border-white/10">
-                    <h4 className="text-sm font-medium mb-3">Industry Benchmark Comparison</h4>
-                    <div className="bg-blue-950/20 border border-blue-900/30 rounded-lg p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm">Your Projected ROI</span>
-                        <span className="text-sm font-medium text-blue-400">{roiResults.estimatedRoi}%</span>
-                      </div>
-                      <div className="flex items-center h-3 mb-3">
-                        <div className="flex-grow relative h-2 bg-white/5 rounded-full">
-                          <div
-                            className="absolute inset-y-0 left-0 bg-blue-500 rounded-full"
-                            style={{ width: `${Math.min(100, parseInt(roiResults.estimatedRoi) * 0.5)}%` }}
-                          ></div>
-                          <div
-                            className="absolute top-1/2 -translate-y-1/2 w-3 h-3 bg-white border-2 border-blue-500 rounded-full"
-                            style={{ left: `${Math.min(100, parseInt(roiResults.estimatedRoi) * 0.5)}%`, transform: 'translate(-50%, -50%)' }}
-                          ></div>
-                        </div>
-                      </div>
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center gap-1.5">
-                          <div className="w-2 h-2 rounded-full bg-white/40"></div>
-                          <span className="text-xs text-white/60">Industry Average: 85%</span>
-                        </div>
-                        <div className="flex items-center gap-1.5">
-                          <div className="w-2 h-2 rounded-full bg-green-400"></div>
-                          <span className="text-xs text-white/60">Top Performers: 120%</span>
-                        </div>
-                      </div>
-                      <div className="text-xs text-white/50 italic">
-                        Your projected ROI is {parseInt(roiResults.estimatedRoi) > 100 ? 'above' : 'below'} the average for the {activeIndustry.title} industry.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                {/* Results section */}
-                <div className="flex flex-col space-y-4 md:col-span-2">
-                  <h3 className="font-medium mb-3 flex items-center gap-2">
-                    <BarChart className="h-4 w-4 text-blue-400" />
-                    Projected ROI Results
-                  </h3>
-                  
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <Card3D className="h-full" intensity={0.2}>
-                      <div className="h-full p-4 bg-gradient-to-br from-blue-950/50 to-blue-900/10 border border-blue-500/20 rounded-lg">
-                        <h4 className="text-sm text-white/70 mb-2">Annual Savings</h4>
-                        <div className="flex items-baseline">
-                          <span className="text-2xl font-bold text-blue-400">${parseInt(roiResults.annualSavings).toLocaleString()}</span>
-                          <span className="text-white/50 ml-1 text-sm">/year</span>
-                        </div>
-                        <p className="text-xs text-white/50 mt-2">Based on your current monthly costs and efficiency gains</p>
-                      </div>
-                    </Card3D>
-                    
-                    <Card3D className="h-full" intensity={0.2}>
-                      <div className="h-full p-4 bg-gradient-to-br from-green-950/50 to-green-900/10 border border-green-500/20 rounded-lg">
-                        <h4 className="text-sm text-white/70 mb-2">Estimated ROI</h4>
-                        <div className="flex items-baseline">
-                          <span className="text-2xl font-bold text-green-400">{roiResults.estimatedRoi}%</span>
-                        </div>
-                        <p className="text-xs text-white/50 mt-2">Return on investment over 12 months</p>
-                      </div>
-                    </Card3D>
-                    
-                    <Card3D className="h-full" intensity={0.2}>
-                      <div className="h-full p-4 bg-gradient-to-br from-purple-950/50 to-purple-900/10 border border-purple-500/20 rounded-lg">
-                        <h4 className="text-sm text-white/70 mb-2">Payback Period</h4>
-                        <div className="flex items-baseline">
-                          <span className="text-2xl font-bold text-purple-400">{roiResults.paybackPeriod}</span>
-                          <span className="text-white/50 ml-1 text-sm">months</span>
-                        </div>
-                        <p className="text-xs text-white/50 mt-2">Time to recoup implementation costs</p>
-                      </div>
-                    </Card3D>
-                  </div>
-                  
-                  <div className="mt-6 flex-grow flex flex-col">
-                    <div className="flex justify-between items-center mb-4">
-                      <h4 className="font-medium text-sm flex items-center gap-2">
-                        <TrendingUp className="h-4 w-4 text-blue-400" />
-                        5-Year ROI Projection
-                      </h4>
-                      <div className="flex items-center gap-2">
-                        <Badge variant="outline" className="bg-blue-500/10 text-blue-400 border-blue-500/30 text-xs">
-                          <ArrowUp className="h-3 w-3 mr-1" />
-                          Investment
-                        </Badge>
-                        <Badge variant="outline" className="bg-green-500/10 text-green-400 border-green-500/30 text-xs">
-                          <ArrowDown className="h-3 w-3 mr-1" />
-                          Returns
-                        </Badge>
-                      </div>
-                    </div>
-
-                    <div className="bg-black/30 border border-white/10 rounded-lg p-4 flex-grow">
-                      {/* ROI Chart Visualization */}
-                      <div className="h-40 relative mb-4">
-                        <div className="absolute bottom-0 left-0 right-0 border-b border-white/20"></div>
-                        <div className="absolute left-0 top-0 bottom-0 border-l border-white/20"></div>
-                        
-                        {/* Investment Column (Year 0) */}
-                        <div className="absolute bottom-0 left-4 w-8 flex flex-col items-center">
-                          <div className="h-24 w-4 bg-blue-500/50 rounded-t-sm"></div>
-                          <p className="text-xs mt-2 text-white/60">Y0</p>
-                        </div>
-                        
-                        {/* Return Columns (Years 1-5) */}
-                        {[1, 2, 3, 4, 5].map((year) => {
-                          const height = Math.min(100, 15 + year * 12);
-                          const profit = parseInt(roiResults.annualSavings) * year - 50000;
-                          
-                          return (
-                            <div key={year} className="absolute bottom-0" style={{ left: `${year * 14 + 4}%` }}>
-                              <div className="w-8 flex flex-col items-center">
-                                <div 
-                                  className={`w-4 rounded-t-sm ${profit > 0 ? 'bg-green-500/50' : 'bg-red-500/50'}`}
-                                  style={{ height: `${height}px` }}
-                                ></div>
-                                <p className="text-xs mt-2 text-white/60">Y{year}</p>
-                              </div>
-                            </div>
-                          );
-                        })}
-                        
-                        {/* Break-even line */}
-                        <div 
-                          className="absolute left-0 right-0 border-t border-dashed border-green-500/50"
-                          style={{ bottom: `${Math.min(95, 60)}px` }}
-                        >
-                          <div className="absolute right-0 -top-2.5 text-xs text-green-400 bg-black/60 px-1 rounded">
-                            Break-even
-                          </div>
-                        </div>
-                      </div>
-                      
-                      {/* ROI Detailed Breakdown */}
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-4">
-                        <div className="space-y-3">
-                          <h5 className="text-sm font-medium">Cost Breakdown</h5>
-                          <div className="space-y-2">
-                            <div className="flex justify-between items-center text-sm">
-                              <span>Implementation</span>
-                              <span className="font-medium">$50,000</span>
-                            </div>
-                            <div className="flex justify-between items-center text-sm">
-                              <span>Annual Maintenance</span>
-                              <span className="font-medium">$5,000</span>
-                            </div>
-                            <div className="flex justify-between items-center text-sm">
-                              <span>Training</span>
-                              <span className="font-medium">$3,000</span>
-                            </div>
-                            <div className="flex justify-between items-center text-sm pt-2 border-t border-white/10">
-                              <span className="font-medium">Total 5-Year Cost</span>
-                              <span className="font-bold">$78,000</span>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <div className="space-y-3">
-                          <h5 className="text-sm font-medium">Return Breakdown</h5>
-                          <div className="space-y-2">
-                            <div className="flex justify-between items-center text-sm">
-                              <span>Annual Savings</span>
-                              <span className="font-medium text-green-400">${parseInt(roiResults.annualSavings).toLocaleString()}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-sm">
-                              <span>5-Year Total Savings</span>
-                              <span className="font-medium text-green-400">${(parseInt(roiResults.annualSavings) * 5).toLocaleString()}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-sm">
-                              <span>Net Benefit (5 Years)</span>
-                              <span className="font-medium text-green-400">${(parseInt(roiResults.annualSavings) * 5 - 78000).toLocaleString()}</span>
-                            </div>
-                            <div className="flex justify-between items-center text-sm pt-2 border-t border-white/10">
-                              <span className="font-medium">5-Year ROI</span>
-                              <span className="font-bold text-green-400">{Math.round((parseInt(roiResults.annualSavings) * 5 - 78000) / 78000 * 100)}%</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="mt-6 pt-4 border-t border-white/10">
-                        <h5 className="text-sm font-medium mb-3">Additional Benefits for {activeIndustry.title}</h5>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <div className="flex justify-between items-center text-sm mb-1">
-                              <span>Productivity Increase</span>
-                              <span className="text-green-400">{Math.round(roiInputs.efficiency * 1.2)}%</span>
-                            </div>
-                            <Progress value={Math.round(roiInputs.efficiency * 1.2)} className="h-1.5" />
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex justify-between items-center text-sm mb-1">
-                              <span>Error Reduction</span>
-                              <span className="text-green-400">{Math.round(roiInputs.efficiency * 0.9)}%</span>
-                            </div>
-                            <Progress value={Math.round(roiInputs.efficiency * 0.9)} className="h-1.5" />
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex justify-between items-center text-sm mb-1">
-                              <span>Customer Satisfaction</span>
-                              <span className="text-green-400">{Math.round(roiInputs.efficiency * 0.85)}%</span>
-                            </div>
-                            <Progress value={Math.round(roiInputs.efficiency * 0.85)} className="h-1.5" />
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex justify-between items-center text-sm mb-1">
-                              <span>Time to Market</span>
-                              <span className="text-green-400">{Math.round(roiInputs.efficiency * 0.7)}%</span>
-                            </div>
-                            <Progress value={Math.round(roiInputs.efficiency * 0.7)} className="h-1.5" />
-                          </div>
-                        </div>
-                      </div>
-                      
-                      <div className="flex justify-center mt-6">
-                        <Button className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white"
-                          onClick={generateRoiReport}
-                          disabled={isGeneratingReport}
-                        >
-                          {isGeneratingReport ? (
-                            <>
-                              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                              Generating Report...
-                            </>
-                          ) : (
-                            <>
-                              <FileText className="h-4 w-4 mr-2" />
-                              Download Detailed ROI Report
-                            </>
-                          )}
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
       
       {/* Compare Industries Section - full width when visible */}
       {compareMode && (

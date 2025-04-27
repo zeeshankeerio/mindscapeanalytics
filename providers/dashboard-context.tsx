@@ -54,6 +54,7 @@ interface DashboardContextType {
   markAllNotificationsAsRead: () => void
   removeNotification: (id: string) => void
   unreadNotificationsCount: number
+  toggleNotificationsPanel: () => void
   
   // Loading States
   isLoading: boolean
@@ -70,6 +71,7 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [sidebarAnimating, setSidebarAnimating] = useState(false)
   const [theme, setTheme] = useState<DashboardTheme>('dark')
+  const [notificationsPanelOpen, setNotificationsPanelOpen] = useState(false)
   
   // Toggle sidebar function with animation state
   const toggleSidebar = () => {
@@ -77,6 +79,30 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
     setSidebarOpen(prev => !prev)
     // Reset animation state after animation completes
     setTimeout(() => setSidebarAnimating(false), 300)
+  }
+
+  // Detect and handle mobile screens
+  useEffect(() => {
+    const handleResize = () => {
+      // Close sidebar on small screens by default
+      if (window.innerWidth < 1024 && sidebarOpen) {
+        setSidebarOpen(false)
+      } else if (window.innerWidth >= 1024 && !sidebarOpen) {
+        setSidebarOpen(true)
+      }
+    };
+    
+    // Initial check
+    handleResize();
+    
+    // Update on resize
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [sidebarOpen]);
+
+  // Toggle notifications panel
+  const toggleNotificationsPanel = () => {
+    setNotificationsPanelOpen(prev => !prev)
   }
   
   // User Preferences
@@ -228,7 +254,8 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
         unreadNotificationsCount,
         isLoading,
         setIsLoading,
-        refreshUserSession
+        refreshUserSession,
+        toggleNotificationsPanel
       }}
     >
       {children}

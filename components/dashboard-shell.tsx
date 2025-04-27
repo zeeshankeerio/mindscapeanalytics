@@ -1,18 +1,17 @@
-import React from 'react';
-import { cn } from "@/lib/utils";
+/**
+ * @deprecated This component is deprecated. Please use components/ui/dashboard-shell.tsx instead.
+ * This file is maintained for backward compatibility and will be removed in a future version.
+ */
 
-interface DashboardShellProps extends React.HTMLAttributes<HTMLDivElement> {}
+import { DashboardShell as UIDashboardShell } from "@/components/ui/dashboard-shell";
 
-export function DashboardShell({
-  children,
-  className,
-  ...props
-}: DashboardShellProps) {
-  return (
-    <div className={cn("flex-1 overflow-hidden", className)} {...props}>
-      <div className="flex-1 overflow-auto p-4 md:p-6">
-        {children}
-      </div>
-    </div>
+// Re-export the modern DashboardShell to maintain backward compatibility
+export const DashboardShell = UIDashboardShell;
+
+// Display deprecation warning in development
+if (process.env.NODE_ENV === 'development') {
+  console.warn(
+    'Warning: components/dashboard-shell.tsx is deprecated. ' +
+    'Please use components/ui/dashboard-shell.tsx instead.'
   );
 } 

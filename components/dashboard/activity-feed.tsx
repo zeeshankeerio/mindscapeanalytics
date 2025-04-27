@@ -155,17 +155,24 @@ function getDefaultIcon(type: ActivityType): React.ReactNode {
   }
 }
 
-export function ActivityFeed() {
+interface ActivityFeedProps {
+  limit?: number;
+}
+
+export function ActivityFeed({ limit }: ActivityFeedProps) {
   const [activities, setActivities] = useState<Activity[]>(activityData)
 
   const handleClearActivity = (id: string) => {
     setActivities(activities.filter(activity => activity.id !== id))
   }
 
+  // Apply limit if specified
+  const displayActivities = limit ? activities.slice(0, limit) : activities;
+
   return (
     <ScrollArea className="h-[300px]">
       <div className="space-y-4 pr-3">
-        {activities.length === 0 ? (
+        {displayActivities.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-[200px] text-center">
             <Clock className="h-8 w-8 text-muted-foreground mb-2" />
             <p className="text-sm font-medium">No recent activity</p>
@@ -174,7 +181,7 @@ export function ActivityFeed() {
             </p>
           </div>
         ) : (
-          activities.map((activity) => (
+          displayActivities.map((activity) => (
             <div
               key={activity.id}
               className="flex items-start space-x-3 text-sm border-b border-border/40 pb-3"

@@ -21,7 +21,20 @@ import {
   SortAsc,
   SortDesc,
   Search,
-  Download
+  Download,
+  ChevronDownIcon,
+  LightbulbIcon,
+  DollarSignIcon,
+  ShoppingCartIcon,
+  UsersIcon,
+  ServerIcon,
+  ArrowUpRightIcon,
+  ArrowDownRightIcon,
+  InfoIcon,
+  EyeIcon,
+  ClipboardIcon,
+  BookmarkIcon,
+  MoreHorizontalIcon
 } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -33,6 +46,8 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Toggle } from "@/components/ui/toggle"
 import { cn } from "@/lib/utils"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 interface InsightData {
   id: string
@@ -210,6 +225,7 @@ export function BusinessInsights({
   const [filterType, setFilterType] = useState<string>("all")
   const [filterImpact, setFilterImpact] = useState<string>("all")
   const [expandedInsight, setExpandedInsight] = useState<string | null>(null)
+  const [hoveredInsight, setHoveredInsight] = useState<string | null>(null)
 
   // Update state when props change
   useEffect(() => {

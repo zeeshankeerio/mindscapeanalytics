@@ -841,7 +841,7 @@ export default function HyperHero() {
             <div className="flex justify-center">
               <div className="relative animate-heartbeat">
                 {/* Logo glow effect */}
-                <div className="absolute inset-0 bg-red-900/20 blur-[60px] rounded-full" />
+                <div className="absolute inset-0 bg-red-900/20 blur-[70px] rounded-full scale-110" />
                 
                 {/* RGB Border Container */}
                 <div className="relative">
@@ -859,13 +859,15 @@ export default function HyperHero() {
                   {/* Icon container */}
                   <div className="relative bg-black rounded-[20px] p-4 xs:p-5">
                   <Image 
-                        src="/images/brain.svg" 
-                        alt="Mindscape Brain Logo"
-                        className="h-12 xs:h-14 w-12 xs:w-14 animate-svgBlink"
-                        width={56}
-                        height={56}
-                        priority
-                      />
+                      src="/images/brain.svg" 
+                      alt="Mindscape Brain Logo"
+                      className="h-20 w-20 xs:h-24 xs:w-24 animate-svg-pulse-intense"
+                      width={96}
+                      height={96}
+                      style={{
+                        filter: 'drop-shadow(0 0 8px rgba(255, 0, 0, 0.7))'
+                      }}
+                    />
 
                   </div>
                 </div>
@@ -1007,28 +1009,28 @@ export default function HyperHero() {
 
   // Desktop view
   return (
-    <section className="relative h-[95vh] flex flex-col justify-center overflow-hidden pt-[max(120px,15vh)] md:pt-[170px] pb-10 md:pb-20">
+    <section className="relative h-[90vh] flex flex-col justify-center overflow-hidden pt-[max(115px,14vh)] md:pt-[165px] pb-0 md:pb-10">
       {/* Enhanced Background */}
       <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black/80" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black via-black/90 to-black/85" />
       
-      {/* Animated particles for added depth */}
+      {/* Animated particles for added depth - optimized positions */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-[15%] left-[20%] w-[150px] md:w-[200px] h-[150px] md:h-[200px] rounded-full bg-gradient-to-r from-red-900/20 to-transparent blur-[60px] md:blur-[80px] animate-float-slow" />
         <div className="absolute bottom-[25%] right-[15%] w-[120px] md:w-[150px] h-[120px] md:h-[150px] rounded-full bg-gradient-to-r from-red-800/10 to-transparent blur-[40px] md:blur-[60px] animate-float-medium" />
         <div className="absolute top-[60%] left-[15%] w-[80px] md:w-[100px] h-[80px] md:h-[100px] rounded-full bg-gradient-to-r from-red-700/15 to-transparent blur-[30px] md:blur-[40px] animate-float-fast" />
         
-        {/* Additional floating elements */}
+        {/* Additional floating elements - refined positions */}
         <div className="absolute bottom-[42%] left-[35%] w-[60px] h-[60px] rounded-full bg-gradient-to-r from-red-600/10 to-transparent blur-[25px] animate-float-medium" />
         <div className="absolute top-[35%] right-[28%] w-[50px] h-[50px] rounded-full bg-gradient-to-r from-red-500/15 to-transparent blur-[20px] animate-float-fast" />
       </div>
 
       {/* Main Content */}
       <div className="container mx-auto px-4 md:px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row items-center gap-6 md:gap-10">
+        <div className="flex flex-col lg:flex-row items-center gap-5 md:gap-8">
           {/* Left Column - Content */}
             <motion.div
-            className="flex-1 space-y-4 md:space-y-6 relative w-full"
+            className="flex-1 space-y-3 md:space-y-5 relative w-full"
             style={{ y }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -1055,35 +1057,35 @@ export default function HyperHero() {
               </Badge>
             </motion.div>
 
-            {/* Title Section */}
+            {/* Title Section - refined spacing */}
             <motion.div
               className="space-y-2 max-w-2xl"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
+              <h1 className="text-4xl md:text-6xl font-bold tracking-tight leading-tight">
                 <span className="text-white relative z-10">Unlock Next-Gen Intelligence with</span>
                 <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600 relative">
                   Enterprise AI Solutions
                 </span>
               </h1>
-              <p className="text-lg text-white/80 mt-4 max-w-xl">
+              <p className="text-base md:text-lg text-white/80 mt-3 max-w-xl">
                 Accelerate innovation with our end-to-end AI platform that delivers powerful insights, automates workflows, and drives tangible business outcomes.
               </p>
             </motion.div>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons - refined spacing */}
             <motion.div
-              className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4"
+              className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-3 pt-1"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.8 }}
             >
               <Button 
                 size="lg" 
-                className="group relative px-6 py-4 text-base font-semibold text-white rounded-full hover:brightness-110 transition-all duration-300 overflow-hidden w-full sm:w-auto"
+                className="group relative px-5 py-3 text-base font-semibold text-white rounded-full hover:brightness-110 transition-all duration-300 overflow-hidden w-full sm:w-auto"
                 onClick={handleGetStartedClick}
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-red-700 via-red-600 to-red-700 group-hover:from-red-600 group-hover:via-red-500 group-hover:to-red-600 transition-all duration-500 rounded-full"></div>
@@ -1097,7 +1099,7 @@ export default function HyperHero() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="group relative px-6 py-4 text-base font-semibold text-white border border-white/30 hover:border-white/50 hover:bg-white/5 rounded-full backdrop-blur-sm transition-all duration-300 overflow-hidden w-full sm:w-auto"
+                  className="group relative px-5 py-3 text-base font-semibold text-white border border-white/30 hover:border-white/50 hover:bg-white/5 rounded-full backdrop-blur-sm transition-all duration-300 overflow-hidden w-full sm:w-auto"
                 >
                   <div className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 bg-white/5 transition-opacity duration-300"></div>
                   <div className="absolute -inset-full h-full w-1/3 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine" />
@@ -1108,14 +1110,14 @@ export default function HyperHero() {
               </Link>
             </motion.div>
 
-            {/* Enhanced Features display */}
+            {/* Enhanced Features display - improved spacing and layout */}
             <motion.div 
-              className="mt-12 w-full"
+              className="mt-10 w-full"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3">
                 {optimizedFeatures.map((feature, index) => (
                   <EnhancedFeatureCard
                     key={feature.id}
@@ -1152,18 +1154,18 @@ export default function HyperHero() {
                   {/* Logo and text container */}
                   <div className="relative flex flex-col items-center">
                     {/* Brain icon with glow */}
-                    <div className="relative scale-[1.3] md:scale-[1.6]">
+                    <div className="relative scale-[1.35] md:scale-[1.6]">
                       {/* Multiple layered glows */}
-                      <div className="absolute inset-0 bg-red-900/10 blur-[40px] rounded-[20px] animate-pulse-slow" />
-                      <div className="absolute inset-0 bg-red-800/20 blur-[30px] rounded-[20px] animate-pulse-medium" />
-                      <div className="absolute inset-0 bg-red-700/30 blur-[20px] rounded-[20px] animate-pulse-fast" />
+                      <div className="absolute inset-0 bg-red-900/10 blur-[50px] rounded-[20px] animate-pulse-slow scale-110" />
+                      <div className="absolute inset-0 bg-red-800/20 blur-[40px] rounded-[20px] animate-pulse-medium scale-110" />
+                      <div className="absolute inset-0 bg-red-700/30 blur-[30px] rounded-[20px] animate-pulse-fast scale-110" />
                       
                       {/* Neural network lines */}
                       <div className="absolute inset-0 opacity-50 scale-[1.2]">
-                        <div className="absolute h-[1px] w-8 bg-gradient-to-r from-transparent via-red-800 to-transparent top-1/4 -left-3 animate-neural-1" />
-                        <div className="absolute h-[1px] w-8 bg-gradient-to-r from-transparent via-red-800 to-transparent bottom-1/4 -right-3 animate-neural-2" />
-                        <div className="absolute w-[1px] h-8 bg-gradient-to-b from-transparent via-red-800 to-transparent -top-3 left-1/4 animate-neural-3" />
-                        <div className="absolute w-[1px] h-8 bg-gradient-to-b from-transparent via-red-800 to-transparent -bottom-3 right-1/4 animate-neural-4" />
+                        <div className="absolute h-[1px] w-10 bg-gradient-to-r from-transparent via-red-800 to-transparent top-1/4 -left-4 animate-neural-1" />
+                        <div className="absolute h-[1px] w-10 bg-gradient-to-r from-transparent via-red-800 to-transparent bottom-1/4 -right-4 animate-neural-2" />
+                        <div className="absolute w-[1px] h-10 bg-gradient-to-b from-transparent via-red-800 to-transparent -top-4 left-1/4 animate-neural-3" />
+                        <div className="absolute w-[1px] h-10 bg-gradient-to-b from-transparent via-red-800 to-transparent -bottom-4 right-1/4 animate-neural-4" />
                       </div>
 
                       {/* Enhanced Brain icon with RGB border */}
@@ -1175,19 +1177,19 @@ export default function HyperHero() {
                             <div className="absolute inset-0 bg-[conic-gradient(from_0deg,#8B0000,#420000,#690000,#8B0000)] rounded-[20px] group-hover:bg-[conic-gradient(from_0deg,#8B0000,#420000,#690000,#8B0000)]" />
                           </div>
                           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent rounded-[20px] animate-border-flow group-hover:animate-border-flow-fast" />
-                          <div className="absolute inset-0 rounded-[20px] bg-black">
+                          <div className="absolute inset-0 rounded-[20px] bg-black/95">
                             <div className="absolute inset-0 rounded-[20px] bg-gradient-to-r from-[#8B000030] via-[#42000030] to-[#69000030] animate-rgb-spin-reverse group-hover:animate-rgb-spin-reverse-fast group-hover:from-[#8B000050] group-hover:via-[#42000050] group-hover:to-[#69000050]" />
                           </div>
                         </div>
                         
                         {/* Icon container */}
-                        <div className="relative bg-black rounded-[20px] p-8 md:p-10 transition-transform duration-300 group-hover:scale-[0.98]">
+                        <div className="relative bg-black rounded-[20px] p-7 md:p-9 transition-transform duration-300 group-hover:scale-[0.98]">
                           <Image 
                             src="/images/brain.svg" 
                             alt="Mindscape Brain Logo"
-                            className="h-14 w-14 md:h-24 md:w-24 transform transition-all duration-300 group-hover:scale-[0.98] animate-brain-pulse"
-                            width={96}
-                            height={96}
+                            className="h-20 w-20 md:h-28 md:w-28 transform transition-all duration-300 group-hover:scale-[0.98] animate-brain-pulse-enhanced"
+                            width={112}
+                            height={112}
                           />
                         </div>
                       </div>
@@ -1206,15 +1208,15 @@ export default function HyperHero() {
         </div>
       </div>
       
-      {/* Stats banner at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-r from-black via-black/95 to-black backdrop-blur-sm border-t border-white/5 py-4 px-4">
-      <div className="container mx-auto flex justify-end items-center">
-        <div className="text-white/70 flex items-center bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
-          <Shield className="h-4 w-4 mr-2 text-red-400" />
-          <span className="text-sm">Enterprise-grade security</span>
+      {/* Stats banner at bottom - refined */}
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-r from-black via-black/95 to-black backdrop-blur-sm border-t border-white/5 py-3 px-4">
+        <div className="container mx-auto flex justify-end items-center">
+          <div className="text-white/70 flex items-center bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
+            <Shield className="h-4 w-4 mr-2 text-red-400" />
+            <span className="text-sm">Enterprise-grade security</span>
+          </div>
         </div>
       </div>
-    </div>
     </section>
   )
 }
@@ -1699,6 +1701,57 @@ const styles = `
   .animate-brain-pulse {
     animation: brain-pulse 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     will-change: filter, transform;
+  }
+
+  @keyframes brain-pulse-enhanced {
+    0% { 
+      filter: brightness(1) drop-shadow(0 0 5px rgba(255, 0, 0, 0.7));
+      transform: scale(1);
+    }
+    25% {
+      filter: brightness(1.4) drop-shadow(0 0 12px rgba(255, 0, 0, 0.85));
+      transform: scale(1.05);
+    }
+    50% { 
+      filter: brightness(1.8) drop-shadow(0 0 18px rgba(255, 0, 0, 1));
+      transform: scale(1.1);
+    }
+    75% {
+      filter: brightness(1.4) drop-shadow(0 0 12px rgba(255, 0, 0, 0.85));
+      transform: scale(1.05);
+    }
+    100% { 
+      filter: brightness(1) drop-shadow(0 0 5px rgba(255, 0, 0, 0.7));
+      transform: scale(1);
+    }
+  }
+
+  @keyframes svg-pulse-intense {
+    0% { 
+      filter: brightness(1) drop-shadow(0 0 8px rgba(255, 0, 0, 0.7));
+      transform: scale(1);
+      opacity: 0.9;
+    }
+    50% { 
+      filter: brightness(1.6) drop-shadow(0 0 20px rgba(255, 0, 0, 1));
+      transform: scale(1.12);
+      opacity: 1;
+    }
+    100% { 
+      filter: brightness(1) drop-shadow(0 0 8px rgba(255, 0, 0, 0.7));
+      transform: scale(1);
+      opacity: 0.9;
+    }
+  }
+
+  .animate-brain-pulse-enhanced {
+    animation: brain-pulse-enhanced 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    will-change: filter, transform;
+  }
+
+  .animate-svg-pulse-intense {
+    animation: svg-pulse-intense 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    will-change: filter, transform, opacity;
   }
 `
 

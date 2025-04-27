@@ -16,7 +16,8 @@ export function NotificationsPanel() {
     unreadNotificationsCount, 
     markNotificationAsRead, 
     markAllNotificationsAsRead,
-    removeNotification 
+    removeNotification,
+    toggleNotificationsPanel
   } = useDashboard()
   
   const [isOpen, setIsOpen] = useState(false)
