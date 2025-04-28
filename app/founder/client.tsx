@@ -18,7 +18,6 @@ export default function ClientWrapper({ children }: ClientWrapperProps) {
         duration: 0.7,
         ease: "easeOut"
       }}
-      className="min-h-screen w-full overflow-x-hidden"
     >
       {children}
     </motion.div>
