@@ -179,27 +179,27 @@ export default function TechStackShowcase() {
   })
 
   return (
-    <section className="w-full py-16 relative overflow-hidden bg-black">
+    <section className="w-full py-12 md:py-16 relative overflow-hidden bg-black">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-grid-white/5 [mask-image:linear-gradient(to_bottom,transparent,black)]"></div>
       <div className="absolute top-1/4 left-1/3 w-64 h-64 rounded-full bg-red-500/10 blur-[100px]"></div>
       <div className="absolute bottom-1/3 right-1/3 w-80 h-80 rounded-full bg-blue-500/10 blur-[120px]"></div>
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10">
+      <div className="container mx-auto px-3 md:px-6 relative z-10">
         {/* Main Heading */}
-        <div className="text-center mb-10">
+        <div className="text-center mb-6 md:mb-10">
           <Badge className="mb-3 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm">TECHNOLOGY STACK</Badge>
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-3">
+          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold tracking-tight mb-3">
             Our <span className="text-red-500">Technology</span> Stack
           </h1>
-          <p className="text-lg text-white/70 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg text-white/70 max-w-3xl mx-auto">
             We leverage cutting-edge technologies to build powerful, scalable, and secure AI solutions.
           </p>
-                </div>
+        </div>
                 
         {/* Compact Filters */}
-        <div className="mb-8">
-          <div className="flex flex-col sm:flex-row gap-4">
+        <div className="mb-6 md:mb-8">
+          <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white/50" />
               <Input 
@@ -209,49 +209,51 @@ export default function TechStackShowcase() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 bg-black/40 border-white/10 text-white placeholder:text-white/50 h-9"
               />
-                </div>
+            </div>
 
-            <Tabs defaultValue="all" value={activeCategory} onValueChange={setActiveCategory} className="w-full sm:w-auto">
-              <TabsList className="bg-black/40 border border-white/10 h-9 grid grid-cols-3 sm:grid-cols-4 md:flex md:flex-row gap-0.5 overflow-x-auto scrollbar-hide">
-                <TabsTrigger value="all" className="data-[state=active]:bg-white/10 px-2 text-xs h-full">All</TabsTrigger>
-                <TabsTrigger value="ai-ml" className="data-[state=active]:bg-red-500/20 px-2 text-xs h-full">AI/ML</TabsTrigger>
-                <TabsTrigger value="data" className="data-[state=active]:bg-blue-500/20 px-2 text-xs h-full">Data</TabsTrigger>
-                <TabsTrigger value="cloud" className="data-[state=active]:bg-green-500/20 px-2 text-xs h-full">Cloud</TabsTrigger>
-                <TabsTrigger value="security" className="data-[state=active]:bg-purple-500/20 px-2 text-xs h-full">Security</TabsTrigger>
-                <TabsTrigger value="ui-ux" className="data-[state=active]:bg-amber-500/20 px-2 text-xs h-full">UI/UX</TabsTrigger>
-                <TabsTrigger value="api" className="data-[state=active]:bg-indigo-500/20 px-2 text-xs h-full">APIs</TabsTrigger>
-                <TabsTrigger value="analytics" className="data-[state=active]:bg-pink-500/20 px-2 text-xs h-full">Analytics</TabsTrigger>
-                <TabsTrigger value="web-dev" className="data-[state=active]:bg-cyan-500/20 px-2 text-xs h-full">Web Dev</TabsTrigger>
-              </TabsList>
-            </Tabs>
-              </div>
-              </div>
+            <div className="w-full overflow-x-auto pb-1 -mb-1 sm:w-auto sm:pb-0 sm:mb-0">
+              <Tabs defaultValue="all" value={activeCategory} onValueChange={setActiveCategory} className="w-full">
+                <TabsList className="bg-black/40 border border-white/10 h-9 grid grid-cols-4 sm:grid-cols-9 sm:flex sm:flex-row min-w-[500px] sm:min-w-0 gap-0.5 overflow-x-auto scrollbar-hide">
+                  <TabsTrigger value="all" className="data-[state=active]:bg-white/10 px-2 text-xs h-full">All</TabsTrigger>
+                  <TabsTrigger value="ai-ml" className="data-[state=active]:bg-red-500/20 px-2 text-xs h-full">AI/ML</TabsTrigger>
+                  <TabsTrigger value="data" className="data-[state=active]:bg-blue-500/20 px-2 text-xs h-full">Data</TabsTrigger>
+                  <TabsTrigger value="cloud" className="data-[state=active]:bg-green-500/20 px-2 text-xs h-full">Cloud</TabsTrigger>
+                  <TabsTrigger value="security" className="data-[state=active]:bg-purple-500/20 px-2 text-xs h-full">Security</TabsTrigger>
+                  <TabsTrigger value="ui-ux" className="data-[state=active]:bg-amber-500/20 px-2 text-xs h-full">UI/UX</TabsTrigger>
+                  <TabsTrigger value="api" className="data-[state=active]:bg-indigo-500/20 px-2 text-xs h-full">APIs</TabsTrigger>
+                  <TabsTrigger value="analytics" className="data-[state=active]:bg-pink-500/20 px-2 text-xs h-full">Analytics</TabsTrigger>
+                  <TabsTrigger value="web-dev" className="data-[state=active]:bg-cyan-500/20 px-2 text-xs h-full">Web Dev</TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
+          </div>
+        </div>
 
         {/* Compact Technology Cards */}
-        <div className="mb-12 relative">
+        <div className="mb-6 md:mb-12 relative">
           {filteredCategories.length === 0 ? (
             <div className="text-center py-8 text-white/70 bg-black/20 border border-white/10 rounded-lg">
               <Search className="h-6 w-6 mx-auto text-white/30 mb-2" />
               <h3 className="text-base font-medium mb-1">No technologies found</h3>
               <p className="text-xs">Try adjusting your search query or filter selection</p>
-              </div>
+            </div>
           ) : (
             <div className="relative overflow-hidden">
-              <div className="flex gap-3 animate-scroll">
+              <div className="flex gap-2 sm:gap-3 animate-scroll">
                 {/* First set of cards */}
                 {filteredCategories.map((category) => (
                   <Card 
                     key={category.id} 
-                    className="group min-w-[260px] sm:min-w-[280px] h-full border border-white/10 bg-black/40 hover:bg-black/60 transition-all duration-300 overflow-hidden backdrop-blur-sm hover:shadow-lg hover:shadow-white/5 hover:scale-[1.01] hover:border-white/20"
+                    className="group min-w-[220px] xs:min-w-[240px] sm:min-w-[280px] h-full border border-white/10 bg-black/40 hover:bg-black/60 transition-all duration-300 overflow-hidden backdrop-blur-sm hover:shadow-lg hover:shadow-white/5 hover:scale-[1.01] hover:border-white/20"
                   >
                     <CardHeader className={`py-2 px-3 flex flex-row items-center justify-between border-b border-white/10 ${category.colorClass} bg-opacity-10 group-hover:bg-opacity-20 transition-all duration-300`}>
                       <div className="flex items-center gap-2">
-                        <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${category.colorClass} group-hover:scale-110 transition-transform duration-300`}>
-                            {category.icon}
+                        <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center ${category.colorClass} group-hover:scale-110 transition-transform duration-300`}>
+                          {category.icon}
                         </div>
                         <div>
-                          <h3 className="text-sm font-semibold leading-tight group-hover:text-white transition-colors">{category.title}</h3>
-                          <p className="text-[9px] text-white/70 group-hover:text-white/90 transition-colors">{category.badges.length} technologies</p>
+                          <h3 className="text-xs sm:text-sm font-semibold leading-tight group-hover:text-white transition-colors">{category.title}</h3>
+                          <p className="text-[8px] sm:text-[9px] text-white/70 group-hover:text-white/90 transition-colors">{category.badges.length} technologies</p>
                         </div>
                       </div>
                     </CardHeader>
@@ -261,86 +263,11 @@ export default function TechStackShowcase() {
                         {category.badges.map((badge) => (
                           <div 
                             key={badge.name} 
-                            className="group/badge relative bg-black/30 rounded-md border border-white/10 p-2 hover:border-white/30 hover:bg-black/40 transition-all duration-300 hover:shadow-md hover:shadow-white/5"
+                            className="group/badge relative bg-black/30 rounded-md border border-white/10 p-1.5 sm:p-2 hover:border-white/30 hover:bg-black/40 transition-all duration-300 hover:shadow-md hover:shadow-white/5"
                           >
                             <div className="flex items-center justify-between gap-1.5 mb-1">
                               <div className="flex items-center gap-1.5 flex-wrap">
-                                <div className="font-medium text-xs group-hover/badge:text-white transition-colors">{badge.name}</div>
-                                {badge.expertise && (
-                                  <Badge variant="outline" className={`text-[8px] px-1.5 py-0 h-4 ${
-                                    badge.expertise === "advanced" ? "bg-red-500/20 text-red-400 border-red-500/30" :
-                                    badge.expertise === "intermediate" ? "bg-amber-500/20 text-amber-400 border-amber-500/30" :
-                                    "bg-green-500/20 text-green-400 border-green-500/30"
-                                  }`}>
-                                    {badge.expertise}
-                                  </Badge>
-            )}
-          </div>
-                              
-                              {badge.link && (
-                                <a 
-                                  href={badge.link}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-white/50 hover:text-white transition-colors p-0.5 hover:bg-white/10 rounded"
-                                >
-                                  <Link className="h-3 w-3" />
-                                </a>
-                              )}
-    </div>
-                            
-                            <p className="text-[9px] text-white/70 group-hover/badge:text-white/90 transition-colors mb-1.5 line-clamp-2">
-                              {badge.description}
-                            </p>
-                            
-                            {badge.score && (
-                              <div className="flex items-center gap-1.5 mt-1.5">
-                                <div className="flex-1">
-                                  <Progress 
-                                    value={badge.score} 
-                                    className="h-1 bg-white/10 group-hover/badge:bg-white/20 transition-colors"
-              />
-        </div>
-                                <div className="flex items-center gap-0.5">
-                                  <Star className="h-2.5 w-2.5 text-yellow-500 fill-yellow-500" />
-                                  <span className="text-[8px] font-medium">{badge.score}%</span>
-                  </div>
-              </div>
-                            )}
-            </div>
-                        ))}
-          </div>
-                    </CardContent>
-                  </Card>
-                ))}
-                {/* Duplicate set for seamless loop */}
-                {filteredCategories.map((category) => (
-                <Card 
-                    key={`${category.id}-duplicate`} 
-                    className="group min-w-[260px] sm:min-w-[280px] h-full border border-white/10 bg-black/40 hover:bg-black/60 transition-all duration-300 overflow-hidden backdrop-blur-sm hover:shadow-lg hover:shadow-white/5 hover:scale-[1.01] hover:border-white/20"
-                  >
-                    <CardHeader className={`py-2 px-3 flex flex-row items-center justify-between border-b border-white/10 ${category.colorClass} bg-opacity-10 group-hover:bg-opacity-20 transition-all duration-300`}>
-                      <div className="flex items-center gap-2">
-                        <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${category.colorClass} group-hover:scale-110 transition-transform duration-300`}>
-                          {category.icon}
-                      </div>
-                        <div>
-                          <h3 className="text-sm font-semibold leading-tight group-hover:text-white transition-colors">{category.title}</h3>
-                          <p className="text-[9px] text-white/70 group-hover:text-white/90 transition-colors">{category.badges.length} technologies</p>
-                    </div>
-                      </div>
-                    </CardHeader>
-                    
-                    <CardContent className="p-2 space-y-2 text-xs">
-                      <div className="space-y-2">
-                        {category.badges.map((badge) => (
-                          <div 
-                              key={badge.name}
-                            className="group/badge relative bg-black/30 rounded-md border border-white/10 p-2 hover:border-white/30 hover:bg-black/40 transition-all duration-300 hover:shadow-md hover:shadow-white/5"
-                          >
-                            <div className="flex items-center justify-between gap-1.5 mb-1">
-                              <div className="flex items-center gap-1.5 flex-wrap">
-                                <div className="font-medium text-xs group-hover/badge:text-white transition-colors">{badge.name}</div>
+                                <div className="font-medium text-[10px] sm:text-xs group-hover/badge:text-white transition-colors">{badge.name}</div>
                                 {badge.expertise && (
                                   <Badge variant="outline" className={`text-[8px] px-1.5 py-0 h-4 ${
                                     badge.expertise === "advanced" ? "bg-red-500/20 text-red-400 border-red-500/30" :
@@ -359,12 +286,12 @@ export default function TechStackShowcase() {
                                   rel="noopener noreferrer"
                                   className="text-white/50 hover:text-white transition-colors p-0.5 hover:bg-white/10 rounded"
                                 >
-                                  <Link className="h-3 w-3" />
+                                  <Link className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
                                 </a>
                               )}
-                        </div>
-                        
-                            <p className="text-[9px] text-white/70 group-hover/badge:text-white/90 transition-colors mb-1.5 line-clamp-2">
+                            </div>
+                            
+                            <p className="text-[8px] sm:text-[9px] text-white/70 group-hover/badge:text-white/90 transition-colors mb-1.5 line-clamp-2">
                               {badge.description}
                             </p>
                             
@@ -375,23 +302,98 @@ export default function TechStackShowcase() {
                                     value={badge.score} 
                                     className="h-1 bg-white/10 group-hover/badge:bg-white/20 transition-colors"
                                   />
-                      </div>
+                                </div>
                                 <div className="flex items-center gap-0.5">
-                                  <Star className="h-2.5 w-2.5 text-yellow-500 fill-yellow-500" />
-                                  <span className="text-[8px] font-medium">{badge.score}%</span>
-        </div>
-          </div>
+                                  <Star className="h-2 w-2 sm:h-2.5 sm:w-2.5 text-yellow-500 fill-yellow-500" />
+                                  <span className="text-[7px] sm:text-[8px] font-medium">{badge.score}%</span>
+                                </div>
+                              </div>
                             )}
                           </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-            ))}
-                  </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+                {/* Duplicate set for seamless loop */}
+                {filteredCategories.map((category) => (
+                  <Card 
+                    key={`${category.id}-duplicate`} 
+                    className="group min-w-[220px] xs:min-w-[240px] sm:min-w-[280px] h-full border border-white/10 bg-black/40 hover:bg-black/60 transition-all duration-300 overflow-hidden backdrop-blur-sm hover:shadow-lg hover:shadow-white/5 hover:scale-[1.01] hover:border-white/20"
+                  >
+                    <CardHeader className={`py-2 px-3 flex flex-row items-center justify-between border-b border-white/10 ${category.colorClass} bg-opacity-10 group-hover:bg-opacity-20 transition-all duration-300`}>
+                      <div className="flex items-center gap-2">
+                        <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center ${category.colorClass} group-hover:scale-110 transition-transform duration-300`}>
+                          {category.icon}
                         </div>
+                        <div>
+                          <h3 className="text-xs sm:text-sm font-semibold leading-tight group-hover:text-white transition-colors">{category.title}</h3>
+                          <p className="text-[8px] sm:text-[9px] text-white/70 group-hover:text-white/90 transition-colors">{category.badges.length} technologies</p>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    
+                    <CardContent className="p-2 space-y-2 text-xs">
+                      <div className="space-y-2">
+                        {category.badges.map((badge) => (
+                          <div 
+                            key={badge.name}
+                            className="group/badge relative bg-black/30 rounded-md border border-white/10 p-1.5 sm:p-2 hover:border-white/30 hover:bg-black/40 transition-all duration-300 hover:shadow-md hover:shadow-white/5"
+                          >
+                            <div className="flex items-center justify-between gap-1.5 mb-1">
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <div className="font-medium text-[10px] sm:text-xs group-hover/badge:text-white transition-colors">{badge.name}</div>
+                                {badge.expertise && (
+                                  <Badge variant="outline" className={`text-[8px] px-1.5 py-0 h-4 ${
+                                    badge.expertise === "advanced" ? "bg-red-500/20 text-red-400 border-red-500/30" :
+                                    badge.expertise === "intermediate" ? "bg-amber-500/20 text-amber-400 border-amber-500/30" :
+                                    "bg-green-500/20 text-green-400 border-green-500/30"
+                                  }`}>
+                                    {badge.expertise}
+                                  </Badge>
+                                )}
+                              </div>
+                              
+                              {badge.link && (
+                                <a 
+                                  href={badge.link}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-white/50 hover:text-white transition-colors p-0.5 hover:bg-white/10 rounded"
+                                >
+                                  <Link className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
+                                </a>
+                              )}
+                            </div>
+                            
+                            <p className="text-[8px] sm:text-[9px] text-white/70 group-hover/badge:text-white/90 transition-colors mb-1.5 line-clamp-2">
+                              {badge.description}
+                            </p>
+                            
+                            {badge.score && (
+                              <div className="flex items-center gap-1.5 mt-1.5">
+                                <div className="flex-1">
+                                  <Progress 
+                                    value={badge.score} 
+                                    className="h-1 bg-white/10 group-hover/badge:bg-white/20 transition-colors"
+                                  />
+                                </div>
+                                <div className="flex items-center gap-0.5">
+                                  <Star className="h-2 w-2 sm:h-2.5 sm:w-2.5 text-yellow-500 fill-yellow-500" />
+                                  <span className="text-[7px] sm:text-[8px] font-medium">{badge.score}%</span>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </div>
           )}
-          </div>
+        </div>
           
         <style jsx global>{`
           @keyframes scroll {
@@ -414,6 +416,24 @@ export default function TechStackShowcase() {
           @media (max-width: 640px) {
             .animate-scroll {
               animation-duration: 40s;
+            }
+          }
+          
+          /* Hide scrollbar for WebKit browsers */
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+          }
+          
+          /* Hide scrollbar for Firefox */
+          .scrollbar-hide {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+          }
+          
+          /* Extra small screens */
+          @media (min-width: 375px) {
+            .xs\:min-w-\[240px\] {
+              min-width: 240px;
             }
           }
         `}</style>

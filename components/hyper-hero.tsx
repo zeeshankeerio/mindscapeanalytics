@@ -837,50 +837,9 @@ export default function HyperHero() {
         {/* Main content container with safer top padding for different device heights */}
         <div className="flex-1 flex flex-col justify-start pt-[max(60px,10vh)] relative z-10">
           {/* Header section with logo */}
-          <div className="px-4 pb-2">
-            <div className="flex justify-center">
-              <div className="relative animate-heartbeat">
-                {/* Logo glow effect */}
-                <div className="absolute inset-0 bg-red-900/20 blur-[70px] rounded-full scale-110" />
-                
-                {/* RGB Border Container */}
-                <div className="relative">
-                  <div className="absolute -inset-[2px] rounded-[20px]">
-                    {/* Moving RGB gradient border */}
-                    <div className="absolute inset-[-2px] rounded-[20px] animate-rgb-spin">
-                      <div className="absolute inset-0 bg-[conic-gradient(from_0deg,#8B0000,#420000,#690000,#8B0000)] rounded-[20px]" />
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent rounded-[20px] animate-border-flow" />
-                    <div className="absolute inset-0 rounded-[20px] bg-black/95">
-                      <div className="absolute inset-0 rounded-[20px] bg-gradient-to-r from-[#8B000030] via-[#42000030] to-[#69000030] animate-rgb-spin-reverse" />
-                    </div>
-                  </div>
-                  
-                  {/* Icon container */}
-                  <div className="relative bg-black rounded-[20px] p-4 xs:p-5">
-                  <Image 
-                      src="/images/brain.svg" 
-                      alt="Mindscape Brain Logo"
-                      className="h-20 w-20 xs:h-24 xs:w-24 animate-svg-pulse-intense"
-                      width={96}
-                      height={96}
-                      style={{
-                        filter: 'drop-shadow(0 0 8px rgba(255, 0, 0, 0.7))'
-                      }}
-                    />
-
-                  </div>
-                </div>
-              </div>
-            </div>
-      </div>
-          
-          {/* Content sections */}
-          <div className="flex-1 flex flex-col justify-between px-4 pb-8">
-            {/* Top section with title and badges */}
-            <div className="text-center space-y-2 sm:space-y-3">
+          <div className="px-4 pb-4">
               {/* Enterprise Platform Section */}
-              <div className="mb-2 sm:mb-3 animate-fade-in-1">
+            <div className="text-center animate-fade-in-1 mb-2">
                 <div className="inline-block px-2 xs:px-3 py-1 bg-gradient-to-r from-red-900/30 to-red-800/20 rounded-full backdrop-blur-sm border border-red-900/30">
                   <p className="text-[10px] xs:text-xs font-medium text-red-400">
                     <Sparkles className="h-2.5 xs:h-3 w-2.5 xs:w-3 mr-1 inline-block animate-[pulse_2s_ease-in-out_infinite]" />
@@ -890,7 +849,7 @@ export default function HyperHero() {
               </div>
               
               {/* Badges */}
-              <div className="flex flex-wrap justify-center gap-1.5 xs:gap-2 mb-1">
+            <div className="flex flex-wrap justify-center gap-1.5 xs:gap-2 mb-4">
                 <Badge className="bg-gradient-to-r from-blue-500/30 to-blue-500/10 text-blue-400 border-blue-500/30 animate-fade-in-2 text-[10px] xs:text-xs py-0.5">
                   <Shield className="h-2.5 xs:h-3 w-2.5 xs:w-3 mr-1 animate-[pulse_2.5s_ease-in-out_infinite]" />
                   SOC 2 Certified
@@ -899,14 +858,55 @@ export default function HyperHero() {
                   <Zap className="h-2.5 xs:h-3 w-2.5 xs:w-3 mr-1 animate-[pulse_3s_ease-in-out_infinite]" />
                   Real-time Inference
                 </Badge>
+            </div>
               </div>
               
+          {/* Content sections */}
+          <div className="flex-1 flex flex-col justify-between px-4 pb-8">
+            {/* Top section with title and badges */}
+            <div className="text-center space-y-2 sm:space-y-3">
               {/* Title and description */}
               <div className="animate-fade-up">
-                <h1 className="text-3xl xs:text-4xl font-bold tracking-tight leading-tight mb-2">
-                  <span className="text-white backdrop-blur-[0.5px] relative z-10">Transform Your Business with</span>
-                  <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/20 before:to-transparent before:opacity-40 before:blur-[0.5px] before:-z-10">
+                <h1 className="text-2xl xs:text-3xl font-bold tracking-tight leading-tight mb-2">
+                  <span className="text-white backdrop-blur-[0.5px] relative z-10 block">Transform Your Business with</span>
+                  
+                  {/* Logo inserted between text */}
+                  <div className="my-3 flex justify-center">
+                    <div className="relative animate-heartbeat">
+                      {/* Logo glow effect */}
+                      <div className="absolute inset-0 bg-red-900/20 blur-[30px] rounded-full scale-110" />
+                      
+                      {/* RGB Border Container - smaller size */}
+                      <div className="relative">
+                        <div className="absolute -inset-[1.5px] rounded-[15px]">
+                          {/* Moving RGB gradient border */}
+                          <div className="absolute inset-[-1.5px] rounded-[15px] animate-rgb-spin">
+                            <div className="absolute inset-0 bg-[conic-gradient(from_0deg,#8B0000,#420000,#690000,#8B0000)] rounded-[15px]" />
+                          </div>
+                          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent rounded-[15px] animate-border-flow" />
+                          <div className="absolute inset-0 rounded-[15px] bg-black/95">
+                            <div className="absolute inset-0 rounded-[15px] bg-gradient-to-r from-[#8B000030] via-[#42000030] to-[#69000030] animate-rgb-spin-reverse" />
+                          </div>
+                        </div>
+                        
+                        {/* Icon container - smaller size */}
+                        <div className="relative bg-black rounded-[15px] p-2 xs:p-3">
+                          <Image 
+                            src="/images/brain.svg" 
+                            alt="Mindscape Brain Logo"
+                            className="h-12 w-12 xs:h-16 xs:w-16 animate-svg-pulse-intense"
+                            width={64}
+                            height={64}
+                            style={{
+                              filter: 'drop-shadow(0 0 6px rgba(255, 0, 0, 0.7))'
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-red-600 relative before:absolute before:inset-0 before:bg-gradient-to-b before:from-white/20 before:to-transparent before:opacity-40 before:blur-[0.5px] before:-z-10 block">
                     Advanced AI Solutions
                   </span>
                 </h1>

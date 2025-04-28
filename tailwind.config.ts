@@ -168,6 +168,22 @@ const config: Config = {
             filter: "brightness(1) drop-shadow(0 0 5px rgba(220, 38, 38, 0.7))",
           },
         },
+        "shine": {
+          "0%": {
+            transform: "translateX(-100%) skewX(-15deg)",
+          },
+          "100%": {
+            transform: "translateX(100%) skewX(-15deg)",
+          }
+        },
+        "button-pulse": {
+          "0%, 100%": {
+            boxShadow: "0 0 0 rgba(255, 255, 255, 0)",
+          },
+          "50%": {
+            boxShadow: "0 0 20px rgba(255, 255, 255, 0.3)",
+          }
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -183,6 +199,8 @@ const config: Config = {
         "enhanced-pulse": "enhanced-pulse 1.5s ease-in-out infinite",
         "logo-pulse": "logo-pulse 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite",
         "svg-blink": "svg-blink 2s ease-in-out infinite",
+        "shine": "shine 3s ease-in-out infinite",
+        "button-pulse": "button-pulse 2s ease-in-out infinite",
       },
     },
   },

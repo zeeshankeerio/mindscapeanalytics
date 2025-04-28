@@ -42,6 +42,31 @@ const testimonials = [
   }
 ]
 
+// Avatar component with error handling
+function Avatar({ src, alt }: { src: string, alt: string }) {
+  const [imgError, setImgError] = useState(false)
+  
+  if (imgError) {
+    return (
+      <div className="w-12 h-12 rounded-full bg-red-500/30 flex items-center justify-center">
+        <span className="text-white font-medium text-lg">{alt.charAt(0).toUpperCase()}</span>
+      </div>
+    )
+  }
+  
+  return (
+    <div className="relative w-12 h-12 rounded-full overflow-hidden">
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        className="object-cover"
+        onError={() => setImgError(true)}
+      />
+    </div>
+  )
+}
+
 function TestimonialCard({ testimonial, index }: { testimonial: typeof testimonials[0], index: number }) {
   return (
     <motion.div
@@ -71,14 +96,7 @@ function TestimonialCard({ testimonial, index }: { testimonial: typeof testimoni
         
         {/* Author info */}
         <div className="flex items-center gap-4 mt-auto">
-          <div className="relative w-12 h-12 rounded-full overflow-hidden">
-            <Image
-              src={testimonial.image}
-              alt={testimonial.author}
-              fill
-              className="object-cover"
-            />
-          </div>
+          <Avatar src={testimonial.image} alt={testimonial.author} />
           <div>
             <h3 className="text-white font-medium">{testimonial.author}</h3>
             <p className="text-white/50 text-sm">{testimonial.date}</p>
@@ -197,13 +215,13 @@ export default function TestimonialCarousel() {
             {testimonials.map((testimonial, index) => (
               <div key={testimonial.id} className="flex-none w-[300px]">
                 <TestimonialCard testimonial={testimonial} index={index} />
-                    </div>
+              </div>
             ))}
           </div>
           
           {/* Right Arrow */}
           {showRightArrow && (
-                <button
+            <button
               onClick={() => scroll("right")}
               className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 z-20 p-2 rounded-full bg-black/50 border border-white/10 hover:bg-black/70 transition-colors"
               aria-label="Scroll right"

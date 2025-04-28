@@ -48,16 +48,16 @@ const technologies = [
 
 export default function TechStack() {
   return (
-    <section className="py-20">
+    <section className="py-12 sm:py-16 md:py-20">
       <div className="container px-4 md:px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-4">Our Technology Stack</h2>
-          <p className="text-lg text-muted-foreground max-w-[800px] mx-auto">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-3 sm:mb-4">Our Technology Stack</h2>
+          <p className="text-base sm:text-lg text-muted-foreground max-w-[800px] mx-auto">
             We leverage cutting-edge technologies to deliver powerful, scalable solutions.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
           {technologies.map((tech, index) => (
             <motion.div
               key={tech.name}
@@ -67,18 +67,26 @@ export default function TechStack() {
               viewport={{ once: true }}
             >
               <Card className="h-full hover:shadow-md transition-all duration-300 group">
-                <CardContent className="p-6 flex flex-col items-center text-center">
-                  <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                <CardContent className="p-4 sm:p-6 flex flex-col items-center text-center">
+                  <div className="text-3xl sm:text-4xl mb-3 sm:mb-4 group-hover:scale-110 transition-transform duration-300">
                     {tech.icon}
                   </div>
-                  <h3 className="text-xl font-bold mb-2">{tech.name}</h3>
-                  <p className="text-muted-foreground text-sm">{tech.description}</p>
+                  <h3 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">{tech.name}</h3>
+                  <p className="text-muted-foreground text-xs sm:text-sm">{tech.description}</p>
                 </CardContent>
               </Card>
             </motion.div>
           ))}
         </div>
       </div>
+      <style jsx global>{`
+        /* Extra small screens */
+        @media (min-width: 480px) {
+          .xs\\:grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+        }
+      `}</style>
     </section>
   )
 }

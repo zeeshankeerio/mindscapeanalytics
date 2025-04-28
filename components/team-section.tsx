@@ -79,7 +79,7 @@ function TeamCard({ member, index }: { member: typeof teamMembers[0], index: num
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
       viewport={{ once: true }}
-      className={`relative overflow-hidden rounded-xl group transition-all duration-300 w-[320px] h-[480px] ${
+      className={`relative overflow-hidden rounded-xl group transition-all duration-300 w-[320px] h-[520px] ${
         isFounder 
           ? "bg-gradient-to-br from-red-500/10 to-black/40 border border-red-500/30 shadow-[0_0_25px_rgba(220,38,38,0.2)]" 
           : "bg-black/40 border border-white/10"
@@ -89,7 +89,7 @@ function TeamCard({ member, index }: { member: typeof teamMembers[0], index: num
       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       
       {/* Image container */}
-      <div className="relative h-[280px] overflow-hidden">
+      <div className="relative h-[300px] overflow-hidden">
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-10" />
         
@@ -151,7 +151,7 @@ function TeamCard({ member, index }: { member: typeof teamMembers[0], index: num
       </div>
       
       {/* Content */}
-      <div className="p-6 h-[200px] flex flex-col">
+      <div className="p-6 h-[220px] flex flex-col">
         <p className="text-white/70 text-sm leading-relaxed flex-grow">{member.bio}</p>
         
         {/* Social links */}

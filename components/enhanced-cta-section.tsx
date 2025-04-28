@@ -24,6 +24,30 @@ import {
   Lock
 } from "lucide-react"
 
+// Avatar component with error handling
+function Avatar({ src, alt }: { src: string, alt: string }) {
+  const [imgError, setImgError] = useState(false)
+  
+  if (imgError) {
+    return (
+      <div className="w-8 h-8 md:w-10 md:h-10 bg-red-500/30 flex items-center justify-center rounded-full">
+        <span className="text-white font-medium text-xs md:text-sm">{alt.charAt(0).toUpperCase()}</span>
+      </div>
+    )
+  }
+  
+  return (
+    <div className="w-8 h-8 md:w-10 md:h-10 bg-gray-700 rounded-full overflow-hidden flex-shrink-0">
+      <img 
+        src={src} 
+        alt={alt} 
+        className="w-full h-full object-cover"
+        onError={() => setImgError(true)}
+      />
+    </div>
+  )
+}
+
 interface CTASectionProps {
   variant?: "primary" | "secondary" | "centered" | "split" | "enhanced"
   title?: string
@@ -98,21 +122,21 @@ export default function EnhancedCTASection({
       author: "Sarah Johnson",
       role: "CTO, TechCorp Solutions",
       rating: 5,
-      avatar: "/images/testimonials/avatar-1.png"
+      avatar: "https://randomuser.me/api/portraits/women/32.jpg"
     },
     {
       quote: "The ROI from Mindscape's platform exceeded our expectations. We've seen a 3x return in just six months.",
       author: "Michael Chen",
       role: "CEO, InnovateTech",
       rating: 5,
-      avatar: "/images/testimonials/avatar-2.png"
+      avatar: "https://randomuser.me/api/portraits/men/42.jpg"
     },
     {
       quote: "What impressed us most was how quickly we were able to deploy the AI models. From kickoff to production in just three weeks.",
       author: "Emma Rodriguez",
       role: "Product Director, Global Retail Inc.",
       rating: 5,
-      avatar: "/images/testimonials/avatar-3.png"
+      avatar: "https://randomuser.me/api/portraits/women/56.jpg"
     }
   ]
 
@@ -362,22 +386,17 @@ export default function EnhancedCTASection({
                       </blockquote>
                       
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 md:w-10 md:h-10 bg-gray-700 rounded-full overflow-hidden flex-shrink-0">
-                          {testimonials[testimonialIndex].avatar && (
-                            <img 
-                              src={testimonials[testimonialIndex].avatar} 
-                              alt={testimonials[testimonialIndex].author} 
-                              className="w-full h-full object-cover"
-                            />
-                          )}
-                      </div>
+                        <Avatar 
+                          src={testimonials[testimonialIndex].avatar} 
+                          alt={testimonials[testimonialIndex].author} 
+                        />
                         <div>
                           <div className="text-sm md:text-base font-medium">{testimonials[testimonialIndex].author}</div>
                           <div className="text-xs md:text-sm text-white/60">{testimonials[testimonialIndex].role}</div>
-                    </div>
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </AnimatePresence>
                 </div>
 
                 {/* Client logos */}
