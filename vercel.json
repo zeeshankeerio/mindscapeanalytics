@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "buildCommand": "corepack enable && pnpm install --no-frozen-lockfile --legacy-peer-deps && npx prisma generate && pnpm build",
-  "installCommand": "corepack enable && pnpm install --no-frozen-lockfile --legacy-peer-deps",
+  "buildCommand": "npm install --legacy-peer-deps && npx prisma generate && npm run build",
+  "installCommand": "npm install --legacy-peer-deps",
   "framework": "nextjs",
   "regions": ["iad1"],
   "env": {
