@@ -34,7 +34,7 @@ export function DashboardShell({
   className,
   maxWidth = "7xl",
 }: DashboardShellProps) {
-  const { sidebarOpen } = useDashboard()
+  const { sidebarOpen, setSidebarOpen } = useDashboard()
   const maxWidthClass = maxWidth === "full" ? "w-full" : `max-w-${maxWidth}`
   const { toast } = useToast()
   const [notificationCount, setNotificationCount] = useState(0)
@@ -43,13 +43,19 @@ export function DashboardShell({
   // Detect mobile viewport
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 768)
+      const mobileView = window.innerWidth < 768
+      setIsMobile(mobileView)
+      
+      // Only update sidebar state when transitioning between mobile and desktop
+      if (mobileView) {
+        setSidebarOpen(false) // Always close sidebar on mobile
+      }
     }
     
     handleResize() // Initial check
     window.addEventListener("resize", handleResize)
     return () => window.removeEventListener("resize", handleResize)
-  }, [])
+  }, [setSidebarOpen])
 
   React.useEffect(() => {
     // Simulate random notification count
@@ -69,19 +75,26 @@ export function DashboardShell({
   return (
     <div className="flex h-screen w-full bg-gradient-to-br from-black to-zinc-900 overflow-hidden">
       <ErrorBoundary>
-        <div className="fixed inset-y-0 left-0 z-40">
+        {/* Sidebar - hidden on mobile */}
+        <div className={cn(
+          "fixed inset-y-0 left-0 z-40",
+          isMobile && "hidden" // Hide completely on mobile
+        )}>
           <ModernSidebar />
         </div>
+        
         <div 
           className={cn(
             "flex flex-1 flex-col w-full overflow-hidden transition-all duration-300",
-            sidebarOpen ? "lg:ml-64" : "ml-16",
-            isMobile && "ml-0"
+            // Adjust margin based on sidebar state and device
+            sidebarOpen && !isMobile ? "lg:ml-64" : 
+            !isMobile ? "ml-16" : "ml-0" // No margin on mobile
           )}
         >
           <DashboardHeader 
             notificationCount={notificationCount}
             onNotificationClick={handleNotificationClick}
+            isMobile={isMobile}
           />
           <main className={cn(
             "flex-1 w-full overflow-y-auto scrollbar-hide bg-black/40 backdrop-blur-sm supports-[backdrop-filter]:bg-black/40 p-2 sm:p-4 md:p-6 scroll-smooth",

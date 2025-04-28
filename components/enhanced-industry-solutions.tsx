@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Progress } from "@/components/ui/progress"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 import { 
   Building2, 
   Briefcase, 
@@ -2838,6 +2839,201 @@ export default function EnhancedIndustrySolutions() {
           </div>
         </div>
       )}
+      
+      {/* ROI Calculator Dialog */}
+      <Dialog open={showRoiCalculator} onOpenChange={setShowRoiCalculator}>
+        <DialogContent className="sm:max-w-[800px] bg-black/90 border border-white/10 text-white">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Calculator className="h-5 w-5 text-blue-400" />
+              ROI Calculator for {activeIndustry.title}
+            </DialogTitle>
+            <DialogDescription>
+              Estimate your potential return on investment based on your organization's specifics
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="w-full mb-12">
+            <Card className="w-full border border-white/10 bg-black/40 backdrop-blur-sm overflow-hidden">
+              <CardHeader className="border-b border-white/5 pb-4">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between w-full gap-4">
+                  <div>
+                    <CardTitle className="text-xl flex items-center gap-2 mb-1">
+                      <Calculator className="h-5 w-5 text-blue-400" />
+                      ROI Calculator for {activeIndustry.title}
+                    </CardTitle>
+                    <CardDescription>
+                      Estimate your potential return on investment based on your organization's specifics
+                    </CardDescription>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="bg-white/5 border-white/10 hover:bg-white/10"
+                      onClick={() => {
+                        // Reset ROI inputs to defaults
+                        setRoiInputs({
+                          employees: 100,
+                          currentCost: 10000,
+                          efficiency: 30
+                        });
+                      }}
+                    >
+                      <RefreshCw className="h-3.5 w-3.5 mr-1.5" />
+                      Reset
+                    </Button>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="pt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* Input Section */}
+                  <div className="space-y-6">
+                    <h3 className="text-base font-medium mb-4">Organization Inputs</h3>
+                    
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <div className="flex justify-between">
+                          <label htmlFor="employees" className="text-sm text-white/70">
+                            Employees
+                          </label>
+                          <span className="text-sm font-medium">{roiInputs.employees}</span>
+                        </div>
+                        <input
+                          id="employees"
+                          type="range"
+                          min="10"
+                          max="1000"
+                          step="10"
+                          name="employees"
+                          value={roiInputs.employees}
+                          onChange={handleRoiInputChange}
+                          className="w-full"
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <div className="flex justify-between">
+                          <label htmlFor="currentCost" className="text-sm text-white/70">
+                            Monthly Operational Cost ($)
+                          </label>
+                          <span className="text-sm font-medium">${roiInputs.currentCost}</span>
+                        </div>
+                        <input
+                          id="currentCost"
+                          type="range"
+                          min="1000"
+                          max="100000"
+                          step="1000"
+                          name="currentCost"
+                          value={roiInputs.currentCost}
+                          onChange={handleRoiInputChange}
+                          className="w-full"
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <div className="flex justify-between">
+                          <label htmlFor="efficiency" className="text-sm text-white/70">
+                            Expected Efficiency Gain (%)
+                          </label>
+                          <span className="text-sm font-medium">{roiInputs.efficiency}%</span>
+                        </div>
+                        <input
+                          id="efficiency"
+                          type="range"
+                          min="5"
+                          max="50"
+                          step="1"
+                          name="efficiency"
+                          value={roiInputs.efficiency}
+                          onChange={handleRoiInputChange}
+                          className="w-full"
+                        />
+                      </div>
+                    </div>
+                    
+                    <Button 
+                      onClick={generateRoiReport} 
+                      className="w-full mt-4" 
+                      disabled={isGeneratingReport}
+                    >
+                      {isGeneratingReport ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Generating...
+                        </>
+                      ) : (
+                        <>
+                          <FileText className="mr-2 h-4 w-4" />
+                          Generate ROI Report
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                  
+                  {/* Results Section */}
+                  <div className="space-y-6">
+                    <h3 className="text-base font-medium mb-4">ROI Analysis</h3>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <Card className="bg-black/30 border-white/10">
+                        <CardContent className="pt-6">
+                          <div className="text-center">
+                            <p className="text-sm text-white/70 mb-1">Annual Savings</p>
+                            <p className="text-2xl font-bold">${roiResults.annualSavings}</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                      
+                      <Card className="bg-black/30 border-white/10">
+                        <CardContent className="pt-6">
+                          <div className="text-center">
+                            <p className="text-sm text-white/70 mb-1">Estimated ROI</p>
+                            <p className="text-2xl font-bold">{roiResults.estimatedRoi}%</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                      
+                      <Card className="bg-black/30 border-white/10 col-span-2">
+                        <CardContent className="pt-6">
+                          <div className="text-center">
+                            <p className="text-sm text-white/70 mb-1">Payback Period</p>
+                            <p className="text-2xl font-bold">{roiResults.paybackPeriod} months</p>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                    
+                    <div className="space-y-4 mt-6">
+                      <h4 className="text-sm font-medium">Investment Analysis</h4>
+                      <div className="space-y-2">
+                        <div className="flex justify-between text-sm">
+                          <span className="text-white/70">Implementation Cost</span>
+                          <span className="font-medium">$50,000</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span className="text-white/70">Annual Maintenance</span>
+                          <span className="font-medium">$5,000</span>
+                        </div>
+                        <div className="flex justify-between text-sm">
+                          <span className="text-white/70">Break-even Point</span>
+                          <span className="font-medium">{roiResults.paybackPeriod} months</span>
+                        </div>
+                        <div className="border-t border-white/10 my-2 pt-2 flex justify-between text-sm">
+                          <span className="text-white/70">5-Year ROI</span>
+                          <span className="font-medium">{parseInt(roiResults.estimatedRoi) * 5}%</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

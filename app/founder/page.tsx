@@ -4,9 +4,13 @@ import Image from "next/image"
 import Link from "next/link"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Slider } from "@/components/ui/slider"
 import { useState, useEffect, useRef, MouseEvent as ReactMouseEvent, useMemo } from "react"
 import { 
   Award, 
@@ -23,7 +27,10 @@ import {
   User,
   BrainCircuit,
   Network,
-  Cpu
+  Cpu,
+  Calculator,
+  ChevronRight,
+  DollarSign
 } from "lucide-react"
 import { StandardBackground } from "@/components/shared/background"
 
@@ -187,24 +194,25 @@ const FounderImage = ({
       priority={priority}
       placeholder="blur"
       blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAAJAAoDASIAAhEBAxEB/8QAFgABAQEAAAAAAAAAAAAAAAAABQYI/8QAIxAAAQMEAgIDAQAAAAAAAAAAAQIDBQAEBhESIQcTCDFRYf/EABUBAQEAAAAAAAAAAAAAAAAAAAUG/8QAHBEAAwACAwEAAAAAAAAAAAAAAAECAxEhQTEE/9oADAMBAAIRAxEAPwDWOQZ7iEJ91h8zhOVt1b9jK+5htIBUaUAo6BJoXnPk54q0wvNMSd8l2LV1KMqjmDbtqcLZQ6wsFO1JA3sAjfWtVWGjXOfRLCjlMVfXS7Z9JLLKmyFBSvxJPQGtfnvwxDZtl2Y5NlMPFBaZSl9xDrxTtSFBKCVjf1vfXdZc9xoWrT3PYKYRTIvkN//Z"
-      onError={() => {
-        // Try the next image source if available
-        const nextIndex = founderImageSources.indexOf(imgSrc) + 1;
-        if (nextIndex < founderImageSources.length) {
-          setImgSrc(founderImageSources[nextIndex]);
-        } else {
-          setImgError(true);
-        }
-        // Call the provided onError callback if any
-        if (onError) onError();
-      }}
-      onLoad={() => {
-        // Call the provided onLoad callback if any
-        if (onLoad) onLoad();
-      }}
       style={{
         objectFit: 'cover',
+        objectPosition: 'center',
         ...style
+      }}
+      onError={(e) => {
+        if (!imgError) {
+          setImgError(true);
+          // Try the next image source if available
+          const currentIndex = founderImageSources.indexOf(imgSrc);
+          if (currentIndex < founderImageSources.length - 1) {
+            setImgSrc(founderImageSources[currentIndex + 1]);
+            setImgError(false);
+          }
+          onError?.();
+        }
+      }}
+      onLoad={() => {
+        onLoad?.();
       }}
     />
   );
@@ -217,6 +225,70 @@ export default function ZeeshanKeerioPage() {
   const [activeTab, setActiveTab] = useState("experience");
   const [imageLoadingState, setImageLoadingState] = useState<'loading' | 'loaded' | 'error'>('loading');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
+  // ROI Calculator state
+  const [showRoiCalculator, setShowRoiCalculator] = useState(false);
+  const [roiInputs, setRoiInputs] = useState({
+    employees: 50,
+    annualRevenue: 1000000,
+    currentCosts: 700000,
+    projectCost: 50000,
+    timeframe: 12
+  });
+  const [roiResults, setRoiResults] = useState<{
+    monthlySavings: number;
+    annualSavings: number;
+    roi: number;
+    paybackPeriod: number;
+  } | null>(null);
+  
+  // Handle ROI input changes
+  const handleRoiInputChange = (name: string, value: number) => {
+    setRoiInputs({
+      ...roiInputs,
+      [name]: value
+    });
+  };
+  
+  // Calculate ROI based on inputs
+  const calculateRoi = () => {
+    const { employees, annualRevenue, currentCosts, projectCost, timeframe } = roiInputs;
+    
+    // Calculate productivity gains (20% productivity increase per employee)
+    const productivityGain = employees * 2000 * 0.2; // Assuming $2000 cost per employee per month
+    
+    // Calculate revenue increase (5% of annual revenue, distributed monthly)
+    const revenueIncrease = (annualRevenue * 0.05) / 12;
+    
+    // Calculate cost reduction (10% of current costs, distributed monthly)
+    const costReduction = (currentCosts * 0.1) / 12;
+    
+    // Total monthly savings
+    const monthlySavings = productivityGain + revenueIncrease + costReduction;
+    
+    // Annual savings
+    const annualSavings = monthlySavings * 12;
+    
+    // ROI calculation: (total benefits - cost) / cost * 100
+    const roi = ((annualSavings * timeframe / 12) - projectCost) / projectCost * 100;
+    
+    // Payback period in months
+    const paybackPeriod = projectCost / monthlySavings;
+    
+    setRoiResults({
+      monthlySavings,
+      annualSavings,
+      roi,
+      paybackPeriod
+    });
+    
+    return {
+      monthlySavings,
+      annualSavings,
+      roi,
+      paybackPeriod
+    };
+  };
   
   useEffect(() => {
     const handleMouseMove = (e: ReactMouseEvent<HTMLElement, MouseEvent> | MouseEvent) => {
@@ -610,122 +682,32 @@ export default function ZeeshanKeerioPage() {
                   >
                     <stat.icon className={`h-4 w-4 sm:h-5 sm:w-5 mx-auto mb-1 sm:mb-2 ${stat.color}`} />
                     <div className={`text-xl sm:text-2xl font-bold ${stat.color}`}>{stat.value}</div>
-                    <div className="text-[10px] sm:text-xs text-white/60">{stat.label}</div>
+                    <div className="text-xs sm:text-sm text-white/60">{stat.label}</div>
                   </motion.div>
                 ))}
               </div>
               
-              {/* Enhanced bio with AI-themed styling */}
-              <motion.div 
-                className="relative mb-6"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-              >
-                {/* Animated circuit board background */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/40 to-black/20 rounded-lg overflow-hidden">
-                  <div className="absolute inset-0 opacity-10 bg-gradient-to-br from-red-500/5 to-purple-500/5"></div>
-                  
-                  {/* Data points animation */}
-                  {Array.from({ length: 10 }).map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="absolute w-1 h-1 bg-red-500/40 rounded-full"
-                      style={{
-                        top: `${Math.random() * 100}%`,
-                        left: `${Math.random() * 100}%`,
-                      }}
-                      animate={{
-                        opacity: [0, 1, 0],
-                        scale: [0, 1, 0]
-                      }}
-                      transition={{
-                        duration: Math.random() * 2 + 1,
-                        repeat: Infinity,
-                        delay: Math.random() * 2
-                      }}
-                    />
-                  ))}
-                </div>
-                
-                {/* Main content - Enhanced AI Expert Profile */}
-                <div className="text-sm sm:text-base md:text-lg text-white/80 leading-relaxed p-3 sm:p-4 rounded-lg border-l-2 border-red-500/50 relative z-10">
-                  <div className="flex items-center mb-2">
-                    <BrainCircuit className="h-4 w-4 sm:h-5 sm:w-5 text-red-400 mr-2" />
-                    <span className="text-red-400 font-semibold">AI Expert Profile</span>
-                  </div>
-                  
-                  <p className="mb-2">
-                    Seasoned AI and Machine Learning Specialist with extensive expertise in developing cutting-edge solutions for complex business challenges across diverse industries.
-                  </p>
-                  
-                  <p>
-                    Specializing in neural networks, computer vision, predictive analytics, and natural language processing with a proven track record of delivering high-impact AI systems.
-                  </p>
-                </div>
-              </motion.div>
-              
-              {/* Enhanced buttons with advanced AI-themed animations */}
-              <div className="flex flex-wrap gap-3 sm:gap-4">
-                <motion.div 
-                  whileHover={{ scale: 1.05, y: -5 }} 
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                  className="relative"
+              {/* Main CTA buttons with gradient hover */}
+              <div className="space-y-3 sm:space-y-0 sm:flex sm:space-x-3">
+                <motion.a
+                  href="mailto:imzeeshan.ai@gmail.com"
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="flex-1 w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700 text-white font-medium rounded-lg px-5 py-2.5 text-sm transition-all"
                 >
-                  {/* Button glow effect */}
-                  <motion.div 
-                    className="absolute -inset-1 rounded-lg bg-gradient-to-r from-red-500/40 to-purple-700/40 blur-md opacity-70"
-                    animate={{
-                      opacity: [0.5, 0.8, 0.5],
-                    }}
-                    transition={{ duration: 2, repeat: Infinity }}
-                  />
-                  
-                  <Button className="bg-gradient-to-r from-red-600 to-purple-700 hover:from-red-700 hover:to-purple-800 text-white transition-all duration-300 shadow-lg shadow-red-900/30 px-4 sm:px-6 py-1.5 sm:py-2 text-xs sm:text-sm relative z-10">
-                    <Linkedin className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-                    Connect on LinkedIn
-                  </Button>
-                </motion.div>
+                  <Mail className="h-4 w-4" />
+                  Contact Me
+                </motion.a>
                 
-                <motion.div 
-                  whileHover={{ scale: 1.05, y: -5 }} 
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                  className="relative"
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => setShowRoiCalculator(true)}
+                  className="flex-1 w-full sm:w-auto flex items-center justify-center gap-2 bg-black/40 border border-white/10 hover:bg-black/60 backdrop-blur-md text-white font-medium rounded-lg px-5 py-2.5 text-sm transition-all"
                 >
-                  <Button variant="outline" className="border-white/20 hover:bg-white/10 backdrop-blur-sm shadow-lg px-4 sm:px-6 py-1.5 sm:py-2 text-xs sm:text-sm relative z-10">
-                    <Mail className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-                    Contact
-                  </Button>
-                </motion.div>
-                
-                <motion.div 
-                  whileHover={{ scale: 1.05, y: -5 }} 
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 10 }}
-                  className="relative"
-                >
-                  <Button variant="ghost" className="hover:bg-white/5 backdrop-blur-sm shadow-lg px-4 sm:px-6 py-1.5 sm:py-2 text-xs sm:text-sm relative z-10 group">
-                    <FileText className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 text-red-400" />
-                    Download CV
-                    
-                    {/* Download animation */}
-                    <motion.div 
-                      className="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity"
-                      animate={{ y: [0, 5, 0] }}
-                      transition={{ 
-                        duration: 1.5, 
-                        repeat: Infinity, 
-                        repeatType: "mirror" 
-                      }}
-                    >
-                      <svg className="h-3 w-3 sm:h-4 sm:w-4 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                      </svg>
-                    </motion.div>
-                  </Button>
-                </motion.div>
+                  <Calculator className="h-4 w-4 text-red-400" />
+                  Calculate Project ROI
+                </motion.button>
               </div>
             </motion.div>
           </div>
@@ -2206,6 +2188,18 @@ export default function ZeeshanKeerioPage() {
                       <div className="group-hover:text-red-400 transition-colors">linkedin.com/in/zeeshankeerio</div>
                     </motion.a>
                   </div>
+                  
+                  {/* ROI Calculator Button */}
+                  <motion.button
+                    onClick={() => setShowRoiCalculator(true)}
+                    className="mt-6 bg-gradient-to-r from-red-600/20 to-purple-600/20 hover:from-red-600/30 hover:to-purple-600/30 text-white rounded-lg border border-white/10 px-5 py-2.5 text-sm font-medium flex items-center justify-center gap-2"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                  >
+                    <Calculator className="h-4 w-4 text-red-400" />
+                    Calculate AI Project ROI
+                    <ChevronRight className="h-4 w-4 ml-1" />
+                  </motion.button>
                 </div>
               </div>
             </div>
@@ -2283,6 +2277,134 @@ export default function ZeeshanKeerioPage() {
           display: none;
         }
       `}</style>
+      
+      {/* ROI Calculator Dialog */}
+      <Dialog open={showRoiCalculator} onOpenChange={setShowRoiCalculator}>
+        <DialogContent className="sm:max-w-[600px] bg-black/90 border-white/10 text-white backdrop-blur-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl flex items-center gap-2">
+              <Calculator className="h-5 w-5 text-red-400" />
+              AI Project ROI Calculator
+            </DialogTitle>
+            <DialogDescription>
+              Estimate the return on investment for your AI project with Mindscape Analytics.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="grid gap-6">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="employees" className="text-white">Number of Employees</Label>
+                <Input
+                  id="employees"
+                  type="number"
+                  min="1"
+                  className="border-white/20 bg-black/60 text-white"
+                  value={roiInputs.employees}
+                  onChange={(e) => handleRoiInputChange('employees', parseInt(e.target.value))}
+                />
+              </div>
+              
+              <div className="space-y-2">
+                <Label htmlFor="timeframe" className="text-white">Timeframe (months)</Label>
+                <Input
+                  id="timeframe"
+                  type="number"
+                  min="1"
+                  max="60"
+                  className="border-white/20 bg-black/60 text-white"
+                  value={roiInputs.timeframe}
+                  onChange={(e) => handleRoiInputChange('timeframe', parseInt(e.target.value))}
+                />
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="annualRevenue" className="text-white">Annual Revenue ($)</Label>
+              <Input
+                id="annualRevenue"
+                type="number"
+                min="0"
+                step="1000"
+                className="border-white/20 bg-black/60 text-white"
+                value={roiInputs.annualRevenue}
+                onChange={(e) => handleRoiInputChange('annualRevenue', parseInt(e.target.value))}
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="currentCosts" className="text-white">Current Operational Costs ($)</Label>
+              <Input
+                id="currentCosts"
+                type="number"
+                min="0"
+                step="1000"
+                className="border-white/20 bg-black/60 text-white"
+                value={roiInputs.currentCosts}
+                onChange={(e) => handleRoiInputChange('currentCosts', parseInt(e.target.value))}
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="projectCost" className="text-white">AI Project Implementation Cost ($)</Label>
+              <Input
+                id="projectCost"
+                type="number"
+                min="1000"
+                step="1000"
+                className="border-white/20 bg-black/60 text-white"
+                value={roiInputs.projectCost}
+                onChange={(e) => handleRoiInputChange('projectCost', parseInt(e.target.value))}
+              />
+            </div>
+            
+            {roiResults && (
+              <div className="mt-4 p-4 rounded-lg bg-gradient-to-r from-red-500/10 to-purple-500/10 border border-white/10">
+                <h3 className="text-lg font-medium mb-3">ROI Analysis Results</h3>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1">
+                    <div className="text-sm text-white/70">Monthly Savings</div>
+                    <div className="text-xl font-semibold">${roiResults.monthlySavings.toLocaleString(undefined, {maximumFractionDigits: 0})}</div>
+                  </div>
+                  
+                  <div className="space-y-1">
+                    <div className="text-sm text-white/70">Annual Savings</div>
+                    <div className="text-xl font-semibold">${roiResults.annualSavings.toLocaleString(undefined, {maximumFractionDigits: 0})}</div>
+                  </div>
+                  
+                  <div className="space-y-1">
+                    <div className="text-sm text-white/70">ROI</div>
+                    <div className="text-xl font-semibold">{roiResults.roi.toFixed(1)}%</div>
+                  </div>
+                  
+                  <div className="space-y-1">
+                    <div className="text-sm text-white/70">Payback Period</div>
+                    <div className="text-xl font-semibold">{roiResults.paybackPeriod.toFixed(1)} months</div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+          
+          <DialogFooter className="flex-col sm:flex-row gap-2 sm:gap-0">
+            <Button 
+              variant="outline" 
+              className="border-white/20 hover:bg-white/10 hover:text-white"
+              onClick={() => setRoiResults(null)}
+            >
+              Reset
+            </Button>
+            <Button 
+              className="bg-gradient-to-r from-red-600 to-purple-600 hover:from-red-700 hover:to-purple-700"
+              onClick={calculateRoi}
+            >
+              <Calculator className="mr-2 h-4 w-4" />
+              Calculate ROI
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </main>
   )
 }
