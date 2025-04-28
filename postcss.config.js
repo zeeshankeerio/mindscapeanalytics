@@ -1,7 +1,7 @@
+// Direct require approach for better Vercel compatibility
 module.exports = {
-  plugins: {
-    'tailwindcss/nesting': {},
-    tailwindcss: {},
-    autoprefixer: {},
-  },
+  plugins: [
+    require('tailwindcss'),
+    require('autoprefixer')
+  ]
 }
