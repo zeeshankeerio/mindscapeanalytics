@@ -287,78 +287,16 @@ canvas {
 .animate-shine {
   position: relative;
   overflow: hidden;
+  animation: shine 3s infinite;
 }
 
 @keyframes shine {
   0% {
-    transform: translateX(-100%) rotate(-25deg);
+    transform: translateX(-100%) rotate(25deg);
   }
   20%, 100% {
-    transform: translateX(100%) rotate(-25deg);
+    transform: translateX(100%) rotate(25deg);
   }
-}
-
-/* Add new button effect animations */
-@keyframes button-shine {
-  0% {
-    transform: translateX(-100%) skewX(-15deg);
-  }
-  100% {
-    transform: translateX(100%) skewX(-15deg);
-  }
-}
-
-.animate-button-shine:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.15),
-    transparent
-  );
-  transform: skewX(-15deg);
-  animation: button-shine 2s infinite;
-}
-
-/* Add subtle button pulsate effect */
-@keyframes button-pulsate {
-  0%, 100% {
-    box-shadow: 0 0 8px 0 rgba(255, 255, 255, 0.2);
-  }
-  50% {
-    box-shadow: 0 0 12px 4px rgba(255, 255, 255, 0.3);
-  }
-}
-
-.button-glow {
-  animation: button-pulsate 2s ease-in-out infinite;
-}
-
-/* Button press effect */
-.button-press:active {
-  transform: translateY(1px);
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.2);
-}
-
-/* Add glass effect for buttons */
-.glass-effect {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-}
-
-.glass-effect:hover {
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 7px 15px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Custom thin scrollbar */
