@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from "react"
 import { Inter } from "next/font/google"
-import { LoadingScreen } from "@/components/loading-screen"
-import { DashboardShell } from "@/components/ui/dashboard-shell"
-import DashboardLayoutContent from "@/components/dashboard-layout-content"
-import { DashboardProvider } from "@/providers/dashboard-context"
+import { LoadingScreen } from "../../components/loading-screen"
+import { DashboardShell } from "../../components/ui/dashboard-shell"
+import DashboardLayoutContent from "../../components/dashboard-layout-content"
+import { DashboardProvider } from "../../providers/dashboard-context"
 
 const inter = Inter({ subsets: ["latin"] })
 

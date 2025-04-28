@@ -1,17 +1,17 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from "../../components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../components/ui/card"
+import { Badge } from "../../components/ui/badge"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/tabs"
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { ArrowRight, Brain, Code, Database, LineChart, Users, Zap, Linkedin, Twitter, Github, Mail, ShieldIcon, TargetIcon, ChevronLeft, ChevronRight } from "lucide-react"
 import { TeamMemberCard } from "./teamcard"
 import Head from "next/head"
 import Image from "next/image"
-import { StandardBackground, SectionBackground } from "@/components/shared/background"
+import { StandardBackground, SectionBackground } from "../../components/shared/background"
 import Link from "next/link"
 
 // Add CSS for animations and effects
