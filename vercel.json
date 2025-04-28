@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "corepack enable && pnpm install --no-frozen-lockfile && npx prisma generate && pnpm build",
+  "buildCommand": "corepack enable && pnpm install --no-frozen-lockfile && pnpm add -D autoprefixer postcss tailwindcss && npx prisma generate && pnpm build",
   "installCommand": "corepack enable && pnpm install --no-frozen-lockfile --force",
   "framework": "nextjs",
   "regions": ["iad1"],
