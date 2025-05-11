@@ -6,17 +6,7 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // Change from standalone to server for better image support
-  // output: 'export',
-  // trailingSlash: true,
-  // Keep the environment variable
-  env: {
-    NEXT_PUBLIC_DISABLE_STATIC_GENERATION: "true"
-  },
-  // Revert to default Next.js directory
-  distDir: '.next',
   images: {
-    // Ensure images are properly handled
     unoptimized: false,
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
@@ -222,6 +212,9 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   staticPageGenerationTimeout: 0,
+  env: {
+    NEXT_PUBLIC_DISABLE_STATIC_GENERATION: "true"
+  },
   // Enhanced cache control headers for better performance
   async headers() {
     return [
@@ -317,6 +310,7 @@ const nextConfig = {
       },
     ];
   },
+  distDir: '.next',
 }
 
 // Add bundle analyzer for production builds
