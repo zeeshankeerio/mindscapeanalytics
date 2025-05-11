@@ -1,0 +1,120 @@
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a5276" />
+      <stop offset="100%" stop-color="#0e2c40" />
+    </linearGradient>
+    <linearGradient id="highlight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3498db" />
+      <stop offset="100%" stop-color="#2980b9" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="url(#bg)" />
+  
+  <!-- Grid pattern -->
+  <path d="M50 50 H1150 M50 150 H1150 M50 250 H1150 M50 350 H1150 M50 450 H1150 M50 550 H1150 M50 650 H1150 M50 750 H1150 M150 50 V750 M250 50 V750 M350 50 V750 M450 50 V750 M550 50 V750 M650 50 V750 M750 50 V750 M850 50 V750 M950 50 V750 M1050 50 V750" stroke="#ffffff" stroke-width="1" stroke-opacity="0.05" />
+  
+  <!-- Analytics dashboard -->
+  <g transform="translate(250, 200)">
+    <!-- Dashboard background -->
+    <rect x="0" y="0" width="700" height="400" rx="10" ry="10" fill="#0c2233" stroke="#1a5276" stroke-width="3" />
+    
+    <!-- Chart 1: Bar chart -->
+    <g transform="translate(50, 70)">
+      <rect x="0" y="0" width="250" height="150" rx="5" ry="5" fill="#0f3044" stroke="#1a5276" stroke-width="2" />
+      <text x="125" y="25" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="white">Revenue Growth</text>
+      
+      <!-- Bars -->
+      <rect x="30" y="100" width="20" height="30" fill="#3498db" />
+      <rect x="60" y="80" width="20" height="50" fill="#3498db" />
+      <rect x="90" y="60" width="20" height="70" fill="#3498db" />
+      <rect x="120" y="50" width="20" height="80" fill="#3498db" />
+      <rect x="150" y="40" width="20" height="90" fill="#3498db" />
+      <rect x="180" y="35" width="20" height="95" fill="#3498db" />
+      <rect x="210" y="45" width="20" height="85" fill="#e74c3c" />
+    </g>
+    
+    <!-- Chart 2: Line chart -->
+    <g transform="translate(400, 70)">
+      <rect x="0" y="0" width="250" height="150" rx="5" ry="5" fill="#0f3044" stroke="#1a5276" stroke-width="2" />
+      <text x="125" y="25" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="white">Market Trends</text>
+      
+      <!-- Grid lines -->
+      <line x1="20" y1="50" x2="230" y2="50" stroke="#1a5276" stroke-width="1" stroke-opacity="0.5" />
+      <line x1="20" y1="80" x2="230" y2="80" stroke="#1a5276" stroke-width="1" stroke-opacity="0.5" />
+      <line x1="20" y1="110" x2="230" y2="110" stroke="#1a5276" stroke-width="1" stroke-opacity="0.5" />
+      
+      <!-- Line -->
+      <polyline points="30,100 60,90 90,95 120,70 150,65 180,50 210,60" fill="none" stroke="#3498db" stroke-width="3" />
+      
+      <!-- Data points -->
+      <circle cx="30" cy="100" r="4" fill="#3498db" />
+      <circle cx="60" cy="90" r="4" fill="#3498db" />
+      <circle cx="90" cy="95" r="4" fill="#3498db" />
+      <circle cx="120" cy="70" r="4" fill="#3498db" />
+      <circle cx="150" cy="65" r="4" fill="#3498db" />
+      <circle cx="180" cy="50" r="4" fill="#3498db" />
+      <circle cx="210" cy="60" r="4" fill="#3498db" />
+    </g>
+    
+    <!-- Chart 3: Pie chart -->
+    <g transform="translate(50, 250)">
+      <rect x="0" y="0" width="250" height="130" rx="5" ry="5" fill="#0f3044" stroke="#1a5276" stroke-width="2" />
+      <text x="125" y="25" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="white">Revenue Sources</text>
+      
+      <!-- Pie slices -->
+      <path d="M125,75 L125,25 A50,50 0 0,1 168,56 Z" fill="#3498db" />
+      <path d="M125,75 L168,56 A50,50 0 0,1 168,94 Z" fill="#2ecc71" />
+      <path d="M125,75 L168,94 A50,50 0 0,1 125,125 Z" fill="#e74c3c" />
+      <path d="M125,75 L125,125 A50,50 0 0,1 82,94 Z" fill="#f1c40f" />
+      <path d="M125,75 L82,94 A50,50 0 0,1 82,56 Z" fill="#9b59b6" />
+      <path d="M125,75 L82,56 A50,50 0 0,1 125,25 Z" fill="#1abc9c" />
+    </g>
+    
+    <!-- Chart 4: KPI cards -->
+    <g transform="translate(400, 250)">
+      <rect x="0" y="0" width="250" height="130" rx="5" ry="5" fill="#0f3044" stroke="#1a5276" stroke-width="2" />
+      <text x="125" y="25" font-family="Arial" font-size="16" font-weight="bold" text-anchor="middle" fill="white">Key Metrics</text>
+      
+      <!-- KPI cards -->
+      <rect x="20" y="40" width="100" height="70" rx="5" ry="5" fill="#0c2233" stroke="#3498db" stroke-width="2" />
+      <text x="70" y="65" font-family="Arial" font-size="12" text-anchor="middle" fill="#888">Conversion</text>
+      <text x="70" y="90" font-family="Arial" font-size="22" font-weight="bold" text-anchor="middle" fill="#3498db">24.8%</text>
+      
+      <rect x="130" y="40" width="100" height="70" rx="5" ry="5" fill="#0c2233" stroke="#2ecc71" stroke-width="2" />
+      <text x="180" y="65" font-family="Arial" font-size="12" text-anchor="middle" fill="#888">Growth</text>
+      <text x="180" y="90" font-family="Arial" font-size="22" font-weight="bold" text-anchor="middle" fill="#2ecc71">+18%</text>
+    </g>
+    
+    <!-- Dashboard title -->
+    <text x="350" y="35" font-family="Arial" font-size="24" font-weight="bold" text-anchor="middle" fill="white">Analytics Dashboard</text>
+  </g>
+  
+  <!-- Data visualization icons -->
+  <g transform="translate(150, 150)">
+    <circle cx="0" cy="0" r="60" fill="none" stroke="url(#highlight)" stroke-width="8" opacity="0.6" />
+    <path d="M-30,-30 L30,30 M-30,30 L30,-30" stroke="#3498db" stroke-width="8" stroke-opacity="0.6" />
+  </g>
+  
+  <!-- Data points animation -->
+  <g>
+    <circle cx="300" cy="400" r="3" fill="#3498db" opacity="0.7">
+      <animate attributeName="cx" values="300;320;340;360;380;400" dur="3s" repeatCount="indefinite" />
+      <animate attributeName="cy" values="400;390;410;380;400;390" dur="3s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="500" cy="350" r="3" fill="#3498db" opacity="0.7">
+      <animate attributeName="cx" values="500;520;540;560;580;600" dur="2s" repeatCount="indefinite" />
+      <animate attributeName="cy" values="350;370;360;350;340;360" dur="2s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="700" cy="450" r="3" fill="#3498db" opacity="0.7">
+      <animate attributeName="cx" values="700;720;740;760;780;800" dur="2.5s" repeatCount="indefinite" />
+      <animate attributeName="cy" values="450;430;440;460;450;430" dur="2.5s" repeatCount="indefinite" />
+    </circle>
+  </g>
+  
+  <!-- Text label -->
+  <text x="600" y="700" font-family="Arial" font-size="40" font-weight="bold" text-anchor="middle" fill="white" opacity="0.9">Data Analytics & Visualization</text>
+</svg> 

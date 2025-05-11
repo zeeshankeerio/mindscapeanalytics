@@ -1,0 +1,129 @@
+<svg width="1600" height="900" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a2739" />
+      <stop offset="100%" stop-color="#0d1320" />
+    </linearGradient>
+    <linearGradient id="highlight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e74c3c" />
+      <stop offset="100%" stop-color="#c0392b" />
+    </linearGradient>
+    <radialGradient id="glow" cx="70%" cy="30%" r="70%" fx="70%" fy="30%">
+      <stop offset="0%" stop-color="#e74c3c" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#e74c3c" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="url(#bg)" />
+  <rect width="100%" height="100%" fill="url(#glow)" />
+  
+  <!-- Grid pattern -->
+  <path d="M50 50 H1550 M50 150 H1550 M50 250 H1550 M50 350 H1550 M50 450 H1550 M50 550 H1550 M50 650 H1550 M50 750 H1550 M50 850 H1550 M150 50 V850 M250 50 V850 M350 50 V850 M450 50 V850 M550 50 V850 M650 50 V850 M750 50 V850 M850 50 V850 M950 50 V850 M1050 50 V850 M1150 50 V850 M1250 50 V850 M1350 50 V850 M1450 50 V850" stroke="#ffffff" stroke-width="1" stroke-opacity="0.05" />
+  
+  <!-- Abstract digital landscape -->
+  <g transform="translate(800, 450)">
+    <!-- Central hub -->
+    <circle cx="0" cy="0" r="100" fill="#2c3e50" stroke="#34495e" stroke-width="4" />
+    <circle cx="0" cy="0" r="80" fill="none" stroke="#e74c3c" stroke-width="3" stroke-dasharray="10,5" opacity="0.7" />
+    
+    <!-- Orbiting satellites -->
+    <g>
+      <circle cx="250" cy="-150" r="40" fill="#3498db" opacity="0.8" />
+      <rect x="230" y="-170" width="40" height="40" rx="5" ry="5" fill="#ffffff" opacity="0.2" />
+      <line x1="0" y1="0" x2="250" y2="-150" stroke="#3498db" stroke-width="2" stroke-opacity="0.5" />
+    </g>
+    
+    <g>
+      <circle cx="300" cy="100" r="50" fill="#2ecc71" opacity="0.8" />
+      <polygon points="300,80 320,120 280,120" fill="#ffffff" opacity="0.2" />
+      <line x1="0" y1="0" x2="300" y2="100" stroke="#2ecc71" stroke-width="2" stroke-opacity="0.5" />
+    </g>
+    
+    <g>
+      <circle cx="0" cy="300" r="60" fill="#e74c3c" opacity="0.8" />
+      <circle cx="0" cy="300" r="30" fill="#ffffff" opacity="0.2" />
+      <line x1="0" y1="0" x2="0" y2="300" stroke="#e74c3c" stroke-width="2" stroke-opacity="0.5" />
+    </g>
+    
+    <g>
+      <circle cx="-280" cy="120" r="45" fill="#9b59b6" opacity="0.8" />
+      <polygon points="-280,100 -260,140 -300,140" fill="#ffffff" opacity="0.2" />
+      <line x1="0" y1="0" x2="-280" y2="120" stroke="#9b59b6" stroke-width="2" stroke-opacity="0.5" />
+    </g>
+    
+    <g>
+      <circle cx="-240" cy="-180" r="55" fill="#f1c40f" opacity="0.8" />
+      <rect x="-265" y="-205" width="50" height="50" rx="5" ry="5" fill="#ffffff" opacity="0.2" />
+      <line x1="0" y1="0" x2="-240" y2="-180" stroke="#f1c40f" stroke-width="2" stroke-opacity="0.5" />
+    </g>
+    
+    <!-- Digital nodes -->
+    <circle cx="0" cy="0" r="15" fill="#e74c3c" />
+    <circle cx="250" cy="-150" r="10" fill="#3498db" />
+    <circle cx="300" cy="100" r="12" fill="#2ecc71" />
+    <circle cx="0" cy="300" r="14" fill="#e74c3c" />
+    <circle cx="-280" cy="120" r="11" fill="#9b59b6" />
+    <circle cx="-240" cy="-180" r="13" fill="#f1c40f" />
+  </g>
+  
+  <!-- Code elements -->
+  <g transform="translate(350, 300)">
+    <rect x="0" y="0" width="400" height="300" rx="10" ry="10" fill="#1a2739" stroke="#34495e" stroke-width="2" />
+    
+    <!-- Code lines -->
+    <rect x="20" y="20" width="250" height="15" rx="2" ry="2" fill="#3498db" opacity="0.7" />
+    <rect x="20" y="45" width="360" height="15" rx="2" ry="2" fill="#ecf0f1" opacity="0.3" />
+    <rect x="20" y="70" width="320" height="15" rx="2" ry="2" fill="#ecf0f1" opacity="0.3" />
+    <rect x="20" y="95" width="200" height="15" rx="2" ry="2" fill="#e74c3c" opacity="0.7" />
+    <rect x="20" y="120" width="360" height="15" rx="2" ry="2" fill="#ecf0f1" opacity="0.3" />
+    <rect x="20" y="145" width="280" height="15" rx="2" ry="2" fill="#ecf0f1" opacity="0.3" />
+    <rect x="20" y="170" width="180" height="15" rx="2" ry="2" fill="#2ecc71" opacity="0.7" />
+    <rect x="20" y="195" width="320" height="15" rx="2" ry="2" fill="#ecf0f1" opacity="0.3" />
+    <rect x="20" y="220" width="360" height="15" rx="2" ry="2" fill="#ecf0f1" opacity="0.3" />
+    <rect x="20" y="245" width="280" height="15" rx="2" ry="2" fill="#f1c40f" opacity="0.7" />
+    
+    <!-- Line numbers -->
+    <text x="-25" y="30" font-family="Consolas, monospace" font-size="12" fill="#718096" text-anchor="end">1</text>
+    <text x="-25" y="55" font-family="Consolas, monospace" font-size="12" fill="#718096" text-anchor="end">2</text>
+    <text x="-25" y="80" font-family="Consolas, monospace" font-size="12" fill="#718096" text-anchor="end">3</text>
+    <text x="-25" y="105" font-family="Consolas, monospace" font-size="12" fill="#718096" text-anchor="end">4</text>
+    <text x="-25" y="130" font-family="Consolas, monospace" font-size="12" fill="#718096" text-anchor="end">5</text>
+    <text x="-25" y="155" font-family="Consolas, monospace" font-size="12" fill="#718096" text-anchor="end">6</text>
+    <text x="-25" y="180" font-family="Consolas, monospace" font-size="12" fill="#718096" text-anchor="end">7</text>
+    <text x="-25" y="205" font-family="Consolas, monospace" font-size="12" fill="#718096" text-anchor="end">8</text>
+    <text x="-25" y="230" font-family="Consolas, monospace" font-size="12" fill="#718096" text-anchor="end">9</text>
+    <text x="-25" y="255" font-family="Consolas, monospace" font-size="12" fill="#718096" text-anchor="end">10</text>
+  </g>
+  
+  <!-- Enterprise service elements -->
+  <g transform="translate(1250, 350)">
+    <rect x="-150" y="-100" width="300" height="200" rx="10" ry="10" fill="none" stroke="#e74c3c" stroke-width="3" />
+    
+    <!-- Device screens -->
+    <rect x="-120" y="-70" width="90" height="140" rx="5" ry="5" fill="#2c3e50" stroke="#34495e" stroke-width="2" />
+    <rect x="30" y="-70" width="90" height="140" rx="5" ry="5" fill="#2c3e50" stroke="#34495e" stroke-width="2" />
+    
+    <!-- Charts/dashboard elements -->
+    <rect x="-110" y="-60" width="70" height="40" rx="3" ry="3" fill="#3498db" opacity="0.8" />
+    <rect x="-110" y="-10" width="70" height="70" rx="3" ry="3" fill="#ecf0f1" opacity="0.2" />
+    
+    <!-- Bars in chart -->
+    <rect x="-100" y="0" width="10" height="50" rx="2" ry="2" fill="#3498db" />
+    <rect x="-80" y="-5" width="10" height="55" rx="2" ry="2" fill="#2ecc71" />
+    <rect x="-60" y="10" width="10" height="40" rx="2" ry="2" fill="#e74c3c" />
+    
+    <!-- Mobile app screen -->
+    <rect x="40" y="-60" width="70" height="120" rx="3" ry="3" fill="#ecf0f1" opacity="0.2" />
+    <rect x="50" y="-50" width="50" height="10" rx="2" ry="2" fill="#3498db" />
+    <rect x="50" y="-30" width="50" height="10" rx="2" ry="2" fill="#ecf0f1" opacity="0.4" />
+    <rect x="50" y="-10" width="50" height="10" rx="2" ry="2" fill="#ecf0f1" opacity="0.4" />
+    <rect x="50" y="10" width="50" height="10" rx="2" ry="2" fill="#ecf0f1" opacity="0.4" />
+    <rect x="50" y="30" width="30" height="20" rx="5" ry="5" fill="#e74c3c" />
+  </g>
+  
+  <!-- Text label -->
+  <text x="800" y="800" font-family="Arial" font-size="36" font-weight="bold" text-anchor="middle" fill="white" opacity="0.8">Enterprise Digital Solutions</text>
+</svg>
+ 

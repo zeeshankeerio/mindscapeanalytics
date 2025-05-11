@@ -1,0 +1,59 @@
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2c3e50" />
+      <stop offset="100%" stop-color="#1a2739" />
+    </linearGradient>
+    <linearGradient id="highlight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e74c3c" />
+      <stop offset="100%" stop-color="#c0392b" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="url(#bg)" />
+  
+  <!-- Grid pattern -->
+  <path d="M50 50 H1150 M50 150 H1150 M50 250 H1150 M50 350 H1150 M50 450 H1150 M50 550 H1150 M50 650 H1150 M50 750 H1150 M150 50 V750 M250 50 V750 M350 50 V750 M450 50 V750 M550 50 V750 M650 50 V750 M750 50 V750 M850 50 V750 M950 50 V750 M1050 50 V750" stroke="#ffffff" stroke-width="1" stroke-opacity="0.05" />
+  
+  <!-- Web development elements -->
+  <g transform="translate(350, 300)">
+    <!-- Browser window -->
+    <rect x="0" y="0" width="500" height="350" rx="10" ry="10" fill="#2c3e50" stroke="#34495e" stroke-width="3" />
+    <!-- Browser top bar -->
+    <rect x="0" y="0" width="500" height="40" rx="10" ry="10" fill="#34495e" />
+    <!-- URL bar -->
+    <rect x="120" y="10" width="350" height="20" rx="5" ry="5" fill="#ecf0f1" opacity="0.7" />
+    <!-- Browser buttons -->
+    <circle cx="25" cy="20" r="7" fill="#e74c3c" />
+    <circle cx="50" cy="20" r="7" fill="#f1c40f" />
+    <circle cx="75" cy="20" r="7" fill="#2ecc71" />
+    
+    <!-- Content area -->
+    <rect x="20" y="60" width="460" height="270" rx="5" ry="5" fill="#ecf0f1" opacity="0.1" />
+    
+    <!-- Code lines -->
+    <rect x="40" y="80" width="200" height="10" rx="2" ry="2" fill="#3498db" opacity="0.7" />
+    <rect x="40" y="100" width="400" height="10" rx="2" ry="2" fill="#ecf0f1" opacity="0.5" />
+    <rect x="40" y="120" width="380" height="10" rx="2" ry="2" fill="#ecf0f1" opacity="0.5" />
+    <rect x="40" y="140" width="300" height="10" rx="2" ry="2" fill="#ecf0f1" opacity="0.5" />
+    <rect x="40" y="160" width="180" height="10" rx="2" ry="2" fill="#e74c3c" opacity="0.7" />
+    <rect x="40" y="180" width="400" height="10" rx="2" ry="2" fill="#ecf0f1" opacity="0.5" />
+    <rect x="40" y="200" width="350" height="10" rx="2" ry="2" fill="#ecf0f1" opacity="0.5" />
+    <rect x="40" y="220" width="280" height="10" rx="2" ry="2" fill="#ecf0f1" opacity="0.5" />
+    <rect x="40" y="240" width="250" height="10" rx="2" ry="2" fill="#2ecc71" opacity="0.7" />
+    <rect x="40" y="260" width="400" height="10" rx="2" ry="2" fill="#ecf0f1" opacity="0.5" />
+    <rect x="40" y="280" width="380" height="10" rx="2" ry="2" fill="#ecf0f1" opacity="0.5" />
+    <rect x="40" y="300" width="320" height="10" rx="2" ry="2" fill="#f1c40f" opacity="0.7" />
+  </g>
+  
+  <!-- Abstract code elements -->
+  <g transform="translate(200, 200)">
+    <circle cx="0" cy="0" r="80" fill="none" stroke="url(#highlight)" stroke-width="6" opacity="0.7" />
+    <circle cx="0" cy="0" r="40" fill="none" stroke="#3498db" stroke-width="10" opacity="0.3" />
+  </g>
+  
+  <!-- Text label -->
+  <text x="600" y="700" font-family="Arial" font-size="40" font-weight="bold" text-anchor="middle" fill="white" opacity="0.9">Web Application Development</text>
+</svg> 

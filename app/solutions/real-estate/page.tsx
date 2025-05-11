@@ -1,0 +1,1602 @@
+'use client';
+
+import { useState, useRef } from 'react';
+import Image from 'next/image';
+import { motion, useInView } from 'framer-motion';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { 
+  Building, 
+  PieChart, 
+  Users, 
+  Wrench, 
+  LineChart, 
+  DollarSign,
+  Cpu,
+  ArrowRight,
+  BarChart3,
+  Map,
+  Settings,
+  BellRing,
+  Brain,
+  Upload,
+  CheckCircle,
+  Fingerprint,
+  Database,
+  Lock,
+  TrendingUp,
+  Globe,
+  Receipt,
+  Calendar,
+  ArrowUpRight,
+  Star,
+  Search,
+  Filter,
+  Home,
+  MapPin,
+  Briefcase,
+  X,
+  ChevronDown,
+  Compass,
+  Eye,
+  LocateFixed,
+  Download,
+  Check
+} from 'lucide-react';
+
+// Import custom components
+import { 
+  FeatureCard, 
+  MetricCard, 
+  DashboardPreview, 
+  MarketInsight,
+  RealEstateTestimonial,
+  featureIcons,
+  item,
+  AnimationVariant,
+  container as containerAnimation,
+  VRPropertyTour,
+  UAEMortgageCalculator,
+  AIPropertySearch
+} from './components';
+
+// Import the PredictiveAnalytics component dynamically
+import dynamic from 'next/dynamic';
+const PredictiveAnalytics = dynamic(() => 
+  import('../../predictive-analytics').then(mod => mod.PredictiveAnalytics),
+  { ssr: false }
+);
+
+// Import flexible section for full-width responsiveness
+import { FlexibleSection } from '@/components/flexible-section';
+import { getContainerClasses } from '@/lib/container-utils';
+
+// Animation variants
+interface ContainerVariant extends AnimationVariant {
+  show: {
+    opacity: number;
+    transition: {
+      staggerChildren: number;
+      duration?: number;
+      delay?: number;
+    };
+  };
+}
+
+const containerVariant: ContainerVariant = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
+// Helper function for fallback images
+const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+  const target = e.target as HTMLImageElement;
+  const src = target.src;
+  
+  // Check if the image is the dubai-map.jpg that's causing issues
+  if (src.includes('dubai-map.jpg')) {
+    target.src = "/images/real-estate/dubai-real-estate.jpg";
+  } else if (src.includes('/real-estate/user-')) {
+    // Handle missing user profile images
+    target.src = "/images/placeholder.jpg";
+  } else if (src.includes('dubai-skyline.jpg')) {
+    target.src = "/images/real-estate/Dubai_Marina.jpeg";
+  } else {
+    target.src = "/images/placeholder.jpg";
+  }
+  
+  target.onerror = null; // Prevent infinite error loop
+};
+
+export default function RealEstateSolutions() {
+  const [activeTab, setActiveTab] = useState('overview');
+  const featuresRef = useRef(null);
+  const metricsRef = useRef(null);
+  const testimonialsRef = useRef(null);
+  
+  const featuresInView = useInView(featuresRef, { once: true, amount: 0.2 });
+  const metricsInView = useInView(metricsRef, { once: true, amount: 0.2 });
+  const testimonialsInView = useInView(testimonialsRef, { once: true, amount: 0.2 });
+
+  return (
+    <div className="min-h-screen bg-background w-full overflow-hidden">
+      {/* Hero Section with Dubai Skyline */}
+      <section className="relative w-full overflow-hidden py-12 md:py-20 lg:py-24">
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-900/90 via-gray-900/70 to-background/95" />
+        
+        {/* Dynamic background elements */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(239,68,68,0.3),rgba(255,255,255,0))]" />
+        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-30 [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]" />
+        
+        {/* Animated gradient orbs */}
+        <motion.div 
+          className="absolute top-1/4 right-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.2, 0.3, 0.2]
+          }}
+          transition={{ 
+            duration: 8, 
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-1/4 left-1/3 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1.2, 1, 1.2],
+            opacity: [0.1, 0.2, 0.1]
+          }}
+          transition={{ 
+            duration: 10, 
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 1
+          }}
+        />
+        
+        <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 py-16 md:py-24 lg:py-28">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="space-y-6"
+            >
+              <div className="flex flex-wrap gap-2">
+                <Badge className="bg-gradient-to-r from-blue-600/20 to-blue-400/20 text-blue-400 shadow-md hover:shadow-lg hover:bg-blue-500/30 transition-all duration-300 font-medium border-none">UAE Property Tech</Badge>
+                <Badge className="bg-gradient-to-r from-purple-600/20 to-purple-400/20 text-purple-400 shadow-md hover:shadow-lg hover:bg-purple-500/30 transition-all duration-300 font-medium border-none">AI Analytics</Badge>
+                <Badge className="bg-gradient-to-r from-amber-600/20 to-amber-400/20 text-amber-400 shadow-md hover:shadow-lg hover:bg-amber-500/30 transition-all duration-300 font-medium border-none">Dubai SaaS</Badge>
+              </div>
+              
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground leading-tight">
+                UAE's Premier{" "}
+                <span className="relative inline-block bg-clip-text text-transparent bg-gradient-to-r from-rose-500 to-purple-500">
+                  Real Estate Platform
+                  <span className="absolute -inset-1 bg-gradient-to-r from-rose-500/20 to-purple-500/20 blur-xl rounded-lg -z-10"></span>
+                </span>
+              </h1>
+              
+              <p className="text-xl text-muted-foreground leading-relaxed max-w-xl">
+                Tailored for Dubai's dynamic market, our AI-powered platform transforms property management with advanced analytics, market predictions, and smart tenant experiences.
+              </p>
+              
+              <div className="flex flex-wrap gap-4 pt-4">
+                <Button 
+                  size="lg" 
+                  className="bg-gradient-to-r from-rose-600 to-purple-600 hover:from-rose-500 hover:to-purple-500 shadow-lg hover:shadow-xl shadow-rose-700/20 hover:shadow-rose-700/30 transition-all duration-300 font-medium border-none"
+                >
+                  Book Your Demo
+                  <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="bg-gradient-to-r from-gray-900/60 to-gray-900/40 text-white border-gray-700 shadow-md hover:shadow-lg hover:bg-gray-900/80 transition-all duration-300 font-medium"
+                >
+                  Pricing Plans
+                  <ArrowUpRight className="ml-2 w-4 h-4" />
+                </Button>
+              </div>
+              
+              <div className="flex items-center gap-4 pt-8">
+                <div className="flex -space-x-3">
+                  {[1, 2, 3, 4].map((i) => (
+                    <motion.div 
+                      key={i} 
+                      className="w-10 h-10 rounded-full flex items-center justify-center text-xs font-bold text-white relative z-10"
+                      whileHover={{ y: -4, scale: 1.1, zIndex: 20, transition: { duration: 0.2 } }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-br from-rose-500/60 to-purple-500/60 rounded-full"></div>
+                      <div className="absolute inset-0.5 bg-gradient-to-br from-gray-900 to-gray-800 rounded-full"></div>
+                      <span className="relative z-10">{['DU', 'EM', 'AR', 'DM'][i-1]}</span>
+                    </motion.div>
+                  ))}
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Trusted by <span className="font-medium text-blue-400">500+</span> leading UAE real estate agencies and developers
+                </p>
+              </div>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="relative"
+            >
+              <div className="absolute -inset-4 bg-gradient-to-r from-rose-500/20 to-purple-500/20 rounded-2xl blur-3xl opacity-70" />
+              <motion.div 
+                className="relative rounded-2xl overflow-hidden shadow-2xl border-none"
+                whileHover={{ y: -10, transition: { duration: 0.5 } }}
+              >
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-rose-500/50 to-purple-500/50 rounded-2xl"></div>
+                <div className="relative rounded-2xl overflow-hidden z-10">
+                  <Image 
+                    src="/images/real-estate/Dubai_Marina.jpeg" 
+                    alt="Dubai Marina Skyline" 
+                    width={600} 
+                    height={400} 
+                    className="object-cover w-full aspect-[4/3]"
+                    onError={handleImageError}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/30 to-transparent"></div>
+                  
+                  {/* Overlay content */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <div className="flex items-center gap-3">
+                      <div className="h-1 w-10 bg-gradient-to-r from-rose-500 to-purple-500 rounded-full"></div>
+                      <p className="text-xs text-white/90 font-medium">Dubai Marina, UAE</p>
+                    </div>
+                    <p className="mt-2 text-sm text-white/80">The most comprehensive real estate platform for UAE's premium properties</p>
+                  </div>
+                </div>
+              </motion.div>
+              
+              <motion.div
+                animate={{ 
+                  y: [0, -10, 0],
+                  rotate: [0, 5, 0]
+                }}
+                transition={{ 
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                className="absolute -right-8 -top-8 w-20 h-20 bg-rose-500/30 rounded-full blur-xl opacity-80"
+              />
+              <motion.div
+                animate={{ 
+                  y: [0, 10, 0],
+                  rotate: [0, -5, 0]
+                }}
+                transition={{ 
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 2
+                }}
+                className="absolute -left-8 -bottom-8 w-20 h-20 bg-purple-500/30 rounded-full blur-xl opacity-80"
+              />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Advanced Property Search */}
+      <section className="w-full py-16 md:py-20 bg-gradient-to-b from-background to-gray-900/60 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_20%,rgba(239,68,68,0.08),transparent)]" />
+        
+        <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="max-w-3xl mx-auto text-center mb-10"
+          >
+            <Badge className="bg-blue-500/20 text-blue-400 shadow-md mb-4 font-medium">AI-Powered Search</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
+              Advanced Property Discovery
+              <div className="h-1 w-32 bg-gradient-to-r from-blue-500 to-blue-500/20 mx-auto mt-4"></div>
+            </h2>
+            <p className="text-xl text-muted-foreground leading-relaxed">
+              Find your ideal property with our intelligent search system, optimized for the UAE market.
+            </p>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm text-muted-foreground">Location</label>
+                <div className="relative">
+                  <select className="w-full px-3 py-2 rounded-lg bg-gray-900/70 border-gray-800 focus:border-blue-500 focus:ring-blue-500/20 appearance-none">
+                    <option>Dubai</option>
+                    <option>Abu Dhabi</option>
+                    <option>Sharjah</option>
+                    <option>Ajman</option>
+                    <option>Ras Al Khaimah</option>
+                  </select>
+                  <ChevronDown className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm text-muted-foreground">Property Type</label>
+                <div className="relative">
+                  <select className="w-full px-3 py-2 rounded-lg bg-gray-900/70 border-gray-800 focus:border-blue-500 focus:ring-blue-500/20 appearance-none">
+                    <option>Any Type</option>
+                    <option>Apartment</option>
+                    <option>Villa</option>
+                    <option>Townhouse</option>
+                    <option>Penthouse</option>
+                    <option>Commercial</option>
+                  </select>
+                  <ChevronDown className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm text-muted-foreground">Price Range (AED)</label>
+                <div className="relative">
+                  <select className="w-full px-3 py-2 rounded-lg bg-gray-900/70 border-gray-800 focus:border-blue-500 focus:ring-blue-500/20 appearance-none">
+                    <option>Any Price</option>
+                    <option>Up to 500,000</option>
+                    <option>500,000 - 1,000,000</option>
+                    <option>1,000,000 - 3,000,000</option>
+                    <option>3,000,000 - 5,000,000</option>
+                    <option>5,000,000+</option>
+                  </select>
+                  <ChevronDown className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm text-muted-foreground">Bedrooms</label>
+                <div className="relative">
+                  <select className="w-full px-3 py-2 rounded-lg bg-gray-900/70 border-gray-800 focus:border-blue-500 focus:ring-blue-500/20 appearance-none">
+                    <option>Any</option>
+                    <option>Studio</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4+</option>
+                  </select>
+                  <ChevronDown className="absolute right-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                </div>
+              </div>
+            </div>
+            
+            {/* AI features */}
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pt-4 border-t border-gray-800">
+              <div className="flex flex-wrap items-center gap-4 sm:gap-6">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
+                    <Brain className="h-4 w-4 text-blue-400" />
+                  </div>
+                  <span className="text-sm text-muted-foreground">AI Recommendation</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center">
+                    <Eye className="h-4 w-4 text-purple-400" />
+                  </div>
+                  <span className="text-sm text-muted-foreground">VR Viewings</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
+                    <Compass className="h-4 w-4 text-emerald-400" />
+                  </div>
+                  <span className="text-sm text-muted-foreground">Area Insights</span>
+                </div>
+              </div>
+              <Button className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 border-none shadow-lg">
+                Search Properties
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
+            
+            {/* Search results preview */}
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                {
+                  image: "/images/real-estate/dubai_home_articture.jpeg",
+                  title: "Modern Apartment",
+                  location: "Dubai Marina",
+                  price: "AED 2,500,000",
+                  features: "2 Bed • 2 Bath • 1,200 sq.ft",
+                  isNew: true,
+                  hasVR: true
+                },
+                {
+                  image: "/images/real-estate/luxury-villa-meydan-crystal-lagoon1-1.jpg",
+                  title: "Luxury Villa",
+                  location: "Palm Jumeirah",
+                  price: "AED 15,000,000",
+                  features: "5 Bed • 6 Bath • 7,500 sq.ft",
+                  isNew: false,
+                  hasVR: true
+                },
+                {
+                  image: "/images/real-estate/Dubai_Marina.jpeg",
+                  title: "Penthouse Suite",
+                  location: "Downtown Dubai",
+                  price: "AED 8,900,000",
+                  features: "3 Bed • 4 Bath • 3,600 sq.ft",
+                  isNew: true,
+                  hasVR: false
+                }
+              ].map((property, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                  className="bg-gradient-to-br from-gray-900/60 to-gray-900/40 rounded-lg overflow-hidden shadow-lg border-none"
+                >
+                  <div className="relative h-48 sm:h-56">
+                    <Image
+                      src={property.image}
+                      alt={property.title}
+                      fill
+                      className="object-cover"
+                      onError={handleImageError}
+                    />
+                    <div className="absolute top-2 left-2 flex gap-2">
+                      {property.isNew && (
+                        <Badge className="bg-blue-500 text-white font-medium border-none">New</Badge>
+                      )}
+                      {property.hasVR && (
+                        <Badge className="bg-purple-500/90 text-white font-medium border-none">
+                          <Eye className="h-3 w-3 mr-1" />
+                          VR Tour
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+                  <div className="p-4">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2">
+                      <div>
+                        <h3 className="font-medium text-foreground">{property.title}</h3>
+                        <p className="text-sm text-muted-foreground flex items-center">
+                          <MapPin className="h-3 w-3 mr-1" />
+                          {property.location}
+                        </p>
+                      </div>
+                      <Badge className="bg-amber-500/20 text-amber-400 border-none w-fit">{property.price}</Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-2">{property.features}</p>
+                    <div className="mt-3 pt-2 border-t border-gray-800 flex justify-between items-center">
+                      <div className="flex -space-x-2">
+                        <div className="w-6 h-6 rounded-full bg-blue-500/30 flex items-center justify-center text-[10px] font-bold text-blue-300">MK</div>
+                        <div className="w-6 h-6 rounded-full bg-purple-500/30 flex items-center justify-center text-[10px] font-bold text-purple-300">AR</div>
+                      </div>
+                      <Button variant="ghost" size="sm" className="h-7 px-2 hover:bg-blue-500/10 hover:text-blue-400">
+                        View
+                        <ArrowRight className="ml-1 h-3 w-3" />
+                      </Button>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+      
+      
+      {/* Platform Capabilities Section */}
+      <section className="w-full py-20 bg-background relative" ref={featuresRef}>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(239,68,68,0.08),transparent)]" />
+        <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 relative">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="max-w-3xl mx-auto text-center mb-16"
+          >
+            <Badge className="bg-primary/15 text-primary shadow-md mb-4 font-medium">UAE-Optimized AI</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
+              Dubai-Specific Real Estate Intelligence
+              <div className="h-1 w-32 bg-gradient-to-r from-primary to-primary/20 mx-auto mt-4"></div>
+            </h2>
+            <p className="text-xl text-muted-foreground leading-relaxed">
+              Advanced AI tools trained on UAE property data, local market trends, and Dubai-specific regulations for unmatched local insights.
+            </p>
+          </motion.div>
+          
+          <motion.div
+            variants={containerVariant}
+            initial="hidden"
+            animate={featuresInView ? "show" : "hidden"}
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            <FeatureCard 
+              title="AI Property Valuation"
+              description="Dubai-specific valuation models using machine learning trained on billions of local data points for precise property assessments." 
+              icon={featureIcons.propertyAnalytics}
+              index={0}
+              imagePath="/images/real-estate/AI Property Valuation.png"
+            />
+            
+            <FeatureCard 
+              title="Tenant Experience Platform"
+              description="Smart tenant experience system with Arabic language support, digital contract signing, and UAE payment integration."
+              icon={featureIcons.tenantExperience}
+              index={1}
+              imagePath="/images/real-estate/Tenant Experience .png"
+            />
+            
+            <FeatureCard 
+              title="Document Intelligence"
+              description="Automated processing of Ejari contracts, SPA agreements, and local property documents with UAE regulatory compliance."
+              icon={featureIcons.documentIntelligence}
+              index={2}
+              imagePath="/images/real-estate/Document Intelligence.png"
+            />
+            
+            <FeatureCard 
+              title="Dubai Market Intelligence"
+              description="Specialized analytics for Dubai neighborhoods, EXPO city developments, and emerging UAE investment zones with AI-powered forecasting."
+              icon={featureIcons.marketIntelligence}
+              index={3}
+              imagePath="/images/real-estate/Market Intelligence.png"
+            />
+            
+            <FeatureCard 
+              title="Portfolio Optimization"
+              description="AI algorithms tailored for UAE property portfolios, with insights for Dubai's unique market cycles and investment opportunities."
+              icon={featureIcons.portfolioOptimization}
+              index={4}
+              imagePath="/images/real-estate/Portfolio Optimization.png"
+            />
+            
+            <FeatureCard 
+              title="Commercial Real Estate"
+              description="Specialized tools for UAE's commercial real estate sector, including office, retail, and hospitality analytics across Emirates."
+              icon={featureIcons.commercialRealEstate}
+              index={5}
+              imagePath="/images/real-estate/Commercial Real Estate.png"
+            />
+          </motion.div>
+        </div>
+      </section>
+      
+      {/* VR Property Tour Feature */}
+      <section className="w-full py-12 sm:py-20 bg-gradient-to-b from-background to-gray-900/60 relative">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(147,51,234,0.1),transparent)]" />
+        <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 relative">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="max-w-xl"
+            >
+              <Badge className="bg-purple-500/15 text-purple-400 shadow-md mb-4 font-medium">Virtual Reality</Badge>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 text-foreground">
+                Immersive Virtual Property Tours
+                <div className="h-1 w-24 sm:w-32 bg-gradient-to-r from-purple-500 to-purple-500/20 mt-3 sm:mt-4"></div>
+              </h2>
+              <p className="text-base sm:text-xl text-muted-foreground leading-relaxed mb-6 sm:mb-8">
+                Experience UAE's most luxurious properties from anywhere with interactive 360° virtual tours. Explore every detail of Dubai's premium real estate without visiting in person.
+              </p>
+              
+              <ul className="space-y-4 mb-8">
+                {[
+                  'Ultra-realistic 360° visualization of properties',
+                  'Interactive hotspots highlighting key features',
+                  'Multilingual tours (English, Arabic, Russian, Chinese)',
+                  'Virtual measurements and space planning',
+                  'Integration with UAE property databases',
+                ].map((feature, i) => (
+                  <motion.li 
+                    key={i}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    className="flex items-start"
+                  >
+                    <div className="h-6 w-6 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400 mr-3 mt-0.5">
+                      <Check className="h-3.5 w-3.5" />
+                    </div>
+                    <span className="text-muted-foreground">{feature}</span>
+                  </motion.li>
+                ))}
+              </ul>
+              
+              <Button className="bg-purple-600 hover:bg-purple-700 shadow-lg hover:shadow-purple-500/20 transition-all duration-300">
+                Try Virtual Tour Demo
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="relative"
+            >
+              <div className="absolute -inset-4 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-2xl blur-3xl opacity-70" />
+              <div className="relative bg-gradient-to-br from-gray-900/80 to-gray-900/40 backdrop-blur-sm rounded-2xl overflow-hidden shadow-2xl border-none aspect-video">
+                <div className="absolute inset-0.5 bg-gradient-to-r from-purple-500/30 to-blue-500/30 rounded-2xl z-0"></div>
+                <div className="relative z-10 bg-gray-950/80 rounded-2xl m-0.5 overflow-hidden">
+                  <Image 
+                    src="/images/real-estate/b8-architecture-modern-luxury-villa-apolo-madrid-spain-02.jpg" 
+                    alt="VR Dubai Property Tour" 
+                    width={600} 
+                    height={338} 
+                    className="object-cover w-full h-full opacity-80"
+                    onError={handleImageError}
+                  />
+                  
+                  {/* VR Controls Overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <motion.div
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-r from-purple-600/90 to-blue-600/90 flex items-center justify-center cursor-pointer shadow-lg shadow-purple-900/30"
+                    >
+                      <Eye className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
+                    </motion.div>
+                  </div>
+                  
+                  {/* UI Interface Elements */}
+                  <div className="absolute bottom-6 left-0 right-0 flex justify-center">
+                    <div className="bg-gray-900/70 backdrop-blur-md rounded-full px-3 py-2 sm:px-4 sm:py-2 flex gap-3 sm:gap-6">
+                      <motion.button
+                        whileHover={{ y: -2 }}
+                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400"
+                      >
+                        <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5" />
+                      </motion.button>
+                      <motion.button
+                        whileHover={{ y: -2 }}
+                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/90 flex items-center justify-center text-gray-900"
+                      >
+                        <Compass className="h-4 w-4 sm:h-5 sm:w-5" />
+                      </motion.button>
+                      <motion.button
+                        whileHover={{ y: -2 }}
+                        className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400"
+                      >
+                        <Map className="h-4 w-4 sm:h-5 sm:w-5" />
+                      </motion.button>
+                    </div>
+                  </div>
+                  
+                  {/* Hotspots */}
+                  <motion.div 
+                    className="absolute top-1/4 right-1/3"
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-blue-500/80 flex items-center justify-center">
+                      <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-white"></div>
+                    </div>
+                  </motion.div>
+                  <motion.div 
+                    className="absolute bottom-1/3 left-1/4"
+                    animate={{ scale: [1, 1.2, 1] }}
+                    transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+                  >
+                    <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-purple-500/80 flex items-center justify-center">
+                      <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-white"></div>
+                    </div>
+                  </motion.div>
+                </div>
+              </div>
+              
+              {/* Interactive indicators */}
+              <div className="flex flex-wrap justify-center sm:justify-between gap-2 mt-4">
+                <Badge className="bg-purple-500/20 text-purple-400 border-none shadow-md">
+                  360° View
+                </Badge>
+                <Badge className="bg-blue-500/20 text-blue-400 border-none shadow-md">
+                  Interactive
+                </Badge>
+                <Badge className="bg-emerald-500/20 text-emerald-400 border-none shadow-md">
+                  Floor Plans
+                </Badge>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Market Insights Section */}
+      <section className="w-full py-12 sm:py-20 bg-gradient-to-b from-gray-900/60 to-background relative">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(59,130,246,0.1),transparent)]" />
+        <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 relative">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="max-w-3xl mx-auto text-center mb-12 sm:mb-16"
+          >
+            <Badge className="bg-blue-500/15 text-blue-400 shadow-md mb-4 font-medium">Market Intelligence</Badge>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 text-foreground">
+              UAE Real Estate Market Insights
+              <div className="h-1 w-24 sm:w-32 bg-gradient-to-r from-blue-500 to-blue-500/20 mx-auto mt-3 sm:mt-4"></div>
+            </h2>
+            <p className="text-base sm:text-xl text-muted-foreground leading-relaxed">
+              Stay ahead with real-time market data and trends across Dubai's most sought-after locations.
+            </p>
+          </motion.div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            <MarketInsight 
+              title="Urban Residential Growth"
+              data={[
+                { label: "Dubai Marina", value: "+12%" },
+                { label: "Downtown Dubai", value: "+8%" },
+                { label: "Palm Jumeirah", value: "+15%" },
+                { label: "Jumeirah Beach Residence", value: "+7%" }
+              ]}
+              imageSrc="/images/real-estate/Urban Residential Growth.png"
+              index={0}
+            />
+            
+            <MarketInsight 
+              title="Commercial Real Estate"
+              data={[
+                { label: "DIFC", value: "+5%" },
+                { label: "Business Bay", value: "+3%" },
+                { label: "Dubai Internet City", value: "+4%" },
+                { label: "Sheikh Zayed Road", value: "+2%" }
+              ]}
+              imageSrc="/images/real-estate/Commercial Real Estate.png"
+              index={1}
+            />
+            
+            <MarketInsight 
+              title="Luxury Villa Segment"
+              data={[
+                { label: "Emirates Hills", value: "+18%" },
+                { label: "Dubai Hills Estate", value: "+11%" },
+                { label: "Al Barari", value: "+9%" },
+                { label: "Jumeirah Golf Estates", value: "+14%" }
+              ]}
+              imageSrc="/images/real-estate/luxury-villa-meydan-crystal-lagoon1-1.jpg"
+              index={2}
+            />
+          </div>
+        </div>
+      </section>
+      
+      {/* UAE Mortgage Calculator */}
+      <section className="w-full py-20 bg-gradient-to-b from-background to-background/95 relative">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(56,189,248,0.08),transparent)]" />
+        <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 relative">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="max-w-3xl mx-auto text-center mb-16"
+          >
+            <Badge className="bg-cyan-500/15 text-cyan-400 shadow-md mb-4 font-medium">Finance Tools</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
+              UAE Mortgage Calculator
+              <div className="h-1 w-32 bg-gradient-to-r from-cyan-500 to-cyan-500/20 mx-auto mt-4"></div>
+            </h2>
+            <p className="text-xl text-muted-foreground leading-relaxed">
+              Plan your property investment with our UAE-specific mortgage calculator, featuring current bank rates and Sharia-compliant options.
+            </p>
+          </motion.div>
+          
+          <UAEMortgageCalculator />
+        </div>
+      </section>
+      
+      {/* UAE Properties Dashboard Preview */}
+      <section className="w-full py-24 relative overflow-hidden bg-gradient-to-b from-background via-gray-900/40 to-background">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(239,68,68,0.15),transparent)]" />
+        
+        {/* Animated background elements */}
+        <motion.div 
+          className="absolute top-40 left-20 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.4, 0.3]
+          }}
+          transition={{ 
+            duration: 8, 
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-40 right-20 w-72 h-72 bg-purple-500/5 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1.2, 1, 1.2],
+            opacity: [0.2, 0.3, 0.2]
+          }}
+          transition={{ 
+            duration: 8, 
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
+        />
+        
+        <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 relative">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="space-y-8"
+            >
+              <Badge className="bg-cyan-500/20 text-cyan-400 shadow-md font-medium">UAE Property Dashboard</Badge>
+              <h2 className="text-3xl lg:text-4xl font-bold text-foreground">
+                Powerful Analytics Platform for UAE Real Estate Professionals
+              </h2>
+              <p className="text-xl text-muted-foreground leading-relaxed">
+                Our intuitive dashboard provides comprehensive insights into the UAE market, with specialized tools for Dubai, Abu Dhabi, and other Emirates.
+              </p>
+              
+              <ul className="space-y-4">
+                {[
+                  {
+                    title: "Comprehensive UAE Property Database",
+                    description: "Access to over 2 million property records across all Emirates, updated in real-time.",
+                    icon: <Database className="h-5 w-5 text-cyan-400" />,
+                    color: "bg-cyan-500/20"
+                  },
+                  {
+                    title: "Dubai-Specific Market Trends",
+                    description: "Track neighborhood-level trends across Dubai's most in-demand areas with predictive analytics.",
+                    icon: <TrendingUp className="h-5 w-5 text-emerald-400" />,
+                    color: "bg-emerald-500/20"
+                  },
+                  {
+                    title: "Regulatory Compliance Monitoring",
+                    description: "Stay updated with RERA regulations, DLD requirements, and other UAE-specific real estate laws.",
+                    icon: <CheckCircle className="h-5 w-5 text-amber-400" />,
+                    color: "bg-amber-500/20"
+                  }
+                ].map((feature, i) => (
+                  <motion.li 
+                    key={i} 
+                    className="flex gap-4 p-3 rounded-lg bg-gray-900/20 hover:bg-gray-900/30 transition-colors duration-300"
+                    whileHover={{ x: 5, transition: { duration: 0.2 } }}
+                  >
+                    <div className={`w-10 h-10 rounded-lg ${feature.color} flex items-center justify-center shrink-0`}>
+                      {feature.icon}
+                    </div>
+                    <div>
+                      <h3 className="font-medium text-foreground">{feature.title}</h3>
+                      <p className="text-muted-foreground text-sm">{feature.description}</p>
+                    </div>
+                  </motion.li>
+                ))}
+              </ul>
+              
+              <Button size="lg" className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 border-none shadow-lg shadow-cyan-900/20">
+                Explore Dashboard
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="relative"
+            >
+              <div className="absolute -inset-4 bg-gradient-to-r from-cyan-500/20 to-blue-500/10 rounded-2xl blur-3xl opacity-50" />
+              <motion.div 
+                className="relative p-2 bg-gradient-to-br from-gray-900/80 to-gray-900/40 backdrop-blur-sm rounded-2xl shadow-2xl border-none"
+                whileHover={{ y: -10, transition: { duration: 0.5 } }}
+              >
+                <div className="aspect-[16/10] relative rounded-lg overflow-hidden">
+                  <Image
+                    src="/images/real-estate/dubai-real-estate.jpg" 
+                    alt="Dubai Real Estate Dashboard" 
+                    width={800} 
+                    height={500}
+                    className="object-cover w-full h-full"
+                    onError={handleImageError}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <div className="grid grid-cols-3 gap-3">
+                      <motion.div 
+                        className="bg-gradient-to-br from-cyan-900/30 to-blue-900/20 backdrop-blur-md rounded-lg p-3 border-none"
+                        whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                      >
+                        <p className="text-xs text-cyan-300/80">Property Growth</p>
+                        <p className="text-lg font-bold text-white">+12.5%</p>
+                      </motion.div>
+                      <motion.div 
+                        className="bg-gradient-to-br from-purple-900/30 to-indigo-900/20 backdrop-blur-md rounded-lg p-3 border-none"
+                        whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                      >
+                        <p className="text-xs text-purple-300/80">Avg. ROI</p>
+                        <p className="text-lg font-bold text-white">8.2%</p>
+                      </motion.div>
+                      <motion.div 
+                        className="bg-gradient-to-br from-amber-900/30 to-orange-900/20 backdrop-blur-md rounded-lg p-3 border-none"
+                        whileHover={{ y: -5, transition: { duration: 0.2 } }}
+                      >
+                        <p className="text-xs text-amber-300/80">Price/Sqft</p>
+                        <p className="text-lg font-bold text-white">AED 1,450</p>
+                      </motion.div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Sub-dashboard previews */}
+                <div className="grid grid-cols-2 gap-2 mt-2">
+                  <div className="bg-gradient-to-br from-gray-900/60 to-gray-900/40 rounded-lg p-3 shadow-md border-none">
+                    <div className="flex justify-between items-center mb-2">
+                      <h4 className="text-xs font-medium text-cyan-400">Dubai Marina Trends</h4>
+                      <Map className="h-3 w-3 text-cyan-400" />
+                    </div>
+                    <div className="h-16 bg-cyan-900/20 rounded-md"></div>
+                  </div>
+                  <div className="bg-gradient-to-br from-gray-900/60 to-gray-900/40 rounded-lg p-3 shadow-md border-none">
+                    <div className="flex justify-between items-center mb-2">
+                      <h4 className="text-xs font-medium text-purple-400">Rental Yield Map</h4>
+                      <PieChart className="h-3 w-3 text-purple-400" />
+                    </div>
+                    <div className="h-16 bg-purple-900/20 rounded-md"></div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Predictive Analytics & Investment Opportunities */}
+      <section className="w-full py-24 relative overflow-hidden bg-gradient-to-b from-background via-gray-900/40 to-background">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_60%,rgba(16,185,129,0.12),transparent)]" />
+        
+        {/* Animated background elements */}
+        <motion.div 
+          className="absolute top-40 right-20 w-72 h-72 bg-emerald-500/5 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.2, 0.3, 0.2]
+          }}
+          transition={{ 
+            duration: 8, 
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-40 left-20 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1.2, 1, 1.2],
+            opacity: [0.1, 0.2, 0.1]
+          }}
+          transition={{ 
+            duration: 8, 
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
+        />
+        
+        <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 relative">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="max-w-3xl mx-auto text-center mb-16"
+          >
+            <Badge className="bg-emerald-500/15 text-emerald-400 shadow-md mb-4 font-medium">AI Investment Intelligence</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
+              Predictive UAE Market Analytics
+              <div className="h-1 w-32 bg-gradient-to-r from-emerald-500 to-emerald-500/20 mx-auto mt-4"></div>
+            </h2>
+            <p className="text-xl text-muted-foreground leading-relaxed">
+              Identify high-potential investment opportunities across the UAE with our advanced AI algorithms trained on decades of regional property data.
+            </p>
+          </motion.div>
+          
+          <PredictiveAnalytics />
+        </div>
+      </section>
+      
+      {/* Luxury Property Showcase */}
+      <section className="w-full py-12 sm:py-20 bg-gradient-to-b from-background to-gray-900/60 relative">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(245,158,11,0.1),transparent)]" />
+        <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 relative">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="max-w-3xl mx-auto text-center mb-12 sm:mb-16"
+          >
+            <Badge className="bg-amber-500/15 text-amber-400 shadow-md mb-4 font-medium">Premium Listings</Badge>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 text-foreground">
+              Luxury Property Showcase
+              <div className="h-1 w-24 sm:w-32 bg-gradient-to-r from-amber-500 to-amber-500/20 mx-auto mt-3 sm:mt-4"></div>
+            </h2>
+            <p className="text-base sm:text-xl text-muted-foreground leading-relaxed">
+              Discover Dubai's most exclusive properties, from waterfront villas to premium penthouses.
+            </p>
+          </motion.div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+            {/* Luxury Villa */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="relative group"
+            >
+              <div className="relative h-[400px] sm:h-[500px] rounded-2xl overflow-hidden">
+                <Image
+                  src="/images/real-estate/luxury-villa-meydan-crystal-lagoon1-1.jpg"
+                  alt="Luxury Villa"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  onError={handleImageError}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    <Badge className="bg-amber-500/80 hover:bg-amber-500 text-white border-none">Featured</Badge>
+                    <Badge className="bg-white/20 backdrop-blur-sm text-white border-none">New Listing</Badge>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Modern Architectural Villa</h3>
+                  <div className="flex items-center gap-2 text-white/90 mb-3">
+                    <MapPin className="h-4 w-4" />
+                    <span className="text-sm">Emirates Hills, Dubai</span>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <p className="text-xl font-bold text-white">AED 24,500,000</p>
+                    <Button variant="default" size="sm" className="w-full sm:w-auto bg-amber-500 hover:bg-amber-600 border-none">
+                      View Details
+                    </Button>
+                  </div>
+                  <div className="flex flex-wrap justify-between mt-4 text-white/80 text-sm gap-2">
+                    <div className="flex items-center gap-1">
+                      <Home className="h-4 w-4" />
+                      <span>6 Bedrooms</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Building className="h-4 w-4" />
+                      <span>8 Bathrooms</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <MapPin className="h-4 w-4" />
+                      <span>15,000 sqft</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+            
+            {/* Luxury Apartment */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="relative group"
+            >
+              <div className="relative h-[400px] sm:h-[500px] rounded-2xl overflow-hidden">
+                <Image
+                  src="/images/real-estate/Dubai_Marina.jpeg"
+                  alt="Luxury Apartment"
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  onError={handleImageError}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-6">
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    <Badge className="bg-blue-500/80 hover:bg-blue-500 text-white border-none">Waterfront</Badge>
+                    <Badge className="bg-white/20 backdrop-blur-sm text-white border-none">Exclusive</Badge>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-2">Luxury Duplex with Burj Al Arab View</h3>
+                  <div className="flex items-center gap-2 text-white/90 mb-3">
+                    <MapPin className="h-4 w-4" />
+                    <span className="text-sm">Palm Jumeirah, Dubai</span>
+                  </div>
+                  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                    <p className="text-xl font-bold text-white">AED 32,800,000</p>
+                    <Button variant="default" size="sm" className="w-full sm:w-auto bg-blue-500 hover:bg-blue-600 border-none">
+                      View Details
+                    </Button>
+                  </div>
+                  <div className="flex flex-wrap justify-between mt-4 text-white/80 text-sm gap-2">
+                    <div className="flex items-center gap-1">
+                      <Home className="h-4 w-4" />
+                      <span>4 Bedrooms</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <Building className="h-4 w-4" />
+                      <span>5 Bathrooms</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <MapPin className="h-4 w-4" />
+                      <span>7,500 sqft</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+      
+      {/* UAE Use Cases / Success Stories */}
+      <section className="w-full py-20 bg-gradient-to-b from-background via-gray-900/40 to-background relative" ref={testimonialsRef}>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(239,68,68,0.08),transparent)]" />
+        
+        {/* Animated background elements */}
+        <motion.div
+          className="absolute top-1/3 left-1/4 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.2, 0.3, 0.2]
+          }}
+          transition={{ 
+            duration: 8, 
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-1/3 right-1/4 w-64 h-64 bg-amber-500/5 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1.2, 1, 1.2],
+            opacity: [0.1, 0.2, 0.1]
+          }}
+          transition={{ 
+            duration: 8, 
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 2
+          }}
+        />
+        
+        <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 relative">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="max-w-3xl mx-auto text-center mb-16"
+          >
+            <Badge className="bg-gradient-to-r from-emerald-600/20 to-emerald-400/20 text-emerald-400 shadow-md mb-4 font-medium border-none">Success Stories</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
+              Trusted by UAE's Leading Real Estate Companies
+              <div className="h-1 w-32 bg-gradient-to-r from-emerald-500 to-emerald-300/20 mx-auto mt-4"></div>
+            </h2>
+            <p className="text-xl text-muted-foreground leading-relaxed">
+              See how leading property developers and agencies across the UAE are transforming their operations with our platform.
+            </p>
+          </motion.div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="bg-gradient-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border-none hover:shadow-xl transition-all duration-300 group p-6"
+              whileHover={{ 
+                y: -8, 
+                transition: { duration: 0.2 } 
+              }}
+            >
+              {/* Decorative elements */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl -mr-16 -mt-16 opacity-40"></div>
+              
+              <div className="mb-6 relative">
+                <div className="absolute -top-2 -left-2 text-emerald-400/30">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 8L4 16L10 22" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M20 8L14 16L20 22" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <div className="bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 rounded-lg p-5 relative overflow-hidden">
+                  <p className="text-foreground text-sm leading-relaxed italic">&ldquo;The AI property valuation has been a game-changer for our Dubai Marina projects. We've seen a 30% increase in sales velocity and more accurate pricing strategies.&rdquo;</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-4">
+                <div className="relative group-hover:scale-110 transition-transform duration-300">
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-emerald-500/50 to-emerald-300/50 rounded-full blur-sm opacity-75"></div>
+                  <div className="relative h-14 w-14 rounded-full overflow-hidden bg-emerald-500/10 flex-shrink-0 flex items-center justify-center">
+                    <div className="font-medium text-emerald-400 text-xl">MA</div>
+                  </div>
+                </div>
+                <div>
+                  <p className="font-medium text-foreground">Mohammed Al Falasi</p>
+                  <p className="text-xs text-emerald-400">CEO, Emaar Properties</p>
+                  <div className="flex mt-1">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star key={i} className="h-3 w-3 text-amber-400 fill-amber-400" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="bg-gradient-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border-none hover:shadow-xl transition-all duration-300 group p-6"
+              whileHover={{ 
+                y: -8, 
+                transition: { duration: 0.2 } 
+              }}
+            >
+              {/* Decorative elements */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 rounded-full blur-2xl -mr-16 -mt-16 opacity-40"></div>
+              
+              <div className="mb-6 relative">
+                <div className="absolute -top-2 -left-2 text-purple-400/30">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 8L4 16L10 22" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M20 8L14 16L20 22" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <div className="bg-gradient-to-br from-purple-500/10 to-purple-500/5 rounded-lg p-5 relative overflow-hidden">
+                  <p className="text-foreground text-sm leading-relaxed italic">&ldquo;The virtual property tours have transformed how we market our Palm Jumeirah luxury properties. International investors can now experience our exclusive listings remotely with the same level of detail as in-person visits.&rdquo;</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-4">
+                <div className="relative group-hover:scale-110 transition-transform duration-300">
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500/50 to-purple-300/50 rounded-full blur-sm opacity-75"></div>
+                  <div className="relative h-14 w-14 rounded-full overflow-hidden bg-purple-500/10 flex-shrink-0 flex items-center justify-center">
+                    <div className="font-medium text-purple-400 text-xl">FM</div>
+                  </div>
+                </div>
+                <div>
+                  <p className="font-medium text-foreground">Fatima Al Maktoum</p>
+                  <p className="text-xs text-purple-400">Director, DAMAC Properties</p>
+                  <div className="flex mt-1">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star key={i} className="h-3 w-3 text-amber-400 fill-amber-400" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="bg-gradient-to-br from-gray-900/40 to-gray-900/20 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg border-none hover:shadow-xl transition-all duration-300 group p-6"
+              whileHover={{ 
+                y: -8, 
+                transition: { duration: 0.2 } 
+              }}
+            >
+              {/* Decorative elements */}
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl -mr-16 -mt-16 opacity-40"></div>
+              
+              <div className="mb-6 relative">
+                <div className="absolute -top-2 -left-2 text-blue-400/30">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 8L4 16L10 22" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M20 8L14 16L20 22" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <div className="bg-gradient-to-br from-blue-500/10 to-blue-500/5 rounded-lg p-5 relative overflow-hidden">
+                  <p className="text-foreground text-sm leading-relaxed italic">&ldquo;The market intelligence platform has given us an edge in identifying emerging investment zones in Abu Dhabi and Dubai. The predictive analytics have been 85% accurate in forecasting neighborhood price movements.&rdquo;</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-4">
+                <div className="relative group-hover:scale-110 transition-transform duration-300">
+                  <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-500/50 to-blue-300/50 rounded-full blur-sm opacity-75"></div>
+                  <div className="relative h-14 w-14 rounded-full overflow-hidden bg-blue-500/10 flex-shrink-0 flex items-center justify-center">
+                    <div className="font-medium text-blue-400 text-xl">SA</div>
+                  </div>
+                </div>
+                <div>
+                  <p className="font-medium text-foreground">Salem Al Mansoori</p>
+                  <p className="text-xs text-blue-400">CTO, Aldar Properties</p>
+                  <div className="flex mt-1">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <Star key={i} className="h-3 w-3 text-amber-400 fill-amber-400" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+      
+      {/* SaaS Platform Tiers - Moved after Success Stories */}
+      <section className="w-full py-20 bg-gradient-to-b from-background via-gray-900/40 to-background relative">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(239,68,68,0.12),transparent)]" />
+        <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="max-w-3xl mx-auto text-center mb-16"
+          >
+            <Badge className="bg-primary/20 text-primary shadow-md mb-4 font-medium">UAE Real Estate SaaS</Badge>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
+              Choose Your Platform Tier
+              <div className="h-1 w-32 bg-gradient-to-r from-primary to-primary/20 mx-auto mt-4"></div>
+            </h2>
+            <p className="text-xl text-muted-foreground leading-relaxed">
+              Flexible subscription options tailored to your business size and needs, with specialized features for UAE's unique real estate market.
+            </p>
+          </motion.div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Starter Plan */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="bg-gradient-to-br from-blue-900/20 to-blue-900/5 rounded-xl overflow-hidden border-none shadow-lg hover:shadow-xl shadow-blue-900/5 hover:shadow-blue-900/10 transition-all duration-300"
+              whileHover={{ y: -8, transition: { duration: 0.2 } }}
+            >
+              <div className="p-8 bg-gradient-to-br from-blue-500/10 to-transparent relative overflow-hidden">
+                {/* Animated accent */}
+                <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 rounded-full blur-3xl"></div>
+                
+                <Badge className="bg-blue-500/20 text-blue-400 mb-4">Starter</Badge>
+                <h3 className="text-2xl font-bold text-foreground">Property Manager</h3>
+                <div className="mt-4 mb-6">
+                  <span className="text-4xl font-bold text-foreground">AED 1,499</span>
+                  <span className="text-muted-foreground ml-2">/month</span>
+                  </div>
+                <p className="text-muted-foreground mb-6">Perfect for small agencies and individual property managers in the UAE market.</p>
+                <Button className="w-full bg-blue-600 hover:bg-blue-500 border-none">Get Started</Button>
+                </div>
+              <div className="p-8 pt-4">
+                <p className="text-sm font-medium text-muted-foreground mb-4">Includes:</p>
+                <ul className="space-y-3">
+                  {[
+                    'Property listing management (up to 50)',
+                    'Basic tenant portal',
+                    'UAE market analytics dashboard',
+                    'Automated document generation',
+                    'Mobile app for property inspections',
+                  ].map((feature, i) => (
+                    <li key={i} className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-blue-500 mr-2 shrink-0" />
+                      <span className="text-muted-foreground text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                </div>
+            </motion.div>
+            
+            {/* Professional Plan */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="bg-gradient-to-br from-purple-900/20 to-purple-900/5 rounded-xl overflow-hidden border-none shadow-xl hover:shadow-2xl shadow-purple-900/10 hover:shadow-purple-900/20 relative transform scale-105 z-10"
+              whileHover={{ y: -8, transition: { duration: 0.2 } }}
+            >
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/80 to-purple-500/40"></div>
+              
+              <div className="p-8 bg-gradient-to-br from-purple-500/10 to-transparent relative overflow-hidden">
+                {/* Animated accents */}
+                <div className="absolute -top-24 -right-24 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl"></div>
+                <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl"></div>
+                
+                <Badge className="bg-purple-500/20 text-purple-400 mb-4">Professional</Badge>
+                <h3 className="text-2xl font-bold text-foreground">Dubai Enterprise</h3>
+                <div className="mt-4 mb-6">
+                  <span className="text-4xl font-bold text-foreground">AED 3,999</span>
+                  <span className="text-muted-foreground ml-2">/month</span>
+                </div>
+                <p className="text-muted-foreground mb-6">Ideal for mid-sized agencies and property management companies across the UAE.</p>
+                <Button className="w-full bg-purple-600 hover:bg-purple-500 border-none">Get Started</Button>
+              </div>
+              <div className="p-8 pt-4">
+                <p className="text-sm font-medium text-muted-foreground mb-4">Everything in Starter, plus:</p>
+                <ul className="space-y-3">
+                  {[
+                    'Unlimited property listings',
+                    'Advanced AI market predictions for Dubai',
+                    'Smart tenant experience platform',
+                    'Integrated rental payment system',
+                    'Multi-user access with role management',
+                    'Property valuation AI (Dubai-specific)',
+                    'Maintenance request management',
+                  ].map((feature, i) => (
+                    <li key={i} className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-purple-500 mr-2 shrink-0" />
+                      <span className="text-muted-foreground text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+            
+            {/* Enterprise Plan */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="bg-gradient-to-br from-amber-900/20 to-amber-900/5 rounded-xl overflow-hidden border-none shadow-lg hover:shadow-xl shadow-amber-900/5 hover:shadow-amber-900/10 transition-all duration-300"
+              whileHover={{ y: -8, transition: { duration: 0.2 } }}
+            >
+              <div className="p-8 bg-gradient-to-br from-amber-500/10 to-transparent relative overflow-hidden">
+                {/* Animated accent */}
+                <div className="absolute -top-24 -right-24 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl"></div>
+                
+                <Badge className="bg-amber-500/20 text-amber-400 mb-4">Enterprise</Badge>
+                <h3 className="text-2xl font-bold text-foreground">UAE Developer</h3>
+                <div className="mt-4 mb-6">
+                  <span className="text-4xl font-bold text-foreground">Custom</span>
+                  <span className="text-muted-foreground ml-2">pricing</span>
+                  </div>
+                <p className="text-muted-foreground mb-6">Tailored solutions for large UAE developers and investment companies.</p>
+                <Button className="w-full bg-amber-600 hover:bg-amber-500 border-none">Contact Sales</Button>
+                </div>
+              <div className="p-8 pt-4">
+                <p className="text-sm font-medium text-muted-foreground mb-4">Everything in Professional, plus:</p>
+                <ul className="space-y-3">
+                  {[
+                    'Portfolio optimization AI',
+                    'Investment opportunity detection',
+                    'Smart building IoT integration',
+                    'Custom market analysis for UAE regions',
+                    'White-labeled customer portal',
+                    'API access for custom integrations',
+                    '24/7 priority support',
+                  ].map((feature, i) => (
+                    <li key={i} className="flex items-start">
+                      <CheckCircle className="h-5 w-5 text-amber-500 mr-2 shrink-0" />
+                      <span className="text-muted-foreground text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Call to Action */}
+      <section className="w-full py-24 relative overflow-hidden bg-gradient-to-b from-background to-gray-900/60">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(239,68,68,0.15),transparent)]" />
+        
+        {/* Animated background elements */}
+        <motion.div 
+          className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.2, 0.3, 0.2],
+            x: [-10, 10, -10]
+          }}
+          transition={{ 
+            duration: 12, 
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl"
+          animate={{ 
+            scale: [1.2, 1, 1.2],
+            opacity: [0.1, 0.2, 0.1],
+            x: [10, -10, 10]
+          }}
+          transition={{ 
+            duration: 12, 
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: 3
+          }}
+        />
+        
+        <div className="w-full max-w-[1400px] mx-auto px-4 sm:px-6 relative">
+          <div className="bg-gradient-to-br from-gray-900/80 via-gray-900/60 to-gray-900/80 backdrop-blur-lg rounded-3xl overflow-hidden shadow-2xl border-none">
+            <div className="grid lg:grid-cols-2 gap-8 items-center">
+              <div className="p-12 lg:p-16 relative">
+                {/* Glass effect elements */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-2xl opacity-40"></div>
+                <div className="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/10 rounded-full blur-2xl opacity-30"></div>
+                
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5 }}
+                  className="space-y-6 relative z-10"
+                >
+                  <Badge className="bg-gradient-to-r from-primary/30 to-purple-500/30 text-white shadow-lg mb-4 font-medium border-none">Start Today</Badge>
+                  <h2 className="text-3xl lg:text-4xl font-bold text-foreground">Transform Your UAE Real Estate Business</h2>
+                  <p className="text-lg text-muted-foreground leading-relaxed">
+                    Join over 500 leading UAE real estate companies already using our platform to drive growth, optimize operations, and deliver exceptional experiences.
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-4 pt-4">
+                    <Button 
+                      size="lg" 
+                      className="bg-gradient-to-r from-primary to-rose-600 hover:from-primary/90 hover:to-rose-500 shadow-lg hover:shadow-xl shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 font-medium border-none"
+                    >
+                      Schedule Demo
+                      <ArrowRight className="ml-2 w-4 h-4" />
+                    </Button>
+                    <Button 
+                      size="lg" 
+                      variant="outline" 
+                      className="bg-gradient-to-r from-gray-900/60 to-gray-900/40 text-white border-gray-700 shadow-md hover:shadow-lg hover:bg-primary/5 hover:border-primary/40 transition-all duration-300 font-medium"
+                    >
+                      Contact Sales
+                      <ArrowUpRight className="ml-2 w-4 h-4" />
+                    </Button>
+                  </div>
+                </motion.div>
+              </div>
+              
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="relative overflow-hidden h-full min-h-[400px] lg:min-h-[500px]"
+              >
+                <Image 
+                  src="/images/real-estate/dubai_home_articture.jpeg" 
+                  alt="Dubai Luxury Development" 
+                  fill
+                  className="object-cover"
+                  onError={handleImageError}
+                />
+                <div className="absolute inset-0 bg-gradient-to-l from-transparent via-transparent to-gray-900/95 lg:block hidden"></div>
+                
+                {/* Animated mesh overlay */}
+                <div className="absolute inset-0 opacity-30 mix-blend-overlay">
+                  <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+                        <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="0.5" />
+                      </pattern>
+                      <pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+                        <rect width="100" height="100" fill="url(#smallGrid)" />
+                        <path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(255,255,255,0.5)" strokeWidth="1" />
+                      </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)" />
+                  </svg>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+} 
