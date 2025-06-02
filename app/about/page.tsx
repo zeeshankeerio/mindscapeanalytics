@@ -884,24 +884,23 @@ const teamMembers = [
     }
   },
   {
-    name: "Sophia Kim",
-    role: "Lead ML Engineer",
-    bio: "Expert in deploying ML models at scale. Previously led ML infrastructure at Spotify, building recommendation systems used by millions.",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=2187&auto=format&fit=crop",
-    department: "Engineering",
+    name: "Muhammad Abubakar",
+    role: "Business Developement Manager (BDM)",
+    bio: "Responsible for driving company growth by identifying new business opportunities, building client relationships, and expanding market presence.",
+    image: "/abubakar.jpg",
+    department: "Business",
     achievements: [
-      "Built scalable ML infrastructure at Spotify",
-      "Developed real-time recommendation systems",
-      "Optimized ML model deployment pipelines"
+      "Expanded market reach by 40% by launching business in two new regions",
+      "Improved lead conversion rate by 25% through streamlined sales processes."
+     
     ],
     education: [
-      "MS in Machine Learning - Columbia",
-      "BS in Computer Science - NYU"
+      
+      "BS in Computer Science"
     ],
     experience: [
-      "8+ years in ML engineering",
-      "ML Lead at Spotify",
-      "ML Engineer at Netflix"
+      "2+ years Experience BDM",
+     
     ],
     social: {
     linkedin: "#",
