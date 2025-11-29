@@ -1,0 +1,96 @@
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#336e7b" />
+      <stop offset="100%" stop-color="#204051" />
+    </linearGradient>
+    <linearGradient id="highlight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3498db" />
+      <stop offset="100%" stop-color="#2980b9" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="url(#bg)" />
+  
+  <!-- Grid pattern -->
+  <path d="M50 50 H1150 M50 150 H1150 M50 250 H1150 M50 350 H1150 M50 450 H1150 M50 550 H1150 M50 650 H1150 M50 750 H1150 M150 50 V750 M250 50 V750 M350 50 V750 M450 50 V750 M550 50 V750 M650 50 V750 M750 50 V750 M850 50 V750 M950 50 V750 M1050 50 V750" stroke="#ffffff" stroke-width="1" stroke-opacity="0.05" />
+  
+  <!-- Database icon -->
+  <g transform="translate(600, 400)">
+    <!-- Main database icons -->
+    <g transform="translate(0, -50)">
+      <ellipse cx="0" cy="-45" rx="80" ry="25" fill="#3498db" opacity="0.9" />
+      <ellipse cx="0" cy="45" rx="80" ry="25" fill="#3498db" opacity="0.9" />
+      <rect x="-80" y="-45" width="160" height="90" fill="#3498db" opacity="0.9" />
+      <ellipse cx="0" cy="-45" rx="80" ry="25" fill="#2980b9" opacity="0.3" />
+      
+      <!-- Connection lines -->
+      <line x1="-40" y1="0" x2="-120" y2="0" stroke="#ffffff" stroke-width="2" stroke-opacity="0.5" />
+      <line x1="40" y1="0" x2="120" y2="0" stroke="#ffffff" stroke-width="2" stroke-opacity="0.5" />
+      
+      <!-- Database rings -->
+      <ellipse cx="0" cy="-25" rx="60" ry="5" fill="none" stroke="#ffffff" stroke-width="1" stroke-opacity="0.5" />
+      <ellipse cx="0" cy="0" rx="60" ry="5" fill="none" stroke="#ffffff" stroke-width="1" stroke-opacity="0.5" />
+      <ellipse cx="0" cy="25" rx="60" ry="5" fill="none" stroke="#ffffff" stroke-width="1" stroke-opacity="0.5" />
+    </g>
+    
+    <!-- Second database -->
+    <g transform="translate(-150, 50)">
+      <ellipse cx="0" cy="-25" rx="60" ry="15" fill="#e74c3c" opacity="0.9" />
+      <ellipse cx="0" cy="25" rx="60" ry="15" fill="#e74c3c" opacity="0.9" />
+      <rect x="-60" y="-25" width="120" height="50" fill="#e74c3c" opacity="0.9" />
+      <ellipse cx="0" cy="-25" rx="60" ry="15" fill="#c0392b" opacity="0.3" />
+      
+      <!-- Database rings -->
+      <ellipse cx="0" cy="-12" rx="45" ry="4" fill="none" stroke="#ffffff" stroke-width="1" stroke-opacity="0.5" />
+      <ellipse cx="0" cy="0" rx="45" ry="4" fill="none" stroke="#ffffff" stroke-width="1" stroke-opacity="0.5" />
+      <ellipse cx="0" cy="12" rx="45" ry="4" fill="none" stroke="#ffffff" stroke-width="1" stroke-opacity="0.5" />
+    </g>
+    
+    <!-- Third database -->
+    <g transform="translate(150, 50)">
+      <ellipse cx="0" cy="-25" rx="60" ry="15" fill="#2ecc71" opacity="0.9" />
+      <ellipse cx="0" cy="25" rx="60" ry="15" fill="#2ecc71" opacity="0.9" />
+      <rect x="-60" y="-25" width="120" height="50" fill="#2ecc71" opacity="0.9" />
+      <ellipse cx="0" cy="-25" rx="60" ry="15" fill="#27ae60" opacity="0.3" />
+      
+      <!-- Database rings -->
+      <ellipse cx="0" cy="-12" rx="45" ry="4" fill="none" stroke="#ffffff" stroke-width="1" stroke-opacity="0.5" />
+      <ellipse cx="0" cy="0" rx="45" ry="4" fill="none" stroke="#ffffff" stroke-width="1" stroke-opacity="0.5" />
+      <ellipse cx="0" cy="12" rx="45" ry="4" fill="none" stroke="#ffffff" stroke-width="1" stroke-opacity="0.5" />
+    </g>
+    
+    <!-- Backend code elements -->
+    <g transform="translate(-200, -150)">
+      <rect x="-80" y="-40" width="160" height="80" rx="5" ry="5" fill="#34495e" opacity="0.7" />
+      <text x="0" y="-15" font-family="monospace" font-size="12" text-anchor="middle" fill="#ecf0f1">const db = require('db');</text>
+      <text x="0" y="5" font-family="monospace" font-size="12" text-anchor="middle" fill="#ecf0f1">async function getData() {</text>
+      <text x="0" y="25" font-family="monospace" font-size="12" text-anchor="middle" fill="#ecf0f1">  return await db.query();</text>
+      <text x="0" y="45" font-family="monospace" font-size="12" text-anchor="middle" fill="#ecf0f1">}</text>
+    </g>
+    
+    <g transform="translate(200, -150)">
+      <rect x="-80" y="-40" width="160" height="80" rx="5" ry="5" fill="#34495e" opacity="0.7" />
+      <text x="0" y="-15" font-family="monospace" font-size="12" text-anchor="middle" fill="#ecf0f1">class Schema {</text>
+      <text x="0" y="5" font-family="monospace" font-size="12" text-anchor="middle" fill="#ecf0f1">  constructor() {</text>
+      <text x="0" y="25" font-family="monospace" font-size="12" text-anchor="middle" fill="#ecf0f1">    this.model = {};</text>
+      <text x="0" y="45" font-family="monospace" font-size="12" text-anchor="middle" fill="#ecf0f1">  }</text>
+    </g>
+    
+    <!-- Data flow animations -->
+    <circle cx="-80" cy="0" r="3" fill="#ffffff" opacity="0.8">
+      <animate attributeName="cx" values="-120;-40" dur="2s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="80" cy="0" r="3" fill="#ffffff" opacity="0.8">
+      <animate attributeName="cx" values="40;120" dur="1.5s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="0" cy="-80" r="3" fill="#ffffff" opacity="0.8">
+      <animate attributeName="cy" values="-50;-25" dur="1s" repeatCount="indefinite" />
+    </circle>
+  </g>
+  
+  <!-- Text label -->
+  <text x="600" y="700" font-family="Arial" font-size="40" font-weight="bold" text-anchor="middle" fill="white" opacity="0.9">Database & Backend Solutions</text>
+</svg> 

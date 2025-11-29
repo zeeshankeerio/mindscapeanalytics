@@ -1,0 +1,12 @@
+# Allow all web crawlers
+User-agent: *
+Allow: /
+
+# Disallow crawling of sensitive areas
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard/private/
+Disallow: /auth/
+
+# Sitemap location
+Sitemap: https://mindscape-analytics.com/sitemap.xml 

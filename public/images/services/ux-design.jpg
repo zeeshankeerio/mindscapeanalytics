@@ -1,0 +1,134 @@
+<svg width="1200" height="800" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6c5ce7" />
+      <stop offset="100%" stop-color="#4834d4" />
+    </linearGradient>
+    <linearGradient id="highlight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fd79a8" />
+      <stop offset="100%" stop-color="#e84393" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+      <stop offset="0%" stop-color="#fd79a8" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#fd79a8" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="url(#bg)" />
+  
+  <!-- Grid pattern -->
+  <path d="M50 50 H1150 M50 150 H1150 M50 250 H1150 M50 350 H1150 M50 450 H1150 M50 550 H1150 M50 650 H1150 M50 750 H1150 M150 50 V750 M250 50 V750 M350 50 V750 M450 50 V750 M550 50 V750 M650 50 V750 M750 50 V750 M850 50 V750 M950 50 V750 M1050 50 V750" stroke="#ffffff" stroke-width="1" stroke-opacity="0.05" />
+  
+  <!-- UX/UI Design illustration -->
+  <g transform="translate(600, 400)">
+    <!-- Glow effect -->
+    <circle cx="0" cy="0" r="300" fill="url(#glow)" />
+    
+    <!-- Design Artboard -->
+    <g transform="translate(0, 0) rotate(-5)">
+      <rect x="-200" y="-150" width="400" height="300" rx="10" ry="10" fill="#ffffff" stroke="#dfe6e9" stroke-width="4" />
+      
+      <!-- Artboard header -->
+      <rect x="-200" y="-150" width="400" height="40" rx="10" ry="10" fill="#f1f2f6" />
+      <circle cx="-175" cy="-130" r="8" fill="#ff7675" />
+      <circle cx="-150" cy="-130" r="8" fill="#fdcb6e" />
+      <circle cx="-125" cy="-130" r="8" fill="#55efc4" />
+      <rect x="-80" y="-138" width="120" height="16" rx="3" ry="3" fill="#dfe4ea" />
+      
+      <!-- Wireframe Elements -->
+      <!-- Navigation -->
+      <rect x="-180" y="-95" width="360" height="30" rx="5" ry="5" fill="#dfe4ea" />
+      <rect x="-170" y="-90" width="60" height="20" rx="3" ry="3" fill="#a4b0be" />
+      <rect x="-100" y="-90" width="60" height="20" rx="3" ry="3" fill="#a4b0be" />
+      <rect x="-30" y="-90" width="60" height="20" rx="3" ry="3" fill="#a4b0be" />
+      <rect x="40" y="-90" width="60" height="20" rx="3" ry="3" fill="#a4b0be" />
+      <rect x="110" y="-90" width="60" height="20" rx="3" ry="3" fill="url(#highlight)" />
+      
+      <!-- Hero section -->
+      <rect x="-180" y="-55" width="360" height="120" rx="5" ry="5" fill="#dfe4ea" />
+      <rect x="-160" y="-35" width="200" height="20" rx="3" ry="3" fill="#a4b0be" />
+      <rect x="-160" y="-5" width="150" height="15" rx="3" ry="3" fill="#a4b0be" />
+      <rect x="-160" y="20" width="100" height="30" rx="5" ry="5" fill="url(#highlight)" />
+      <rect x="60" y="-35" width="100" height="80" rx="5" ry="5" fill="#a4b0be" />
+      
+      <!-- Content section -->
+      <rect x="-180" y="75" width="170" height="65" rx="5" ry="5" fill="#dfe4ea" />
+      <rect x="-170" y="85" width="150" height="15" rx="3" ry="3" fill="#a4b0be" />
+      <rect x="-170" y="105" width="120" height="10" rx="3" ry="3" fill="#a4b0be" />
+      <rect x="-170" y="120" width="130" height="10" rx="3" ry="3" fill="#a4b0be" />
+      
+      <rect x="0" y="75" width="170" height="65" rx="5" ry="5" fill="#dfe4ea" />
+      <rect x="10" y="85" width="150" height="15" rx="3" ry="3" fill="#a4b0be" />
+      <rect x="10" y="105" width="120" height="10" rx="3" ry="3" fill="#a4b0be" />
+      <rect x="10" y="120" width="130" height="10" rx="3" ry="3" fill="#a4b0be" />
+    </g>
+    
+    <!-- Color Palette -->
+    <g transform="translate(-180, -180)">
+      <circle cx="0" cy="0" r="25" fill="#fd79a8" />
+      <circle cx="60" cy="0" r="25" fill="#0984e3" />
+      <circle cx="120" cy="0" r="25" fill="#00b894" />
+      <circle cx="180" cy="0" r="25" fill="#fdcb6e" />
+      <circle cx="240" cy="0" r="25" fill="#6c5ce7" />
+    </g>
+    
+    <!-- Design Tools -->
+    <g transform="translate(-220, 50)">
+      <!-- Pen tool -->
+      <path d="M0,0 L15,40 L0,30 L-15,40 Z" fill="#dfe6e9" stroke="#2d3436" stroke-width="2" />
+      <line x1="0" y1="0" x2="0" y2="-15" stroke="#2d3436" stroke-width="2" />
+      <circle cx="0" cy="0" r="5" fill="#dfe6e9" stroke="#2d3436" stroke-width="2" />
+    </g>
+    
+    <g transform="translate(200, 120)">
+      <!-- Color picker -->
+      <circle cx="0" cy="0" r="30" fill="#ffffff" stroke="#2d3436" stroke-width="2" />
+      <path d="M-15,-15 L15,15 M-15,15 L15,-15" stroke="#2d3436" stroke-width="2" />
+      <circle cx="0" cy="0" r="12" fill="url(#highlight)" />
+    </g>
+    
+    <g transform="translate(210, -80)">
+      <!-- Ruler -->
+      <rect x="-40" y="-10" width="80" height="20" rx="3" ry="3" fill="#dfe6e9" stroke="#2d3436" stroke-width="2" />
+      <line x1="-35" y1="-10" x2="-35" y2="10" stroke="#2d3436" stroke-width="1" />
+      <line x1="-25" y1="-5" x2="-25" y2="5" stroke="#2d3436" stroke-width="1" />
+      <line x1="-15" y1="-10" x2="-15" y2="10" stroke="#2d3436" stroke-width="1" />
+      <line x1="-5" y1="-5" x2="-5" y2="5" stroke="#2d3436" stroke-width="1" />
+      <line x1="5" y1="-10" x2="5" y2="10" stroke="#2d3436" stroke-width="1" />
+      <line x1="15" y1="-5" x2="15" y2="5" stroke="#2d3436" stroke-width="1" />
+      <line x1="25" y1="-10" x2="25" y2="10" stroke="#2d3436" stroke-width="1" />
+      <line x1="35" y1="-5" x2="35" y2="5" stroke="#2d3436" stroke-width="1" />
+    </g>
+    
+    <!-- Design Elements -->
+    <g transform="translate(-60, -220)">
+      <circle cx="0" cy="0" r="20" fill="#ff7675" opacity="0.7" />
+      <rect x="10" y="-30" width="40" height="40" rx="5" ry="5" fill="#74b9ff" opacity="0.7" />
+      <polygon points="70,0 90,-20 110,0 90,20" fill="#55efc4" opacity="0.7" />
+    </g>
+    
+    <!-- User Flow Elements -->
+    <g transform="translate(100, 200)">
+      <rect x="-80" y="-25" width="160" height="50" rx="10" ry="10" fill="#ffffff" stroke="#6c5ce7" stroke-width="2" opacity="0.7" />
+      <text x="0" y="5" font-family="Arial" font-size="12" text-anchor="middle" fill="#6c5ce7">User Journey</text>
+      
+      <line x1="0" y1="25" x2="0" y2="60" stroke="#6c5ce7" stroke-width="2" stroke-dasharray="5,3" opacity="0.7" />
+      <polygon points="-5,60 0,70 5,60" fill="#6c5ce7" opacity="0.7" />
+      
+      <rect x="-80" y="70" width="160" height="50" rx="10" ry="10" fill="#ffffff" stroke="#6c5ce7" stroke-width="2" opacity="0.7" />
+      <text x="0" y="100" font-family="Arial" font-size="12" text-anchor="middle" fill="#6c5ce7">Interaction Design</text>
+    </g>
+  </g>
+  
+  <!-- UX/UI icon -->
+  <g transform="translate(200, 200)">
+    <circle cx="0" cy="0" r="80" fill="none" stroke="url(#highlight)" stroke-width="6" opacity="0.6" />
+    <text x="0" y="5" font-family="Arial" font-size="30" font-weight="bold" text-anchor="middle" fill="#ffffff">UX/UI</text>
+    <path d="M-40,-40 L40,40 M-40,40 L40,-40" stroke="#ffffff" stroke-width="4" opacity="0.4" />
+  </g>
+  
+  <!-- Text label -->
+  <text x="600" y="700" font-family="Arial" font-size="40" font-weight="bold" text-anchor="middle" fill="white" opacity="0.9">UX/UI Design</text>
+</svg> 
